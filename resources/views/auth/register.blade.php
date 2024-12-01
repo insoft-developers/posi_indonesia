@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -49,4 +49,110 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-guest-layout> --}}
+
+@extends('frontend.master')
+
+@section('content')
+
+<!-- Page Banner Start -->
+<div class="section page-banner">
+
+    
+   
+
+</div>
+<!-- Page Banner End -->
+
+<!-- Register & Login Start -->
+<div class="section section-padding">
+    <div class="container">
+
+        <!-- Register & Login Wrapper Start -->
+        <div class="register-login-wrapper">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+
+                    <!-- Register & Login Images Start -->
+                    <div class="register-login-images">
+                        <div class="shape-1">
+                            <img src="{{ asset('template/frontend') }}/assets/images/shape/shape-26.png" alt="Shape">
+                        </div>
+
+
+                        <div class="images">
+                            <img src="{{ asset('template/frontend') }}/assets/umum/register_image.png" alt="Register Login">
+                        </div>
+                    </div>
+                    <!-- Register & Login Images End -->
+
+                </div>
+                <div class="col-lg-6">
+
+                    <!-- Register & Login Form Start -->
+                    <div class="register-login-form">
+                        <h3 class="title">Form <span>Pendaftaran</span></h3>
+
+                        <div class="form-wrapper">
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
+                                <!-- Single Form Start -->
+                                <div class="single-form">
+                                    <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name')}}">
+                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                </div>
+                                <!-- Single Form End -->
+                                <!-- Single Form Start -->
+                                <div class="single-form">
+                                    <input name="email" type="email" placeholder="Email" value="{{ old('email') }}">
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2"  />
+                                </div>
+                                <!-- Single Form End -->
+                                <!-- Single Form Start -->
+                                <div class="single-form">
+                                    <input name="password" type="password" placeholder="Password" value="{{ old('password') }}" >
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                </div>
+                                <!-- Single Form End -->
+                                <!-- Single Form Start -->
+                                <div class="single-form">
+                                    <input name="password_confirmation" type="password" placeholder="Confirm Password">
+                                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                </div>
+
+                                <div class="single-form">
+                                    <input name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" >
+                                    <x-input-error :messages="$errors->get('whatsapp')" class="mt-2"/>
+                                </div>
+                                <div class="single-form">
+                                    <div class="courses-select">
+                                        <select name="level_id">
+                                            <option value="">Pilih akun sebagai</option>
+                                            @foreach ($level as $l)
+                                                <option value="{{ $l->id }}">{{ $l->level_name }}</option>
+                                            @endforeach 
+                                        </select>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('level_id')" class="mt-2" />
+                                </div>
+                                <!-- Single Form End -->
+                                <!-- Single Form Start -->
+                                <div class="single-form">
+                                    <button class="btn btn-primary btn-hover-dark w-100">Daftar Sekarang</button>
+                                    
+                                </div>
+                                <!-- Single Form End -->
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Register & Login Form End -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Register & Login Wrapper End -->
+
+    </div>
+</div>
+<!-- Register & Login End -->
+@endsection

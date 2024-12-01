@@ -17,12 +17,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
+Route::get('/berita', [HomeController::class, 'berita']);
+Route::get('/event', [HomeController::class, 'event']);
+Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/pengumuman', [HomeController::class, 'pengumuman']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
+    Route::get('/main', [HomeController::class, 'main']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -41,6 +41,9 @@
     <!-- <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/vendor/plugins.min.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.min.css"> -->
 
+
+    @include('frontend.css')
+
 </head>
 
 <body>
@@ -66,9 +69,10 @@
                         <!-- Header Top Medal Start -->
                         <div class="header-top-medal">
                             <div class="top-info">
-                                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">(+62) 852-7622-2453</a></p>
-                                <p><i class="flaticon-email"></i> <a
-                                        href="mailto:address@gmail.com">info@posi.id</a></p>
+                                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">(+62) 852-7622-2453</a>
+                                </p>
+                                <p><i class="flaticon-email"></i> <a href="mailto:address@gmail.com">info@posi.id</a>
+                                </p>
                             </div>
                         </div>
                         <!-- Header Top Medal End -->
@@ -76,10 +80,14 @@
                         <!-- Header Top Right Start -->
                         <div class="header-top-right">
                             <ul class="social">
-                                <li><a target="_blank" href="https://www.facebook.com/@posipelatihanolimpiade/?locale=id_ID"><i class="flaticon-facebook"></i></a></li>
-                                <li><a target="_blank" href="https://x.com/posi_idn?mx=2"><i class="flaticon-twitter"></i></a></li>
-                                
-                                <li><a target="_blank" href="https://www.instagram.com/posi.idn"><i class="flaticon-instagram"></i></a></li>
+                                <li><a target="_blank"
+                                        href="https://www.facebook.com/@posipelatihanolimpiade/?locale=id_ID"><i
+                                            class="flaticon-facebook"></i></a></li>
+                                <li><a target="_blank" href="https://x.com/posi_idn?mx=2"><i
+                                            class="flaticon-twitter"></i></a></li>
+
+                                <li><a target="_blank" href="https://www.instagram.com/posi.idn"><i
+                                            class="flaticon-instagram"></i></a></li>
                             </ul>
                         </div>
                         <!-- Header Top Right End -->
@@ -100,36 +108,45 @@
 
                         <!-- Header Logo Start -->
                         <div class="header-logo">
-                            <a href="{{ url('/') }}"><img src="{{ asset('template/frontend') }}/assets/images/logo.png"
-                                    alt="Logo"></a>
+                            <a href="{{ url('/') }}"><img
+                                    src="{{ asset('template/frontend') }}/assets/images/logo.png" alt="Logo"></a>
                         </div>
                         <!-- Header Logo End -->
 
                         <!-- Header Menu Start -->
                         <div class="header-menu d-none d-lg-block">
                             <ul class="nav-menu">
-                                <li><a href="{{ url('/') }}">Home</a></li>
-                                <li>
-                                    <a href="{{ url('/about') }}">Tentang</a>
-                                </li>
-                                
-                                <li>
-                                    <a href="#">Info</a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="#">Pusat Kompetisi</a>
-                                
-                                        </li>
-                                        <li>
-                                            <a href="#">Pusat Belajar</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Profil Perguruan Tinggi</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Kontak</a></li>
-                                <li><a href="contact.html">Pengumuman</a></li>
+                                @if (Auth::check())
+                                    <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                                    <li>
+                                        <a href="{{ url('/jawal') }}">Jadwal</a>
+                                    </li>
+                                    <li><a href="{{ url('/riwayat') }}">Riwayat</a></li>
+                                    <li>
+                                        <a href="{{ url('/transaksi') }}">Transaksi</a>
+                                    </li>
+                                @else
+                                    <li><a href="{{ url('/') }}">Home</a></li>
+                                    <li>
+                                        <a href="{{ url('/about') }}">Tentang</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Info</a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="{{ url('/berita') }}">Berita</a>
+
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('/event') }}">Event</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="{{ url('/contact') }}">Kontak</a></li>
+                                    <li><a href="{{ url('/pengumuman') }}">Pengumuman</a></li>
+                                @endif
                             </ul>
 
                         </div>
@@ -137,10 +154,51 @@
 
                         <!-- Header Sing In & Up Start -->
                         <div class="header-sign-in-up d-none d-lg-block">
-                            <ul>
-                                <li><a class="sign-in" href="login.html">Masuk</a></li>
-                                <li><a class="sign-up" href="register.html">Daftar</a></li>
-                            </ul>
+                            @if (Auth::check())
+                                <ul>
+                                    <li>
+
+                                        <img class="profile-image"
+                                            src="{{ asset('template/frontend') }}/assets/images/author/author-07.jpg"
+                                            alt="Author">
+
+
+
+                                    </li>
+                                    <li>
+                                        <div class="login-header-action ml-auto">
+
+
+                                            <div class="dropdown">
+                                                <button class="action more" data-bs-toggle="dropdown">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </button>
+                                                <ul class="dropdown-menu menu-user">
+                                                    <li><a class="" href="#"> Profile</a></li>
+                                                    <li><a class="" href="{{ url('/main') }}"> Dashboard</a></li>
+                                                    <li><a class="" href="#"> Pengaturan</a></li>
+                                                    <form method="POST" action="{{ route('logout') }}">
+                                                        @csrf
+                                                        <li
+                                                            onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                                            <a class="" href="{{ route('logout') }}"><i
+                                                                    class="icofont-logout"></i> Keluar</a></li>
+                                                    </form>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            @else
+                                <ul>
+                                    <li><a class="sign-in" href="{{ route('login') }}">Masuk</a></li>
+                                    <li><a class="sign-up" href="{{ route('register') }}">Daftar</a></li>
+                                </ul>
+                            @endif
                         </div>
                         <!-- Header Sing In & Up End -->
 
@@ -195,19 +253,19 @@
                     <li><a href="index.html">Home</a></li>
                     <li>
                         <a href="#">Tentang</a>
-                        
+
                     </li>
                     <li>
                         <a href="#">Info </a>
                         <ul class="sub-menu">
-                            <li><a href="about.html">Pusat Kompetisi</a></li>
-                            <li><a href="register.html">Pusat Belajar</a></li>
-                            <li><a href="login.html">Profil Perguruan Tinggi</a></li>
+                            <li><a href="about.html">Berita</a></li>
+                            <li><a href="register.html">Event</a></li>
+
                         </ul>
                     </li>
                     <li>
                         <a href="#">Kontak</a>
-                        
+
                     </li>
                     <li><a href="contact.html">Pengumuman</a></li>
                 </ul>
@@ -262,7 +320,8 @@
 
                                 <div class="widget-address">
                                     <h4 class="footer-widget-title">POSI Indonesia</h4>
-                                    <p>Jl. Eka Surya No.49, Deli Tua, Kec. Namorambe, Kabupaten Deli Serdang, Sumatera Utara 20147</p>
+                                    <p>Jl. Eka Surya No.49, Deli Tua, Kec. Namorambe, Kabupaten Deli Serdang, Sumatera
+                                        Utara 20147</p>
                                 </div>
 
                                 <ul class="widget-info">
@@ -271,7 +330,8 @@
                                                 href="mailto:address@gmail.com">info@posi.id</a> </p>
                                     </li>
                                     <li>
-                                        <p> <i class="flaticon-phone-call"></i> <a href="tel:9702621413">0852-7622-2453</a> </p>
+                                        <p> <i class="flaticon-phone-call"></i> <a
+                                                href="tel:9702621413">0852-7622-2453</a> </p>
                                     </li>
                                 </ul>
 
@@ -299,7 +359,7 @@
                                         <li><a href="#">Info</a></li>
                                         <li><a href="#">Kontak</a></li>
                                         <li><a href="#">Pengumuman</a></li>
-                                        
+
                                     </ul>
 
                                 </div>
@@ -313,7 +373,7 @@
                                         <li><a href="#">Kebijakan Privasi</a></li>
                                         <li><a href="#">Syarat & Ketentuan</a></li>
                                         <li><a href="#">Kebijakan Refund</a></li>
-                                        
+
                                     </ul>
 
                                 </div>

@@ -4,41 +4,7 @@
     <!-- Page Banner Start -->
     <div class="section page-banner">
 
-        <img class="shape-1 animation-round" src="{{ asset('template/frontend') }}/assets/images/shape/shape-8.png" alt="Shape">
-
-        <img class="shape-2" src="{{ asset('template/frontend') }}/assets/images/shape/shape-23.png" alt="Shape">
-
-        <div class="container">
-            <!-- Page Banner Start -->
-            <div class="page-banner-content">
-                <ul class="breadcrumb">
-                    <li><a href="{{ url('/') }}">Home</a></li>
-                    <li class="active">Tentang</li>
-                </ul>
-                <h2 class="title">Tentang <span>Pusat Olimpiade Sains Indonesia (POSI)</span></h2>
-            </div>
-            <!-- Page Banner End -->
-        </div>
-
-        <!-- Shape Icon Box Start -->
-        <div class="shape-icon-box">
-
-            <img class="icon-shape-1 animation-left" src="{{ asset('template/frontend') }}/assets/images/shape/shape-5.png" alt="Shape">
-
-            <div class="box-content">
-                <div class="box-wrapper">
-                    <i class="flaticon-badge"></i>
-                </div>
-            </div>
-
-            <img class="icon-shape-2" src="{{ asset('template/frontend') }}/assets/images/shape/shape-6.png" alt="Shape">
-
-        </div>
-        <!-- Shape Icon Box End -->
-
-        <img class="shape-3" src="{{ asset('template/frontend') }}/assets/images/shape/shape-24.png" alt="Shape">
-
-        <img class="shape-author" src="{{ asset('template/frontend') }}/assets/umum/sd.png" alt="Shape">
+        
 
     </div>
     <!-- Page Banner End -->
@@ -72,7 +38,7 @@
                         <!-- About Content Start -->
                         <div class="about-content">
                            
-                            <h2 class="main-title">Tentang <span>Kami.</span></h2>
+                            <h2 class="main-title">Pusat Olimpiade Sains Indonesia <span>(POSI).</span></h2>
                             <p>POSI merupakan perusahaan rintisan (startup) platform pendidikan berskala nasional.
                                 POSI hadir sebagai wadah bagi para calon juara masa depan dengan menyelenggarakan berbagai kompetisi dan pelatihan olimpiade sains, persiapan UTBK dan AKM, baik secara daring maupun luring.
                                 POSI merupakan wadah bagi para profesional muda yang memiliki jiwa kompetitif dan cinta pendidikan. Tim POSI merupakan tim yang berpegang teguh pada nilai-nilai JUARA yang berarti (A)dillah untuk Allah dan Bangsa, (B)erkreativitas Tanpa Batas, (A)daptif, (R)ealisasi Hasil Maksimal serta (A)ktivitas dan Pembelajaran yang Berkesinambungan. Dengan visi “Mewujudkan Sejuta Manusia Berprestasi”, POSI optimis dapat menjadi media pengembangan dan peningkatan mutu pendidikan bagi masyarakat Indonesia, baik bagi guru maupun peserta didik.</p>
@@ -232,8 +198,8 @@
 
             <!-- Section Title Start -->
             <div class="section-title shape-03 text-center">
-                <h5 class="sub-title">Team Member’s</h5>
-                <h2 class="main-title">Edule Skilled <span> Instructor</span></h2>
+                <h5 class="sub-title"> Tim utama dalam pengembangan dan operasi perusahaan</h5>
+                <h2 class="main-title">Super <span> Team</span></h2>
             </div>
             <!-- Section Title End -->
 
@@ -245,16 +211,12 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-01.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim1.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Margarita James</h4>
-                                <span class="designation">MSC, Instructor</span>
+                                
+                                <h4 class="name">Fahruroji Panjaitan</h4>
+                                <span class="designation">Founder / Chief Executive Officer</span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -265,16 +227,14 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-02.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim2.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Mitchell Colon</h4>
-                                <span class="designation">BBA, Instructor</span>
+                                
+                                <h4 class="name">Rosmiati Saragih</h4>
+                                <span class="designation">Founder / Chief Operating Officer
+
+                                </span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -285,16 +245,14 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-03.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim3.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Sonya Gordon</h4>
-                                <span class="designation">MBA, Instructor</span>
+                                
+                                <h4 class="name">Andika Chamberlin
+
+                                </h4>
+                                <span class="designation">IT / Si Paling Teori Konspirasi</span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -305,16 +263,12 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-04.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim4.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Archie Neal</h4>
-                                <span class="designation">BBS, Instructor</span>
+                                
+                                <h4 class="name">Mutia</h4>
+                                <span class="designation">DM / Si Pemuja Oppa</span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -325,16 +279,12 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-05.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim5.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Randal Ramsey</h4>
-                                <span class="designation">MBBS, Instructor</span>
+                                
+                                <h4 class="name">Liza</h4>
+                                <span class="designation">DM / Si Bocil Gen Z</span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -345,16 +295,12 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-06.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim6.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Rochelle Thomas</h4>
-                                <span class="designation">MSC, Instructor</span>
+                                
+                                <h4 class="name">Fauzi</h4>
+                                <span class="designation">DM / Si Paling Worker</span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -365,16 +311,14 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-07.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim7.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Della Salazar</h4>
-                                <span class="designation">BBA, Instructor</span>
+                                
+                                <h4 class="name">Al</h4>
+                                <span class="designation">DM / Si Maskot POSI
+
+                                </span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -385,16 +329,14 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-08.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim8.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Ricardo Patrick</h4>
-                                <span class="designation">MBA, Instructor</span>
+                                
+                                <h4 class="name">Yogi</h4>
+                                <span class="designation">OP / Si Kerja Kerja Kerja
+
+                                </span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -405,16 +347,14 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-09.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim9.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Kurt Stewart</h4>
-                                <span class="designation">BBS, Instructor</span>
+                                
+                                <h4 class="name">Ucup</h4>
+                                <span class="designation">OP / Si Apa Apa Dikerjain
+
+                                </span>
                             </div>
                         </div>
                         <!-- Single Team End -->
@@ -425,21 +365,253 @@
                         <!-- Single Team Start -->
                         <div class="single-team">
                             <div class="team-thumb">
-                                <img src="{{ asset('template/frontend') }}/assets/images/author/author-10.jpg" alt="Author">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim10.png" alt="Author">
                             </div>
                             <div class="team-content">
-                                <div class="rating">
-                                    <span class="count">4.9</span>
-                                    <i class="icofont-star"></i>
-                                    <span class="text">(rating)</span>
-                                </div>
-                                <h4 class="name">Rodney Terry</h4>
-                                <span class="designation">MBBS, Instructor</span>
+                                
+                                <h4 class="name">Robby</h4>
+                                <span class="designation">OP / Si Paling Peka
+
+                                </span>
                             </div>
                         </div>
                         <!-- Single Team End -->
 
                     </div>
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim11.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Fitri</h4>
+                                <span class="designation">OP / Si Paling Suara Calm
+
+
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim12.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Arif</h4>
+                                <span class="designation">OP / Si Paling Patung
+
+
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+                    
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim13.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Sopi</h4>
+                                <span class="designation">OP / Si Paling Lurus
+
+
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim14.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Kelvin</h4>
+                                <span class="designation">CSO / Si Paling Marketing
+
+
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim15.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Sari</h4>
+                                <span class="designation">CSO / Si Ahli Menggosip
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim16.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Rini</h4>
+                                <span class="designation">CSO / Si Paling Telpon Telpon
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim17.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Indah</h4>
+                                <span class="designation">ADM / Si Paling Tiktoker
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim18.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Hanifah</h4>
+                                <span class="designation">FNC / Si Pemilik Aura Damai
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim19.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Bobby</h4>
+                                <span class="designation">HC / Si Paling Ustadz
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim20.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Imam</h4>
+                                <span class="designation">HC / Si Paling Hangout
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim21.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Candra</h4>
+                                <span class="designation">IT / Si Penagih Traktir Bulanan
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- Single Team Start -->
+                        <div class="single-team">
+                            <div class="team-thumb">
+                                <img src="{{ asset('template/frontend') }}/assets/team/tim22.png" alt="Author">
+                            </div>
+                            <div class="team-content">
+                                
+                                <h4 class="name">Dedek</h4>
+                                <span class="designation">EDR / Si Suka Nge-jokes
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Single Team End -->
+
+                    </div>
+
+                    
+
                 </div>
             </div>
             <!-- Team Wrapper End -->
@@ -610,31 +782,31 @@
                         <div class="swiper-wrapper">
 
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/1.webp" alt="Brand">
+                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra1.png" alt="Brand">
                             </div>
                             <!-- Single Brand End -->
 
                             <!-- Single Brand Start -->
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/2.webp" alt="Brand">
+                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra2.png" alt="Brand">
                             </div>
                             <!-- Single Brand End -->
 
                             <!-- Single Brand Start -->
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/3.webp" alt="Brand">
+                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra3.png" alt="Brand">
                             </div>
                             <!-- Single Brand End -->
 
                             <!-- Single Brand Start -->
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/4.webp" alt="Brand">
+                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra4.png" alt="Brand">
                             </div>
                             <!-- Single Brand End -->
 
                             <!-- Single Brand Start -->
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/5.webp" alt="Brand">
+                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra5.png" alt="Brand">
                             </div>
                             <!-- Single Brand End -->
 
