@@ -117,7 +117,7 @@
                         <div class="header-menu d-none d-lg-block">
                             <ul class="nav-menu">
                                 @if (Auth::check())
-                                    <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                                    <li><a href="{{ url('/main') }}">Dashboard</a></li>
                                     <li>
                                         <a href="{{ url('/jawal') }}">Jadwal</a>
                                     </li>
@@ -473,6 +473,8 @@
 
     <!-- Main JS -->
     <script src="{{ asset('template/frontend') }}/assets/js/main.js"></script>
+
+    @include('frontend.js')
 
 </body>
 
