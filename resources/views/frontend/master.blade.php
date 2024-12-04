@@ -8,6 +8,8 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
 
@@ -155,7 +157,35 @@
                         <!-- Header Sing In & Up Start -->
                         <div class="header-sign-in-up d-none d-lg-block">
                             @if (Auth::check())
+
                                 <ul>
+                                    <li>
+
+                                        <img class="profile-image"
+                                            src="{{ asset('template/frontend') }}/assets/umum/notif.png"
+                                            alt="notif"><span class="notif-number">0</span> 
+                                            
+
+
+
+                                    </li>
+                                    @php
+                                    $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)->count();
+                                    if($jumlah > 0) {
+                                        $style = "";
+                                    } else {
+                                        $style = "display:none;";
+                                    }
+                                    @endphp
+                                    <li>
+
+                                        <img class="profile-image"
+                                            src="{{ asset('template/frontend') }}/assets/umum/keranjang.png"
+                                            alt="cart"><span class="cart-number" style="{{ $style }}">{{ $jumlah }}</span> 
+
+
+
+                                    </li>
                                     <li>
 
                                         <img class="profile-image"

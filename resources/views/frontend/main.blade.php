@@ -48,6 +48,8 @@
         return $selisih->d;
     }
 
+    
+
 @endphp
 
 
@@ -122,7 +124,8 @@
                                         <a href="">Lihat juknis disini</a>
                                     </div>
                                     <div class="garis"></div>
-                                    <a href="javascript:void(0);" onclick="daftar({{ $k->id }})" class="btn btn-secondary btn-hover-primary">Daftar</a>
+                                    <a href="javascript:void(0);" onclick="daftar({{ $k->id }})"
+                                        class="btn btn-secondary btn-hover-primary">Daftar</a>
                                     <span class="foot-note">1.450 Pedaftar</span>
                                 </div>
                             </div>
@@ -152,16 +155,47 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-daftar" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-daftar" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content modal-transparent">
-                
+                <input type="hidden" id="competition_id">
+
                 <div class="modal-body">
-                    <center><div class="tombol-daftar"><i class="fa fa-user"></i> Pendaftaran Personal</div></center>
-                    <center><div class="tombol-daftar"><i class="fa fa-users"></i> Pendaftaran Kolektif</div></center>
+                    <center>
+                        <div onclick="personal_register()" class="tombol-daftar"><i class="fa fa-user"></i> Pendaftaran
+                            Personal</div>
+                    </center>
+                    <center>
+                        <div onclick="collective_register()" class="tombol-daftar"><i class="fa fa-users"></i> Pendaftaran
+                            Kolektif</div>
+                    </center>
                 </div>
-               
+
+            </div>
+        </div>
+    </div>
+    <!-- end Modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-daftar-list" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-600">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span class="modal-subtitle" id="modal-subtitle">Pendaftaran Event</span></p>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-daftar-list-content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning">Gratis</button>
+                    <button type="button" class="btn btn-primary">Berbayar</button>
+                </div>
+
             </div>
         </div>
     </div>

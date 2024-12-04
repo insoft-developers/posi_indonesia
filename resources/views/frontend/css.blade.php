@@ -64,14 +64,18 @@
         width: 300px !important;
     }
 
+    .modal-600 {
+        width: 600px !important;
+    }
+
     .tombol-daftar {
         background: #f5fff9;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-bottom: 19px;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 14px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 19px;
+        border-radius: 40px;
+        cursor: pointer;
+        font-size: 14px;
     }
 
     .tombol-daftar:hover {
@@ -82,5 +86,80 @@
     .modal-transparent {
         background: transparent;
         border: 0px !important;
+    }
+
+    .modal-head-title {
+        font-size: 16px !important;
+    }
+
+    .modal-subtitle {
+        font-size: 13px;
+        font-weight: bold;
+        margin-top: 1px;
+        color: green;
+
+    }
+
+    .image-pendaftaran {
+        width: 40px;
+        height: 40px;
+        background: beige;
+        margin-top: 17px;
+        padding: 4px;
+        border-radius: 25px;
+    }
+
+    .detail-name {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .detail-date {
+        font-weight: normal;
+        font-size: 14px;
+    }
+
+    .detail-time {
+        font-weight: bold;
+        font-size: 12px;
+       
+    }
+
+    .baris {
+        cursor: pointer;
+    }
+
+    .baris:hover {
+        background-color: whitesmoke;
+
+    }
+
+    .baris-active {
+        background-color: lightseagreen !important;
+        color: white !important;
+    }
+
+    .cart-number {
+        position: relative;
+        top: -18px;
+        right: -37px;
+        font-size: 10px;
+        background: red;
+        font-weight: bold;
+        color: white;
+        padding: 3px 7px 3px 7px;
+        border-radius: 0px;
+    }
+
+    .notif-number {
+        position: relative;
+        top: -18px;
+        right: -37px;
+        font-size: 10px;
+        background: red;
+        font-weight: bold;
+        color: white;
+        padding: 3px 6px 3px 6px;
+        border-radius: 30px;
     }
 </style>

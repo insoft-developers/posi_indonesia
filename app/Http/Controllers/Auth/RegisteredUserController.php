@@ -21,9 +21,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        
+        $view = 'register';
         $level = Level::all();
-        return view('auth.register', compact('level'));
+        return view('auth.register', compact('level','view'));
     }
 
     /**
