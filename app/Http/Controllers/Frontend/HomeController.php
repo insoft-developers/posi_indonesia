@@ -11,85 +11,130 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-  
-    public function index() {
+    public function index()
+    {
         $view = 'home';
         return view('frontend.dashboard', compact('view'));
     }
 
-    public function about() {
+    public function about()
+    {
         $view = 'about';
         return view('frontend.about', compact('view'));
     }
 
-    public function berita() {
+    public function berita()
+    {
         $view = 'berita';
         return view('frontend.berita', compact('view'));
     }
 
-    public function event() {
+    public function event()
+    {
         $view = 'event';
         return view('frontend.event', compact('view'));
     }
 
-    public function contact() {
+    public function contact()
+    {
         $view = 'contact';
         return view('frontend.contact', compact('view'));
     }
 
-    public function pengumuman() {
+    public function pengumuman()
+    {
         $view = 'pengumuman';
         return view('frontend.pengumuman', compact('view'));
     }
 
-    public function main() {
+    public function main()
+    {
         $view = 'main';
         $kompetisi = Competition::where('is_active', 1)
             ->where('level', Auth::user()->level_id)
             ->get();
-        return view('frontend.main', compact('kompetisi','view'));
+        return view('frontend.main', compact('kompetisi', 'view'));
     }
 
-    public function get_competition_data(Request $request) {
+    public function get_competition_data(Request $request)
+    {
         $input = $request->all();
 
         $data = Competition::findorFail($input['id']);
 
-        $detail = Study::with(['competition', 'pelajaran', 'level','cart'=> function($q){
-            $q->where('userid', Auth::user()->id);
-        }])->where('status', 1)->where('competition_id', $input['id'])->get();
+        $detail = Study::with([
+            'competition',
+            'pelajaran',
+            'level',
+            'cart' => function ($q) {
+                $q->where('userid', Auth::user()->id);
+            },
+        ])
+            ->where('status', 1)
+            ->where('competition_id', $input['id'])
+            ->get();
+
+
+        $cart = Cart::where('userid', Auth::user()->id)->get();
+
         return response()->json([
-            "success" => true,
-            "data" => $data,
-            "detail"=> $detail
+            'success' => true,
+            'data' => $data,
+            'detail' => $detail,
+            'cart' => $cart
         ]);
     }
 
-    public function add_to_cart(Request $request) {
+    public function add_to_cart(Request $request)
+    {
         $input = $request->all();
 
-        if($input['type'] == 'add') {
-            Cart::create([
-                "userid" => Auth::user()->id,
-                "competition_id" => $input['compete_id'],
-                "study_id" => $input['id']
-            ]);
+        $ids = $input['id'];
 
-        } else {
-            Cart::where('userid', Auth::user()->id)
-                ->where('competition_id', $input['compete_id'])
-                ->where('study_id', $input['id'])
-                ->delete();
+        foreach ($ids as $id) {
+            Cart::updateOrCreate([
+                'userid' => Auth::user()->id,
+                'competition_id' => $input['compete_id'],
+                'premium' => $input['premium'],
+                'study_id' => $id,
+            ]);
         }
 
+        $jumlah = Cart::where('userid', Auth::user()->id)
+            ->groupBy('competition_id')
+            ->count();
 
-        $jumlah = Cart::where('userid', Auth::user()->id)->count();
-        
         return response()->json([
-            "success" => true,
-            "message" => "Berhasil",
-            "jumlah" => $jumlah
+            'success' => true,
+            'message' => 'Berhasil',
+            'jumlah' => $jumlah,
         ]);
     }
+
+    public function cart()
+    {
+        $view = 'cart';
+        $cart = Cart::with('competition','user','study.pelajaran','study.level')->where('userid', Auth::user()->id)->groupBy('competition_id')->get();
+        return view('frontend.cart', compact('view','cart'));
+    }
+
+    public function cart_delete(Request $request) {
+        
+        try {
+            $input = $request->all();
+            Cart::where('userid', Auth::user()->id)->where('competition_id', $input['id'])->delete();
+            return response()->json([
+                "success" => true,
+                "message" => "Item berhasil dihapus"
+            ]);
+
+        }catch(\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
        
+        
+    }
 }

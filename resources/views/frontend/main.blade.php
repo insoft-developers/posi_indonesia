@@ -192,8 +192,52 @@
                     <div id="modal-daftar-list-content"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning">Gratis</button>
-                    <button type="button" class="btn btn-primary">Berbayar</button>
+                    <button onclick="syarat_gratis()" type="button" class="btn btn-warning btn-sm">Gratis</button>
+                    <button onclick="simpan_bayar()" type="button" class="btn btn-primary btn-sm">Berbayar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+     <!-- Modal -->
+     <div class="modal fade" id="modal-gratis" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-600">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span class="modal-subtitle" id="modal-subtitle">Syarat Pendaftaran</span></p>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Follow Instagram @posi</label>
+                         <div style="margin-top:10px;"></div>
+                        <input type="file" id="file1" name="file1" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
+                        <img id="image-syarat1" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <label>Unduh aplikasi Posi di Playstore</label>
+                        <div style="margin-top:10px;"></div>
+                        <input type="file" id="file2" name="file2" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
+                        <img id="image-syarat2" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <label>Komen pendapat posiitf kamu tentang POSI kemudian tag 5 teman kamu di positingan ini.</label>
+                        <div style="margin-top:10px;"></div>
+                        <input type="file" id="file3" name="file3" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
+                        <img id="image-syarat3" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    
+                    <button onclick="daftar_gratis()" type="button" class="btn btn-primary btn-sm">Daftar</button>
                 </div>
 
             </div>

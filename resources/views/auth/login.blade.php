@@ -67,13 +67,9 @@
 
                         <!-- Register & Login Images Start -->
                         <div class="register-login-images">
-                            <div class="shape-1">
-                                <img src="{{ asset('template/frontend') }}/assets/images/shape/shape-26.png" alt="Shape">
-                            </div>
-
-
+                            
                             <div class="images">
-                                <img src="{{ asset('template/frontend') }}/assets/umum/login_image.png"
+                                <img src="{{ asset('template/frontend') }}/assets/umum/logo_600.png"
                                     alt="Register Login">
                             </div>
                         </div>
@@ -84,7 +80,7 @@
 
                         <!-- Register & Login Form Start -->
                         <div class="register-login-form">
-                            <h3 class="title">Masuk <span>Sekarang</span></h3>
+                            <h3 class="main-title">Login <span>Sekarang</span></h3>
 
                             <div class="form-wrapper">
                                 <form method="POST" action="{{ route('login') }}">
@@ -121,7 +117,7 @@
 
 
                                     <div class="single-form">
-                                        <button class="btn btn-primary btn-hover-dark w-100">Masuk</button>
+                                        <button class="btn btn-primary btn-hover-dark w-100">Login</button>
 
                                     </div>
                                     <!-- Single Form End -->

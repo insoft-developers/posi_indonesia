@@ -65,7 +65,7 @@
     }
 
     .modal-600 {
-        width: 600px !important;
+        width: 500px !important;
     }
 
     .tombol-daftar {
@@ -122,7 +122,7 @@
     .detail-time {
         font-weight: bold;
         font-size: 12px;
-       
+
     }
 
     .baris {
@@ -148,7 +148,7 @@
         font-weight: bold;
         color: white;
         padding: 3px 7px 3px 7px;
-        border-radius: 0px;
+        border-radius: 30px;
     }
 
     .notif-number {
@@ -161,5 +161,142 @@
         color: white;
         padding: 3px 6px 3px 6px;
         border-radius: 30px;
+    }
+
+    .image-pilih {}
+
+    .image-cart {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        padding: 4px;
+        background: #e7f8ee;
+        border-radius: 10px;
+        border: 1px solid green;
+    }
+
+    .btn-insoft {
+        font-size: 11px;
+        padding: 2px 7px 2px 7px;
+        border-radius: 5px;
+        border: 0px !important;
+    }
+
+    .bg-danger {
+        background-color: darkred;
+        color: white;
+    }
+
+    .bg-success {
+        background-color: green;
+        color: white;
+    }
+
+    .total-harga {
+        margin-bottom: 30px;
+        background: cadetblue;
+        color: white;
+        padding: 17px;
+        width: 24%;
+        border-radius: 5px;
+        font-size: 23px;
+        font-weight: bold;
+    }
+
+    .btn-order {
+        float: right;
+        position: relative;
+        bottom: 88px;
+        font-size: 16px;
+        border: 0px;
+        font-family: sans-serif;
+        padding: 10px 15px 10px 15px;
+        border-radius: 5px;
+        background: green;
+        color: white;
+    }
+
+    .empty-image {
+        width: 300px;
+        margin-bottom: 30px;
+    }
+
+    .upload-image {
+        width: 220px;
+        height: 234px;
+        cursor: pointer;
+        border: 2px solid whitesmoke;
+        padding: 26px;
+        border-radius: 10px;
+        object-fit: contain;
+    }
+
+    .image-bukti {
+        width: 100px;
+        height: 120px;
+        object-fit: cover;
+        border: 2px solid whitesmoke;
+        padding: 5px;
+        border-radus: 10px;
+    }
+
+    .upload-click {
+
+        font-size: 12px;
+    }
+
+    .small-upload {
+        width: 18px;
+    }
+
+    .upload-syarat {
+        display: block;
+        width: 264px;
+        border: 6px solid whitesmoke;
+        padding: 17px;
+        border-radius: 12px;
+        height: 264px;
+        object-fit: contain;
+        position: relative;
+        left: 22%;
+        cursor: pointer;
+    }
+
+    .label-form {
+        font-size: 14px !important;
+        margin-bottom: 3px !important;
+        color: orange !important;
+        font-weight: bold;
+
+    }
+
+    .nice-select {
+        display: none !important;
+    }
+
+    select {
+        display: block !important;
+        height: 60px;
+        width: 100%;
+        border-radius: 10px;
+        border: 1.8px solid #d6e9dd;
+        padding: 0px 0px 0px 23px;
+        font-size: 15px;
+        color: grey;
+    }
+
+
+
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid #d6e9dd;
+        border-radius: 10px;
+        height: 60px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 60px;
+        padding: 0px 0px 0px 30px;
     }
 </style>

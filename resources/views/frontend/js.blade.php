@@ -72,6 +72,49 @@
 
 @if ($view == 'main')
     <Script>
+        const selected_studies = [];
+        var selected_competition = -1;
+        const selected_time = [];
+
+        $('#image-syarat1').click(function() {
+            $('#file1').trigger('click');
+        });
+
+        $("#file1").change(function() {
+            document.getElementById('image-syarat1').src = window.URL.createObjectURL(this.files[0]);
+            // $("#tutup1").show();
+        });
+
+        $('#image-syarat2').click(function() {
+            $('#file2').trigger('click');
+        });
+
+        $("#file2").change(function() {
+            document.getElementById('image-syarat2').src = window.URL.createObjectURL(this.files[0]);
+            // $("#tutup1").show();
+        });
+
+
+        $('#image-syarat3').click(function() {
+            $('#file3').trigger('click');
+        });
+
+        $("#file3").change(function() {
+            document.getElementById('image-syarat3').src = window.URL.createObjectURL(this.files[0]);
+            // $("#tutup1").show();
+        });
+
+        function syarat_gratis() {
+            if (selected_studies.length > 0) {
+                $("#modal-daftar").modal("hide");
+                $("#modal-gratis").modal("show");
+            } else {
+                alert("tidak ada bidang studi yang diplih !");
+            }
+
+        }
+
+
         function daftar(id) {
             $("#modal-daftar").modal("show");
             $("#competition_id").val(id);
@@ -103,32 +146,42 @@
                                 .competition_id +
                                 ',' + i + ')" class="baris" id="baris_' + i + '">';
                             html +=
-                                '<td width="10%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
+                                '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
                             html += '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
                                 details[i].pelajaran.name +
                                 ' ' + details[i].level.level_name + '</span><br><span class="detail-date">' +
                                 formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                 '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
-                                5) +
-                                ' - ' + details[i].finish_time.substring(0, 5) + '</span></td>';
-                                html +=
-                                '<td width="10%"><img id="image_pilih_'+i+'" style="display:none;" class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
+                                    5) +
+                                ' - ' + details[i].finish_time.substring(0, 5) +
+                                '</span><input type="hidden" id="jam_mulai_' + i + '" value="' + details[i]
+                                .start_time + '"><input type="hidden" id="jam_selesai_' + i + '" value="' +
+                                details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
+                                '" value="' + details[i].start_date + '"></td>';
+                            html +=
+                                '<td width="10%"><img id="image_pilih_' + i +
+                                '" style="display:none;" class="image-pilih" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
                             html += '</tr>';
                         } else {
                             html += '<tr onclick="add_to_cart(' + details[i].id + ',' + details[i]
                                 .competition_id +
                                 ',' + i + ')" class="baris baris-active" id="baris_' + i + '">';
                             html +=
-                                '<td width="10%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
+                                '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
                             html += '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
                                 details[i].pelajaran.name +
                                 ' ' + details[i].level.level_name + '</span><br><span class="detail-date">' +
                                 formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                 '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
-                                5) +
-                                ' - ' + details[i].finish_time.substring(0, 5) + '</span></td>';
-                                html +=
-                                '<td width="10%"><img id="image_pilih_'+i+'" class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
+                                    5) +
+                                ' - ' + details[i].finish_time.substring(0, 5) +
+                                '</span><input type="hidden" id="jam_mulai_' + i + '" value="' + details[i]
+                                .start_time + '"><input type="hidden" id="jam_selesai_' + i + '" value="' +
+                                details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
+                                '" value="' + details[i].start_date + '"></td>';
+                            html +=
+                                '<td width="10%"><img id="image_pilih_' + i +
+                                '" class="image-pilih" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
                             html += '</tr>';
                         }
 
@@ -142,34 +195,297 @@
             })
         }
 
+
+
         function add_to_cart(id, compete_id, ndex) {
+
             var tipe = "";
             if ($("#baris_" + ndex).hasClass("baris-active")) {
                 $("#baris_" + ndex).removeClass("baris-active");
-                tipe = "delete";
-                $("#image_pilih_"+ndex).hide();
+
+                $("#image_pilih_" + ndex).hide();
+
+                let index = selected_studies.indexOf(id);
+                if (index > -1) { // only splice array when item is found
+                    selected_studies.splice(index, 1);
+                    selected_time.splice(index, 1); // 2nd parameter means remove one item only
+                }
+
             } else {
-                $("#baris_" + ndex).addClass("baris-active");
-                tipe = 'add';
-                $("#image_pilih_"+ndex).show();
+
+                var start_time = $("#jam_mulai_" + ndex).val();
+                var cek_jam = selected_time.includes(start_time); // is true
+
+                if (cek_jam) {
+                    alert("Jadwal bidang yang anda pilih bentrok!");
+                } else {
+                    $("#baris_" + ndex).addClass("baris-active");
+                    $("#image_pilih_" + ndex).show();
+                    selected_studies.push(id);
+                    selected_competition = compete_id;
+                    selected_time.push(start_time);
+                    console.log(selected_competition);
+                }
+
+
             }
+        }
+
+
+        function simpan_bayar() {
+            if (selected_studies.length <= 0) {
+                alert("Silahkan pilih bidang terlebih dahulu");
+            } else {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ url('add_to_cart') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": selected_studies,
+                        "compete_id": selected_competition,
+                        "premium": 1,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        $(".cart-number").text(data.jumlah);
+                        if (data.jumlah > 0) {
+                            $(".cart-number").show();
+                        } else {
+                            $(".cart-number").hide();
+                        }
+
+                        window.location = "{{ url('cart') }}";
+                    }
+                });
+            }
+        }
+    </script>
+@endif
+@if ($view == 'cart')
+    <script>
+        function hapus_cart(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var popup = confirm("Anda yakin ingin menghapus item belanja anda ?");
+            if (popup === true) {
+                $.ajax({
+                    url: "{{ url('cart-delete') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": id,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            window.location = "{{ url('cart') }}";
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            }
+        }
+
+        function pesan_sekarang() {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var pesan = confirm("Anda yakin akan melanjutkan pesanan ini..?");
+            if (pesan === true) {
+                $.ajax({
+                    url: "{{ url('transaction-store') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "pesan": "pesan",
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            window.location = "{{ url('transaction') }}";
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+@endif
+
+@if ($view == 'transaction')
+    <script>
+        $('#image-upload').click(function() {
+            $('#image').trigger('click');
+        });
+
+        $("#image").change(function() {
+            document.getElementById('image-upload').src = window.URL.createObjectURL(this.files[0]);
+            // $("#tutup1").show();
+        });
+        $("#table-transaction").DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
+
+        function bayar(id) {
+            $("#transaction_id").val(id);
+            $("#modal-pembayaran").modal("show");
+        }
+
+
+        function payment(id) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "{{ url('add_to_cart') }}",
+                url: "{{ url('online-payment') }}",
                 type: "POST",
                 dataType: "JSON",
                 data: {
                     "id": id,
-                    "compete_id": compete_id,
-                    "type": tipe,
                     "_token": csrf_token
                 },
                 success: function(data) {
-                    $(".cart-number").text(data.jumlah);
-                    if(data.jumlah > 0) {
-                        $(".cart-number").show();
+                    window.snap.pay(data.token, {
+                        onSuccess: function(result) {
+                            /* You may add your own implementation here */
+                            window.location = "{{ url('transaction') }}";
+                            console.log(result);
+                        },
+                        onPending: function(result) {
+                            /* You may add your own implementation here */
+                            window.location = "{{ url('transaction') }}";
+                            console.log(result);
+                        },
+                        onError: function(result) {
+                            /* You may add your own implementation here */
+                            window.location = "{{ url('transaction') }}";
+                            console.log(result);
+                        },
+                        onClose: function() {
+                            /* You may add your own implementation here */
+                            window.location = "{{ url('transaction') }}";
+                        }
+                    });
+
+                }
+            })
+        }
+    </script>
+@endif
+
+
+@if ($view == 'after-register')
+    <script>
+
+
+        $("#provinsi").select2();
+        $("#kabupaten").select2();
+        $("#kecamatan").select2();
+        $("#nama_sekolah").select2();
+
+        $("#provinsi").change(function(){
+            var p = $(this).val();
+            $.ajax({
+                url:"{{ url('get_kabupaten_by_province_id') }}"+"/"+p,
+                type: "GET",
+                dataType:"JSON",
+                success: function(data) {
+
+                    console.log(data);
+                    var html ='';
+                    for(var i=0; i<data.length; i++) {
+                        html += '<option value="'+data[i].regency_code+'">'+data[i].regency_name+'</option>';
+                    }
+                    
+                    $("#kabupaten").html(html);
+                    $("#kecamatan").html('<option value="">- Pilih Kabupaten Dahulu -</option>');
+                    $("#nama_sekolah").html('<option value="">- Pilih Kecamatan Dahulu -</option>');
+                    $("#container-sekolah-lain").hide();
+                }
+            })
+        });
+
+
+        $("#kabupaten").change(function(){
+            var p = $(this).val();
+            $.ajax({
+                url:"{{ url('get_kecamatan_by_kabupaten_id') }}"+"/"+p,
+                type: "GET",
+                dataType:"JSON",
+                success: function(data) {
+
+                    console.log(data);
+                    var html ='';
+                    for(var i=0; i<data.length; i++) {
+                        html += '<option value="'+data[i].district_code+'">'+data[i].district_name+'</option>';
+                    }
+                    
+                    $("#kecamatan").html(html);
+                    $("#nama_sekolah").html('<option value="">- Pilih Kecamatan Dahulu -</option>');
+                    $("#container-sekolah-lain").hide();
+                }
+            })
+        });
+
+
+        $("#kecamatan").change(function(){
+            var p = $(this).val();
+            $.ajax({
+                url:"{{ url('get_sekolah_by_kecamatan_id') }}"+"/"+p,
+                type: "GET",
+                dataType:"JSON",
+                success: function(data) {
+
+                    console.log(data);
+                    var html ='';
+                    for(var i=0; i<data.length; i++) {
+                        html += '<option value="'+data[i].sekolah+'">'+data[i].sekolah+'</option>';
+                    }
+                    html += '<option value="lainnya">LAINNYA</option>';
+                    $("#nama_sekolah").html(html);
+                    $("#container-sekolah-lain").hide();
+                }
+            })
+        });
+    
+        $("#nama_sekolah").change(function(){
+            var p = $(this).val();
+            if(p=='lainnya') {
+                $("#container-sekolah-lain").show();
+            } else {
+                $("#container-sekolah-lain").hide();
+            }
+        });
+    
+        function verif_email(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ url('send_email_passcode') }}", 
+                type: "POST",
+                dataType: "JSON",
+                data: {"id":id, "_token":csrf_token},
+                success: function(data){
+                    if(data.success) {
+                        $("#modal-email").modal("show");
+                    }
+                }
+            })
+        }
+
+
+        function confirm_email(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var passcode = $("#email_passcode").val();
+            $.ajax({
+                url: "{{ url('verify_email_passcode') }}", 
+                type: "POST",
+                dataType: "JSON",
+                data: {"id":id, "passcode":passcode, "_token":csrf_token},
+                success: function(data){
+                    if(data.success) {
+                       window.location = "{{ url('after_register') }}"+"/"+id;
                     } else {
-                        $(".cart-number").hide();
+                        window.location = "{{ url('after_register') }}"+"/"+id;
                     }
                 }
             })

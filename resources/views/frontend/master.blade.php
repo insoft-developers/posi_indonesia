@@ -9,6 +9,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
@@ -31,17 +34,20 @@
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/animate.min.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/magnific-popup.css">
-    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/nice-select.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/apexcharts.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/jqvmap.min.css">
+    <link rel="stylesheet" href=" https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+   
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.css">
 
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
-    <!-- <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/vendor/plugins.min.css">
-    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.min.css"> -->
+    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/vendor/plugins.min.css">
+    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.min.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
 
     @include('frontend.css')
@@ -119,13 +125,13 @@
                         <div class="header-menu d-none d-lg-block">
                             <ul class="nav-menu">
                                 @if (Auth::check())
-                                    <li><a href="{{ url('/main') }}">Dashboard</a></li>
+                                    <li><a href="{{ url('/main') }}">Kompetisi</a></li>
                                     <li>
                                         <a href="{{ url('/jawal') }}">Jadwal</a>
                                     </li>
                                     <li><a href="{{ url('/riwayat') }}">Riwayat</a></li>
                                     <li>
-                                        <a href="{{ url('/transaksi') }}">Transaksi</a>
+                                        <a href="{{ url('/transaction') }}">Transaksi</a>
                                     </li>
                                 @else
                                     <li><a href="{{ url('/') }}">Home</a></li>
@@ -170,8 +176,8 @@
 
                                     </li>
                                     @php
-                                    $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)->count();
-                                    if($jumlah > 0) {
+                                    $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)->groupBy('competition_id')->get();
+                                    if($jumlah->count() > 0) {
                                         $style = "";
                                     } else {
                                         $style = "display:none;";
@@ -179,9 +185,9 @@
                                     @endphp
                                     <li>
 
-                                        <img class="profile-image"
+                                        <a href="{{ url('cart') }}"><img class="profile-image"
                                             src="{{ asset('template/frontend') }}/assets/umum/keranjang.png"
-                                            alt="cart"><span class="cart-number" style="{{ $style }}">{{ $jumlah }}</span> 
+                                            alt="cart"><span class="cart-number" style="{{ $style }}">{{ $jumlah->count() }}</span> </a>
 
 
 
@@ -206,8 +212,8 @@
                                                     <span></span>
                                                 </button>
                                                 <ul class="dropdown-menu menu-user">
-                                                    <li><a class="" href="#"> Profile</a></li>
-                                                    <li><a class="" href="{{ url('/main') }}"> Dashboard</a></li>
+                                                    <li><a class="" href="{{ url('after_register/'.Auth::user()->id) }}"> Profile</a></li>
+                                                    <li><a class="" href="{{ url('/main') }}"> Kompetisi</a></li>
                                                     <li><a class="" href="#"> Pengaturan</a></li>
                                                     <form method="POST" action="{{ route('logout') }}">
                                                         @csrf
@@ -485,17 +491,17 @@
     <!-- Modernizer & jQuery JS -->
     <script src="{{ asset('template/frontend') }}/assets/js/vendor/modernizr-3.11.2.min.js"></script>
     <script src="{{ asset('template/frontend') }}/assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 
     <!-- Bootstrap JS -->
-    <!-- <script src="{{ asset('template/frontend') }}/assets/js/plugins/popper.min.js"></script>
-    <script src="{{ asset('template/frontend') }}/assets/js/plugins/bootstrap.min.js"></script> -->
+    {{-- <script src="{{ asset('template/frontend') }}/assets/js/plugins/popper.min.js"></script>
+    <script src="{{ asset('template/frontend') }}/assets/js/plugins/bootstrap.min.js"></script>  --}}
 
     <!-- Plugins JS -->
-    <!-- <script src="{{ asset('template/frontend') }}/assets/js/plugins/swiper-bundle.min.js"></script>
+    {{-- <script src="{{ asset('template/frontend') }}/assets/js/plugins/swiper-bundle.min.js"></script>
     <script src="{{ asset('template/frontend') }}/assets/js/plugins/jquery.magnific-popup.min.js"></script>
     <script src="{{ asset('template/frontend') }}/assets/js/plugins/video-playlist.js"></script>
-    <script src="{{ asset('template/frontend') }}/assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="{{ asset('template/frontend') }}/assets/js/plugins/ajax-contact.js"></script> -->
+    <script src="{{ asset('template/frontend') }}/assets/js/plugins/ajax-contact.js"></script> --}}
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <script src="{{ asset('template/frontend') }}/assets/js/plugins.min.js"></script>
@@ -503,6 +509,7 @@
 
     <!-- Main JS -->
     <script src="{{ asset('template/frontend') }}/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @include('frontend.js')
 

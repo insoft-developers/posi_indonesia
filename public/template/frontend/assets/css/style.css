@@ -14280,10 +14280,6 @@ img {
 .section-title.shape-03 .main-title span::before {
   position: absolute;
   content: "";
-  background-image: url(../images/shape/shape-4.png);
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
   width: 121px;
   height: 13px;
   right: 0;
@@ -19256,10 +19252,10 @@ img {
 }
 
 .register-login-images {
-  background-color: #e7f8ee;
+  background-color: white;
   padding: 45px 40px 0;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 500px;
   overflow: hidden;
   position: relative;
   z-index: 1;
