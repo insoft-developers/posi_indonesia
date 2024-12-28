@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Competition;
+use App\Models\Invoice;
 use App\Models\Study;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,19 +71,25 @@ class HomeController extends Controller
             'cart' => function ($q) {
                 $q->where('userid', Auth::user()->id);
             },
+            'transaction' => function ($a) {
+                $a->where('userid', Auth::user()->id);
+            },
         ])
             ->where('status', 1)
             ->where('competition_id', $input['id'])
             ->get();
-
+            
+        // dd($detail);    
 
         $cart = Cart::where('userid', Auth::user()->id)->get();
+       
 
         return response()->json([
             'success' => true,
             'data' => $data,
             'detail' => $detail,
-            'cart' => $cart
+            'cart' => $cart,
+            
         ]);
     }
 
@@ -114,27 +122,29 @@ class HomeController extends Controller
     public function cart()
     {
         $view = 'cart';
-        $cart = Cart::with('competition','user','study.pelajaran','study.level')->where('userid', Auth::user()->id)->groupBy('competition_id')->get();
-        return view('frontend.cart', compact('view','cart'));
+        $cart = Cart::with('competition', 'user', 'study.pelajaran', 'study.level')
+            ->where('userid', Auth::user()->id)
+            ->groupBy('competition_id')
+            ->get();
+        return view('frontend.cart', compact('view', 'cart'));
     }
 
-    public function cart_delete(Request $request) {
-        
+    public function cart_delete(Request $request)
+    {
         try {
             $input = $request->all();
-            Cart::where('userid', Auth::user()->id)->where('competition_id', $input['id'])->delete();
+            Cart::where('userid', Auth::user()->id)
+                ->where('competition_id', $input['id'])
+                ->delete();
             return response()->json([
-                "success" => true,
-                "message" => "Item berhasil dihapus"
+                'success' => true,
+                'message' => 'Item berhasil dihapus',
             ]);
-
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         }
-       
-        
     }
 }

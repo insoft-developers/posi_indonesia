@@ -9,8 +9,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
 
 
     <!-- Favicon -->
@@ -37,7 +38,7 @@
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/apexcharts.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/jqvmap.min.css">
     <link rel="stylesheet" href=" https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
-   
+
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.css">
@@ -45,7 +46,7 @@
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/vendor/plugins.min.css">
-    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.min.css"> 
+    <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/style.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 
@@ -55,6 +56,7 @@
 </head>
 
 <body>
+
 
     <div class="main-wrapper">
 
@@ -127,7 +129,7 @@
                                 @if (Auth::check())
                                     <li><a href="{{ url('/main') }}">Kompetisi</a></li>
                                     <li>
-                                        <a href="{{ url('/jawal') }}">Jadwal</a>
+                                        <a href="{{ url('/jadwal') }}">Jadwal</a>
                                     </li>
                                     <li><a href="{{ url('/riwayat') }}">Riwayat</a></li>
                                     <li>
@@ -163,31 +165,33 @@
                         <!-- Header Sing In & Up Start -->
                         <div class="header-sign-in-up d-none d-lg-block">
                             @if (Auth::check())
-
                                 <ul>
                                     <li>
 
                                         <img class="profile-image"
                                             src="{{ asset('template/frontend') }}/assets/umum/notif.png"
-                                            alt="notif"><span class="notif-number">0</span> 
-                                            
+                                            alt="notif"><span class="notif-number">0</span>
+
 
 
 
                                     </li>
                                     @php
-                                    $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)->groupBy('competition_id')->get();
-                                    if($jumlah->count() > 0) {
-                                        $style = "";
-                                    } else {
-                                        $style = "display:none;";
-                                    }
+                                        $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)
+                                            ->groupBy('competition_id')
+                                            ->get();
+                                        if ($jumlah->count() > 0) {
+                                            $style = '';
+                                        } else {
+                                            $style = 'display:none;';
+                                        }
                                     @endphp
                                     <li>
 
                                         <a href="{{ url('cart') }}"><img class="profile-image"
-                                            src="{{ asset('template/frontend') }}/assets/umum/keranjang.png"
-                                            alt="cart"><span class="cart-number" style="{{ $style }}">{{ $jumlah->count() }}</span> </a>
+                                                src="{{ asset('template/frontend') }}/assets/umum/keranjang.png"
+                                                alt="cart"><span class="cart-number"
+                                                style="{{ $style }}">{{ $jumlah->count() }}</span> </a>
 
 
 
@@ -212,8 +216,11 @@
                                                     <span></span>
                                                 </button>
                                                 <ul class="dropdown-menu menu-user">
-                                                    <li><a class="" href="{{ url('after_register/'.Auth::user()->id) }}"> Profile</a></li>
-                                                    <li><a class="" href="{{ url('/main') }}"> Kompetisi</a></li>
+                                                    <li><a class=""
+                                                            href="{{ url('after_register/' . Auth::user()->id) }}">
+                                                            Profile</a></li>
+                                                    <li><a class="" href="{{ url('/main') }}"> Kompetisi</a>
+                                                    </li>
                                                     <li><a class="" href="#"> Pengaturan</a></li>
                                                     <form method="POST" action="{{ route('logout') }}">
                                                         @csrf
@@ -221,7 +228,8 @@
                                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                                             <a class="" href="{{ route('logout') }}"><i
-                                                                    class="icofont-logout"></i> Keluar</a></li>
+                                                                    class="icofont-logout"></i> Keluar</a>
+                                                        </li>
                                                     </form>
                                                 </ul>
                                             </div>
@@ -510,6 +518,9 @@
     <!-- Main JS -->
     <script src="{{ asset('template/frontend') }}/assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+   
 
     @include('frontend.js')
 

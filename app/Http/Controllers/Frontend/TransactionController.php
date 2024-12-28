@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Invoice;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\User;
@@ -19,10 +21,8 @@ class TransactionController extends Controller
     public function index()
     {
         $view = 'transaction';
-        $transaction = Transaction::where('userid', Auth::user()->id)
-            ->groupBy('invoice')
-            
-            ->orderBy('payment_status','asc')
+        $transaction = Invoice::where('userid', Auth::user()->id)
+            ->orderBy('payment_status', 'asc')
             ->get();
         return view('frontend.transaction', compact('view', 'transaction'));
     }
@@ -33,38 +33,109 @@ class TransactionController extends Controller
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
 
         try {
-            $transaction = Cart::where('userid', Auth::user()->id)
-                ->groupBy('competition_id')
+            $transaction = Cart::with('competition')
+                ->where('userid', Auth::user()->id)
                 ->get();
 
+            $data_invoice = [
+                'invoice' => $invoice,
+                'userid' => Auth::user()->id,
+                'total_amount' => 0,
+                'payment_status' => 0,
+                'transaction_status' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'expired_time' => $this->tambah_jam(24, date('Y-m-d H:i:s')),
+            ];
+            $id = Invoice::insertGetId($data_invoice);
+
+            $total_value = 0;
             foreach ($transaction as $t) {
-                $data_transaction = [
-                    'invoice' => $invoice,
-                    'competition_id' => $t->competition_id,
-                    'amount' => $t->competition->price,
-                    'userid' => Auth::user()->id,
-                    'payment_status' => 0,
-                    'is_fisik' => 0,
-                    'transaction_status' => 0,
-                    'is_premium' => 1,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                    'expired_date' => $this->tambah_jam(24, date('Y-m-d H:i:s')),
-                ];
-                $id = Transaction::insertGetId($data_transaction);
-                $items = Cart::where('userid', Auth::user()->id)
-                    ->where('competition_id', $t->competition_id)
-                    ->get();
-                foreach ($items as $item) {
-                    $i = new TransactionItem();
-                    $i->transaction_id = $id;
-                    $i->userid = Auth::user()->id;
-                    $i->study_id = $item->study_id;
-                    $i->save();
-                }
+                $total_value = $total_value + $t->competition->price;
+                $item = new Transaction();
+                $item->userid = Auth::user()->id;
+                $item->invoice = $invoice;
+                $item->invoice_id = $id;
+                $item->competition_id = $t->competition_id;
+                $item->study_id = $t->study_id;
+                $item->amount = $t->competition->price;
+                $item->is_fisik = 0;
+                $item->created_at = date('Y-m-d H:i:s');
+                $item->updated_at = date('Y-m-d H:i:s');
+                $item->save();
             }
 
+            Invoice::where('id', $id)->update([
+                'total_amount' => $total_value,
+            ]);
+
             Cart::where('userid', Auth::user()->id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'data' => 'Transaksi Berhasil',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function add_free_invoice(Request $request) {
+        // $input = $request->all();
+        
+
+        // foreach ($ids as $id) {
+        //     Cart::updateOrCreate([
+        //         'userid' => Auth::user()->id,
+        //         'competition_id' => $input['compete_id'],
+        //         'premium' => $input['premium'],
+        //         'study_id' => $id,
+        //     ]);
+        // }
+
+        // $jumlah = Cart::where('userid', Auth::user()->id)
+        //     ->groupBy('competition_id')
+        //     ->count();
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Berhasil',
+        //     'jumlah' => $jumlah,
+        // ]);
+
+        $input = $request->all();
+        $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
+
+        try {
+            $data_invoice = [
+                'invoice' => $invoice,
+                'userid' => Auth::user()->id,
+                'total_amount' => 0,
+                'payment_status' => 0,
+                'transaction_status' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'expired_time' => date('Y-m-d H:i:s'),
+            ];
+            $id = Invoice::insertGetId($data_invoice);
+
+            $idss = explode(",", $input['id']);
+            foreach ($idss as $index => $ids) {
+                $item = new Transaction();
+                $item->invoice = $invoice;
+                $item->invoice_id = $id;
+                $item->competition_id = $input['compete_id'];
+                $item->study_id = $ids;
+                $item->amount = 0;
+                $item->is_fisik = 0;
+                $item->created_at = date('Y-m-d H:i:s');
+                $item->updated_at = date('Y-m-d H:i:s');
+                $item->save();
+            }
+
 
             return response()->json([
                 'success' => true,
@@ -81,39 +152,51 @@ class TransactionController extends Controller
     public function online_payment(Request $request)
     {
         $input = $request->all();
-        $transaction = Transaction::findorFail($input['id']);
-        $invoice = $transaction->invoice;
 
-        $total = Transaction::where('invoice', $invoice)->sum('amount');
-        $user = User::findorFail($transaction->userid);
+        $transaction = Invoice::with('transaction.competition')
+            ->where('id', $input['id'])
+            ->where('payment_status', '!=', 1)
+            ->first();
 
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        if ($transaction->first()) {
+            $invoice = $transaction->invoice;
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => $invoice . '_' . uniqid(),
-                'gross_amount' => $total,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'last_name' => '',
-                'email' => $user->email,
-                'phone' => $user->whatsapp,
-            ],
-        ];
+            $total = $transaction->total_amount;
+            $user = User::findorFail($transaction->userid);
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        return response()->json([
-            'success' => true,
-            'token' => $snapToken,
-        ]);
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = config('midtrans.server_key');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = true;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $invoice . '_' . uniqid(),
+                    'gross_amount' => $total,
+                ],
+                'customer_details' => [
+                    'first_name' => $user->name,
+                    'last_name' => ' - ' . $transaction->transaction[0]->competition->title,
+                    'email' => $user->email,
+                    'phone' => $user->whatsapp,
+                ],
+            ];
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            return response()->json([
+                'success' => true,
+                'token' => $snapToken,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'token' => 'invoice tidak ada atau sudah dibayar',
+            ]);
+        }
     }
 
     public function callback(Request $request)
@@ -130,11 +213,10 @@ class TransactionController extends Controller
             $type = $input['payment_type'];
             $fraud = $input['fraud_status'];
 
-
             if ($transaction == 'capture') {
                 if ($type == 'credit_card') {
                     if ($fraud == 'accept') {
-                        Transaction::where('invoice', $order_id)->update([
+                        Invoice::where('invoice', $order_id)->update([
                             'payment_status' => 1,
                             'payment_amount' => $input['gross_amount'],
                             'transaction_status' => 1,
@@ -145,7 +227,7 @@ class TransactionController extends Controller
                     }
                 }
             } elseif ($transaction == 'settlement') {
-                Transaction::where('invoice', $order_id)->update([
+                Invoice::where('invoice', $order_id)->update([
                     'payment_status' => 1,
                     'payment_amount' => $input['gross_amount'],
                     'transaction_status' => 1,
@@ -154,7 +236,7 @@ class TransactionController extends Controller
                 ]);
                 echo 'Transaction order_id: ' . $order_id . ' successfully transfered using ' . $type;
             } elseif ($transaction == 'pending') {
-                Transaction::where('invoice', $order_id)->update([
+                Invoice::where('invoice', $order_id)->update([
                     'payment_status' => 0,
                     'payment_amount' => 0,
                     'transaction_status' => 2,
@@ -163,7 +245,7 @@ class TransactionController extends Controller
                 ]);
                 echo 'Waiting customer to finish transaction order_id: ' . $order_id . ' using ' . $type;
             } elseif ($transaction == 'deny') {
-                Transaction::where('invoice', $order_id)->update([
+                Invoice::where('invoice', $order_id)->update([
                     'payment_status' => 0,
                     'payment_amount' => 0,
                     'transaction_status' => 3,
@@ -172,7 +254,7 @@ class TransactionController extends Controller
                 ]);
                 echo 'Payment using ' . $type . ' for transaction order_id: ' . $order_id . ' is denied.';
             } elseif ($transaction == 'expire') {
-                Transaction::where('invoice', $order_id)->update([
+                Invoice::where('invoice', $order_id)->update([
                     'payment_status' => 0,
                     'payment_amount' => 0,
                     'transaction_status' => 4,
@@ -181,7 +263,7 @@ class TransactionController extends Controller
                 ]);
                 echo 'Payment using ' . $type . ' for transaction order_id: ' . $order_id . ' is expired.';
             } elseif ($transaction == 'cancel') {
-                Transaction::where('invoice', $order_id)->update([
+                Invoice::where('invoice', $order_id)->update([
                     'payment_status' => 0,
                     'payment_amount' => 0,
                     'transaction_status' => 5,
@@ -193,24 +275,30 @@ class TransactionController extends Controller
         }
     }
 
-
-    public function upload_bukti(Request $request) {
+    public function upload_bukti(Request $request)
+    {
         $input = $request->all();
 
         $input['image'] = null;
 
-        if($request->hasFile('image')){
-            $input['image'] = Str::slug(time().'-'.uniqid(), '-').'.'.$request->image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $input['image'] = Str::slug(time() . '-' . uniqid(), '-') . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('/template/frontend/assets/bukti_transfer'), $input['image']);
         }
 
-        $trans = Transaction::findorFail($input['transaction_id']);
-        Transaction::where('invoice', $trans->invoice)->update([
-            "image" => $input['image']
+        $trans = Invoice::findorFail($input['transaction_id']);
+        Invoice::where('invoice', $trans->invoice)->update([
+            'image' => $input['image'],
         ]);
 
         return redirect()->back();
     }
+
+    public function show_invoice($invoice)
+    {
+        $view = 'invoice';
+        $setting = Setting::findorFail(1);
+        $data = Invoice::with('user', 'transaction.competition.levels', 'transaction.study.pelajaran')->where('invoice', $invoice)->first();
+        return view('frontend.invoice', compact('view', 'data', 'setting'));
+    }
 }
-
-

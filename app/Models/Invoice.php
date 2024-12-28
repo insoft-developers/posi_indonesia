@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Competition extends Model
+class Invoice extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function levels(): BelongsTo
+    public function transaction(): HasMany
     {
-        return $this->belongsTo(Level::class, 'level','id');
+        return $this->hasMany(Transaction::class, 'invoice_id', 'id');
     }
 
-    public function transaction():HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(Transaction::class, 'competition_id','id');
+        return $this->belongsTo(User::class, 'userid','id');
     }
 }

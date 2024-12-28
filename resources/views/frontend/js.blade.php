@@ -71,10 +71,53 @@
 </script>
 
 @if ($view == 'main')
+    <script>
+        var jumlah_kompetisi = $("#jumlah_kompetisi").val();
+
+        for (var i = 0; i < jumlah_kompetisi; i++) {
+            countdown_waktu(i);
+        }
+
+
+        function countdown_waktu(index) {
+
+            var waktu = $("#waktu_" + index).val();
+            var countDownDate = moment(waktu);
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+                // Get todays date and time
+                var now = moment();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate.diff(now);
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = moment.duration(distance).days();
+                var hours = moment.duration(distance).hours();
+                var minutes = moment.duration(distance).minutes();
+                var seconds = moment.duration(distance).seconds();
+
+                // Display the result in the element with id="countdown"
+                document.getElementById("countdown_" + index).innerHTML = days + " Hari " + hours + ":" +
+                    minutes + ":" + seconds;
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown_" + index).innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+        // Set the date we're counting down to
+    </script>
     <Script>
         const selected_studies = [];
         var selected_competition = -1;
         const selected_time = [];
+
+        let jam_bentrok = [];
 
         $('#image-syarat1').click(function() {
             $('#file1').trigger('click');
@@ -133,7 +176,7 @@
                     "_token": csrf_token
                 },
                 success: function(data) {
-                    console.log(data);
+                    jam_bentrok = [];
                     var details = data.detail;
                     $("#modal-subtitle").text("Pendaftaran Event " + data.data.title);
 
@@ -141,7 +184,11 @@
                     html += '<table class="table">';
                     for (var i = 0; i < details.length; i++) {
 
-                        if (details[i].cart === null) {
+
+                        if (details[i].cart === null && details[i].transaction === null) {
+
+                            jam_bentrok.push(0);
+
                             html += '<tr onclick="add_to_cart(' + details[i].id + ',' + details[i]
                                 .competition_id +
                                 ',' + i + ')" class="baris" id="baris_' + i + '">';
@@ -159,30 +206,58 @@
                                 details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
                                 '" value="' + details[i].start_date + '"></td>';
                             html +=
-                                '<td width="10%"><img id="image_pilih_' + i +
-                                '" style="display:none;" class="image-pilih" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
+                                '<td width="10%"><span class="image-pilih" id="image_pilih_' + i +
+                                '" style="display:none;">Added</span></td>';
                             html += '</tr>';
                         } else {
-                            html += '<tr onclick="add_to_cart(' + details[i].id + ',' + details[i]
-                                .competition_id +
-                                ',' + i + ')" class="baris baris-active" id="baris_' + i + '">';
-                            html +=
-                                '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
-                            html += '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
-                                details[i].pelajaran.name +
-                                ' ' + details[i].level.level_name + '</span><br><span class="detail-date">' +
-                                formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
-                                '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
-                                    5) +
-                                ' - ' + details[i].finish_time.substring(0, 5) +
-                                '</span><input type="hidden" id="jam_mulai_' + i + '" value="' + details[i]
-                                .start_time + '"><input type="hidden" id="jam_selesai_' + i + '" value="' +
-                                details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
-                                '" value="' + details[i].start_date + '"></td>';
-                            html +=
-                                '<td width="10%"><img id="image_pilih_' + i +
-                                '" class="image-pilih" src="{{ asset('template/frontend/assets/umum/checkout.png') }}"></td>';
-                            html += '</tr>';
+                            
+
+                            jam_bentrok.push(details[i].start_time);
+
+                            if (details[i].transaction !== null) {
+                                html += '<tr class="baris baris-active" id="baris_' + i + '">';
+                                html +=
+                                    '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
+                                html +=
+                                    '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
+                                    details[i].pelajaran.name +
+                                    ' ' + details[i].level.level_name +
+                                    '</span><br><span class="detail-date">' +
+                                    formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
+                                    '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
+                                        5) +
+                                    ' - ' + details[i].finish_time.substring(0, 5) +
+                                    '</span><input type="hidden" id="jam_mulai_' + i + '" value="' + details[i]
+                                    .start_time + '"><input type="hidden" id="jam_selesai_' + i + '" value="' +
+                                    details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
+                                    '" value="' + details[i].start_date + '"></td>';
+                                html +=
+                                    '<td width="10%"><span id="image_pilih_' + i +
+                                    '" class="image-register">Registered</span></td>';
+                                html += '</tr>';
+                            } else {
+                                html += '<tr class="baris baris-active" id="baris_' + i + '">';
+                                html +=
+                                    '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
+                                html +=
+                                    '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
+                                    details[i].pelajaran.name +
+                                    ' ' + details[i].level.level_name +
+                                    '</span><br><span class="detail-date">' +
+                                    formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
+                                    '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
+                                        5) +
+                                    ' - ' + details[i].finish_time.substring(0, 5) +
+                                    '</span><input type="hidden" id="jam_mulai_' + i + '" value="' + details[i]
+                                    .start_time + '"><input type="hidden" id="jam_selesai_' + i + '" value="' +
+                                    details[i].finish_time + '"><input type="hidden" id="tanggal_mulai_' + i +
+                                    '" value="' + details[i].start_date + '"></td>';
+                                html +=
+                                    '<td width="10%"><span id="image_pilih_' + i +
+                                    '" class="image-pilih">CART</span></td>';
+                                html += '</tr>';
+                            }
+
                         }
 
 
@@ -191,6 +266,7 @@
                     $("#modal-daftar-list-content").html(html);
 
                     $("#modal-daftar-list").modal("show");
+                    console.log(jam_bentrok);
                 }
             })
         }
@@ -198,6 +274,7 @@
 
 
         function add_to_cart(id, compete_id, ndex) {
+
 
             var tipe = "";
             if ($("#baris_" + ndex).hasClass("baris-active")) {
@@ -209,12 +286,13 @@
                 if (index > -1) { // only splice array when item is found
                     selected_studies.splice(index, 1);
                     selected_time.splice(index, 1); // 2nd parameter means remove one item only
+                    jam_bentrok[ndex] = 0;
                 }
 
             } else {
 
                 var start_time = $("#jam_mulai_" + ndex).val();
-                var cek_jam = selected_time.includes(start_time); // is true
+                var cek_jam = jam_bentrok.includes(start_time); // is true
 
                 if (cek_jam) {
                     alert("Jadwal bidang yang anda pilih bentrok!");
@@ -224,11 +302,13 @@
                     selected_studies.push(id);
                     selected_competition = compete_id;
                     selected_time.push(start_time);
-                    console.log(selected_competition);
+                    jam_bentrok[ndex] = start_time;
                 }
 
 
             }
+            console.log(jam_bentrok);
+
         }
 
 
@@ -260,6 +340,28 @@
                 });
             }
         }
+
+        $("#form-gratis-submit").submit(function(e) {
+            e.preventDefault();
+            if (selected_studies.length <= 0) {
+                alert("Silahkan pilih bidang terlebih dahulu");
+            } else {
+                var form = new FormData($('#modal-gratis form')[0]);
+                form.append("id", selected_studies);
+                form.append("compete_id", selected_competition);
+                form.append("premium", 0);
+                $.ajax({
+                    url: "{{ url('add_free_invoice') }}",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    success: function(data) {
+                        window.location = "{{ url('transaction') }}";
+                    }
+                });
+            }
+        });
     </script>
 @endif
 @if ($view == 'cart')
@@ -376,27 +478,26 @@
 
 @if ($view == 'after-register')
     <script>
-
-
         $("#provinsi").select2();
         $("#kabupaten").select2();
         $("#kecamatan").select2();
         $("#nama_sekolah").select2();
 
-        $("#provinsi").change(function(){
+        $("#provinsi").change(function() {
             var p = $(this).val();
             $.ajax({
-                url:"{{ url('get_kabupaten_by_province_id') }}"+"/"+p,
+                url: "{{ url('get_kabupaten_by_province_id') }}" + "/" + p,
                 type: "GET",
-                dataType:"JSON",
+                dataType: "JSON",
                 success: function(data) {
 
                     console.log(data);
-                    var html ='';
-                    for(var i=0; i<data.length; i++) {
-                        html += '<option value="'+data[i].regency_code+'">'+data[i].regency_name+'</option>';
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].regency_code + '">' + data[i].regency_name +
+                            '</option>';
                     }
-                    
+
                     $("#kabupaten").html(html);
                     $("#kecamatan").html('<option value="">- Pilih Kabupaten Dahulu -</option>');
                     $("#nama_sekolah").html('<option value="">- Pilih Kecamatan Dahulu -</option>');
@@ -406,20 +507,21 @@
         });
 
 
-        $("#kabupaten").change(function(){
+        $("#kabupaten").change(function() {
             var p = $(this).val();
             $.ajax({
-                url:"{{ url('get_kecamatan_by_kabupaten_id') }}"+"/"+p,
+                url: "{{ url('get_kecamatan_by_kabupaten_id') }}" + "/" + p,
                 type: "GET",
-                dataType:"JSON",
+                dataType: "JSON",
                 success: function(data) {
 
                     console.log(data);
-                    var html ='';
-                    for(var i=0; i<data.length; i++) {
-                        html += '<option value="'+data[i].district_code+'">'+data[i].district_name+'</option>';
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].district_code + '">' + data[i]
+                            .district_name + '</option>';
                     }
-                    
+
                     $("#kecamatan").html(html);
                     $("#nama_sekolah").html('<option value="">- Pilih Kecamatan Dahulu -</option>');
                     $("#container-sekolah-lain").hide();
@@ -428,18 +530,19 @@
         });
 
 
-        $("#kecamatan").change(function(){
+        $("#kecamatan").change(function() {
             var p = $(this).val();
             $.ajax({
-                url:"{{ url('get_sekolah_by_kecamatan_id') }}"+"/"+p,
+                url: "{{ url('get_sekolah_by_kecamatan_id') }}" + "/" + p,
                 type: "GET",
-                dataType:"JSON",
+                dataType: "JSON",
                 success: function(data) {
 
                     console.log(data);
-                    var html ='';
-                    for(var i=0; i<data.length; i++) {
-                        html += '<option value="'+data[i].sekolah+'">'+data[i].sekolah+'</option>';
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].sekolah + '">' + data[i].sekolah +
+                            '</option>';
                     }
                     html += '<option value="lainnya">LAINNYA</option>';
                     $("#nama_sekolah").html(html);
@@ -447,25 +550,28 @@
                 }
             })
         });
-    
-        $("#nama_sekolah").change(function(){
+
+        $("#nama_sekolah").change(function() {
             var p = $(this).val();
-            if(p=='lainnya') {
+            if (p == 'lainnya') {
                 $("#container-sekolah-lain").show();
             } else {
                 $("#container-sekolah-lain").hide();
             }
         });
-    
+
         function verif_email(id) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "{{ url('send_email_passcode') }}", 
+                url: "{{ url('send_email_passcode') }}",
                 type: "POST",
                 dataType: "JSON",
-                data: {"id":id, "_token":csrf_token},
-                success: function(data){
-                    if(data.success) {
+                data: {
+                    "id": id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    if (data.success) {
                         $("#modal-email").modal("show");
                     }
                 }
@@ -477,18 +583,69 @@
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var passcode = $("#email_passcode").val();
             $.ajax({
-                url: "{{ url('verify_email_passcode') }}", 
+                url: "{{ url('verify_email_passcode') }}",
                 type: "POST",
                 dataType: "JSON",
-                data: {"id":id, "passcode":passcode, "_token":csrf_token},
-                success: function(data){
-                    if(data.success) {
-                       window.location = "{{ url('after_register') }}"+"/"+id;
+                data: {
+                    "id": id,
+                    "passcode": passcode,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    if (data.success) {
+                        window.location = "{{ url('after_register') }}" + "/" + id;
                     } else {
-                        window.location = "{{ url('after_register') }}"+"/"+id;
+                        window.location = "{{ url('after_register') }}" + "/" + id;
                     }
                 }
             })
+        }
+    </script>
+@endif
+
+@if ($view == 'jadwal')
+    <script>
+        var jumlah_kompetisi = "{{ $nomor }}";
+
+
+
+        for (var i = 0; i <= jumlah_kompetisi; i++) {
+            countdown_jadwal(i);
+        }
+
+
+        function countdown_jadwal(index) {
+
+            var tanggal = $("#tanggal_" + index).val();
+            var jam = $("#jam_" + index).val();
+            var waktu = tanggal + ' ' + jam;
+            var countDownDate = moment(waktu);
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+                // Get todays date and time
+                var now = moment();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate.diff(now);
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = moment.duration(distance).days();
+                var hours = moment.duration(distance).hours();
+                var minutes = moment.duration(distance).minutes();
+                var seconds = moment.duration(distance).seconds();
+
+                // Display the result in the element with id="countdown"
+                document.getElementById("countdown_" + index).innerHTML = days + " Hari " + hours + ":" +
+                    minutes + ":" + seconds;
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown_" + index).innerHTML = "MULAI UJIAN";
+                }
+            }, 1000);
         }
     </script>
 @endif

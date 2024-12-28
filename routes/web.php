@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\JadwalController;
 use App\Http\Controllers\Frontend\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Mail\RegisMail;
@@ -107,6 +108,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('get_competition_data', [HomeController::class, 'get_competition_data']);
     Route::post('add_to_cart', [HomeController::class, 'add_to_cart']);
+    Route::post('add_free_invoice', [TransactionController::class, 'add_free_invoice']);
     Route::get('cart', [HomeController::class, 'cart'])->middleware('cdata');
     Route::post('cart-delete', [HomeController::class, 'cart_delete']);
 
@@ -114,6 +116,9 @@ Route::middleware('auth')->group(function () {
     Route::post('transaction-store', [TransactionController::class, 'store']);
     Route::post('online-payment', [TransactionController::class, 'online_payment']);
     Route::post('upload-bukti', [TransactionController::class, 'upload_bukti'])->name('upload.bukti');
+
+
+    Route::get('show-invoice/{invoice}', [TransactionController::class, 'show_invoice']);
 
     Route::get('after_register/{id}', [ProfileController::class, 'after_register']);
     Route::post('after_register_store', [ProfileController::class, 'after_register_store'])->name('register.after');
@@ -125,6 +130,9 @@ Route::middleware('auth')->group(function () {
     Route::get('get_kabupaten_by_province_id/{p}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('get_kecamatan_by_kabupaten_id/{p}', [AdministrativeController::class, 'get_kecamatan']);
     Route::get('get_sekolah_by_kecamatan_id/{p}', [AdministrativeController::class, 'get_sekolah']);
+
+
+    Route::get('jadwal', [JadwalController::class, 'index']);
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);

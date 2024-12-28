@@ -48,8 +48,6 @@
         return $selisih->d;
     }
 
-    
-
 @endphp
 
 
@@ -72,7 +70,8 @@
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
                 <div class="row">
-                    @foreach ($kompetisi as $k)
+                    <input type="hidden" id="jumlah_kompetisi" value="{{ count($kompetisi) }}">
+                    @foreach ($kompetisi as $index => $k)
                         <div class="col-lg-4 col-md-6">
 
                             <!-- Single Blog Start -->
@@ -90,7 +89,9 @@
                                     <div class="blog-meta">
                                         <span> <i class="icofont-calendar"></i>{{ hari_ini($k->date) }},
                                             {{ date('d F Y', strtotime($k->date)) }}</span>
-                                        <span class="sisa-hari"> {{ selisih_hari($k->date) }} hari lagi</span>
+                                        <input type="hidden" id="waktu_{{ $index }}" value="{{ $k->date }}">
+                                        <span class="sisa-hari" id="countdown_{{ $index }}"></span>
+                                        
                                     </div>
                                     <div class="garis"></div>
                                     <div class="blog-meta">
@@ -178,14 +179,16 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-daftar-list" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-daftar-list" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-600">
             <div class="modal-content">
 
 
                 <div class="modal-header">
-                    <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span class="modal-subtitle" id="modal-subtitle">Pendaftaran Event</span></p>
-                    
+                    <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span
+                            class="modal-subtitle" id="modal-subtitle">Pendaftaran Event</span></p>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -202,44 +205,54 @@
 
 
 
-     <!-- Modal -->
-     <div class="modal fade" id="modal-gratis" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="modal-gratis" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-600">
             <div class="modal-content">
 
+                <form method="POST" id="form-gratis-submit" name="form-gratis-submit" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span
+                                class="modal-subtitle" id="modal-subtitle">Syarat Pendaftaran</span></p>
 
-                <div class="modal-header">
-                    <p class="modal-title"><span class="modal-head-title">{{ Auth::user()->name }}</span><br><span class="modal-subtitle" id="modal-subtitle">Syarat Pendaftaran</span></p>
-                    
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Follow Instagram @posi</label>
-                         <div style="margin-top:10px;"></div>
-                        <input type="file" id="file1" name="file1" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
-                        <img id="image-syarat1" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <hr />
-                    <div class="form-group">
-                        <label>Unduh aplikasi Posi di Playstore</label>
-                        <div style="margin-top:10px;"></div>
-                        <input type="file" id="file2" name="file2" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
-                        <img id="image-syarat2" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Follow Instagram @posi</label>
+                            <div style="margin-top:10px;"></div>
+                            <input type="file" id="file1" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                                style="display: none;">
+                            <img id="image-syarat1" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
+                                class="upload-syarat">
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label>Unduh aplikasi Posi di Playstore</label>
+                            <div style="margin-top:10px;"></div>
+                            <input type="file" id="file2" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                                style="display: none;">
+                            <img id="image-syarat2" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
+                                class="upload-syarat">
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label>Komen pendapat posiitf kamu tentang POSI kemudian tag 5 teman kamu di positingan
+                                ini.</label>
+                            <div style="margin-top:10px;"></div>
+                            <input type="file" id="file3" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                                style="display: none;">
+                            <img id="image-syarat3" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
+                                class="upload-syarat">
+                        </div>
                     </div>
-                    <hr />
-                    <div class="form-group">
-                        <label>Komen pendapat posiitf kamu tentang POSI kemudian tag 5 teman kamu di positingan ini.</label>
-                        <div style="margin-top:10px;"></div>
-                        <input type="file" id="file3" name="file3" accept="*.jpg, *.jpeg, *.png" required style="display: none;">
-                        <img id="image-syarat3" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}" class="upload-syarat">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    
-                    <button onclick="daftar_gratis()" type="button" class="btn btn-primary btn-sm">Daftar</button>
-                </div>
+                    <div class="modal-footer">
 
+                        <button type="submit" class="btn btn-primary btn-sm">Daftar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

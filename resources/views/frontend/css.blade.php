@@ -163,7 +163,27 @@
         border-radius: 30px;
     }
 
-    .image-pilih {}
+    .image-pilih {
+        background: orange;
+        color: white;
+        font-size: 12px;
+        padding: 6px 10px 6px 10px;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .image-register {
+        background: red;
+        color: white;
+        font-size: 12px;
+        padding: 6px 10px 6px 10px;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
 
     .image-cart {
         width: 60px;
@@ -251,14 +271,14 @@
 
     .upload-syarat {
         display: block;
-        width: 264px;
+        width: 100%;
         border: 6px solid whitesmoke;
         padding: 17px;
         border-radius: 12px;
         height: 264px;
         object-fit: contain;
         position: relative;
-        left: 22%;
+
         cursor: pointer;
     }
 
@@ -299,4 +319,30 @@
         line-height: 60px;
         padding: 0px 0px 0px 30px;
     }
+
+    .jadwal-image {
+        height: 150px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 96px;
+        border: 5px solid whitesmoke;
+    }
+
+    .jadwal-title {
+        font-weight: bold;
+        color: green;
+    }
+
+    .sub-info {
+        font-size: 14px;
+    }
 </style>
+
+@if ($view == 'jadwal')
+    <style>
+        .single-blog {
+            padding: 15px !important;
+        }
+    </style>
+@endif
