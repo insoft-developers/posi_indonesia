@@ -65,7 +65,7 @@
     <div class="section section-padding mt-n10">
         <div class="container">
             <div class="section-title shape-03 text-center">
-                <h2 class="main-title">Kompetisi<span> Online</span></h2>
+                <h2 class="main-title">Kompetisi Online</h2>
             </div>
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
@@ -89,7 +89,7 @@
                                     <div class="blog-meta">
                                         <span> <i class="icofont-calendar"></i>{{ hari_ini($k->date) }},
                                             {{ date('d F Y', strtotime($k->date)) }}</span>
-                                        <input type="hidden" id="waktu_{{ $index }}" value="{{ $k->date }}">
+                                        <input type="hidden" id="waktu_{{ $index }}" value="{{ $k->finish_registration_date }} {{ $k->finish_registration_time }}">
                                         <span class="sisa-hari" id="countdown_{{ $index }}"></span>
                                         
                                     </div>
@@ -125,8 +125,8 @@
                                         <a href="">Lihat juknis disini</a>
                                     </div>
                                     <div class="garis"></div>
-                                    <a href="javascript:void(0);" onclick="daftar({{ $k->id }})"
-                                        class="btn btn-secondary btn-hover-primary">Daftar</a>
+                                    <button id="btn_daftar_{{ $index }}" href="javascript:void(0);" onclick="daftar({{ $k->id }})"
+                                        class="btn btn-secondary btn-hover-primary">Daftar</button>
                                     <span class="foot-note">1.450 Pedaftar</span>
                                 </div>
                             </div>

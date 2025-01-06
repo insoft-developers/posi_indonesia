@@ -84,27 +84,7 @@ class TransactionController extends Controller
     }
 
     public function add_free_invoice(Request $request) {
-        // $input = $request->all();
         
-
-        // foreach ($ids as $id) {
-        //     Cart::updateOrCreate([
-        //         'userid' => Auth::user()->id,
-        //         'competition_id' => $input['compete_id'],
-        //         'premium' => $input['premium'],
-        //         'study_id' => $id,
-        //     ]);
-        // }
-
-        // $jumlah = Cart::where('userid', Auth::user()->id)
-        //     ->groupBy('competition_id')
-        //     ->count();
-
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Berhasil',
-        //     'jumlah' => $jumlah,
-        // ]);
 
         $input = $request->all();
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
@@ -126,6 +106,7 @@ class TransactionController extends Controller
             foreach ($idss as $index => $ids) {
                 $item = new Transaction();
                 $item->invoice = $invoice;
+                $item->userid = Auth::user()->id;
                 $item->invoice_id = $id;
                 $item->competition_id = $input['compete_id'];
                 $item->study_id = $ids;

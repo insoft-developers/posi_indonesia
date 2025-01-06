@@ -62,12 +62,6 @@
     function twoDigitPad(num) {
         return num < 10 ? "0" + num : num;
     }
-    // console.log(formatDate(new Date()));
-    // console.log(formatDate(new Date(), 'dd-MMM-yyyy')); //OP's request
-    // console.log(formatDate(new Date(), 'EEEE, dd MMMM yyyy'));
-    // console.log(formatDate(new Date(), 'EEE, MMM d, yyyy HH:mm'));
-    // console.log(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss.S'));
-    // console.log(formatDate(new Date(), 'M/dd/yyyy h:mmaaa'));
 </script>
 
 @if ($view == 'main')
@@ -106,7 +100,9 @@
                 // If the count down is finished, write some text
                 if (distance < 0) {
                     clearInterval(x);
-                    document.getElementById("countdown_" + index).innerHTML = "EXPIRED";
+                    document.getElementById("countdown_" + index).innerHTML =
+                        "<span style='color:red;'><strong>TUTUP</strong></span>";
+                    $("#btn_daftar_" + index).attr("disabled", true);
                 }
             }, 1000);
         }
@@ -210,7 +206,7 @@
                                 '" style="display:none;">Added</span></td>';
                             html += '</tr>';
                         } else {
-                            
+
 
                             jam_bentrok.push(details[i].start_time);
 
@@ -266,7 +262,7 @@
                     $("#modal-daftar-list-content").html(html);
 
                     $("#modal-daftar-list").modal("show");
-                    console.log(jam_bentrok);
+
                 }
             })
         }
@@ -307,7 +303,7 @@
 
 
             }
-            console.log(jam_bentrok);
+
 
         }
 
@@ -451,17 +447,17 @@
                         onSuccess: function(result) {
                             /* You may add your own implementation here */
                             window.location = "{{ url('transaction') }}";
-                            console.log(result);
+
                         },
                         onPending: function(result) {
                             /* You may add your own implementation here */
                             window.location = "{{ url('transaction') }}";
-                            console.log(result);
+
                         },
                         onError: function(result) {
                             /* You may add your own implementation here */
                             window.location = "{{ url('transaction') }}";
-                            console.log(result);
+
                         },
                         onClose: function() {
                             /* You may add your own implementation here */
@@ -491,7 +487,7 @@
                 dataType: "JSON",
                 success: function(data) {
 
-                    console.log(data);
+
                     var html = '';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].regency_code + '">' + data[i].regency_name +
@@ -515,7 +511,7 @@
                 dataType: "JSON",
                 success: function(data) {
 
-                    console.log(data);
+
                     var html = '';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].district_code + '">' + data[i]
@@ -537,8 +533,6 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
-
-                    console.log(data);
                     var html = '';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].sekolah + '">' + data[i].sekolah +
@@ -643,9 +637,643 @@
                 // If the count down is finished, write some text
                 if (distance < 0) {
                     clearInterval(x);
-                    document.getElementById("countdown_" + index).innerHTML = "MULAI UJIAN";
+                    // document.getElementById("countdown_" + index).innerHTML = '<a onclick="mulai_ujian(' + index +
+                    //     ')" href="jsvascript:void(0);">MULAI UJIAN</a>';
+                    countdown_selesai(index);
+                    $("#tombol_ujian_" + index).show();
                 }
             }, 1000);
+        }
+
+
+        function countdown_selesai(index) {
+
+            var tanggal = $("#tanggal_" + index).val();
+            var jam = $("#selesai_" + index).val();
+            var waktu = tanggal + ' ' + jam;
+            var countDownDate = moment(waktu);
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+                // Get todays date and time
+                var now = moment();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate.diff(now);
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = moment.duration(distance).days();
+                var hours = moment.duration(distance).hours();
+                var minutes = moment.duration(distance).minutes();
+                var seconds = moment.duration(distance).seconds();
+
+                // Display the result in the element with id="countdown"
+                document.getElementById("countdown_" + index).innerHTML = '<span style="color:green;">' + hours +
+                    ":" +
+                    minutes + ":" + seconds + '</span>';
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown_" + index).innerHTML = 'WAKTU HABIS';
+                    $("#tombol_ujian_" + index).hide();
+                }
+            }, 1000);
+        }
+
+
+        function ikut_ujian(id) {
+            var n = confirm('Anda ingin mengikuti ujian ini...?');
+
+            if (n === true) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ url('ujian-start') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": id,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            window.location = "{{ url('ujian') }}" + "/" + data.data;
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+@endif
+
+@if ($view == 'ujian')
+    <script>
+        let active = "<?= $nomor ?>";
+        let selected_answer = "<?= $selected ?>";
+        console.log(active);
+
+        $(document).ready(function() {
+            countdown_ujian();
+        });
+
+        function countdown_ujian() {
+
+            var tanggal = $("#tanggal-ujian").val();
+            var jam = $("#jam-selesai").val();
+            var waktu = tanggal + ' ' + jam;
+            var countDownDate = moment(waktu);
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+                // Get todays date and time
+                var now = moment();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate.diff(now);
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = moment.duration(distance).days();
+                var hours = moment.duration(distance).hours();
+                var minutes = moment.duration(distance).minutes();
+                var seconds = moment.duration(distance).seconds();
+
+                // Display the result in the element with id="countdown"
+                document.getElementById("waktu-ujian").innerHTML = hours +
+                    ":" +
+                    minutes + ":" + seconds;
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("waktu-ujian").innerHTML = 'WAKTU HABIS';
+                    window.location = "{{ url('ujian-selesai') }}";
+
+                }
+            }, 1000);
+        }
+
+        function selected(id) {
+            if (id == 1) {
+                $("#jawaban-a").addClass("selected-jawaban");
+                $("#jawaban-b").removeClass("selected-jawaban");
+                $("#jawaban-c").removeClass("selected-jawaban");
+                $("#jawaban-d").removeClass("selected-jawaban");
+                $("#jawaban-e").removeClass("selected-jawaban");
+                $("#jawaban-f").removeClass("selected-jawaban");
+
+            } else if (id == 2) {
+                $("#jawaban-b").addClass("selected-jawaban");
+                $("#jawaban-a").removeClass("selected-jawaban");
+                $("#jawaban-c").removeClass("selected-jawaban");
+                $("#jawaban-d").removeClass("selected-jawaban");
+                $("#jawaban-e").removeClass("selected-jawaban");
+                $("#jawaban-f").removeClass("selected-jawaban");
+            } else if (id == 3) {
+                $("#jawaban-c").addClass("selected-jawaban");
+                $("#jawaban-a").removeClass("selected-jawaban");
+                $("#jawaban-b").removeClass("selected-jawaban");
+                $("#jawaban-d").removeClass("selected-jawaban");
+                $("#jawaban-e").removeClass("selected-jawaban");
+                $("#jawaban-f").removeClass("selected-jawaban");
+            } else if (id == 4) {
+                $("#jawaban-d").addClass("selected-jawaban");
+                $("#jawaban-a").removeClass("selected-jawaban");
+                $("#jawaban-b").removeClass("selected-jawaban");
+                $("#jawaban-c").removeClass("selected-jawaban");
+                $("#jawaban-e").removeClass("selected-jawaban");
+                $("#jawaban-f").removeClass("selected-jawaban");
+            } else if (id == 5) {
+                $("#jawaban-e").addClass("selected-jawaban");
+                $("#jawaban-a").removeClass("selected-jawaban");
+                $("#jawaban-b").removeClass("selected-jawaban");
+                $("#jawaban-c").removeClass("selected-jawaban");
+                $("#jawaban-d").removeClass("selected-jawaban");
+                $("#jawaban-f").removeClass("selected-jawaban");
+            } else if (id == 6) {
+                $("#jawaban-f").addClass("selected-jawaban");
+                $("#jawaban-b").removeClass("selected-jawaban");
+                $("#jawaban-c").removeClass("selected-jawaban");
+                $("#jawaban-d").removeClass("selected-jawaban");
+                $("#jawaban-e").removeClass("selected-jawaban");
+                $("#jawaban-a").removeClass("selected-jawaban");
+            }
+
+            selected_answer = id;
+
+
+        }
+
+
+        function simpan_jawaban() {
+
+            if (selected_answer === 0) {
+                alert('Anda belum memilih jawaban, silahkan pilih salah satu jawaban.');
+                return false;;
+            }
+
+            var jumlah_soal = $("#jumlah-soal").val();
+            // if(active == jumlah_soal - 1 ) {
+            //     alert('Ini adalah soal terakhir.');
+            //     return false;
+            // }
+
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var competition_id = $("#competition-id").val();
+            var study_id = $("#study-id").val();
+            var no_soal = $("#no-soal").val();
+            var id_soal = $("#id-soal").val();
+            var token_id = $("#token-id").val();
+            $.ajax({
+                url: "{{ route('simpan.jawaban') }}",
+                type: "POST",
+                data: {
+                    "competition_id": competition_id,
+                    "study_id": study_id,
+                    "no_soal": no_soal,
+                    "id_soal": id_soal,
+                    "selected_answer": selected_answer,
+                    "active": active,
+                    "token_id": token_id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+
+                    if (data.success) {
+                        var av = data.active;
+                        var HTML = '';
+                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="soal-wrapper">';
+                        HTML +=
+                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+                        HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
+                            jumlah_soal + '</p>';
+                        HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
+                            '">';
+                        HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
+                        HTML += '</div>';
+                        HTML += '<div class="jawaban-wrapper">';
+                        HTML += '<p class="pilih-jawaban">Pilih Salah Satu Jawaban :</p>';
+                        HTML += '<div class="row">';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada === 0) {
+                            selected_answer = 0;
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
+                            selected_answer = 1;
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
+                                data.data[av].option_a + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
+                                .data[av].option_a + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
+                                data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
+                                .data[av].option_c + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
+                                data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
+                                .data[av].option_e + '</div>';
+                        }
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
+                            selected_answer = 2;
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                data.data[av].option_b + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                .data[av].option_b + '</div>';
+                        }
+
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
+                            selected_answer = 4;
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                data.data[av].option_d + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
+                            selected_answer = 6;
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        }
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+
+                        HTML += '</div>';
+                        HTML += '<hr />';
+                        HTML +=
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
+                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
+                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                        HTML += '<div style="margin-top:150px;"></div>';
+                        HTML += '</div>';
+
+                        $("#soal-container").html(HTML);
+                        active = av;
+                    }
+
+
+                }
+            })
+        }
+
+
+
+        function sebelumnya() {
+            var jumlah_soal = $("#jumlah-soal").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var competition_id = $("#competition-id").val();
+            var study_id = $("#study-id").val();
+            var no_soal = $("#no-soal").val();
+            var id_soal = $("#id-soal").val();
+            var token_id = $("#token-id").val();
+            $.ajax({
+                url: "{{ route('jawaban.sebelumnya') }}",
+                type: "POST",
+                data: {
+                    "competition_id": competition_id,
+                    "study_id": study_id,
+                    "no_soal": no_soal,
+                    "id_soal": id_soal,
+                    "selected_answer": selected_answer,
+                    "active": active,
+                    "token_id": token_id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+
+                    if (data.success) {
+                        var av = data.active;
+                        var HTML = '';
+                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="soal-wrapper">';
+                        HTML +=
+                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+                        HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
+                            jumlah_soal + '</p>';
+                        HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
+                            '">';
+                        HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
+                        HTML += '</div>';
+                        HTML += '<div class="jawaban-wrapper">';
+                        HTML += '<p class="pilih-jawaban">Pilih Salah Satu Jawaban :</p>';
+                        HTML += '<div class="row">';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada === 0) {
+                            selected_answer = 0;
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
+                            selected_answer = 1;
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
+                                data.data[av].option_a + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
+                                .data[av].option_a + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
+                                data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
+                                .data[av].option_c + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
+                                data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
+                                .data[av].option_e + '</div>';
+                        }
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
+                            selected_answer = 2;
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                data.data[av].option_b + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                .data[av].option_b + '</div>';
+                        }
+
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
+                            selected_answer = 4;
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                data.data[av].option_d + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
+                            selected_answer = 6;
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        }
+
+
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+
+                        HTML += '</div>';
+                        HTML += '<hr />';
+                        HTML +=
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
+                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
+                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                        HTML += '<div style="margin-top:150px;"></div>';
+                        HTML += '</div>';
+
+                        $("#soal-container").html(HTML);
+                        active = av;
+                    }
+
+                }
+            })
+        }
+
+        function selesai_ujian() {
+            var n = confirm('apakah anda yakin ingin meyelesaikan kompetisi ini..?');
+            if (n === true) {
+                window.location = "{{ url('ujian-selesai') }}";
+            }
+        }
+
+        function lihat_soal() {
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var token_id = $("#token-id").val();
+
+            $.ajax({
+                url: "{{ route('list.soal') }}",
+                type: "POST",
+                data: {
+                    "token_id": token_id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    console.log(data);
+                    var HTML = '';
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (data.data[i].exist === 1) {
+                            HTML += '<div onclick="gotos(' + i +
+                                ')" class="item-number-active col-md-2">' + data.data[i]
+                                .question_number + '</div>';
+                        } else {
+                            HTML += '<div onclick="gotos(' + i + ')" class="item-number col-md-2">' +
+                                data.data[i]
+                                .question_number + '</div>';
+                        }
+                    }
+
+                    $("#isi-nomor").html(HTML);
+                    $("#modal-soal").modal("show");
+                }
+            });
+
+
+        }
+
+        function gotos(index) {
+
+            var jumlah_soal = $("#jumlah-soal").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var competition_id = $("#competition-id").val();
+            var study_id = $("#study-id").val();
+            var no_soal = $("#no-soal").val();
+            var id_soal = $("#id-soal").val();
+            var token_id = $("#token-id").val();
+            $.ajax({
+                url: "{{ route('go.to') }}",
+                type: "POST",
+                data: {
+                    "competition_id": competition_id,
+                    "study_id": study_id,
+                    "active": index,
+                    "token_id": token_id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+
+                    if (data.success) {
+                        $("#modal-soal").modal("hide");
+                        var av = data.active;
+                        var HTML = '';
+                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="soal-wrapper">';
+                        HTML +=
+                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+                        HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
+                            jumlah_soal + '</p>';
+                        HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
+                            '">';
+                        HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
+                        HTML += '</div>';
+                        HTML += '<div class="jawaban-wrapper">';
+                        HTML += '<p class="pilih-jawaban">Pilih Salah Satu Jawaban :</p>';
+                        HTML += '<div class="row">';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada === 0) {
+                            selected_answer = 0;
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
+                            selected_answer = 1;
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
+                                data.data[av].option_a + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
+                                .data[av].option_a + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
+                                data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
+                                .data[av].option_c + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
+                                data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
+                                .data[av].option_e + '</div>';
+                        }
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
+                            selected_answer = 2;
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                data.data[av].option_b + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                .data[av].option_b + '</div>';
+                        }
+
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
+                            selected_answer = 4;
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                data.data[av].option_d + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
+                            selected_answer = 6;
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        }
+
+
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+
+                        HTML += '</div>';
+                        HTML += '<hr />';
+                        HTML +=
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
+                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
+                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                        HTML += '<div style="margin-top:150px;"></div>';
+                        HTML += '</div>';
+
+                        $("#soal-container").html(HTML);
+                        active = av;
+                    }
+
+                }
+            })
         }
     </script>
 @endif

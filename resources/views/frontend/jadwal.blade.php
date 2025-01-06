@@ -66,7 +66,7 @@
     <div class="section section-padding mt-n10">
         <div class="container">
             <div class="section-title shape-03 text-center">
-                <h2 class="main-title">Jadwal Uj<span>ian</span></h2>
+                <h2 class="main-title">Jadwal Ujian</h2>
             </div>
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
@@ -121,6 +121,8 @@
                                                         <div style="color: #ce0404;" class="col-lg-6 col-md-6"><strong><i class="icofont-clock-time"></i> <span id="countdown_{{$nomor}}"></span></strong></div>
                                                         <input type="hidden" id="tanggal_{{$nomor}}" value="{{ $d->date }}">
                                                         <input type="hidden" id="jam_{{$nomor}}" value="{{ $t->study->start_time }}">
+                                                        <input type="hidden" id="selesai_{{$nomor}}" value="{{ $t->study->finish_time }}">
+                                                        <p onclick="ikut_ujian({{ $t->id }})" style="display: none;" class="button-ujian" id="tombol_ujian_{{ $nomor }}">Mulai Ujian</p>
                                                     </div>
                                                 </div>
                                                 <div class="minus-15"></div>

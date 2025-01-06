@@ -337,6 +337,154 @@
     .sub-info {
         font-size: 14px;
     }
+
+    .button-ujian {
+        background: darkgreen;
+        width: 136px;
+        color: white;
+        font-size: 12px;
+        padding: 6px 10px 6px 10px;
+        border-radius: 25px;
+        text-align: center;
+        margin-top: 12px;
+        margin-left: 18px;
+        cursor: pointer;
+        border: 2px solid limegreen;
+        font-weight: bold;
+    }
+
+    .waktu-ujian {
+        font-weight: bold;
+        font-size: 30px;
+        color: white;
+        background: red;
+        padding: 0px 46px;
+        border-radius: 6px;
+    }
+
+    .no-soal {
+        font-weight: 900;
+        font-size: 25px;
+        color: #2b324e;
+        text-decoration: underline;
+    }
+
+
+    .pilih-jawaban {
+        font-weight: 700;
+        font-size: 16px;
+        color: #2b324e;
+        text-decoration: underline;
+    }
+
+    .jawaban-item {
+        border: 2px solid whitesmoke;
+        margin-bottom: 15px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .jawaban-item:hover {
+        border: 2px solid orange;
+        margin-bottom: 15px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 15px;
+        background: #2a3049;
+        color: white;
+    }
+
+    .selected-jawaban {
+        border: 2px solid orange;
+        margin-bottom: 15px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 15px;
+        background: #2a3049;
+        color: white;
+    }
+
+    .jawaban-wrapper {
+        margin-top: 40px;
+    }
+
+    .soal-title {
+        font-weight: bold;
+        font-size: 21px;
+        line-height: 32px;
+        text-align: justify;
+    }
+
+    .btn-simpan-insoft {
+        border: 3px solid orange;
+        font-size: 16px;
+        background: darkred;
+        padding: 7px 20px;
+        border-radius: 17px 29px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .btn-sebelumnya-insoft {
+        border: 3px solid mediumslateblue;
+        font-size: 16px;
+        background: lightskyblue;
+        padding: 7px 20px;
+        border-radius: 29px 17px;
+        font-weight: bold;
+    }
+
+    .btn-selesai-insoft {
+        border: 3px solid green;
+        font-size: 16px;
+        background: greenyellow;
+        padding: 7px 20px;
+        border-radius: 29px 17px;
+        font-weight: bold;
+        float: right;
+    }
+
+    .lihat-soal {
+        float: right;
+        background: whitesmoke;
+        padding: 10px 36px;
+        border-radius: 6px;
+    }
+
+    .item-number {
+        background: white;
+
+        margin: 10px 10px 10px 10px;
+        padding: 10px 10px 10px 10px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 23px;
+        border: 2px solid #151824;
+    }
+
+
+    .item-number-active {
+        background: #151824;
+        color: white;
+        margin: 10px 10px 10px 10px;
+        padding: 10px 10px 10px 10px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 23px;
+        border: 2px solid whitesmoke;
+    }
+
+    .content-number {
+        position: relative;
+        left: 7%;
+        right: auto;
+    }
 </style>
 
 @if ($view == 'jadwal')
