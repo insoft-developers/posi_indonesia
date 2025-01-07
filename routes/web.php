@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\JadwalController;
+use App\Http\Controllers\Frontend\RiwayatController;
 use App\Http\Controllers\Frontend\TransactionController;
 use App\Http\Controllers\Frontend\UjianController;
 use App\Http\Controllers\ProfileController;
@@ -147,6 +148,8 @@ Route::middleware('auth')->group(function () {
     Route::get('ujian-selesai', [UjianController::class, 'ujian_selesai']);
     Route::post('list-soal', [UjianController::class, 'list_soal'])->name('list.soal');
     Route::post('goto', [UjianController::class, 'goto'])->name('go.to');
+
+    Route::get('riwayat', [RiwayatController::class, 'index']);
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);

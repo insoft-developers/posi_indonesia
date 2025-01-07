@@ -175,6 +175,7 @@
                
                 <div class="row">
                     @foreach($umum as $um)
+                
                     <div class="col-lg-12 col-md-12 col-sm-12">
 
                         <!-- Single Blog Start -->
@@ -183,8 +184,16 @@
                             <div class="col-md-4"><img class="img-pengumuman" src="{{ asset('template/frontend/assets/kompetisi/'.$um->image) }}"></div>
                             <div class="col-md-8 bagian-dua">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
+                                        <div class="subtitle-pengumuman">{{ $um->levels->level_name }}</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top:-25px"></div>
+                                <hr />
+                                <div class="row">
                                      @foreach($um->study as $s)
-                                    <div class="col-md-4 study-item"><i class="fa fa-bullhorn"></i> {{ $s->pelajaran->name }}</div>
+                                    <div class="col-md-4 study-item"><i class="icofont-notification"></i> {{ $s->pelajaran->name }}</div>
                                     @endforeach
                                 </div>
                             </div>

@@ -31,7 +31,7 @@ class JadwalController extends Controller
         $data =  $query->get();
 
         $sekarang = date('Y-m-d');
-        $umum = Competition::with('study.pelajaran')->where('is_active', 1)
+        $umum = Competition::with('study.pelajaran','levels')->where('is_active', 1)
             ->where('date', '<', $sekarang)
             ->get();
 
