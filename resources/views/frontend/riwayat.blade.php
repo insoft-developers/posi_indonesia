@@ -18,63 +18,48 @@
             </div>
             <div class="blog-wrapper">
 
-
+                <div style="margin-top:30px;"></div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row d-flex  mt-70 mb-70">
+                        <div class="row d-flex">
 
-                            <div class="col-md-4">
+                            @foreach ($com as $c)
+                                <div class="col-md-4">
 
-                                <div class="main-card mb-3 card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">User Timeline</h5>
-                                        <div
-                                            class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                                    <div class="main-card mb-3 card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $c->title }}</h5>
+                                            <div style="margin-top:-10px;"></div>
+                                            <p>{{ $c->levels->level_name }}</p>
+                                            <div style="margin-top:-13px;"></div>
+                                            <hr />
+                                            @foreach ($c->transaction as $s)
+                                                <div
+                                                    class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
 
-                                          
-                                            <div class="vertical-timeline-item vertical-timeline-element">
-                                                <div>
-                                                    <span class="vertical-timeline-element-icon bounce-in">
-                                                        <i class="badge badge-dot badge-dot-xl badge-danger"> </i>
-                                                    </span>
-                                                    <div class="vertical-timeline-element-content bounce-in">
-                                                        <h4 class="timeline-title">Discussion with team about new product
-                                                            launch</h4>
-                                                        <p>meeting with team mates about the launch of new product. and tell
-                                                            them about new features</p>
-                                                        
+
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i class="icofont-file-alt timeline-icons"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title">{{ $s->study->pelajaran->name }}</h4>
+                                                                <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
+                                                                <div class="list-tools" style="margin-left: -8px;">
+                                                                    <img class="riwayat-tools" src="{{ asset('template/frontend/assets/umum/umum.png') }}">
+                                                                    <img class="riwayat-tools" src="{{ asset('template/frontend/assets/umum/sertifikat.png') }}">
+                                                                    <img class="riwayat-tools" src="{{ asset('template/frontend/assets/umum/piagam.png') }}">
+                                                                    <img class="riwayat-tools" src="{{ asset('template/frontend/assets/umum/bahas.png') }}">
+                                                                    <img class="riwayat-tools" src="{{ asset('template/frontend/assets/umum/email.png') }}">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="vertical-timeline-item vertical-timeline-element">
-                                                <div>
-                                                    <span class="vertical-timeline-element-icon bounce-in">
-                                                        <i class="badge badge-dot badge-dot-xl badge-primary"> </i>
-                                                    </span>
-                                                    <div class="vertical-timeline-element-content bounce-in">
-                                                        <h4 class="timeline-title text-success">Discussion with marketing
-                                                            team</h4>
-                                                        <p>Discussion with marketing team about the popularity of last
-                                                            product</p>
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="vertical-timeline-item vertical-timeline-element">
-                                                <div>
-                                                    <span class="vertical-timeline-element-icon bounce-in">
-                                                        <i class="badge badge-dot badge-dot-xl badge-success"> </i>
-                                                    </span>
-                                                    <div class="vertical-timeline-element-content bounce-in">
-                                                        <h4 class="timeline-title">Purchase new hosting plan</h4>
-                                                        <p>Purchase new hosting plan as discussed with development team,
-                                                            today at <a href="javascript:void(0);" data-abc="true">10:00
-                                                                AM</a></p>
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
+                                            @endforeach
+
 
 
 
@@ -82,14 +67,15 @@
                                     </div>
                                 </div>
 
-                            </div>
                         </div>
+                        @endforeach
                     </div>
-
                 </div>
+
             </div>
-            <div style="margin-top:50px;"></div>
         </div>
+        <div style="margin-top:50px;"></div>
+    </div>
     </div>
     <!-- Blog End -->
 @endsection

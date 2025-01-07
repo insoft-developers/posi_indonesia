@@ -559,6 +559,39 @@
         margin-bottom: 14px;
     }
 
+    .timeline-title {
+        font-size: 16px !important;
+        text-transform: capitalize !important;
+        margin-bottom: 0px !important;
+        position: relative;
+        top: -3px;
+    }
+
+    .timeline-subtitle {
+        font-size: 13px;
+        margin-top: -4px;
+    }
+
+    .riwayat-tools {
+
+        width: 36px;
+        border: 2px solid whitesmoke;
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 12px;
+        margin-top: -12px;
+        margin-left: 6px;
+    }
+
+    .riwayat-tools:hover {
+        background: lightblue;
+        border: 2px solid orange;
+    }
+
+    .timeline-icons {
+        font-size: 14px !important;
+    }
+
     /*
     .page-banner {
         background-color: white !important;
@@ -576,13 +609,12 @@
     } */
 </style>
 
-@if($view == 'main'|| $view == 'jadwal')
-<style>
-    body {
+@if ($view == 'main' || $view == 'jadwal')
+    <style>
+        body {
             background-color: #fbf9ff;
         }
-</style>
-
+    </style>
 @endif
 
 @if ($view == 'jadwal')
@@ -659,12 +691,21 @@
 
         .vertical-timeline-element {
             position: relative;
-            margin: 0 0 1rem;
+            margin: -12px 0 0 0px;
         }
 
         .vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
             visibility: visible;
             animation: cd-bounce-1 .8s;
+
+            border: 3px solid #e9ecef;
+            padding: 5px;
+            border-radius: 23px;
+            line-height: 10px;
+            margin-left: -6px;
+            margin-top: -5px;
+            background: #e83435;
+            color: white;
         }
 
         .vertical-timeline-element-icon {

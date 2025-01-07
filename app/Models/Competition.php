@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Competition extends Model
 {
@@ -26,5 +27,10 @@ class Competition extends Model
     public function study() : hasMany
     {
         return $this->hasMany(Study::class, 'competition_id', 'id');
+    }
+
+    public function sessions() : HasONe
+    {
+        return $this->HasONe(ExamSession::class, 'competition_id', 'id');
     }
 }
