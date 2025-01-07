@@ -181,7 +181,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="call-to-action-btn">
-                            <a class="btn btn-primary btn-hover-dark" href="contact.html">Daftar Sekarang Juga</a>
+                            <a class="btn btn-primary btn-hover-dark" href="{{ url('register') }}">Daftar Sekarang Juga</a>
                         </div>
                     </div>
                 </div>

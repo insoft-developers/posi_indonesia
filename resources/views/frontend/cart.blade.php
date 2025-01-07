@@ -15,7 +15,7 @@
         <div class="section-padding-02 mt-n10">
             <div class="container">
                 <div class="section-title shape-03 text-center">
-                    <h2 class="main-title">Cart</h2>
+                    <h2 class="main-judul">Cart</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

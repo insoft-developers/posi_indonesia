@@ -22,4 +22,9 @@ class Competition extends Model
     {
         return $this->hasMany(Transaction::class, 'competition_id','id');
     }
+
+    public function study() : hasMany
+    {
+        return $this->hasMany(Study::class, 'competition_id', 'id');
+    }
 }

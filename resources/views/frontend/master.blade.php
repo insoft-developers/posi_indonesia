@@ -370,11 +370,15 @@
 
                                 <ul class="widget-info">
                                     <li>
-                                        <p> <i class="flaticon-email"></i> <a
+                                        <p> <i class="icofont-email pos-icon"></i> <a
                                                 href="mailto:address@gmail.com">info@posi.id</a> </p>
                                     </li>
                                     <li>
-                                        <p> <i class="flaticon-phone-call"></i> <a
+                                        <p> <i class="icofont-ui-dial-phone pos-icon"></i> <a
+                                                href="tel:9702621413">0852-7622-2453</a> </p>
+                                    </li>
+                                    <li>
+                                        <p> <i class="icofont-whatsapp pos-icon"></i> <a
                                                 href="tel:9702621413">0852-7622-2453</a> </p>
                                     </li>
                                 </ul>
@@ -434,11 +438,13 @@
                                 <h4 class="footer-widget-title">Kontak Kami</h4>
 
                                 <div class="widget-subscribe">
-                                    <p>Masukkan Email Anda</p>
+                                    <p>Masukkan no. Whatsapp dan Email Anda</p>
 
                                     <div class="widget-form">
                                         <form action="#">
-                                            <input type="text" placeholder="Email here">
+                                            <input type="text" placeholder="Masukkan No. Whatsapp">
+                                            <div style="margin-top: 10px"></div>
+                                            <input type="text" placeholder="Masukkan emal anda">
                                             <button class="btn btn-primary btn-hover-dark">Kirim</button>
                                         </form>
                                     </div>

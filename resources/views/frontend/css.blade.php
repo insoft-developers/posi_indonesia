@@ -323,10 +323,12 @@
     .jadwal-image {
         height: 150px;
         border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 10px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 0px;
         border-bottom-right-radius: 96px;
-        border: 5px solid whitesmoke;
+
+        margin-left: -14px;
+        margin-top: -15px;
     }
 
     .jadwal-title {
@@ -485,12 +487,96 @@
         left: 7%;
         right: auto;
     }
+
+    .main-judul {
+        margin-bottom: -28px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 22px;
+        color: #2a3049;
+        text-decoration: underline;
+    }
+
+    .img-pengumuman {
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 128px;
+        height: auto;
+        position: relative;
+        margin: -15px !important;
+        width: 360px;
+    }
+
+    .box-pengumuman {
+        background-image: url("{{ asset('template/frontend/assets/umum/bgaja.png') }}");
+        background-position: right center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .study-item {
+        margin-bottom: 5px;
+        margin-left: 0px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .study-item:hover {
+        text-decoration: underline;
+
+    }
+
+    .bagian-dua {
+        padding: 10px 50px;
+    }
+
+    .pos-icon{
+        margin-top:7px;
+    }
+
+     .single-blog {
+        background-color: white !important;
+    }
+
+    .register-login-images {
+        background: white;
+    border-radius: 110px;
+    padding: 25px 71px;
+    }
+    /*
+    .page-banner {
+        background-color: white !important;  
+    }
+    .footer-section,  .slider-section, .call-to-action-wrapper, .brand-logo-wrapper, .single-work {
+        background-color: #fbf9ff !important;
+    }
+    .download-section {
+        background-color:  grey !important;
+    }
+
+    .btn-primary {
+        color: white;
+        background:  #2a3049;
+    } */
+  
 </style>
 
 @if ($view == 'jadwal')
     <style>
         .single-blog {
             padding: 15px !important;
+        }
+    </style>
+@endif
+
+
+@if ($view == 'transaction')
+    <style>
+        .dt-length {
+            display: none;
         }
     </style>
 @endif

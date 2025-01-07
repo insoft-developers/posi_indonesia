@@ -14,8 +14,8 @@
 
         <div class="section-padding-02 mt-n10">
             <div class="container">
-                <div class="section-title shape-03 text-center">
-                    <h2 class="main-title">Daftar Transaksi</h2>
+                <div class="section-title shape-03">
+                    <h2 class="main-judul">Daftar Transaksi</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

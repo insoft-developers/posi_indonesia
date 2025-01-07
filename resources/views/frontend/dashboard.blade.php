@@ -17,7 +17,7 @@
                 <h4 class="sub-title">Pusat Olimpiade Sains Indonesia (POSI)</h4>
                 <h2 class="main-title">Platform Kompetisi Olimpiade <span> Sains Terbaik</span></h2>
                 <p>Penyelenggara event ilmu pengetahuan terbesar di Indonesia.</p>
-                <a class="btn btn-primary btn-hover-dark" href="#">Daftar Sekarang</a>
+                <a class="btn btn-primary btn-hover-dark" href="{{ url('register') }}">Daftar Sekarang</a>
             </div>
             <!-- Slider Content End -->
 
@@ -2049,7 +2049,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="call-to-action-btn">
-                            <a class="btn btn-primary btn-hover-dark" href="contact.html">Daftar Sekarang Juga</a>
+                            <a class="btn btn-primary btn-hover-dark" href="{{ url('register') }}">Daftar Sekarang Juga</a>
                         </div>
                     </div>
                 </div>

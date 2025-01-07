@@ -30,11 +30,14 @@ class JadwalController extends Controller
             
         $data =  $query->get();
 
-        
+        $sekarang = date('Y-m-d');
+        $umum = Competition::with('study.pelajaran')->where('is_active', 1)
+            ->where('date', '<', $sekarang)
+            ->get();
 
-       
-        
 
-        return view('frontend.jadwal', compact('view','data'));
+        return view('frontend.jadwal', compact('view','data','umum'));
     }
+
 }
+    

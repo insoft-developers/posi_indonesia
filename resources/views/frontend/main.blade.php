@@ -64,8 +64,8 @@
     <!-- Blog Start -->
     <div class="section section-padding mt-n10">
         <div class="container">
-            <div class="section-title shape-03 text-center">
-                <h2 class="main-title">Kompetisi Online</h2>
+            <div class="section-title shape-03">
+                <h2 class="main-judul">Kompetisi Online</h2>
             </div>
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
