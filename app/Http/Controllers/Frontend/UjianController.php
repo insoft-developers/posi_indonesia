@@ -15,30 +15,31 @@ class UjianController extends Controller
     public function index($token)
     {
         $view = 'ujian';
-        $session = ExamSession::with('competition','study.pelajaran')->where('token', $token)->first();
+        $session = ExamSession::with('competition', 'study.pelajaran')->where('token', $token)->first();
+
+        if($session->is_finish == 1) {
+            return redirect()->to('jadwal');
+        }
+
         $soal = Ujian::where('competition_id', $session->competition_id)
-            ->where('study_id', $session->study_id)->get();
+            ->where('study_id', $session->study_id)
+            ->get();
         $exists = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[session('nomor') ?? 0]->id);
 
-        if($exists->count() > 0) {
+        if ($exists->count() > 0) {
             $ada = 1;
             $exist = $exists->first();
-            if($exist->jawaban_soal == 'a') {
+            if ($exist->jawaban_soal == 'a') {
                 $selected = 1;
-            }
-            else if($exist->jawaban_soal == 'b') {
+            } elseif ($exist->jawaban_soal == 'b') {
                 $selected = 2;
-            }
-            else if($exist->jawaban_soal == 'c') {
+            } elseif ($exist->jawaban_soal == 'c') {
                 $selected = 3;
-            }
-            else if($exist->jawaban_soal == 'd') {
+            } elseif ($exist->jawaban_soal == 'd') {
                 $selected = 4;
-            }
-            else if($exist->jawaban_soal == 'e') {
+            } elseif ($exist->jawaban_soal == 'e') {
                 $selected = 5;
-            }
-            else if($exist->jawaban_soal == 'f') {
+            } elseif ($exist->jawaban_soal == 'f') {
                 $selected = 6;
             }
         } else {
@@ -47,7 +48,7 @@ class UjianController extends Controller
             $selected = 0;
         }
 
-        return view('frontend.ujian', compact('view','session','soal','exist','selected','ada'));
+        return view('frontend.ujian', compact('view', 'session', 'soal', 'exist', 'selected', 'ada'));
     }
 
     public function ujian_start(Request $request)
@@ -66,71 +67,78 @@ class UjianController extends Controller
                 'competition_id' => $transaction->competition_id,
                 'study_id' => $transaction->study_id,
                 'userid' => Auth::user()->id,
-                'token' => $token
+                'token' => $token,
             ];
 
             $cek = ExamSession::where('transaction_id', $input['id'])->where('userid', Auth::user()->id);
-            if($cek->count()>0) {
-               ExamSession::where('transaction_id', $input['id'])->where('userid', Auth::user()->id)
-                ->update($data_input);
+            if ($cek->count() > 0) {
+                ExamSession::where('transaction_id', $input['id'])
+                    ->where('userid', Auth::user()->id)
+                    ->update($data_input);
             } else {
                 ExamSession::create($data_input);
             }
             return response()->json([
-                "success" => true,
-                "message" => "success",
-                "data" => $token
+                'success' => true,
+                'message' => 'success',
+                'data' => $token,
             ]);
-        } catch ( \Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         }
     }
 
-
-    public function simpan_jawaban(Request $request) {
+    public function simpan_jawaban(Request $request)
+    {
         $input = $request->all();
-        $session = ExamSession::with('competition','study.pelajaran')->where('token', $input['token_id'])->first();
+
+        $session = ExamSession::with('competition', 'study.pelajaran')
+            ->where('token', $input['token_id'])
+            ->first();
         $soal = Ujian::where('competition_id', $session->competition_id)
-            ->where('study_id', $session->study_id)->get();
-
-        $exist = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[$input['active']+1]->id);
-        if($exist->count() > 0) {
-            $ada = 1;
-            $exists = $exist->first();
-        } else {
-            $ada = 0;
-            $exists = [];
-        }
-
+            ->where('study_id', $session->study_id)
+            ->get();
 
         $jumlah_soal = $soal->count();
         $variabel = $jumlah_soal - 1;
 
+        if ($variabel == $input['active']) {
+        } else {
+            $exist = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[$input['active'] + 1]->id);
+            if ($exist->count() > 0) {
+                $ada = 1;
+                $exists = $exist->first();
+            } else {
+                $ada = 0;
+                $exists = [];
+            }
+        }
+
         $jawaban = $input['selected_answer'];
-        if($jawaban == 1) {
+        if ($jawaban == 1) {
             $pilihan = 'a';
-        } else if($jawaban == 2) {
+        } elseif ($jawaban == 2) {
             $pilihan = 'b';
-        } else if($jawaban == 3) {
+        } elseif ($jawaban == 3) {
             $pilihan = 'c';
-        }else if($jawaban == 4) {
+        } elseif ($jawaban == 4) {
             $pilihan = 'd';
-        }else if($jawaban == 5) {
+        } elseif ($jawaban == 5) {
             $pilihan = 'e';
-        }else if($jawaban == 6) {
+        } elseif ($jawaban == 6) {
             $pilihan = 'f';
         }
 
         $soal_terpilih = $soal[$input['active']];
 
-        if($pilihan == 'f') {
+        if ($pilihan == 'f') {
             $hasil = 'lewat';
             $score = $soal_terpilih->score_lewat;
         } else {
-            if($pilihan == $soal_terpilih->answer_key) {
+            if ($pilihan == $soal_terpilih->answer_key) {
                 $hasil = 'Benar';
                 $score = $soal_terpilih->score_benar;
             } else {
@@ -140,44 +148,52 @@ class UjianController extends Controller
         }
 
         $data_insert = [
-            "session_id" => $session->id,
-            "id_soal" => $input['id_soal'],
-            "nomor_soal" => $input['no_soal'],
-            "jawaban_soal" => $pilihan,
-            "hasil_jawaban" => $hasil,
-            "score" => $score
+            'session_id' => $session->id,
+            'id_soal' => $input['id_soal'],
+            'nomor_soal' => $input['no_soal'],
+            'jawaban_soal' => $pilihan,
+            'hasil_jawaban' => $hasil,
+            'score' => $score,
         ];
 
-        UserAnswer::updateOrCreate(['session_id'=> $session->id, 'id_soal'=> $input['id_soal']], $data_insert);
+        UserAnswer::updateOrCreate(['session_id' => $session->id, 'id_soal' => $input['id_soal']], $data_insert);
 
-
-        if((int)$input['active'] < (int)$variabel) {
+        if ((int) $input['active'] < (int) $variabel) {
             $active = $input['active'] + 1;
-            session(['nomor'=> $active]);
+            session(['nomor' => $active]);
         } else {
             $active = $input['active'];
-            session(['nomor'=> $active]);
+            session(['nomor' => $active]);
         }
-        
 
-        return response()->json([
-            "success" => true,
-            "data" => $soal,
-            "active" => $active,
-            "ada" => $ada,
-            "exist" => $exists
-            
-        ]);
+        if ($variabel == $input['active']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ini adalah soal terakhir',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'data' => $soal,
+                'active' => $active,
+                'ada' => $ada,
+                'exist' => $exists,
+            ]);
+        }
     }
 
-    public function jawaban_sebelumnya(Request $request) {
+    public function jawaban_sebelumnya(Request $request)
+    {
         $input = $request->all();
-        $session = ExamSession::with('competition','study.pelajaran')->where('token', $input['token_id'])->first();
+        $session = ExamSession::with('competition', 'study.pelajaran')
+            ->where('token', $input['token_id'])
+            ->first();
         $soal = Ujian::where('competition_id', $session->competition_id)
-            ->where('study_id', $session->study_id)->get();
+            ->where('study_id', $session->study_id)
+            ->get();
 
-        $exist = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[$input['active']-1]->id);
-        if($exist->count() > 0) {
+        $exist = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[$input['active'] - 1]->id);
+        if ($exist->count() > 0) {
             $ada = 1;
             $exists = $exist->first();
         } else {
@@ -185,44 +201,44 @@ class UjianController extends Controller
             $exists = [];
         }
 
-        if((int)$input['active'] > 0 ) {
+        if ((int) $input['active'] > 0) {
             $active = $input['active'] - 1;
-            session(['nomor'=> $active]);
+            session(['nomor' => $active]);
         } else {
             $active = 0;
-            session(['nomor'=>0]);
+            session(['nomor' => 0]);
         }
-        
 
         return response()->json([
-            "success" => true,
-            "data" => $soal,
-            "active" => $active,
-            "exist" => $exists,
-            "ada" => $ada
-            
+            'success' => true,
+            'data' => $soal,
+            'active' => $active,
+            'exist' => $exists,
+            'ada' => $ada,
         ]);
     }
 
-
-    public function ujian_selesai() {
+    public function ujian_selesai()
+    {
         $view = 'ujian-selesai';
         session()->forget('nomor');
         return view('frontend.ujian_selesai', compact('view'));
     }
 
-    public function list_soal(Request $request) {
+    public function list_soal(Request $request)
+    {
         $input = $request->all();
-        
-        $session = ExamSession::with('competition','study.pelajaran')->where('token', $input['token_id'])->first();
+
+        $session = ExamSession::with('competition', 'study.pelajaran')
+            ->where('token', $input['token_id'])
+            ->first();
         $soal = Ujian::where('competition_id', $session->competition_id)->get();
 
         $rows = [];
 
-        foreach($soal as $indeks => $s) {
-            $cek = UserAnswer::where('session_id', $session->id)
-                ->where('id_soal', $s->id);
-            if($cek->count() > 0 ) {
+        foreach ($soal as $indeks => $s) {
+            $cek = UserAnswer::where('session_id', $session->id)->where('id_soal', $s->id);
+            if ($cek->count() > 0) {
                 $row['exist'] = 1;
             } else {
                 $row['exist'] = 0;
@@ -234,19 +250,23 @@ class UjianController extends Controller
         }
 
         return response()->json([
-            "success" => true,
-            "data" => $rows
+            'success' => true,
+            'data' => $rows,
         ]);
     }
 
-    public function goto(Request $request) {
+    public function goto(Request $request)
+    {
         $input = $request->all();
-        $session = ExamSession::with('competition','study.pelajaran')->where('token', $input['token_id'])->first();
+        $session = ExamSession::with('competition', 'study.pelajaran')
+            ->where('token', $input['token_id'])
+            ->first();
         $soal = Ujian::where('competition_id', $session->competition_id)
-            ->where('study_id', $session->study_id)->get();
+            ->where('study_id', $session->study_id)
+            ->get();
 
         $exist = UserAnswer::where('session_id', $session->id)->where('id_soal', $soal[$input['active']]->id);
-        if($exist->count() > 0) {
+        if ($exist->count() > 0) {
             $ada = 1;
             $exists = $exist->first();
         } else {
@@ -254,19 +274,30 @@ class UjianController extends Controller
             $exists = [];
         }
 
-        
-            $active = $input['active'];
-            session(['nomor'=> $active]);
-       
-        
+        $active = $input['active'];
+        session(['nomor' => $active]);
 
         return response()->json([
-            "success" => true,
-            "data" => $soal,
-            "active" => $active,
-            "exist" => $exists,
-            "ada" => $ada
-            
+            'success' => true,
+            'data' => $soal,
+            'active' => $active,
+            'exist' => $exists,
+            'ada' => $ada,
+        ]);
+    }
+
+    public function selesai_ujian(Request $request) {
+        $input = $request->all();
+        $token = uniqid();
+        $new_token = SHA1($token);
+
+        $session = ExamSession::where('token', $input['token_id'])->first();
+        $session->is_finish = 1;
+        $session->token = $new_token;
+        $session->save();
+
+        return response()->json([
+            "success" => true
         ]);
     }
 }

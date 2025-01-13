@@ -108,6 +108,22 @@
 
                                                 @foreach ($d->transaction as $index => $t)
                                                     @php
+                                                        $session = \App\Models\ExamSession::where(
+                                                            'competition_id',
+                                                            $t->competition_id,
+                                                        )
+                                                            ->where('study_id', $t->study_id)
+                                                            ->where('userid', Auth::user()->id);
+                                                        if ($session->count() > 0) {
+                                                            $sess = $session->first();
+                                                            if ($sess->is_finish == 1) {
+                                                                $selesai = 1;
+                                                            } else {
+                                                                $selesai = 0;
+                                                            }
+                                                        } else {
+                                                            $selesai = 0;
+                                                        }
                                                         $nomor++;
                                                     @endphp
                                                     <div> <i class="icofont-calendar"></i> {{ $t->study->pelajaran->name }}
@@ -119,20 +135,31 @@
                                                         <div class="row">
                                                             <div style="color: #0fa4c9;" class="col-lg-6 col-md-6">
                                                                 <strong><i class="icofont-telegram"></i><a
-                                                                        href="#">Link Group</a></strong></div>
+                                                                        href="#">Link Group</a></strong>
+                                                            </div>
+                                                            @if($selesai == 1) 
+                                                            <div style="color:green" class="col-lg-6 col-md-6">
+                                                                <strong><i class="fa fa-check"></i> <span>Ujian Selesai</span></strong>
+                                                            </div>
+                                                            @else
                                                             <div style="color: #ce0404;" class="col-lg-6 col-md-6">
                                                                 <strong><i class="icofont-clock-time"></i> <span
                                                                         id="countdown_{{ $nomor }}"></span></strong>
                                                             </div>
+
+                                                            @endif
                                                             <input type="hidden" id="tanggal_{{ $nomor }}"
                                                                 value="{{ $d->date }}">
                                                             <input type="hidden" id="jam_{{ $nomor }}"
                                                                 value="{{ $t->study->start_time }}">
                                                             <input type="hidden" id="selesai_{{ $nomor }}"
                                                                 value="{{ $t->study->finish_time }}">
-                                                            <p onclick="ikut_ujian({{ $t->id }})"
-                                                                style="display: none;" class="button-ujian"
-                                                                id="tombol_ujian_{{ $nomor }}">Mulai Ujian</p>
+                                                            @if ($selesai == 1)
+                                                            @else
+                                                                <p onclick="ikut_ujian({{ $t->id }})"
+                                                                    style="display: none;" class="button-ujian"
+                                                                    id="tombol_ujian_{{ $nomor }}">Mulai Ujian</p>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="minus-15"></div>
@@ -171,38 +198,39 @@
                 <h2 class="main-judul">Pengumuman Hasil Kompetisi</h2>
             </div>
             <div class="blog-wrapper">
-                
-               
-                <div class="row">
-                    @foreach($umum as $um)
-                
-                    <div class="col-lg-12 col-md-12 col-sm-12">
 
-                        <!-- Single Blog Start -->
-                        <div class="single-blog box-pengumuman">
-                           <div class="row">
-                            <div class="col-md-4"><img class="img-pengumuman" src="{{ asset('template/frontend/assets/kompetisi/'.$um->image) }}"></div>
-                            <div class="col-md-8 bagian-dua">
+
+                <div class="row">
+                    @foreach ($umum as $um)
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                            <!-- Single Blog Start -->
+                            <div class="single-blog box-pengumuman">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
-                                        <div class="subtitle-pengumuman">{{ $um->levels->level_name }}</div>
+                                    <div class="col-md-4"><img class="img-pengumuman"
+                                            src="{{ asset('template/frontend/assets/kompetisi/' . $um->image) }}"></div>
+                                    <div class="col-md-8 bagian-dua">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
+                                                <div class="subtitle-pengumuman">{{ $um->levels->level_name }}</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:-25px"></div>
+                                        <hr />
+                                        <div class="row">
+                                            @foreach ($um->study as $s)
+                                                <div class="col-md-4 study-item"><i class="icofont-notification"></i>
+                                                    {{ $s->pelajaran->name }}</div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="margin-top:-25px"></div>
-                                <hr />
-                                <div class="row">
-                                     @foreach($um->study as $s)
-                                    <div class="col-md-4 study-item"><i class="icofont-notification"></i> {{ $s->pelajaran->name }}</div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            </div> 
-                           
-                        </div>
-                        <!-- Single Blog End -->
 
-                    </div>
+                            </div>
+                            <!-- Single Blog End -->
+
+                        </div>
                     @endforeach
                 </div>
             </div>

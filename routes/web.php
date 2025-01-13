@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function () {
     Route::get('ujian-selesai', [UjianController::class, 'ujian_selesai']);
     Route::post('list-soal', [UjianController::class, 'list_soal'])->name('list.soal');
     Route::post('goto', [UjianController::class, 'goto'])->name('go.to');
+    Route::post('selesai_ujian', [UjianController::class, 'selesai_ujian']);
 
     Route::get('riwayat', [RiwayatController::class, 'index']);
 });

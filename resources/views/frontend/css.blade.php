@@ -355,13 +355,29 @@
         font-weight: bold;
     }
 
+    .button-selesai {
+        background: red;
+        width: 136px;
+        color: white;
+        font-size: 12px;
+        padding: 6px 10px 6px 10px;
+        border-radius: 25px;
+        text-align: center;
+        margin-top: 12px;
+        margin-left: 18px;
+        cursor: pointer;
+        border: 2px solid red;
+        font-weight: bold;
+    }
+
     .waktu-ujian {
         font-weight: bold;
         font-size: 30px;
-        color: white;
-        background: red;
+        color: red;
+        /* background: red; */
         padding: 0px 46px;
-        border-radius: 6px;
+        border-radius: 42px;
+        border: 2px solid red;
     }
 
     .no-soal {
@@ -414,7 +430,7 @@
 
     .soal-title {
         font-weight: bold;
-        font-size: 21px;
+        font-size: 17px;
         line-height: 32px;
         text-align: justify;
     }

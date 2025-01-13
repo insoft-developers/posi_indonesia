@@ -91,12 +91,8 @@
                                     @endif
 
 
-                                    @if ($ada == 1 && $exist->jawaban_soal == 'f')
-                                        <div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">
-                                            LEWATI</div>
-                                    @else
-                                        <div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>
-                                    @endif
+                                        <div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>
+                                    
                                 </div>
                             </div>
 

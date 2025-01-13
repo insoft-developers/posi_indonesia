@@ -816,11 +816,7 @@
             }
 
             var jumlah_soal = $("#jumlah-soal").val();
-            // if(active == jumlah_soal - 1 ) {
-            //     alert('Ini adalah soal terakhir.');
-            //     return false;
-            // }
-
+            
 
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var competition_id = $("#competition-id").val();
@@ -926,14 +922,10 @@
                                 .data[av].option_d + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
-                            selected_answer = 6;
+                       
                             HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        }
+                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        
 
                         HTML += '</div>';
                         HTML += '</div>';
@@ -950,6 +942,153 @@
 
                         $("#soal-container").html(HTML);
                         active = av;
+                    } else {
+                        var p = confirm(
+                            'Ini adalah soal terakhir dalam ujian ini, apakah Anda ingin menyelesaikan ujian ini....?'
+                            );
+                        if (p === true) {
+                            finish_ujian();
+                        }
+                    }
+
+
+                }
+            })
+        }
+
+
+
+
+        function lewati_soal() {
+
+
+            var jumlah_soal = $("#jumlah-soal").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var competition_id = $("#competition-id").val();
+            var study_id = $("#study-id").val();
+            var no_soal = $("#no-soal").val();
+            var id_soal = $("#id-soal").val();
+            var token_id = $("#token-id").val();
+            $.ajax({
+                url: "{{ route('simpan.jawaban') }}",
+                type: "POST",
+                data: {
+                    "competition_id": competition_id,
+                    "study_id": study_id,
+                    "no_soal": no_soal,
+                    "id_soal": id_soal,
+                    "selected_answer": 6,
+                    "active": active,
+                    "token_id": token_id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+
+                    if (data.success) {
+                        var av = data.active;
+                        var HTML = '';
+                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="soal-wrapper">';
+                        HTML +=
+                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+                        HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
+                            jumlah_soal + '</p>';
+                        HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
+                            '">';
+                        HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
+                        HTML += '</div>';
+                        HTML += '<div class="jawaban-wrapper">';
+                        HTML += '<p class="pilih-jawaban">Pilih Salah Satu Jawaban :</p>';
+                        HTML += '<div class="row">';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada === 0) {
+                            selected_answer = 0;
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
+                            selected_answer = 1;
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
+                                data.data[av].option_a + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
+                                .data[av].option_a + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
+                                data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
+                                .data[av].option_c + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
+                                data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
+                                .data[av].option_e + '</div>';
+                        }
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
+                            selected_answer = 2;
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                data.data[av].option_b + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                .data[av].option_b + '</div>';
+                        }
+
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
+                            selected_answer = 4;
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                data.data[av].option_d + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                .data[av].option_d + '</div>';
+                        }
+
+                    
+                            HTML +=
+                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+
+                        HTML += '</div>';
+                        HTML += '<hr />';
+                        HTML +=
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
+                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
+                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                        HTML += '<div style="margin-top:150px;"></div>';
+                        HTML += '</div>';
+
+                        $("#soal-container").html(HTML);
+                        active = av;
+                    } else {
+                        selesai_ujian();
                     }
 
 
@@ -1065,14 +1204,10 @@
                                 .data[av].option_d + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
-                            selected_answer = 6;
+                     
                             HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        }
+                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        
 
 
 
@@ -1247,10 +1382,10 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
                             selected_answer = 6;
                             HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
+                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(6)" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
                         }
 
 
@@ -1274,6 +1409,37 @@
 
                 }
             })
+        }
+
+
+        function selesai_ujian() {
+            var p = confirm("Apakah anda ingin menyelesaikan ujian ini...?");
+            if(p=== true) {
+                finish_ujian();
+            }
+        }
+
+
+
+        function finish_ujian() {
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var token_id = $("#token-id").val();
+
+            $.ajax({
+                url: "{{ url('selesai_ujian') }}",
+                type: "POST",
+                data: {
+                    "token_id":token_id,
+                    "_token":csrf_token
+                },
+                success: function(data) {
+                    if(data.success) {
+                        window.location = "{{ url('ujian-selesai') }}";
+                    }
+                   
+                }
+            });
         }
     </script>
 @endif

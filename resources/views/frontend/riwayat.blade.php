@@ -20,8 +20,8 @@
 
                 <div style="margin-top:30px;"></div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row d-flex">
+                  
+                       
 
                             @foreach ($com as $c)
                                 <div class="col-md-4">
@@ -67,9 +67,9 @@
                                     </div>
                                 </div>
 
-                        </div>
+                       
                         @endforeach
-                    </div>
+                    
                 </div>
 
             </div>
