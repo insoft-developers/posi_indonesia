@@ -126,7 +126,7 @@
                                                         }
                                                         $nomor++;
                                                     @endphp
-                                                    <div> <i class="icofont-calendar"></i> {{ $t->study->pelajaran->name }}
+                                                    <div> <img class="icon-utama" src="{{ asset('template/frontend/assets/umum/icon_buku.png') }}"><span style="color: #53b8ed;font-weight:bold;"> {{ $t->study->pelajaran->name }}</span>
                                                     </div>
                                                     <div class="sub-info"> {{ date('d F Y', strtotime($d->date)) }} -
                                                         {{ date('H:i', strtotime($t->study->start_time)) }} s/d
@@ -134,7 +134,7 @@
                                                     <div class="sub-info">
                                                         <div class="row">
                                                             <div style="color: #0fa4c9;" class="col-lg-6 col-md-6">
-                                                                <strong><i class="icofont-telegram"></i><a
+                                                                <strong><img class="icon-telegram" src="{{ asset('template/frontend/assets/umum/icon_telegram.png') }}"><a
                                                                         href="#">Link Group</a></strong>
                                                             </div>
                                                             @if($selesai == 1) 
@@ -143,7 +143,7 @@
                                                             </div>
                                                             @else
                                                             <div style="color: #ce0404;" class="col-lg-6 col-md-6">
-                                                                <strong><i class="icofont-clock-time"></i> <span
+                                                                <strong><img class="icon-telegram" src="{{ asset('template/frontend/assets/umum/icon_jam.png') }}"><span
                                                                         id="countdown_{{ $nomor }}"></span></strong>
                                                             </div>
 
@@ -220,7 +220,7 @@
                                         <hr />
                                         <div class="row">
                                             @foreach ($um->study as $s)
-                                                <div class="col-md-4 study-item"><i class="icofont-notification"></i>
+                                                <div class="col-md-4 study-item"><img class="icon-n" src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
                                                     {{ $s->pelajaran->name }}</div>
                                             @endforeach
                                         </div>

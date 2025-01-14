@@ -337,7 +337,8 @@
     }
 
     .sub-info {
-        font-size: 14px;
+        font-size: 13px;
+        margin-top: 6px;
     }
 
     .button-ujian {
@@ -590,39 +591,69 @@
 
     .riwayat-tools {
 
-        width: 36px;
+
         border: 2px solid whitesmoke;
         padding: 5px;
+        border-radius: 37px;
+
+        margin-top: 6px;
         cursor: pointer;
-        border-radius: 12px;
-        margin-top: -12px;
-        margin-left: 6px;
+
+
     }
+
+    .riwayat-tools-image {
+        width: 26px;
+        height: 26px;
+        margin-right: 12px;
+        border: 2px solid #3bbdc7;
+        border-radius: 13px;
+        padding: 4px;
+        cursor: pointer;
+        
+    }
+
+    .riwayat-text {}
 
     .riwayat-tools:hover {
         background: lightblue;
         border: 2px solid orange;
     }
 
+
+
+    .icon-telegram {
+        width: 20px;
+
+        border-radius: 13px;
+        padding: 2px;
+        margin-right: 5px;
+        margin-top: -3px;
+    }
+
+    .icon-utama {
+        width: 30px;
+        border-radius: 17px;
+        padding: 4px;
+        margin-top: -3px;
+        border: 2px solid #53b8ed;
+    }
+
+    .icon-n {
+        width: 26px;
+        border-radius: 17px;
+
+        margin-top: -3px;
+
+    }
+
+    .vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
+        background: transparent !important;
+    }
+
     .timeline-icons {
-        font-size: 14px !important;
+        width: 17px;
     }
-
-    /*
-    .page-banner {
-        background-color: white !important;
-    }
-    .footer-section,  .slider-section, .call-to-action-wrapper, .brand-logo-wrapper, .single-work {
-        background-color: #fbf9ff !important;
-    }
-    .download-section {
-        background-color:  grey !important;
-    }
-
-    .btn-primary {
-        color: white;
-        background:  #2a3049;
-    } */
 </style>
 
 @if ($view == 'main' || $view == 'jadwal')
