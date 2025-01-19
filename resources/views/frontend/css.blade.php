@@ -441,9 +441,10 @@
         font-size: 16px;
         background: darkred;
         padding: 7px 20px;
-        border-radius: 17px 29px;
+        border-radius: 29px 29px;
         font-weight: bold;
         color: white;
+        margin-left: 40px;
     }
 
     .btn-sebelumnya-insoft {
@@ -451,8 +452,18 @@
         font-size: 16px;
         background: lightskyblue;
         padding: 7px 20px;
-        border-radius: 29px 17px;
+        border-radius: 17px 17px;
         font-weight: bold;
+    }
+
+    .btn-selanjutnya-insoft {
+        border: 3px solid #68eedb;
+        font-size: 16px;
+        background: #87fa95;
+        padding: 7px 20px;
+        border-radius: 17px 17px;
+        font-weight: bold;
+        margin-left: 15px !important;
     }
 
     .btn-selesai-insoft {
@@ -460,7 +471,7 @@
         font-size: 16px;
         background: greenyellow;
         padding: 7px 20px;
-        border-radius: 29px 17px;
+        border-radius: 17px 17px;
         font-weight: bold;
         float: right;
     }
@@ -474,28 +485,54 @@
 
     .item-number {
         background: white;
-
-        margin: 10px 10px 10px 10px;
-        padding: 10px 10px 10px 10px;
+        margin: 2px;
+        padding: 2px 0px;
         text-align: center;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 11px;
         font-weight: bold;
-        border-radius: 23px;
+        border-radius: 8px;
         border: 2px solid #151824;
     }
 
+    .gambar-soal {
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .gambar-jawaban {
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .item-number:hover {
+        background-color: whitesmoke;
+        transform: scale(1.2);
+    }
+
+    .item-number-active:hover {
+        background-color: orange;
+        color: white;
+        transform: scale(0.8);
+    }
+
+    .nomor-soal-container {
+        position: relative;
+        left: -65px;
+    }
 
     .item-number-active {
         background: #151824;
         color: white;
-        margin: 10px 10px 10px 10px;
-        padding: 10px 10px 10px 10px;
+        margin: 2px;
+        padding: 2px 0px;
         text-align: center;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 11px;
         font-weight: bold;
-        border-radius: 23px;
+        border-radius: 8px;
         border: 2px solid whitesmoke;
     }
 
@@ -594,7 +631,7 @@
 
         border: 2px solid whitesmoke;
         padding: 5px;
-        border-radius: 37px;
+        border-radius: 10px 37px 37px 10px;
 
         margin-top: 6px;
         cursor: pointer;
@@ -606,11 +643,11 @@
         width: 26px;
         height: 26px;
         margin-right: 12px;
-        border: 2px solid #3bbdc7;
+        /* border: 2px solid #3bbdc7; */
         border-radius: 13px;
-        padding: 4px;
+        /* padding: 4px; */
         cursor: pointer;
-        
+
     }
 
     .riwayat-text {}
@@ -632,11 +669,11 @@
     }
 
     .icon-utama {
-        width: 30px;
+        width: 18px;
         border-radius: 17px;
-        padding: 4px;
+        padding: 1px;
         margin-top: -3px;
-        border: 2px solid #53b8ed;
+        /* border: 2px solid #53b8ed; */
     }
 
     .icon-n {
@@ -654,6 +691,8 @@
     .timeline-icons {
         width: 17px;
     }
+
+    #isi-nomor {}
 </style>
 
 @if ($view == 'main' || $view == 'jadwal')

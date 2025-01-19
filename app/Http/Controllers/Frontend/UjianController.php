@@ -237,7 +237,7 @@ class UjianController extends Controller
         $rows = [];
 
         foreach ($soal as $indeks => $s) {
-            $cek = UserAnswer::where('session_id', $session->id)->where('id_soal', $s->id);
+            $cek = UserAnswer::where('session_id', $session->id)->where('id_soal', $s->id)->where('jawaban_soal', '!=', 'f');
             if ($cek->count() > 0) {
                 $row['exist'] = 1;
             } else {

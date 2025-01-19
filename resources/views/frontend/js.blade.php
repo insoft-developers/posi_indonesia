@@ -717,6 +717,7 @@
 
         $(document).ready(function() {
             countdown_ujian();
+            lihat_soal();
         });
 
         function countdown_ujian() {
@@ -816,7 +817,7 @@
             }
 
             var jumlah_soal = $("#jumlah-soal").val();
-            
+
 
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var competition_id = $("#competition-id").val();
@@ -842,15 +843,26 @@
                     if (data.success) {
                         var av = data.active;
                         var HTML = '';
-                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
+                        HTML += '<div id="content-number" class="content-number">';
+                        HTML += '<div class="row" id="isi-nomor">';
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
                         HTML += '<div class="soal-wrapper">';
-                        HTML +=
-                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
                             '">';
                         HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        if (data.data[av].question_image != null) {
+                            HTML += '<img src="{{ asset('storage/image_files/soal') }}/' + data.data[av]
+                                .question_image + '" class="gambar-soal img-responsive">';
+                        }
+
                         HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
                         HTML += '</div>';
                         HTML += '<div class="jawaban-wrapper">';
@@ -865,34 +877,60 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
                             selected_answer = 1;
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
-                                data.data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
-                                .data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
                             selected_answer = 3;
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
-                                data.data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
-                                .data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
                             selected_answer = 5;
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
-                                data.data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
-                                .data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -902,11 +940,21 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' +
                                 data.data[av].option_b + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' + data
                                 .data[av].option_b + '</div>';
                         }
 
@@ -914,18 +962,28 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' +
                                 data.data[av].option_d + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
                         }
 
-                       
-                            HTML +=
-                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        
+
+                        HTML +=
+                            '<div style="display:none;" onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+
 
                         HTML += '</div>';
                         HTML += '</div>';
@@ -934,18 +992,23 @@
                         HTML += '</div>';
                         HTML += '<hr />';
                         HTML +=
-                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
-                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
-                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft"><i class="fa fa-arrow-left"></i> Sebelumnya</button>';
+                        HTML +=
+                            '<button onclick="lewati_soal()" class="btn-selanjutnya-insoft"><i class="fa fa-arrow-right"></i> Selanjutnya</button>';
+                        HTML +=
+                            '<button onclick="simpan_jawaban()" class="btn-simpan-insoft"><i class="fa fa-save"></i> Simpan Jawaban</button>';
+                        HTML +=
+                            '<button onclick="selesai_ujian()" class="btn-selesai-insoft"><i class="fa fa-check"></i> Selesai</button>';
                         HTML += '<div style="margin-top:150px;"></div>';
                         HTML += '</div>';
 
                         $("#soal-container").html(HTML);
                         active = av;
+                        lihat_soal();
                     } else {
                         var p = confirm(
                             'Ini adalah soal terakhir dalam ujian ini, apakah Anda ingin menyelesaikan ujian ini....?'
-                            );
+                        );
                         if (p === true) {
                             finish_ujian();
                         }
@@ -987,15 +1050,26 @@
                     if (data.success) {
                         var av = data.active;
                         var HTML = '';
-                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
+                        HTML += '<div id="content-number" class="content-number">';
+                        HTML += '<div class="row" id="isi-nomor">';
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
                         HTML += '<div class="soal-wrapper">';
-                        HTML +=
-                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
                             '">';
                         HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        if (data.data[av].question_image != null) {
+                            HTML += '<img src="{{ asset('storage/image_files/soal') }}/' + data.data[av]
+                                .question_image + '" class="gambar-soal img-responsive">';
+                        }
                         HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
                         HTML += '</div>';
                         HTML += '<div class="jawaban-wrapper">';
@@ -1010,34 +1084,60 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
                             selected_answer = 1;
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
-                                data.data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
-                                .data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
                             selected_answer = 3;
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
-                                data.data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
-                                .data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
                             selected_answer = 5;
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
-                                data.data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
-                                .data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -1047,11 +1147,21 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' +
                                 data.data[av].option_b + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' + data
                                 .data[av].option_b + '</div>';
                         }
 
@@ -1059,18 +1169,28 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' +
                                 data.data[av].option_d + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
                         }
 
-                    
-                            HTML +=
-                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        
+
+                        HTML +=
+                            '<div style="display:none;" onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+
 
                         HTML += '</div>';
                         HTML += '</div>';
@@ -1079,14 +1199,19 @@
                         HTML += '</div>';
                         HTML += '<hr />';
                         HTML +=
-                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
-                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
-                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft"><i class="fa fa-arrow-left"></i> Sebelumnya</button>';
+                        HTML +=
+                            '<button onclick="lewati_soal()" class="btn-selanjutnya-insoft"><i class="fa fa-arrow-right"></i> Selanjutnya</button>';
+                        HTML +=
+                            '<button onclick="simpan_jawaban()" class="btn-simpan-insoft"><i class="fa fa-save"></i> Simpan Jawaban</button>';
+                        HTML +=
+                            '<button onclick="selesai_ujian()" class="btn-selesai-insoft"><i class="fa fa-check"></i> Selesai</button>';
                         HTML += '<div style="margin-top:150px;"></div>';
                         HTML += '</div>';
 
                         $("#soal-container").html(HTML);
                         active = av;
+                        lihat_soal();
                     } else {
                         selesai_ujian();
                     }
@@ -1124,15 +1249,26 @@
                     if (data.success) {
                         var av = data.active;
                         var HTML = '';
-                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
+                        HTML += '<div id="content-number" class="content-number">';
+                        HTML += '<div class="row" id="isi-nomor">';
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
                         HTML += '<div class="soal-wrapper">';
-                        HTML +=
-                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
                             '">';
                         HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        if (data.data[av].question_image != null) {
+                            HTML += '<img src="{{ asset('storage/image_files/soal') }}/' + data.data[av]
+                                .question_image + '" class="gambar-soal img-responsive">';
+                        }
                         HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
                         HTML += '</div>';
                         HTML += '<div class="jawaban-wrapper">';
@@ -1147,34 +1283,60 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
                             selected_answer = 1;
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
-                                data.data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
-                                .data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
                             selected_answer = 3;
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
-                                data.data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
-                                .data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
                             selected_answer = 5;
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
-                                data.data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
-                                .data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -1184,11 +1346,21 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' +
                                 data.data[av].option_b + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' + data
                                 .data[av].option_b + '</div>';
                         }
 
@@ -1196,18 +1368,28 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' +
                                 data.data[av].option_d + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
                         }
 
-                     
-                            HTML +=
-                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        
+
+                        HTML +=
+                            '<div style="display:none;" onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+
 
 
 
@@ -1218,14 +1400,19 @@
                         HTML += '</div>';
                         HTML += '<hr />';
                         HTML +=
-                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
-                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
-                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft"><i class="fa fa-arrow-left"></i> Sebelumnya</button>';
+                        HTML +=
+                            '<button onclick="lewati_soal()" class="btn-selanjutnya-insoft"><i class="fa fa-arrow-right"></i> Selanjutnya</button>';
+                        HTML +=
+                            '<button onclick="simpan_jawaban()" class="btn-simpan-insoft"><i class="fa fa-save"></i> Simpan Jawaban</button>';
+                        HTML +=
+                            '<button onclick="selesai_ujian()" class="btn-selesai-insoft"><i class="fa fa-check"></i> Selesai</button>';
                         HTML += '<div style="margin-top:150px;"></div>';
                         HTML += '</div>';
 
                         $("#soal-container").html(HTML);
                         active = av;
+                        lihat_soal();
                     }
 
                 }
@@ -1254,10 +1441,12 @@
                 success: function(data) {
                     console.log(data);
                     var HTML = '';
+                    HTML += '<h5>Navigasi Soal</h5>';
                     for (var i = 0; i < data.data.length; i++) {
+                       
                         if (data.data[i].exist === 1) {
                             HTML += '<div onclick="gotos(' + i +
-                                ')" class="item-number-active col-md-2">' + data.data[i]
+                                ')" class="item-number-active col-md-2 col-md-2 col-md-2">' + data.data[i]
                                 .question_number + '</div>';
                         } else {
                             HTML += '<div onclick="gotos(' + i + ')" class="item-number col-md-2">' +
@@ -1267,7 +1456,7 @@
                     }
 
                     $("#isi-nomor").html(HTML);
-                    $("#modal-soal").modal("show");
+                    // $("#modal-soal").modal("show");
                 }
             });
 
@@ -1299,15 +1488,26 @@
                         $("#modal-soal").modal("hide");
                         var av = data.active;
                         var HTML = '';
-                        HTML += '<div class="col-lg-12">';
+                        HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
+                        HTML += '<div id="content-number" class="content-number">';
+                        HTML += '<div class="row" id="isi-nomor">';
+
+                        HTML += '</div>';
+                        HTML += '</div>';
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
                         HTML += '<div class="soal-wrapper">';
-                        HTML +=
-                            '<a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor soal</a>';
+
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
                             '">';
                         HTML += '<input type="hidden" id="id-soal" value="' + data.data[av].id + '">';
+                        if (data.data[av].question_image != null) {
+                            HTML += '<img src="{{ asset('storage/image_files/soal') }}/' + data.data[av]
+                                .question_image + '" class="gambar-soal img-responsive">';
+                        }
                         HTML += '<p class="soal-title">' + data.data[av].question_title + '</p>';
                         HTML += '</div>';
                         HTML += '<div class="jawaban-wrapper">';
@@ -1322,34 +1522,60 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'a') {
                             selected_answer = 1;
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">A. ' +
-                                data.data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">A. ' + data
-                                .data[av].option_a + '</div>';
+                                '<div onclick="selected(1)" id="jawaban-a" class="jawaban-item">';
+                            if (data.data[av].option_image_a != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_a + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
                             selected_answer = 3;
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">C. ' +
-                                data.data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">C. ' + data
-                                .data[av].option_c + '</div>';
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
                         }
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
                             selected_answer = 5;
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">E. ' +
-                                data.data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">E. ' + data
-                                .data[av].option_e + '</div>';
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -1359,11 +1585,21 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">B. ' +
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' +
                                 data.data[av].option_b + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">B. ' + data
+                                '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">';
+                            if (data.data[av].option_image_b != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_b + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'B. ' + data
                                 .data[av].option_b + '</div>';
                         }
 
@@ -1371,22 +1607,32 @@
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">D. ' +
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' +
                                 data.data[av].option_d + '</div>';
                         } else {
                             HTML +=
-                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">D. ' + data
+                                '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">';
+                            if (data.data[av].option_image_d != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_d + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
-                            selected_answer = 6;
-                            HTML +=
-                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
-                        }
+                        // if (data.ada == 1 && data.exist.jawaban_soal == 'f') {
+                        //     selected_answer = 6;
+                        //     HTML +=
+                        //         '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item selected-jawaban">LEWATI</div>';
+                        // } else {
+                        //     HTML +=
+                        //         '<div onclick="lewati_soal()" id="jawaban-f" class="jawaban-item">LEWATI</div>';
+                        // }
 
 
 
@@ -1397,14 +1643,19 @@
                         HTML += '</div>';
                         HTML += '<hr />';
                         HTML +=
-                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft">Sebelumnya</button>';
-                        HTML += '<button onclick="simpan_jawaban()" class="btn-simpan-insoft">Simpan</button>';
-                        HTML += '<button onclick="selesai_ujian()" class="btn-selesai-insoft">Selesai</button>';
+                            '<button onclick="sebelumnya()" class="btn-sebelumnya-insoft"><i class="fa fa-arrow-left"></i> Sebelumnya</button>';
+                        HTML +=
+                            '<button onclick="lewati_soal()" class="btn-selanjutnya-insoft"><i class="fa fa-arrow-right"></i> Selanjutnya</button>';
+                        HTML +=
+                            '<button onclick="simpan_jawaban()" class="btn-simpan-insoft"><i class="fa fa-save"></i> Simpan Jawaban</button>';
+                        HTML +=
+                            '<button onclick="selesai_ujian()" class="btn-selesai-insoft"><i class="fa fa-check"></i> Selesai</button>';
                         HTML += '<div style="margin-top:150px;"></div>';
                         HTML += '</div>';
 
                         $("#soal-container").html(HTML);
                         active = av;
+                        lihat_soal();
                     }
 
                 }
@@ -1414,7 +1665,7 @@
 
         function selesai_ujian() {
             var p = confirm("Apakah anda ingin menyelesaikan ujian ini...?");
-            if(p=== true) {
+            if (p === true) {
                 finish_ujian();
             }
         }
@@ -1430,14 +1681,14 @@
                 url: "{{ url('selesai_ujian') }}",
                 type: "POST",
                 data: {
-                    "token_id":token_id,
-                    "_token":csrf_token
+                    "token_id": token_id,
+                    "_token": csrf_token
                 },
                 success: function(data) {
-                    if(data.success) {
+                    if (data.success) {
                         window.location = "{{ url('ujian-selesai') }}";
                     }
-                   
+
                 }
             });
         }
