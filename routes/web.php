@@ -150,7 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::post('goto', [UjianController::class, 'goto'])->name('go.to');
     Route::post('selesai_ujian', [UjianController::class, 'selesai_ujian']);
 
-    Route::get('riwayat', [RiwayatController::class, 'index']);
+    Route::get('riwayat', [RiwayatController::class, 'index'])->middleware('cdata');
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);

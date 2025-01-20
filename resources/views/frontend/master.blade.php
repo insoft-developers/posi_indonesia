@@ -25,8 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Icon Font CSS -->
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/assets/css/plugins/icofont.min.css">
@@ -167,6 +166,9 @@
                         <!-- Header Sing In & Up Start -->
                         <div class="header-sign-in-up d-none d-lg-block">
                             @if (Auth::check())
+                                @php
+                                    $user = \App\Models\User::findorFail(Auth::user()->id);
+                                @endphp
                                 <ul>
                                     <li>
 
@@ -199,12 +201,21 @@
 
                                     </li>
                                     <li>
-
-                                        <img class="profile-image"
-                                            src="{{ asset('template/frontend') }}/assets/images/author/author-07.jpg"
+                                        @if ($user->user_image == null)
+                                            @if($user->jenis_kelamin == 'Laki Laki')
+                                            <img class="profile-image"
+                                                src="{{ asset('template/frontend/assets/umum/profile2.png') }}"
+                                                alt="Author">
+                                            @else 
+                                            <img class="profile-image"
+                                            src="{{ asset('template/frontend/assets/umum/profile1.png') }}"
                                             alt="Author">
-
-
+                                            @endif
+                                        @else
+                                            <img class="profile-image"
+                                                src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                                alt="Author">
+                                        @endif
 
                                     </li>
                                     <li>
@@ -528,7 +539,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-   
+
 
     @include('frontend.js')
 

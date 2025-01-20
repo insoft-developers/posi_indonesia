@@ -479,6 +479,18 @@
         $("#kecamatan").select2();
         $("#nama_sekolah").select2();
 
+
+        $('#profile-image-i').click(function() {
+            $('#user-image').trigger('click');
+        });
+
+
+        $("#user-image").change(function() {
+            document.getElementById('profile-image-i').src = window.URL.createObjectURL(this.files[0]);
+
+        });
+
+
         $("#provinsi").change(function() {
             var p = $(this).val();
             $.ajax({
@@ -556,6 +568,8 @@
 
         function verif_email(id) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $("#btn-email-verif").hide();
+            $("#btn-email-verif2").show()
             $.ajax({
                 url: "{{ url('send_email_passcode') }}",
                 type: "POST",
@@ -565,6 +579,8 @@
                     "_token": csrf_token
                 },
                 success: function(data) {
+                    $("#btn-email-verif").show()
+                    $("#btn-email-verif2").hide()
                     if (data.success) {
                         $("#modal-email").modal("show");
                     }
@@ -1443,7 +1459,7 @@
                     var HTML = '';
                     HTML += '<h5>Navigasi Soal</h5>';
                     for (var i = 0; i < data.data.length; i++) {
-                       
+
                         if (data.data[i].exist === 1) {
                             HTML += '<div onclick="gotos(' + i +
                                 ')" class="item-number-active col-md-2 col-md-2 col-md-2">' + data.data[i]

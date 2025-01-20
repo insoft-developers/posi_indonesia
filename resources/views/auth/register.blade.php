@@ -117,8 +117,8 @@
                                 </div>
 
                                 <div class="single-form">
-                                    <input name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" >
-                                    <x-input-error :messages="$errors->get('whatsapp')" class="mt-2"/>
+                                    <input name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" maxlength="12" >
+                                    <x-input-error :messages="$errors->get('whatsapp')"  class="mt-2"/>
                                 </div>
                                 <div class="single-form">
                                     <div class="courses-select">

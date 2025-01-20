@@ -11,7 +11,7 @@
     <style>
         body {
             margin: 0;
-            
+
         }
 
         .sheet-outer {
@@ -20,13 +20,25 @@
 
         .sheet {
             margin: 0;
-            overflow:hidden;
+            overflow: hidden;
             position: relative;
             box-sizing: border-box;
             page-break-after: always;
         }
 
         @media screen {
+            #btn-print {
+                position: relative;
+                left: 279px;
+                top: 12px;
+            }
+
+            #btn-tutup {
+                position: relative;
+                left: 284px;
+                top: 12px;
+            }
+
             body {
                 background: #e0e0e0
             }
@@ -54,6 +66,7 @@
             margin-right: 0;
             margin-bottom: 20;
         }
+
         @page :first {
             size: A4;
             margin-top: 0;
@@ -67,10 +80,15 @@
             .sheet-outer.A4,
             .sheet-outer.A5.landscape {
                 width: 210mm
-                
             }
-            body{
-                margin:20px !important;
+
+            body {
+                margin: 20px !important;
+            }
+
+            #btn-print,
+            #btn-tutup {
+                display: none;
             }
 
         }
@@ -96,12 +114,12 @@
         .font-kecil {
             font-size: 14px !important;
         }
-
-        
     </style>
 </head>
 
 <body>
+    <button onclick="window.print();" id="btn-print" class="btn btn-success">Print</button>
+    <a href="{{ url('transaction') }}"><button id="btn-tutup" class="btn btn-warning">Tutup</button></a>
     <div class="sheet-outer A4">
         <section class="sheet padding-5mm">
             <h4>INVOICE #{{ $data->invoice }}</h4>
@@ -138,8 +156,8 @@
                 </div>
             </div>
 
-           
-            <div class="row desc"  style="margin-top:20px;">
+
+            <div class="row desc" style="margin-top:20px;">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <table class="table table-stripped">
                         <thead>
@@ -151,15 +169,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
-                            @foreach($data->transaction as $key)
-                           
-                            <tr>
-                                <td><strong>Pendaftaran {{ $key->competition->title }}</strong><br><span class="font-kecil">{{ $data->user->name }} - {{ $data->user->nama_sekolah }}</span><br><span class="font-kecil">{{ $key->study->pelajaran->name }} - {{ $key->competition->levels->level_name }}</span></td>
-                                <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
-                                <td>1</td>
-                                <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
-                            </tr>
+
+                            @foreach ($data->transaction as $key)
+                                <tr>
+                                    <td><strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
+                                            class="font-kecil">{{ $data->user->name }} -
+                                            {{ $data->user->nama_sekolah }}</span><br><span
+                                            class="font-kecil">{{ $key->study->pelajaran->name }} -
+                                            {{ $key->competition->levels->level_name }}</span></td>
+                                    <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
+                                    <td>1</td>
+                                    <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
+                                </tr>
                             @endforeach
                         </tbody>
                         <thead>
@@ -169,7 +190,7 @@
                                 <th>Total</th>
                                 <th>Rp. {{ number_format($data->total_amount) }}</th>
                             </tr>
-                           
+
                             <tr>
                                 <th></th>
                                 <th></th>
@@ -182,7 +203,7 @@
                                 <th></th>
                                 <th style="color: green;">Rp. {{ number_format($data->total_amount) }}</th>
                             </tr>
-                            
+
                         </thead>
                     </table>
                 </div>
@@ -192,9 +213,11 @@
                     <span><strong>Note:</strong></span>
                     <ol>
                         <li>Mohon ditransfer sebelum jatuh tempo</li>
-                        <li>Pastikan nominal transfer sesuai dengan yang tertera pada Net Amount (jumlah tagihan pada invoice ini)</li>
-                        <li>Jika transfer anda tidak terkonfirmasi dalam waktu 1 x 24 jam. Mohon segera hubungi Tim Service Kami. Terima Kasih</li>
-                    </ol>   
+                        <li>Pastikan nominal transfer sesuai dengan yang tertera pada Net Amount (jumlah tagihan pada
+                            invoice ini)</li>
+                        <li>Jika transfer anda tidak terkonfirmasi dalam waktu 1 x 24 jam. Mohon segera hubungi Tim
+                            Service Kami. Terima Kasih</li>
+                    </ol>
                 </div>
             </div>
 
@@ -202,6 +225,7 @@
         </section>
 
     </div>
+
 </body>
 
 </html>

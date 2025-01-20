@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'whatsapp',
-        'level_id'
+        'level_id',
+        'kelas_id'
     ];
 
     /**

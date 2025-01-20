@@ -15,15 +15,11 @@
         <div class="container">
 
             <!-- Register & Login Wrapper Start -->
-            <form method="POST" action="{{ route('register.after') }}">
+            <form method="POST" action="{{ route('register.after') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="register-login-wrapper">
                     <div class="row align-items-center">
                         <div class="col-lg-12">
-
-                            <!-- Register & Login Form Start -->
-
-                            <h3 class="main-title">Silahkan Lengkapi <span>Data Anda</span></h3>
                             @if ($message = Session::get('success'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
 
@@ -47,6 +43,30 @@
 
                                 </div>
                             @endif
+                            <div class="section-title shape-03">
+                                <h2 class="main-judul">Profil</h2>
+                            </div>
+                            <div style="margin-top: 50px"></div>
+
+
+                            @if ($user->user_image == null)
+                                @if ($user->jenis_kelamin == 'Laki Laki')
+                                    <img src="{{ asset('template/frontend/assets/umum/profile2.png') }}"
+                                        class="profile-image-i" id="profile-image-i">
+                                @else
+                                    <img src="{{ asset('template/frontend/assets/umum/profile1.png') }}"
+                                        class="profile-image-i" id="profile-image-i">
+                                @endif
+                            @else
+                                <img src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                    class="profile-image-i" id="profile-image-i">
+                            @endif
+
+                            <input style="display: none;" type="file" id="user-image" name="user_image"
+                                accept="*jpg, *.jpeg, *.png">
+
+
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-wrapper">
@@ -65,28 +85,22 @@
                                             <label class="label-form">Email Anda</label>
                                             <input id="email" name="email" readonly type="email" placeholder="Email"
                                                 value="{{ $user->email }}">
-                                             @if($user->email_status == 1)
-                                             <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i> verified</small>
-                                             @else   
-                                            <a onclick="verif_email({{ Auth::user()->id }})"
-                                                href="javascript:void(0);"><small style="color: red;"><i class="fa fa-exclamation"></i> <strong>Verifikasi
-                                                        Email Anda</strong></small></a>
-                                             @endif
+                                            @if ($user->email_status == 1)
+                                                <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i>
+                                                    verified</small>
+                                            @else
+                                                <a id="btn-email-verif" onclick="verif_email({{ Auth::user()->id }})"
+                                                    href="javascript:void(0);"><small style="color: red;"><i
+                                                            class="fa fa-exclamation"></i> <strong>Verifikasi
+                                                            Email Anda</strong></small></a>
+                                                <a style="display: none;" id="btn-email-verif2"
+                                                    href="javascript:void(0);"><small
+                                                        style="color: red;"><strong>Loading........</strong></small></a>
+                                            @endif
                                         </div>
                                         <!-- Single Form End -->
                                         <!-- Single Form Start -->
-                                        <div class="single-form">
-                                            <label class="label-form">Nomor Whatsapp</label>
-                                            <input id="whatsapp" name="whatsapp" readonly type="text"
-                                                placeholder="No. Whatsapp" value="{{ $user->whatsapp }}">
-                                                @if($user->wa_status == 1)
-                                                <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i> verified</small>
-                                                @else   
-                                               <a onclick="verif_wa({{ Auth::user()->id }})"
-                                                   href="javascript:void(0);"><small style="color: red;"><i class="fa fa-exclamation"></i> <strong>Verifikasi
-                                                           nomor whatsapp Anda</strong></small></a>
-                                                @endif
-                                        </div>
+                                        
                                         <div class="single-form">
                                             <label class="label-form">Akun Sebagai</label>
                                             <div class="courses-select">
@@ -100,6 +114,21 @@
                                                 </select>
                                             </div>
                                             <x-input-error :messages="$errors->get('level_id')" class="mt-2" />
+                                        </div>
+                                        <div class="single-form">
+                                            <label class="label-form">Kelas</label>
+                                            <div class="courses-select">
+                                                <select id="kelas_id" name="kelas_id">
+                                                    <option value="">Pilih</option>
+                                                    @foreach ($kelas as $k)
+                                                        <option <?php if ($user->kelas_id == $k->id) {
+                                                            echo 'selected';
+                                                        } ?> value="{{ $k->id }}">
+                                                            {{ $k->nama_kelas }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <x-input-error :messages="$errors->get('kelas_id')" class="mt-2" />
                                         </div>
                                         <div class="single-form">
                                             <label class="label-form">Tanggal Lahir</label>
@@ -159,7 +188,20 @@
                                             </div>
                                             <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
                                         </div>
-
+                                        <div class="single-form">
+                                            <label class="label-form">Nomor Whatsapp</label>
+                                            <input id="whatsapp" name="whatsapp" type="text"
+                                                placeholder="No. Whatsapp" value="{{ $user->whatsapp }}">
+                                            @if ($user->wa_status == 1)
+                                                <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i>
+                                                    verified</small>
+                                            @else
+                                                <a onclick="verif_wa({{ Auth::user()->id }})"
+                                                    href="javascript:void(0);"><small style="color: red;"><i
+                                                            class="fa fa-exclamation"></i> <strong>Verifikasi
+                                                            nomor whatsapp Anda</strong></small></a>
+                                            @endif
+                                        </div>
 
                                         <div class="single-form">
                                             <label class="label-form">Provinsi Sekolah</label>
@@ -290,13 +332,14 @@
                 <div class="modal-body">
                     <div class="single-form">
                         <label>Masukkan 6 digit angka yang kami kirimkan ke email anda</label>
-                        <input style="font-size: 29px;text-align: center;font-weight: bold;"
-                            name="email_passcode" id="email_passcode" type="text">
+                        <input style="font-size: 29px;text-align: center;font-weight: bold;" name="email_passcode"
+                            id="email_passcode" type="text">
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="confirm_email({{ Auth::user()->id }})" type="button" class="btn btn-primary btn-sm">Kirim</button>
+                    <button onclick="confirm_email({{ Auth::user()->id }})" type="button"
+                        class="btn btn-primary btn-sm">Kirim</button>
                 </div>
 
             </div>

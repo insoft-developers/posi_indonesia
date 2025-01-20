@@ -25,6 +25,20 @@
         position: relative;
         top: 0px;
         right: -55px;
+
+        background: #e9e9e9;
+    }
+
+    .profile-image-i {
+     
+    width: 115px;
+    height: 115px;
+    object-fit: cover;
+    padding: 5px;
+    background: whitesmoke;
+    border-radius: 60px;
+    cursor: pointer;
+
     }
 
     .menu-user {
