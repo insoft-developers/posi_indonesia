@@ -1,55 +1,4 @@
-{{-- <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
 
 @extends('frontend.master')
 
@@ -94,35 +43,43 @@
                                 @csrf
                                 <!-- Single Form Start -->
                                 <div class="single-form">
-                                    <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name')}}">
+                                    <input type="text" class="register-input" name="username" placeholder="Username" value="{{ old('username')}}">
+                                    <x-input-error :messages="$errors->get('username')" class="mt-2" />
+                                </div>
+                                <div class="single-form">
+                                    <input type="text" class="register-input" name="name" placeholder="Nama Lengkap" value="{{ old('name')}}">
                                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                </div>
+                                <div class="single-form">
+                                    <input type="date" class="register-input" name="tanggal_lahir" placeholder="Tanggal Lahir" value="{{ old('tanggal_lahir')}}">
+                                    <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
                                 </div>
                                 <!-- Single Form End -->
                                 <!-- Single Form Start -->
                                 <div class="single-form">
-                                    <input name="email" type="email" placeholder="Email" value="{{ old('email') }}">
+                                    <input class="register-input" name="email" type="email" placeholder="Email" value="{{ old('email') }}">
                                     <x-input-error :messages="$errors->get('email')" class="mt-2"  />
                                 </div>
                                 <!-- Single Form End -->
                                 <!-- Single Form Start -->
                                 <div class="single-form">
-                                    <input name="password" type="password" placeholder="Password" value="{{ old('password') }}" >
+                                    <input class="register-input" name="password" type="password" placeholder="Password" value="{{ old('password') }}" >
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
                                 <!-- Single Form End -->
                                 <!-- Single Form Start -->
                                 <div class="single-form">
-                                    <input name="password_confirmation" type="password" placeholder="Confirm Password">
+                                    <input class="register-input" name="password_confirmation" type="password" placeholder="Confirm Password">
                                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                 </div>
 
                                 <div class="single-form">
-                                    <input name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" maxlength="12" >
+                                    <input class="register-input" name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" maxlength="12" >
                                     <x-input-error :messages="$errors->get('whatsapp')"  class="mt-2"/>
                                 </div>
                                 <div class="single-form">
                                     <div class="courses-select">
-                                        <select name="level_id">
+                                        <select class="register-input" name="level_id">
                                             <option value="">Pilih akun sebagai</option>
                                             @foreach ($level as $l)
                                                 <option value="{{ $l->id }}">{{ $l->level_name }}</option>
@@ -131,11 +88,25 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('level_id')" class="mt-2" />
                                 </div>
+                                <div class="single-form">
+                                    <div class="courses-select">
+                                        <select class="register-input" name="kelas_id">
+                                            <option value="">Pilih Kelas</option>
+                                            @foreach ($kelas as $k)
+                                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                                            @endforeach 
+                                        </select>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('kelas_id')" class="mt-2" />
+                                </div>
                                 <!-- Single Form End -->
                                 <!-- Single Form Start -->
                                 <div class="single-form">
                                     <button class="btn btn-primary btn-hover-dark w-100">Daftar Sekarang</button>
-                                    
+                                    <a href="{{ route('google-auth') }}"><button type="button" class="btn login-google"><img class="img-google" src="{{ asset('template/frontend/assets/umum/google_icons.png') }}">Login dengan Google</button></a>
+                                </div>
+                                <div class="im-note">
+                                    <p class="im-note-text">Sudah punya akun silahkan <a href="{{ route('login') }}">Login</a></p>
                                 </div>
                                 <!-- Single Form End -->
                             </form>

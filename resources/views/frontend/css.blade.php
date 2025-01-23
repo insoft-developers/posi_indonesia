@@ -1,4 +1,88 @@
 <style>
+
+
+    .wa-chat{
+        position: fixed;
+    /* top: 0; */
+    right: 24px;
+    bottom: 127px !important;
+    width: 67px;
+    height: 67px;
+    z-index: 999999;
+    cursor: pointer;
+    }
+    .user-name-display {
+        font-size: 27px !important;
+        position: relative;
+        left: 127px;
+        top: -85px;
+        font-weight: bold;
+    }
+
+    .img-google {
+        width: 30px;
+        height: 30px;
+        margin-right: 14px;
+    }
+
+    .login-google {
+        border: 2px solid #dfdfdf;
+        width: 100%;
+        height: 63px;
+    }
+
+    .login-title {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .kartu {
+        padding: 14px;
+        border: 2px solid whitesmoke;
+        border-radius: 15px;
+    }
+
+    .form-check-label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .form-check {
+        display: inline;
+    }
+
+    #radio-username-c {}
+
+    #radio-email-c {
+        margin-left: 30px;
+    }
+
+    #radio-wa-c {
+        margin-left: 30px;
+    }
+
+    .im-note {
+        margin-top: 10px;
+    }
+
+    .im-note-text {
+        font-size: 14px;
+        color: #2b324e;
+        font-weight: 400;
+    }
+
+    .im-note-text a {
+        font-weight: bold;
+        color: #2b324e;
+        font-size: 16px;
+        text-decoration: underline;
+    }
+
+    .register-input {
+        padding: 0px 15px !important;
+        height: 45px !important;
+    }
+
     .page-banner {
         height: 0px !important;
     }
@@ -30,14 +114,14 @@
     }
 
     .profile-image-i {
-     
-    width: 115px;
-    height: 115px;
-    object-fit: cover;
-    padding: 5px;
-    background: whitesmoke;
-    border-radius: 60px;
-    cursor: pointer;
+
+        width: 115px;
+        height: 115px;
+        object-fit: cover;
+        padding: 5px;
+        background: whitesmoke;
+        border-radius: 60px;
+        cursor: pointer;
 
     }
 

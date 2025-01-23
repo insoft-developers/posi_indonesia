@@ -93,6 +93,9 @@
                                     <div class="single-form">
                                         <input type="email" name="email" placeholder="Email Anda">
                                     </div>
+                                    <div class="single-form">
+                                        <input type="text" name="whatsapp" placeholder="Nomor Whatsapp Anda" maxlength="12">
+                                    </div>
                                     <!-- Single Form End -->
                                     <!-- Single Form Start -->
                                     <div class="single-form">

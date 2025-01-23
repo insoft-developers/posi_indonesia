@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -82,11 +83,12 @@ class ProfileController extends Controller
     public function after_register_store(Request $request)
     {
         $input = $request->all();
-        
+        $user = User::findorFail(Auth::user()->id);
+
         $rules = [
-            'name' => 'required',
+            'username' => 'required|'.Rule::unique('users')->ignore($user->id ),
             'email' => 'required',
-            'whatsapp' => 'required',
+            'whatsapp' => 'required|'.Rule::unique('users')->ignore($user->id ),
             'level_id' => 'required',
             'tanggal_lahir' => 'required',
             'agama' => 'required',
@@ -114,7 +116,7 @@ class ProfileController extends Controller
             return back()->with('error', $html);
         }
 
-        $user = User::findorFail(Auth::user()->id);
+        
 
         if ($request->has('user_image')) {
             $path = storage_path('app\public\image_files\profile');
@@ -130,7 +132,7 @@ class ProfileController extends Controller
         }
 
        
-        $user->name = $input['name'];
+        $user->username = $input['username'];
         $user->level_id = $input['level_id'];
         $user->tanggal_lahir = $input['tanggal_lahir'];
         $user->agama = $input['agama'];
@@ -140,6 +142,7 @@ class ProfileController extends Controller
         $user->kecamatan = $input['kecamatan'];
         $user->nama_sekolah = $input['nama_sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['nama_sekolah'];
         $user->kelas_id = $input['kelas_id'];
+        $user->whatsapp = $input['whatsapp'];
         $user->save();
 
         return back()->with('success', 'Update data berhasil...');

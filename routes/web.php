@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\AdministrativeController;
+use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\JadwalController;
 use App\Http\Controllers\Frontend\RiwayatController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Mail\RegisMail;
 use App\Models\Administrasi;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +26,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/link_storage', function () {
+    Artisan::call('storage:link');
+});
 
 Route::get('clear_number', function(){
     session(['nomor'=> 0]);
@@ -99,7 +105,8 @@ Route::get('/event', [HomeController::class, 'event']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/pengumuman', [HomeController::class, 'pengumuman']);
 
-
+Route::get('auth/google', [GoogleController::class, 'redirect'])->name('google-auth');
+Route::get('auth/google/call-back', [GoogleController::class, 'callbackGoogle']);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })

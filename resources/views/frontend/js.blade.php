@@ -64,6 +64,34 @@
     }
 </script>
 
+@if ($view == 'login')
+    <script>
+        $(document).ready(function() {
+            $("input[name='flexRadioDefault']").change(function() {
+                var nilai = $(this).val();
+                var html = '';
+                if (nilai == 'username') {
+                    html += '<input type="text" name="username" placeholder="Masukkan username anda">';
+                    html += '<x-input-error :messages="$errors->get('
+                    username ')" class="mt-2" />';
+
+                } else if (nilai == 'email') {
+                    html += '<input type="email" name="email" placeholder="Masukkan email anda">';
+                    html += '<x-input-error :messages="$errors->get('
+                    email ')" class="mt-2" />';
+                } else if (nilai == 'wa') {
+                    html +=
+                        '<input type="text" maxlength="12" name="whatsapp" placeholder="Masukkan nomor whatsapp anda">';
+                    html += '<x-input-error :messages="$errors->get('
+                    whatsapp ')" class="mt-2" />';
+                }
+
+                $("#user-input-model").html(html);
+            });
+        })
+    </script>
+@endif
+
 @if ($view == 'main')
     <script>
         var jumlah_kompetisi = $("#jumlah_kompetisi").val();
@@ -721,6 +749,11 @@
                     }
                 })
             }
+        }
+
+
+        function show_pengumuman(comid, study) {
+            console.log(comid+' - ' +study);
         }
     </script>
 @endif

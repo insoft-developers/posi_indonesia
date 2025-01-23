@@ -33,4 +33,5 @@ class Competition extends Model
     {
         return $this->HasONe(ExamSession::class, 'competition_id', 'id');
     }
+    
 }

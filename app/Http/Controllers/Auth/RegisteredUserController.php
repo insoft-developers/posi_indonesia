@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kelas;
 use App\Models\Level;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -23,7 +24,8 @@ class RegisteredUserController extends Controller
     {
         $view = 'register';
         $level = Level::all();
-        return view('auth.register', compact('level','view'));
+        $kelas = Kelas::all();
+        return view('auth.register', compact('level','view','kelas'));
     }
 
     /**
@@ -36,19 +38,25 @@ class RegisteredUserController extends Controller
         
        
         $request->validate([
+            'username' => ['required', 'min:6', 'unique:'.User::class],
             'name' => ['required','string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'whatsapp'=> ['numeric','required'],
-            'level_id' => ['required']
+            'whatsapp'=> ['numeric','required','unique:'.User::class],
+            'level_id' => ['required'],
+            'tanggal_lahir' => ['required'],
+            'kelas_id' => ['required']
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
+            'tanggal_lahir' => $request->tanggal_lahir,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'whatsapp' => $request->whatsapp,
-            'level_id' => $request->level_id
+            'level_id' => $request->level_id,
+            'kelas_id' => $request->kelas_id
         ]);
 
         event(new Registered($user));

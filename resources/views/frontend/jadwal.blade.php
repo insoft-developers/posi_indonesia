@@ -202,6 +202,7 @@
 
                 <div class="row">
                     @foreach ($umum as $um)
+                      
                         <div class="col-lg-12 col-md-12 col-sm-12">
 
                             <!-- Single Blog Start -->
@@ -220,7 +221,8 @@
                                         <hr />
                                         <div class="row">
                                             @foreach ($um->study as $s)
-                                                <div class="col-md-4 study-item"><img class="icon-n" src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
+                                            
+                                                <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})" class="col-md-4 study-item"><img class="icon-n" src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
                                                     {{ $s->pelajaran->name }}</div>
                                             @endforeach
                                         </div>

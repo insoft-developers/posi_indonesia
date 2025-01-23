@@ -202,19 +202,24 @@
                                     </li>
                                     <li>
                                         @if ($user->user_image == null)
-                                            @if($user->jenis_kelamin == 'Laki Laki')
-                                            <img class="profile-image"
-                                                src="{{ asset('template/frontend/assets/umum/profile2.png') }}"
-                                                alt="Author">
-                                            @else 
-                                            <img class="profile-image"
-                                            src="{{ asset('template/frontend/assets/umum/profile1.png') }}"
-                                            alt="Author">
+                                            @if ($user->jenis_kelamin == 'Laki Laki')
+                                                <img class="profile-image"
+                                                    src="{{ asset('template/frontend/assets/umum/profile2.png') }}"
+                                                    alt="Author">
+                                            @else
+                                                <img class="profile-image"
+                                                    src="{{ asset('template/frontend/assets/umum/profile1.png') }}"
+                                                    alt="Author">
                                             @endif
                                         @else
-                                            <img class="profile-image"
-                                                src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
-                                                alt="Author">
+                                            @if ($user->google_id == null)
+                                                <img class="profile-image"
+                                                    src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                                    alt="Author">
+                                            @else
+                                                <img class="profile-image" src="{{ $user->user_image }}"
+                                                    alt="Author">
+                                            @endif
                                         @endif
 
                                     </li>
@@ -506,9 +511,10 @@
         <!--Back To End-->
 
     </div>
-
-
-
+    @php
+    $setting = \App\Models\Setting::findorFail(1);
+    @endphp
+    <a href="https://api.whatsapp.com/send/?phone={{ $setting->whatsapp }}&text&type=phone_number&app_absent=0" target="_blank"><img class="wa-chat" src="{{ asset('template/frontend/assets/umum/wa_icon.png') }}"></a>
 
 
 
@@ -542,6 +548,21 @@
 
 
     @include('frontend.js')
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6790d0ff825083258e091ad3/1ii6r0qam';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 </body>
 

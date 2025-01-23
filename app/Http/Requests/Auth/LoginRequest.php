@@ -26,10 +26,32 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ];
+        
+        $pilihan_login = $this->only('flexRadioDefault')['flexRadioDefault'];
+        
+        if($pilihan_login == 'username'){
+            return [
+                'flexRadioDefault' => ['required'],
+                'username' => ['required', 'string'],
+                'password' => ['required', 'string'],
+            ];
+        }
+        else if($pilihan_login == 'email'){
+            return [
+                'flexRadioDefault' => ['required'],
+                'email' => ['required', 'string'],
+                'password' => ['required', 'string'],
+            ];
+        }
+        if($pilihan_login == 'wa'){
+            return [
+                'flexRadioDefault' => ['required'],
+                'whatsapp' => ['required', 'string'],
+                'password' => ['required', 'string'],
+            ];
+        }
+
+        
     }
 
     /**
@@ -41,14 +63,37 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $pilihan_login = $this->only('flexRadioDefault')['flexRadioDefault'];
+        
+        if($pilihan_login == 'username') {
+            if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+    
+                throw ValidationException::withMessages([
+                    'username' => trans('auth.failed'),
+                ]);
+            }
+    
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        } else if($pilihan_login == 'email') {
+            if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+    
+                throw ValidationException::withMessages([
+                    'email' => trans('auth.failed'),
+                ]);
+            }
+
+        } else if($pilihan_login == 'wa') {
+            if (! Auth::attempt($this->only('whatsapp', 'password'), $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+    
+                throw ValidationException::withMessages([
+                    'whatsapp' => trans('auth.failed'),
+                ]);
+            }
         }
-
+        
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -59,6 +104,9 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
+        $pilihan_login = $this->only('flexRadioDefault')['flexRadioDefault'];
+        
+        
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
@@ -67,12 +115,31 @@ class LoginRequest extends FormRequest
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
+        if($pilihan_login == 'username') {
+            throw ValidationException::withMessages([
+                'username' => trans('auth.throttle', [
+                    'seconds' => $seconds,
+                    'minutes' => ceil($seconds / 60),
+                ]),
+            ]);
+        }
+        else if($pilihan_login == 'email') {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.throttle', [
+                    'seconds' => $seconds,
+                    'minutes' => ceil($seconds / 60),
+                ]),
+            ]);
+        }
+        if($pilihan_login == 'wa') {
+            throw ValidationException::withMessages([
+                'whatsapp' => trans('auth.throttle', [
+                    'seconds' => $seconds,
+                    'minutes' => ceil($seconds / 60),
+                ]),
+            ]);
+        }
+        
     }
 
     /**
@@ -80,6 +147,17 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        $pilihan_login = $this->only('flexRadioDefault')['flexRadioDefault'];
+
+        if($pilihan_login == 'username') {
+            return Str::transliterate(Str::lower($this->string('username')).'|'.$this->ip());
+        }
+        else if($pilihan_login == 'email') {
+            return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        }
+        else if($pilihan_login == 'wa') {
+            return Str::transliterate(Str::lower($this->string('whatsapp')).'|'.$this->ip());
+        }
+        
     }
 }

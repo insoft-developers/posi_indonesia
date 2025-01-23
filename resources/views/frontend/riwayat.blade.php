@@ -24,6 +24,7 @@
                        
 
                             @foreach ($com as $c)
+                              
                                 <div class="col-md-4">
 
                                     <div class="main-card mb-3 card">
@@ -34,6 +35,7 @@
                                             <div style="margin-top:-13px;"></div>
                                             <hr />
                                             @foreach ($c->transaction as $s)
+                                                @if($s->userid == Auth::user()->id)
                                                 <div
                                                     class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
 
@@ -45,6 +47,7 @@
                                                             </span>
                                                             <div class="vertical-timeline-element-content bounce-in">
                                                                 <h4 class="timeline-title">{{ $s->study->pelajaran->name }}</h4>
+
                                                                 <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
                                                                 <div class="list-tools" style="margin-left: -8px;">
                                                                     <div class="riwayat-tools">
@@ -68,6 +71,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                               @endif
                                             @endforeach
 
 

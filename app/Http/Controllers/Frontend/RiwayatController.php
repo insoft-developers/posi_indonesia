@@ -15,8 +15,8 @@ class RiwayatController extends Controller
         $userid = Auth::user()->id;
         $sekarang = date('Y-m-d');
         $query = Competition::with('transaction','transaction.invoice','levels','transaction.study.pelajaran')
-            ->where('is_active', 1)
-            ->where('date', '<', $sekarang);
+            ->where('is_active', 1);
+            
         $query->whereHas('transaction', function($q) use ($userid){
             $q->where('userid', $userid);
         });

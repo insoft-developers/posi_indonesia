@@ -72,6 +72,12 @@
                 <div class="row">
                     <input type="hidden" id="jumlah_kompetisi" value="{{ count($kompetisi) }}">
                     @foreach ($kompetisi as $index => $k)
+                        @php
+                            $query = \App\Models\Transaction::where('competition_id', $k->id)->distinct('userid')->count('id');
+
+                            $transaction = $query;
+                           
+                        @endphp
                         <div class="col-lg-4 col-md-6">
 
                             <!-- Single Blog Start -->
@@ -127,7 +133,7 @@
                                     <div class="garis"></div>
                                     <button id="btn_daftar_{{ $index }}" href="javascript:void(0);" onclick="daftar({{ $k->id }})"
                                         class="btn btn-secondary btn-hover-primary">Daftar</button>
-                                    <span class="foot-note">1.450 Pedaftar</span>
+                                    <span class="foot-note">{{ $transaction }} Pedaftar</span>
                                 </div>
                             </div>
                             <!-- Single Blog End -->

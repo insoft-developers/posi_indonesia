@@ -67,10 +67,9 @@
 
                         <!-- Register & Login Images Start -->
                         <div class="register-login-images">
-                            
+
                             <div class="images">
-                                <img src="{{ asset('template/frontend') }}/assets/umum/logo_600.png"
-                                    alt="Register Login">
+                                <img src="{{ asset('template/frontend') }}/assets/umum/logo_600.png" alt="Register Login">
                             </div>
                         </div>
                         <!-- Register & Login Images End -->
@@ -85,10 +84,39 @@
                             <div class="form-wrapper">
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
+                                    <div class="kartu">
+                                        <p class="login-title">Silahkan login dengan :</p>
+                                        
+                                        
+                                        <div class="form-check" id="radio-username-c">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="radio-username" checked value="username">
+                                            <label class="form-check-label" for="radio-username">
+                                                Username
+                                            </label>
+                                        </div>
+
+
+                                        <div class="form-check" id="radio-email-c">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="radio-email" value="email">
+                                            <label class="form-check-label" for="radio-email">
+                                                Email
+                                            </label>
+                                        </div>
+                                        <div class="form-check" id="radio-wa-c">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" value="wa"
+                                                id="radio-wa">
+                                            <label class="form-check-label" for="radio-wa">
+                                                Whatsapp
+                                            </label>
+                                        </div>
+                                    </div>
+
                                     <!-- Single Form Start -->
-                                    <div class="single-form">
-                                        <input type="email" name="email" placeholder="Username or Email">
-                                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                    <div class="single-form" id="user-input-model">
+                                        <input type="text" name="username" placeholder="masukkan username anda..">
+                                        <x-input-error :messages="$errors->get('username')" class="mt-2" />
                                     </div>
                                     <!-- Single Form End -->
                                     <!-- Single Form Start -->
@@ -118,7 +146,12 @@
 
                                     <div class="single-form">
                                         <button class="btn btn-primary btn-hover-dark w-100">Login</button>
+                                        <a href="{{ route('google-auth') }}"><button type="button" class="btn login-google"><img class="img-google" src="{{ asset('template/frontend/assets/umum/google_icons.png') }}">Login dengan Google</button></a>
 
+                                    </div>
+                                    <div class="im-note" style="margin-top:20px;">
+                                        <p class="im-note-text">Belum punya akun silahkan <a
+                                                href="{{ route('register') }}">Daftar</a></p>
                                     </div>
                                     <!-- Single Form End -->
                                 </form>

@@ -58,14 +58,18 @@
                                         class="profile-image-i" id="profile-image-i">
                                 @endif
                             @else
-                                <img src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
-                                    class="profile-image-i" id="profile-image-i">
+                                @if ($user->google_id == null)
+                                    <img src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                        class="profile-image-i" id="profile-image-i">
+                                @else
+                                    <img src="{{ $user->user_image }}" class="profile-image-i">
+                                @endif
                             @endif
 
                             <input style="display: none;" type="file" id="user-image" name="user_image"
                                 accept="*jpg, *.jpeg, *.png">
 
-
+                            <p class="user-name-display">{{ $user->name }}</p>
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -74,10 +78,10 @@
 
                                         <!-- Single Form Start -->
                                         <div class="single-form">
-                                            <label class="label-form">Nama Lengkap</label>
-                                            <input type="text" id="name" name="name" placeholder="Nama Lengkap"
-                                                value="{{ $user->name }}">
-                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                            <label class="label-form">Username</label>
+                                            <input type="text" id="username" name="username" placeholder="Username"
+                                                value="{{ $user->username }}">
+                                            <x-input-error :messages="$errors->get('username')" class="mt-2" />
                                         </div>
                                         <!-- Single Form End -->
                                         <!-- Single Form Start -->
@@ -100,7 +104,7 @@
                                         </div>
                                         <!-- Single Form End -->
                                         <!-- Single Form Start -->
-                                        
+
                                         <div class="single-form">
                                             <label class="label-form">Akun Sebagai</label>
                                             <div class="courses-select">

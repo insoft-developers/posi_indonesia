@@ -16,6 +16,7 @@
             <div class="container">
                 <div class="section-title shape-03 text-center">
                     <h2 class="main-judul">Cart</h2>
+                    <div style="margin-top:30px"></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
