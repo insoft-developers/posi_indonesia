@@ -240,4 +240,39 @@
         </div>
     </div>
     <!-- Blog End -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-pengumuman" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title"></span><br><span
+                            class="modal-subtitle" id="modal-subtitle"></span></p>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" id="pengumuman-competition-id">
+                        <input type="hidden" id="pengumuman-study-id">
+                        <input type="text" class="form-control search-text" id="text-cari" placeholder="Cari nama peserta">
+                    </div>
+                    <div id="pemenang-content"></div>
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
 @endsection

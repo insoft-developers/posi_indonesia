@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\ExamSession;
 use App\Models\Invoice;
+use App\Models\Study;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +39,50 @@ class JadwalController extends Controller
 
 
         return view('frontend.jadwal', compact('view','data','umum'));
+    }
+
+
+    public function show_pengumuman(Request $request) {
+        $input = $request->all();
+
+        $com = Competition::findorFail($input['comid']);
+        $study = Study::with('pelajaran','level')->where('id', $input['study'])->first();
+
+        $data = ExamSession::with('user.wilayah')->where('competition_id', $input['comid'])->where('study_id', $input['study'])
+            ->orderBy('total_score','desc')->get();
+
+
+        return response()->json([
+            "data" => $data,
+            "com" => $com,
+            "study" => $study
+        ]);
+    }
+
+
+    public function search_pengumuman(Request $request) {
+        $input = $request->all();
+        $keyword = $input['search'];
+        $com = Competition::findorFail($input['comid']);
+        $study = Study::with('pelajaran','level')->where('id', $input['study'])->first();
+
+        $query = ExamSession::with('user.wilayah')->where('competition_id', $input['comid'])->where('study_id', $input['study'])
+            ->orderBy('total_score','desc');
+
+        if(! empty($keyword)) {
+            $query->whereHas('user', function($q) use ($keyword){
+                $q->where('name', 'like', '%'.$keyword.'%');
+            });
+        }
+
+        $data = $query->get();
+
+
+        return response()->json([
+            "data" => $data,
+            "com" => $com,
+            "study" => $study
+        ]);
     }
 
 }

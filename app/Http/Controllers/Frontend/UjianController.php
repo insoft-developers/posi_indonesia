@@ -68,13 +68,27 @@ class UjianController extends Controller
                 'study_id' => $transaction->study_id,
                 'userid' => Auth::user()->id,
                 'token' => $token,
+                "jumlah_benar" => 0,
+                "jumlah_salah" => 0,
+                "jumlah_lewat" => 0,
+                "total_score" => 0
+            ];
+
+
+            $data_update = [
+                'transaction_id' => $input['id'],
+                'invoice_id' => $transaction->invoice_id,
+                'competition_id' => $transaction->competition_id,
+                'study_id' => $transaction->study_id,
+                'userid' => Auth::user()->id,
+                'token' => $token,
             ];
 
             $cek = ExamSession::where('transaction_id', $input['id'])->where('userid', Auth::user()->id);
             if ($cek->count() > 0) {
                 ExamSession::where('transaction_id', $input['id'])
                     ->where('userid', Auth::user()->id)
-                    ->update($data_input);
+                    ->update($data_update);
             } else {
                 ExamSession::create($data_input);
             }

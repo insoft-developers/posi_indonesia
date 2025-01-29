@@ -55,6 +55,7 @@ class HomeController extends Controller
         $kompetisi = Competition::where('is_active', 1)
             ->where('level', Auth::user()->level_id)
             ->get();
+        
         return view('frontend.main', compact('kompetisi', 'view'));
     }
 

@@ -751,9 +751,175 @@
             }
         }
 
+        $("#text-cari").keyup(function(){
+            var nilai = $(this).val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var comid = $("#pengumuman-competition-id").val();
+            var study = $("#pengumuman-study-id").val();
+
+            $.ajax({
+                url: "{{ route('search.pengumuman') }}",
+                type: "POST",
+                data: {
+                    "comid": comid,
+                    "study": study,
+                    "search":nilai,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    
+                    var html = '';
+                    
+                    if(data.data.length > 0) {
+                        for (var i = 0; i < data.data.length; i++) {
+                        html += '<div class="row row-pengumuman">';
+                        html += '<div class="col-md-1">';
+                        if (data.data[i].medali == 'emas') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
+                        } else if (data.data[i].medali == 'perak') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
+                        } else if (data.data[i].medali == 'perunggu') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
+                        } else {
+                            if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                            } else {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                            }
+
+                        }
+
+
+                        html += '</div>';
+                        html += '<div class="col-md-9">';
+                        html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user.name
+                            .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
+                            .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                        if (data.data[i].medali == 'emas') {
+                            html += '<span class="ann-school">Peraih Medali Emas</span>';
+                        } else if (data.data[i].medali == 'perak') {
+                            html += '<span class="ann-school">Peraih Medali Perak</span>';
+                        } else if (data.data[i].medali == 'perunggu') {
+                            html += '<span class="ann-school">Peraih Medali Perunggu</span>';
+                        } else {
+                            html += '<span class="ann-school">Peserta Aktif</span>';
+                        }
+
+                        html += '</div>';
+
+                        html += '</div>';
+                        html += '<div class="col-md-2">';
+                        html +=
+                            '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
+                            data.data[i].nilai + '</span>';
+                        html += '</div>';
+                        html += '</div>';
+
+
+
+                    }
+                    } else{
+                        html += '<center><span style="color:red;">data tidak ada</span></center>';
+                    }
+                    
+                   
+
+                    $("#pemenang-content").html(html);
+
+                }
+
+            });
+        });
 
         function show_pengumuman(comid, study) {
-            console.log(comid+' - ' +study);
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $("#pengumuman-competition-id").val(comid);
+            $("#pengumuman-study-id").val(study);
+            $.ajax({
+                url: "{{ route('show.pengumuman') }}",
+                type: "POST",
+                data: {
+                    "comid": comid,
+                    "study": study,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                 
+                        $("#modal-pengumuman").modal("show");
+                        $(".modal-head-title").text(data.com.title);
+                        $("#modal-subtitle").text(data.study.pelajaran.name + ' ' + data.study.level.level_name);
+                    
+                   
+
+                    var html = '';
+                    if(data.data.length > 0) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        html += '<div class="row row-pengumuman">';
+                        html += '<div class="col-md-1">';
+                        if (data.data[i].medali == 'emas') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
+                        } else if (data.data[i].medali == 'perak') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
+                        } else if (data.data[i].medali == 'perunggu') {
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
+                        } else {
+                            if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                            } else {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                            }
+
+                        }
+
+
+                        html += '</div>';
+                        html += '<div class="col-md-9">';
+                        html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user.name
+                            .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
+                            .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                        if (data.data[i].medali == 'emas') {
+                            html += '<span class="ann-school">Peraih Medali Emas</span>';
+                        } else if (data.data[i].medali == 'perak') {
+                            html += '<span class="ann-school">Peraih Medali Perak</span>';
+                        } else if (data.data[i].medali == 'perunggu') {
+                            html += '<span class="ann-school">Peraih Medali Perunggu</span>';
+                        } else {
+                            html += '<span class="ann-school">Peserta Aktif</span>';
+                        }
+
+                        html += '</div>';
+
+                        html += '</div>';
+                        html += '<div class="col-md-2">';
+                        html +=
+                            '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
+                            data.data[i].nilai + '</span>';
+                        html += '</div>';
+                        html += '</div>';
+
+
+
+                    }
+                } else {
+                    html += '<center><span style="color:red;">data tidak ada</span></center>';
+                }
+
+                    $("#pemenang-content").html(html);
+
+                }
+
+            });
+
         }
     </script>
 @endif

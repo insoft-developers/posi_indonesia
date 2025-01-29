@@ -19,4 +19,10 @@ class ExamSession extends Model
         return $this->belongsTo(Study::class, 'study_id','id');
     }
 
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'userid', 'id');
+    }
+
 }

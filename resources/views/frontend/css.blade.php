@@ -1,16 +1,79 @@
 <style>
-
-
-    .wa-chat{
-        position: fixed;
-    /* top: 0; */
-    right: 24px;
-    bottom: 127px !important;
-    width: 67px;
-    height: 67px;
-    z-index: 999999;
-    cursor: pointer;
+    .search-text{
+        border: 2px solid #2e303b;
+    left: 11px;
+    width: 791px;
+    position: relative;
+    font-size: 14px;
+    text-align: center;
     }
+    .nilai-medali{
+        position: relative;
+    right: -41px;
+    color: white;
+    font-weight: bold;
+    font-size: 21px;
+    top: 5px;
+    }
+    .img-rippon {
+        position: relative;
+        right: -81px;
+        height: 72px;
+        top: 5px;
+        width: 57px;
+        object-fit: cover;
+    }
+
+    .ann-name {
+        font-size: 15px;
+        font-weight: bold;
+        color: #151824;
+    }
+
+
+    .ann-school {
+        font-size: 12px
+    }
+
+    .ann-province {
+        font-size: 12px
+    }
+
+    .row-pengumuman {
+        border: 2px solid whitesmoke;
+        margin: 10px 64px 10px 10px;
+        padding: 9px 0px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .row-pengumuman:hover{
+        background: whitesmoke;
+        transform: scale(1.01);
+    }
+
+    .img-medali {
+
+          
+    height: 58px;
+    object-fit: cover;
+   
+
+    }
+
+    .pengumuman-item {}
+
+    .wa-chat {
+        position: fixed;
+      
+        right: 24px;
+        bottom: 127px !important;
+        width: 67px;
+        height: 67px;
+        z-index: 999999;
+        cursor: pointer;
+    }
+
     .user-name-display {
         font-size: 27px !important;
         position: relative;
