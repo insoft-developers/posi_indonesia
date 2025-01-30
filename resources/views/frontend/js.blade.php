@@ -439,6 +439,17 @@
 @endif
 @if ($view == 'cart')
     <script>
+
+        function hitung_subtotal() {
+            var subtotal = 0;
+            $(".subtotal").each(function(){
+                subtotal = subtotal + +$(this).val();
+            });
+            $("#grand-total").text("Rp. "+formatKoma(subtotal));
+            $("#grand-total-value").val(subtotal);
+        }
+
+
         function tambahi(id) {
             var nilai = $("#unit_cart_" + id).text();
             var baru = parseInt(nilai) + 1;
@@ -460,6 +471,7 @@
                     var angka_total = baru * total;
                     $("#cart_total_text_" + id).html('<strong>Rp. ' + formatKoma(angka_total) + '</strong>');
                     $("#cart_total_" + id).val(angka_total);
+                    hitung_subtotal();
                 }
             })
         }
@@ -492,6 +504,7 @@
                         $("#cart_total_text_" + id).html('<strong>Rp. ' + formatKoma(angka_total) +
                         '</strong>');
                         $("#cart_total_" + id).val(angka_total);
+                        hitung_subtotal();
                     }
                 })
 

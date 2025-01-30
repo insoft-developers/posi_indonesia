@@ -152,6 +152,7 @@ class JadwalController extends Controller
                     'unit_price' => $product->product_price,
                     'total_purchase' => $product->product_price,
                     'buyer' => Auth::user()->id,
+                    'is_fisik' => $product->is_fisik
                 ]);
             }
 

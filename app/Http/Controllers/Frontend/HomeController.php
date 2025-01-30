@@ -55,7 +55,7 @@ class HomeController extends Controller
         $kompetisi = Competition::where('is_active', 1)
             ->where('level', Auth::user()->level_id)
             ->get();
-        
+
         return view('frontend.main', compact('kompetisi', 'view'));
     }
 
@@ -79,18 +79,16 @@ class HomeController extends Controller
             ->where('status', 1)
             ->where('competition_id', $input['id'])
             ->get();
-            
-        // dd($detail);    
+
+        // dd($detail);
 
         $cart = Cart::where('userid', Auth::user()->id)->get();
-       
 
         return response()->json([
             'success' => true,
             'data' => $data,
             'detail' => $detail,
             'cart' => $cart,
-            
         ]);
     }
 
@@ -98,14 +96,21 @@ class HomeController extends Controller
     {
         $input = $request->all();
 
+        $compete = Competition::findorFail($input['compete_id']);
+        $harga = $compete->price;
+        
         $ids = $input['id'];
-
         foreach ($ids as $id) {
             Cart::updateOrCreate([
                 'userid' => Auth::user()->id,
                 'competition_id' => $input['compete_id'],
                 'premium' => $input['premium'],
                 'study_id' => $id,
+                'buyer' => Auth::user()->id,
+                'quantity' => 1,
+                'unit_price' => $harga,
+                'total_purchase' => $harga,
+                'is_fisik' => 0
             ]);
         }
 
@@ -149,23 +154,20 @@ class HomeController extends Controller
         }
     }
 
-
-    public function cart_ubah(Request $request) {
+    public function cart_ubah(Request $request)
+    {
         $input = $request->all();
 
         $cart = Cart::findorFail($input['id']);
         $price = $cart->unit_price;
 
-        
-            $cart->quantity = $input['quantity'];
-            $cart->total_purchase = $input['quantity'] * $price;
+        $cart->quantity = $input['quantity'];
+        $cart->total_purchase = $input['quantity'] * $price;
 
         $cart->save();
 
         return response()->json([
             'success' => true,
         ]);
-
-      
     }
 }

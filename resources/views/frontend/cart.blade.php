@@ -27,72 +27,62 @@
                                 @endphp
 
                                 @foreach ($cart as $index => $c)
+                                     @php
+                                      $total_harga = $total_harga + $c->total_purchase;   
+
+                                     @endphp
+                                     
                                     <tr style="vertical-align: middle">
-                                        
-                                        @if($c->type == 1)
-                                        <td width="8%">
-                                            
-                                            <img class="image-cart"
-                                            @if($c->product->image == null)
-                                            src="{{ asset('template/frontend/assets/umum/product.png') }}"
+
+                                        @if ($c->type == 1)
+                                            <td width="8%">
+
+                                                <img class="image-cart"
+                                                    @if ($c->product->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                             @else 
-                                            src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}"
-                                            @endif
-                                            >
-                                        </td>
-                                        @php
-                                            $session = \App\Models\ExamSession::where('userid', $c->user->id)
-                                                ->where('competition_id', $c->competition->id)
-                                                ->where('study_id', $c->study->id)
-                                                ->first();
-                                        @endphp
-                                        <td width="35%"><strong>{{ strtoupper($c->product->product_name) }}</strong>
-                                            <br>{{ $c->user->name }} - {{ $c->user->nama_sekolah }}
-                                            <br>{{ $c->competition->title }} - {{ $c->study->pelajaran->name }} - {{ $session->medali }}
-                                            <br><span style="font-size:13px;color:blue;">{{ $c->product->description }}</span>
-                                        </td>
-                                        @else 
-                                        <td width="8%"><img class="image-cart"
-                                            src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}">
-                                        </td>
-                                        <td width="35%">Pendaftaran {{ $c->competition->title }}
-                                            {{ $c->premium == 1 ? 'Berbayar' : 'Gratis' }} + (Bonus
-                                            Pembahasan)<br>{{ $c->user->name }} - SMAN 1 Tanjung Morawa</td>
+                                            src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}" @endif>
+                                            </td>
+                                            @php
+                                                
+                                                $session = \App\Models\ExamSession::where('userid', $c->user->id)
+                                                    ->where('competition_id', $c->competition->id)
+                                                    ->where('study_id', $c->study->id)
+                                                    ->first();
+                                            @endphp
+                                            <td width="35%"><strong>{{ strtoupper($c->product->product_name) }}</strong>
+                                                <br>{{ $c->user->name }} - {{ $c->user->nama_sekolah }}
+                                                <br>{{ $c->competition->title }} - {{ $c->study->pelajaran->name }} -
+                                                {{ $session->medali }}
+                                                <br><span
+                                                    style="font-size:13px;color:blue;">{{ $c->product->description }}</span>
+                                            </td>
+                                        @else
+                                            <td width="8%"><img class="image-cart"
+                                                    src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}">
+                                            </td>
+                                            <td width="35%">Pendaftaran {{ $c->competition->title }}
+                                                {{ $c->premium == 1 ? 'Berbayar' : 'Gratis' }}<br>{{ $c->user->name }} -
+                                                {{ $c->user->nama_sekolah }}
+                                                <br>
+                                                <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }} - {{ $c->study->level->level_name }}</span>
+                                            </td>
                                         @endif
-                                       
+
                                         <td width="25%">
-                                            {{-- @php
-                                                $detail = \App\Models\Cart::with('study.pelajaran', 'study.level')
-                                                    ->where('userid', Auth::user()->id)
-                                                    ->where('competition_id', $c->competition_id)
-                                                    ->get();
-
-                                                $html = "<ul style='list-style:inside'>";
-                                                $subtotal = 0;
-                                                foreach ($detail as $d) {
-                                                    $html .=
-                                                        '<li>' .
-                                                        $d->study->pelajaran->name .
-                                                        '  ' .
-                                                        $d->study->level->level_name .
-                                                        '<br><strong> Rp. ' .
-                                                        number_format($c->competition->price) .
-                                                        '</strong></li>';
-                                                    $subtotal = $subtotal + $c->competition->price;
-                                                    $total_harga = $total_harga + $c->competition->price;
-                                                }
-                                            @endphp --}}
-
-                                            @if($c->type == 1) 
-                                                <div class="tambahan-unit"><span onclick="kurangi({{ $c->id }})" class="btn-kurang-unit">-</span><span id="unit_cart_{{ $c->id }}" class="unit-cart">{{ $c->quantity }}</span><span onclick="tambahi({{ $c->id }})" class="btn-tambah-unit">+</span></div>            
-                                            @else
-
-                                            @endif
+                                            <div class="tambahan-unit"><span onclick="kurangi({{ $c->id }})"
+                                                    class="btn-kurang-unit">-</span><span
+                                                    id="unit_cart_{{ $c->id }}"
+                                                    class="unit-cart">{{ $c->quantity }}</span><span
+                                                    onclick="tambahi({{ $c->id }})" class="btn-tambah-unit">+</span>
+                                            </div>
 
                                         </td>
-                                        <td><span class="cart-total-price" id="cart_total_text_{{ $c->id }}"><strong>{{ "Rp. ".number_format($c->total_purchase) }}</strong></span>
-                                        <input type="hidden" id="cart_total_{{$c->id}}" value="{{ $c->total_purchase }}">
-                                        <input type="hidden" id="unit_total_{{$c->id}}" value="{{ $c->unit_price }}">
+                                        <td><span class="cart-total-price"
+                                                id="cart_total_text_{{ $c->id }}"><strong>{{ 'Rp. ' . number_format($c->total_purchase) }}</strong></span>
+                                            <input class="subtotal" type="hidden" id="cart_total_{{ $c->id }}"
+                                                value="{{ $c->total_purchase }}">
+                                            <input type="hidden" id="unit_total_{{ $c->id }}"
+                                                value="{{ $c->unit_price }}">
                                         </td>
                                         <td>
                                             <center><button onclick="hapus_cart({{ $c->competition_id }})"
@@ -104,8 +94,9 @@
                                     <tr>
                                         <th colspan="3" style="text-align: right;">Total Harga</th>
 
-                                        <th>Rp. {{ number_format($total_harga) }}</th>
-                                        <th></th>
+                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="grand-total">Rp.
+                                                {{ number_format($total_harga) }}</span></th>
+                                        <th><input type="hidden" value="{{ $total_harga }}" id="grand-total-value"></th>
                                     </tr>
                                 </tfoot>
                             </table>
