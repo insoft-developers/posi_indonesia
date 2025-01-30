@@ -20,70 +20,78 @@
 
                 <div style="margin-top:30px;"></div>
                 <div class="row">
-                  
-                       
-
-                            @foreach ($com as $c)
-                              
-                                <div class="col-md-4">
-
-                                    <div class="main-card mb-3 card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $c->title }}</h5>
-                                            <div style="margin-top:-10px;"></div>
-                                            <p>{{ $c->levels->level_name }}</p>
-                                            <div style="margin-top:-13px;"></div>
-                                            <hr />
-                                            @foreach ($c->transaction as $s)
-                                                @if($s->userid == Auth::user()->id)
-                                                <div
-                                                    class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
 
 
-                                                    <div class="vertical-timeline-item vertical-timeline-element">
-                                                        <div>
-                                                            <span class="vertical-timeline-element-icon bounce-in">
-                                                                <img src="{{ asset('template/frontend/assets/umum/pulpen.png') }}" class="timeline-icons">
-                                                            </span>
-                                                            <div class="vertical-timeline-element-content bounce-in">
-                                                                <h4 class="timeline-title">{{ $s->study->pelajaran->name }}</h4>
 
-                                                                <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
-                                                                <div class="list-tools" style="margin-left: -8px;">
-                                                                    <div class="riwayat-tools">
-                                                                    <img class="riwayat-tools-image" src="{{ asset('template/frontend/assets/umum/pengumuman.png') }}"><span class="riwayat-text">Pengumuman</span>
-                                                                    </div>
-                                                                    <div class="riwayat-tools">
-                                                                        <img class="riwayat-tools-image" src="{{ asset('template/frontend/assets/umum/sertifikat2.png') }}"><span class="riwayat-text">Sertifikat Digital</span>
-                                                                        </div>
-                                                                        <div class="riwayat-tools">
-                                                                            <img class="riwayat-tools-image" src="{{ asset('template/frontend/assets/umum/piagam.png') }}"><span class="riwayat-text">Piagam Digital</span>
-                                                                            </div>
-                                                                            <div class="riwayat-tools">
-                                                                                <img class="riwayat-tools-image" src="{{ asset('template/frontend/assets/umum/pembahasan.png') }}"><span class="riwayat-text">Pembahasan</span>
-                                                                                </div>
-                                                                                <div class="riwayat-tools">
-                                                                                    <img class="riwayat-tools-image" src="{{ asset('template/frontend/assets/umum/forum.png') }}"><span class="riwayat-text">Forum</span>
-                                                                                    </div>
+                    @foreach ($com as $c)
+                        <div class="col-md-4">
+
+                            <div class="main-card mb-3 card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $c->title }}</h5>
+                                    <div style="margin-top:-10px;"></div>
+                                    <p>{{ $c->levels->level_name }}</p>
+                                    <div style="margin-top:-13px;"></div>
+                                    <hr />
+                                    @foreach ($c->transaction as $s)
+                                        @if ($s->userid == Auth::user()->id && $s->invoices->payment_status == 1 && $s->invoices->transaction_status == 1)
+                                            <div
+                                                class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+
+
+                                                <div class="vertical-timeline-item vertical-timeline-element">
+                                                    <div>
+                                                        <span class="vertical-timeline-element-icon bounce-in">
+                                                            <img src="{{ asset('template/frontend/assets/umum/pulpen.png') }}"
+                                                                class="timeline-icons">
+                                                        </span>
+                                                        <div class="vertical-timeline-element-content bounce-in">
+                                                            <h4 class="timeline-title">{{ $s->study->pelajaran->name }}</h4>
+
+                                                            <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
+                                                            <div class="list-tools" style="margin-left: -8px;">
+                                                                <div class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/pengumuman.png') }}"><span
+                                                                        class="riwayat-text">Pengumuman</span>
                                                                 </div>
-
+                                                                <div class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/sertifikat2.png') }}"><span
+                                                                        class="riwayat-text">Sertifikat Digital</span>
+                                                                </div>
+                                                                <div class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/piagam.png') }}"><span
+                                                                        class="riwayat-text">Piagam Digital</span>
+                                                                </div>
+                                                                <div class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/pembahasan.png') }}"><span
+                                                                        class="riwayat-text">Pembahasan</span>
+                                                                </div>
+                                                                <div class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/forum.png') }}"><span
+                                                                        class="riwayat-text">Forum</span>
+                                                                </div>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                               @endif
-                                            @endforeach
+                                            </div>
+                                        @endif
+                                    @endforeach
 
 
 
 
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    @endforeach
 
-                       
-                        @endforeach
-                    
                 </div>
 
             </div>

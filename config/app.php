@@ -30,6 +30,10 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'raja_key' => env('RAJA_ONGKIR_KEY', ''),
+
+    
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

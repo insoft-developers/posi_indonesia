@@ -33,8 +33,7 @@ class TransactionController extends Controller
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
 
         try {
-            $transaction = Cart::with('competition')
-                ->where('userid', Auth::user()->id)
+            $transaction = Cart::where('buyer', Auth::user()->id)
                 ->get();
 
             $data_invoice = [
@@ -43,6 +42,7 @@ class TransactionController extends Controller
                 'total_amount' => 0,
                 'payment_status' => 0,
                 'transaction_status' => 0,
+                'buyer' => Auth::user()->id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'expired_time' => $this->tambah_jam(24, date('Y-m-d H:i:s')),
@@ -51,15 +51,20 @@ class TransactionController extends Controller
 
             $total_value = 0;
             foreach ($transaction as $t) {
-                $total_value = $total_value + $t->competition->price;
+                $total_value = $total_value + $t->total_purchase;
                 $item = new Transaction();
-                $item->userid = Auth::user()->id;
+                $item->userid = $t->userid;
                 $item->invoice = $invoice;
                 $item->invoice_id = $id;
                 $item->competition_id = $t->competition_id;
                 $item->study_id = $t->study_id;
-                $item->amount = $t->competition->price;
-                $item->is_fisik = 0;
+                $item->amount = $t->total_purchase;
+                $item->is_fisik = $t->is_fisik;
+                $item->product_id = $t->product_id;
+                $item->quantity = $t->quantity;
+                $item->unit_price = $t->unit_price;
+                $item->type = $t->type;
+                $item->buyer = Auth::user()->id;
                 $item->created_at = date('Y-m-d H:i:s');
                 $item->updated_at = date('Y-m-d H:i:s');
                 $item->save();
@@ -69,7 +74,7 @@ class TransactionController extends Controller
                 'total_amount' => $total_value,
             ]);
 
-            Cart::where('userid', Auth::user()->id)->delete();
+            Cart::where('buyer', Auth::user()->id)->delete();
 
             return response()->json([
                 'success' => true,
@@ -96,6 +101,7 @@ class TransactionController extends Controller
                 'total_amount' => 0,
                 'payment_status' => 0,
                 'transaction_status' => 0,
+                'buyer' => Auth::user()->id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'expired_time' => date('Y-m-d H:i:s'),
@@ -112,6 +118,10 @@ class TransactionController extends Controller
                 $item->study_id = $ids;
                 $item->amount = 0;
                 $item->is_fisik = 0;
+                $item->type = 0;
+                $item->unit_price = 0;
+                $item->quantity= 1;
+                $item->buyer = Auth::user()->id;
                 $item->created_at = date('Y-m-d H:i:s');
                 $item->updated_at = date('Y-m-d H:i:s');
                 $item->save();
@@ -279,7 +289,7 @@ class TransactionController extends Controller
     {
         $view = 'invoice';
         $setting = Setting::findorFail(1);
-        $data = Invoice::with('user', 'transaction.competition.levels', 'transaction.study.pelajaran')->where('invoice', $invoice)->first();
+        $data = Invoice::with('user', 'transaction.competition.levels', 'transaction.study.pelajaran','transaction.tuser')->where('invoice', $invoice)->first();
         return view('frontend.invoice', compact('view', 'data', 'setting'));
     }
 }

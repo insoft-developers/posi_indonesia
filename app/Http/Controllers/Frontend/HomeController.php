@@ -139,9 +139,9 @@ class HomeController extends Controller
     {
         try {
             $input = $request->all();
-            Cart::where('userid', Auth::user()->id)
-                ->where('competition_id', $input['id'])
-                ->delete();
+            
+           
+            Cart::destroy($input['id']);
             return response()->json([
                 'success' => true,
                 'message' => 'Item berhasil dihapus',

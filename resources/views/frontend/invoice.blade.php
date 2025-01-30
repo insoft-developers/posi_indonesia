@@ -122,7 +122,7 @@
     <a href="{{ url('transaction') }}"><button id="btn-tutup" class="btn btn-warning">Tutup</button></a>
     <div class="sheet-outer A4">
         <section class="sheet padding-5mm">
-            <h4>INVOICE #{{ $data->invoice }}</h4>
+            <h4>#{{ $data->invoice }}</h4>
             <h5>{{ $data->user->name }}</h5>
             <img class="logo-invoice" src="{{ asset('template/frontend/assets/images/logo.png') }}">
             <div class="row">
@@ -171,14 +171,35 @@
                         <tbody>
 
                             @foreach ($data->transaction as $key)
+                            @php    
+                              
+                            @endphp
                                 <tr>
-                                    <td><strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
+                                    <td width="50%">
+                                        @if($key->type == 1)
+                                        @php
+                                              $sesi = \App\Models\ExamSession::where('userid', $key->userid)
+                                                ->where('competition_id', $key->competition_id)
+                                                ->where('study_id', $key->study_id)
+                                                ->first();              
+                                        @endphp
+                                        <strong>{{ $key->product->product_name }}</strong><br><span
+                                            class="font-kecil">{{ $key->tuser->name }} -
+                                            {{ $key->tuser->nama_sekolah }}</span><br><span
+                                            class="font-kecil">{{ $key->competition->title }} - {{ $key->study->pelajaran->name }} -
+                                            {{ $sesi->medali }}</span>
+                                            <br><span style="color:green;font-size:13px;">({{ $key->product->description }})</span>
+                                        @else
+                                        <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
                                             class="font-kecil">{{ $data->user->name }} -
                                             {{ $data->user->nama_sekolah }}</span><br><span
                                             class="font-kecil">{{ $key->study->pelajaran->name }} -
-                                            {{ $key->competition->levels->level_name }}</span></td>
-                                    <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
-                                    <td>1</td>
+                                            {{ $key->competition->levels->level_name }}</span>
+                                        @endif
+                                        
+                                    </td>
+                                    <td><strong>Rp. {{ number_format($key->unit_price) }}</strong></td>
+                                    <td>{{ $key->quantity }}</td>
                                     <td><strong>Rp. {{ number_format($key->amount) }}</strong></td>
                                 </tr>
                             @endforeach

@@ -9,6 +9,7 @@ use App\Models\ExamSession;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Study;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,18 +25,11 @@ class JadwalController extends Controller
             'transaction' => function ($q) use ($userid) {
                 $q->where('userid', $userid);
             },
-            'transaction.invoice',
+            'transaction.invoices',
             'transaction.study.pelajaran',
             'levels',
         ])->where('date', '>=', $tanggal_sekarang);
-        $query
-            ->whereHas('transaction.invoice', function ($n) use ($userid) {
-                $n->where('payment_status', 1);
-                $n->where('transaction_status', 1);
-                $n->where('userid', $userid);
-            })
-
-            ->where('is_active', 1);
+        $query->where('is_active', 1);
 
         $data = $query->get();
 
@@ -109,6 +103,27 @@ class JadwalController extends Controller
             $product_for = explode(',', $product->product_for);
 
             $for = array_search($juara, $product_for, true);
+
+
+
+            $cek = Cart::where('userid', $session->userid)
+                ->where('competition_id', $session->competition_id)
+                ->where('study_id', $session->study_id)
+
+                ->where('product_id', $product->id);
+
+
+            $cek2 = Transaction::where('userid', $session->userid)
+                ->where('competition_id', $session->competition_id)
+                ->where('study_id', $session->study_id)
+
+                ->where('product_id', $product->id);
+
+
+            
+
+                
+
             if ($for !== false) {
                 $row['id'] = $product->id;
                 $row['name'] = $product->product_name;
@@ -116,6 +131,7 @@ class JadwalController extends Controller
                 $row['desc'] = $product->description;
                 $row['is_fisik'] = $product->is_fisik;
                 $row['image'] = $product->image;
+                $row['exist'] = (int)$cek->count() + (int)$cek2->count();
 
                 array_push($rows, $row);
             }

@@ -69,11 +69,23 @@
                                         @endif
 
                                         <td width="25%">
-                                            <div class="tambahan-unit"><span onclick="kurangi({{ $c->id }})"
-                                                    class="btn-kurang-unit">-</span><span
+                                            <div class="tambahan-unit">
+                                                @if($c->is_fisik == 1)
+                                                <span onclick="kurangi({{ $c->id }})"
+                                                    class="btn-kurang-unit">-</span>
+                                                @else
+                                                <span style="background-color: grey;" class="btn-kurang-unit">-</span>
+                                                @endif
+                                                    <span
                                                     id="unit_cart_{{ $c->id }}"
-                                                    class="unit-cart">{{ $c->quantity }}</span><span
+                                                    class="unit-cart">{{ $c->quantity }}</span>
+                                                    @if($c->is_fisik == 1)
+                                                    <span
                                                     onclick="tambahi({{ $c->id }})" class="btn-tambah-unit">+</span>
+                                                    @else
+                                                    <span style="background: grey;"
+                                                    class="btn-tambah-unit">+</span>
+                                                    @endif
                                             </div>
 
                                         </td>
@@ -85,7 +97,7 @@
                                                 value="{{ $c->unit_price }}">
                                         </td>
                                         <td>
-                                            <center><button onclick="hapus_cart({{ $c->competition_id }})"
+                                            <center><button onclick="hapus_cart({{ $c->id }})"
                                                     class="btn-insoft bg-danger btn-cart-delete">Hapus</button></center>
                                         </td>
                                     </tr>

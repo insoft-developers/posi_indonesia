@@ -22,9 +22,19 @@ class Transaction extends Model
         return $this->belongsTo(Study::class, 'study_id','id');
     }
 
-    public function invoice():BelongsTo
+    public function invoices():BelongsTo
     {
         return $this->belongsTo(Invoice::class, 'invoice_id','id');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function tuser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'userid','id');
     }
 }
 

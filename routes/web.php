@@ -14,6 +14,7 @@ use App\Models\Administrasi;
 use App\Models\ExamSession;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,13 +29,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-
-
-
-
-
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -53,7 +47,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/main', [HomeController::class, 'main'])->middleware('cdata');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('cdata');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit')
+        ->middleware('cdata');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -64,13 +60,10 @@ Route::middleware('auth')->group(function () {
     Route::post('cart-delete', [HomeController::class, 'cart_delete']);
     Route::post('cart-ubah-quantity', [HomeController::class, 'cart_ubah'])->name('cart.ubah');
 
-
-
     Route::get('transaction', [TransactionController::class, 'index'])->middleware('cdata');
     Route::post('transaction-store', [TransactionController::class, 'store']);
     Route::post('online-payment', [TransactionController::class, 'online_payment']);
     Route::post('upload-bukti', [TransactionController::class, 'upload_bukti'])->name('upload.bukti');
-
 
     Route::get('show-invoice/{invoice}', [TransactionController::class, 'show_invoice']);
 
@@ -80,11 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::post('send_email_passcode', [ProfileController::class, 'send_email_passcode']);
     Route::post('verify_email_passcode', [ProfileController::class, 'verify_email_passcode']);
 
-
     Route::get('get_kabupaten_by_province_id/{p}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('get_kecamatan_by_kabupaten_id/{p}', [AdministrativeController::class, 'get_kecamatan']);
     Route::get('get_sekolah_by_kecamatan_id/{p}', [AdministrativeController::class, 'get_sekolah']);
-
 
     Route::get('jadwal', [JadwalController::class, 'index'])->middleware('cdata');
     Route::post('show_pengumuman', [JadwalController::class, 'show_pengumuman'])->name('show.pengumuman');
@@ -107,13 +98,38 @@ Route::middleware('auth')->group(function () {
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
 
+// Route::get('raja', function () {
 
-Route::get('hitung_juara/{com}/{study}', [JuaraController::class, 'hitung']);
+//     $curl = curl_init();
 
+//     curl_setopt_array($curl, [
+//         CURLOPT_URL => 'https://api.rajaongkir.com/starter/province',
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_ENCODING => '',
+//         CURLOPT_MAXREDIRS => 10,
+//         CURLOPT_TIMEOUT => 30,
+//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//         CURLOPT_CUSTOMREQUEST => 'GET',
+//         CURLOPT_HTTPHEADER => ['key: 7XYYSAM1d02c227e6646df3eC1pYdOF6'],
+//     ]);
 
-Route::get('clear_number', function(){
-    session(['nomor'=> 0]);
-});
+//     $response = curl_exec($curl);
+//     $err = curl_error($curl);
+
+//     curl_close($curl);
+
+//     if ($err) {
+//         echo 'cURL Error #:' . $err;
+//     } else {
+//         echo $response;
+//     }
+// });
+
+// Route::get('hitung_juara/{com}/{study}', [JuaraController::class, 'hitung']);
+
+// Route::get('clear_number', function(){
+//     session(['nomor'=> 0]);
+// });
 
 // Route::get('send_mail', function(){
 //     $email = "irdn.software@gmail.com";
@@ -124,7 +140,7 @@ Route::get('clear_number', function(){
 //         'email' => $email,
 //         'passcode' => '123345'
 //     ];
-     
+
 //     Mail::to($email)->send(new RegisMail($details));
 // });
 
@@ -177,9 +193,5 @@ Route::get('clear_number', function(){
 //         }
 //     }
 // });
-
-
-
-
 
 require __DIR__ . '/auth.php';

@@ -14,14 +14,14 @@ class RiwayatController extends Controller
 
         $userid = Auth::user()->id;
         $sekarang = date('Y-m-d');
-        $query = Competition::with('transaction','transaction.invoice','levels','transaction.study.pelajaran')
+        $query = Competition::with('transaction','transaction.invoices','levels','transaction.study.pelajaran')
             ->where('is_active', 1);
             
         $query->whereHas('transaction', function($q) use ($userid){
             $q->where('userid', $userid);
         });
         
-        $query->whereHas('transaction.invoice', function($q) use ($userid){
+        $query->whereHas('transaction.invoices', function($q) use ($userid){
             $q->where('userid', $userid);
             $q->where('payment_status', 1);
             $q->where('transaction_status', 1);

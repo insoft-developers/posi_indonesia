@@ -105,9 +105,12 @@
                                         </div>
                                         <div class="col-md-7 col-md-7">
                                             <div class="blog-content">
-
+                                                
                                                 @foreach ($d->transaction as $index => $t)
+                                               
+                                                @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1)
                                                     @php
+
                                                         $session = \App\Models\ExamSession::where(
                                                             'competition_id',
                                                             $t->competition_id,
@@ -126,44 +129,52 @@
                                                         }
                                                         $nomor++;
                                                     @endphp
-                                                    <div> <img class="icon-utama" src="{{ asset('template/frontend/assets/umum/icon_buku.png') }}"><span style="color: #53b8ed;font-weight:bold;"> {{ $t->study->pelajaran->name }}</span>
-                                                    </div>
-                                                    <div class="sub-info"> {{ date('d F Y', strtotime($d->date)) }} -
-                                                        {{ date('H:i', strtotime($t->study->start_time)) }} s/d
-                                                        {{ date('H:i', strtotime($t->study->finish_time)) }}</div>
-                                                    <div class="sub-info">
-                                                        <div class="row">
-                                                            <div style="color: #0fa4c9;" class="col-lg-6 col-md-6">
-                                                                <strong><img class="icon-telegram" src="{{ asset('template/frontend/assets/umum/icon_telegram.png') }}"><a
-                                                                        href="#">Link Group</a></strong>
-                                                            </div>
-                                                            @if($selesai == 1) 
-                                                            <div style="color:green" class="col-lg-6 col-md-6">
-                                                                <strong><i class="fa fa-check"></i> <span>Ujian Selesai</span></strong>
-                                                            </div>
-                                                            @else
-                                                            <div style="color: #ce0404;" class="col-lg-6 col-md-6">
-                                                                <strong><img class="icon-telegram" src="{{ asset('template/frontend/assets/umum/icon_jam.png') }}"><span
-                                                                        id="countdown_{{ $nomor }}"></span></strong>
-                                                            </div>
-
-                                                            @endif
-                                                            <input type="hidden" id="tanggal_{{ $nomor }}"
-                                                                value="{{ $d->date }}">
-                                                            <input type="hidden" id="jam_{{ $nomor }}"
-                                                                value="{{ $t->study->start_time }}">
-                                                            <input type="hidden" id="selesai_{{ $nomor }}"
-                                                                value="{{ $t->study->finish_time }}">
-                                                            @if ($selesai == 1)
-                                                            @else
-                                                                <p onclick="ikut_ujian({{ $t->id }})"
-                                                                    style="display: none;" class="button-ujian"
-                                                                    id="tombol_ujian_{{ $nomor }}">Mulai Ujian</p>
-                                                            @endif
+                                                   
+                                                        <div> <img class="icon-utama"
+                                                                src="{{ asset('template/frontend/assets/umum/icon_buku.png') }}"><span
+                                                                style="color: #53b8ed;font-weight:bold;">
+                                                                {{ $t->study->pelajaran->name }}</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="minus-15"></div>
-                                                    <hr />
+                                                        <div class="sub-info"> {{ date('d F Y', strtotime($d->date)) }} -
+                                                            {{ date('H:i', strtotime($t->study->start_time)) }} s/d
+                                                            {{ date('H:i', strtotime($t->study->finish_time)) }}</div>
+                                                        <div class="sub-info">
+                                                            <div class="row">
+                                                                <div style="color: #0fa4c9;" class="col-lg-6 col-md-6">
+                                                                    <strong><img class="icon-telegram"
+                                                                            src="{{ asset('template/frontend/assets/umum/icon_telegram.png') }}"><a
+                                                                            href="#">Link Group</a></strong>
+                                                                </div>
+                                                                @if ($selesai == 1)
+                                                                    <div style="color:green" class="col-lg-6 col-md-6">
+                                                                        <strong><i class="fa fa-check"></i> <span>Ujian
+                                                                                Selesai</span></strong>
+                                                                    </div>
+                                                                @else
+                                                                    <div style="color: #ce0404;" class="col-lg-6 col-md-6">
+                                                                        <strong><img class="icon-telegram"
+                                                                                src="{{ asset('template/frontend/assets/umum/icon_jam.png') }}"><span
+                                                                                id="countdown_{{ $nomor }}"></span></strong>
+                                                                    </div>
+                                                                @endif
+                                                                <input type="hidden" id="tanggal_{{ $nomor }}"
+                                                                    value="{{ $d->date }}">
+                                                                <input type="hidden" id="jam_{{ $nomor }}"
+                                                                    value="{{ $t->study->start_time }}">
+                                                                <input type="hidden" id="selesai_{{ $nomor }}"
+                                                                    value="{{ $t->study->finish_time }}">
+                                                                @if ($selesai == 1)
+                                                                @else
+                                                                    <p onclick="ikut_ujian({{ $t->id }})"
+                                                                        style="display: none;" class="button-ujian"
+                                                                        id="tombol_ujian_{{ $nomor }}">Mulai Ujian
+                                                                    </p>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="minus-15"></div>
+                                                        <hr />
+                                                    @endif
                                                 @endforeach
 
 
@@ -202,7 +213,6 @@
 
                 <div class="row">
                     @foreach ($umum as $um)
-                      
                         <div class="col-lg-12 col-md-12 col-sm-12">
 
                             <!-- Single Blog Start -->
@@ -221,8 +231,9 @@
                                         <hr />
                                         <div class="row">
                                             @foreach ($um->study as $s)
-                                            
-                                                <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})" class="col-md-4 study-item"><img class="icon-n" src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
+                                                <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})"
+                                                    class="col-md-4 study-item"><img class="icon-n"
+                                                        src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
                                                     {{ $s->pelajaran->name }}</div>
                                             @endforeach
                                         </div>
@@ -250,8 +261,8 @@
 
 
                 <div class="modal-header">
-                    <p class="modal-title"><span class="modal-head-title"></span><br><span
-                            class="modal-subtitle" id="modal-subtitle"></span></p>
+                    <p class="modal-title"><span class="modal-head-title"></span><br><span class="modal-subtitle"
+                            id="modal-subtitle"></span></p>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -259,12 +270,13 @@
                     <div class="form-group">
                         <input type="hidden" id="pengumuman-competition-id">
                         <input type="hidden" id="pengumuman-study-id">
-                        <input type="text" class="form-control search-text" id="text-cari" placeholder="Cari nama peserta">
+                        <input type="text" class="form-control search-text" id="text-cari"
+                            placeholder="Cari nama peserta">
                     </div>
                     <div id="pemenang-content"></div>
                 </div>
                 <div class="modal-footer">
-                    
+
                     <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Tutup</button>
                 </div>
 
@@ -273,30 +285,31 @@
     </div>
 
 
-     <!-- Modal -->
-     <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="staticBackdropLabel"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-     <div class="modal-dialog modal-800">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <p class="modal-title"><span class="modal-head-title"></span><br><span
-                         class="modal-subtitle" id="modal-subtitle"></span></p>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-800">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title"></span><br><span class="modal-subtitle"
+                            id="modal-subtitle"></span></p>
 
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-             </div>
-             <div class="modal-body">
-                 <input type="hidden" id="product-user-id">
-                 <input type="hidden" id="product-competition-id">
-                 <input type="hidden" id="product-study-id">
-                 <div id="product-list-content"></div>
-             </div>
-             <div class="modal-footer">
-                 <button onclick="simpan_product_keranjang()" type="button" class="btn btn-primary btn-sm">Buka Keranjang</button>
-             </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="product-user-id">
+                    <input type="hidden" id="product-competition-id">
+                    <input type="hidden" id="product-study-id">
+                    <div id="product-list-content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="simpan_product_keranjang()" type="button" class="btn btn-primary btn-sm">Buka
+                        Keranjang</button>
+                </div>
 
-         </div>
-     </div>
- </div>
+            </div>
+        </div>
+    </div>
 
 
 
