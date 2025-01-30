@@ -273,6 +273,31 @@
     </div>
 
 
+     <!-- Modal -->
+     <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="staticBackdropLabel"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+     <div class="modal-dialog modal-800">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <p class="modal-title"><span class="modal-head-title"></span><br><span
+                         class="modal-subtitle" id="modal-subtitle"></span></p>
+
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" id="product-user-id">
+                 <input type="hidden" id="product-competition-id">
+                 <input type="hidden" id="product-study-id">
+                 <div id="product-list-content"></div>
+             </div>
+             <div class="modal-footer">
+                 <button onclick="simpan_product_keranjang()" type="button" class="btn btn-primary btn-sm">Buka Keranjang</button>
+             </div>
+
+         </div>
+     </div>
+ </div>
+
 
 
 @endsection

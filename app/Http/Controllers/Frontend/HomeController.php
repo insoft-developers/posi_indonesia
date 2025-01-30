@@ -109,7 +109,7 @@ class HomeController extends Controller
             ]);
         }
 
-        $jumlah = Cart::where('userid', Auth::user()->id)
+        $jumlah = Cart::where('buyer', Auth::user()->id)
             ->groupBy('competition_id')
             ->count();
 
@@ -124,8 +124,8 @@ class HomeController extends Controller
     {
         $view = 'cart';
         $cart = Cart::with('competition', 'user', 'study.pelajaran', 'study.level')
-            ->where('userid', Auth::user()->id)
-            ->groupBy('competition_id')
+            ->where('buyer', Auth::user()->id)
+            // ->groupBy('competition_id')
             ->get();
         return view('frontend.cart', compact('view', 'cart'));
     }
@@ -147,5 +147,25 @@ class HomeController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+
+    public function cart_ubah(Request $request) {
+        $input = $request->all();
+
+        $cart = Cart::findorFail($input['id']);
+        $price = $cart->unit_price;
+
+        
+            $cart->quantity = $input['quantity'];
+            $cart->total_purchase = $input['quantity'] * $price;
+
+        $cart->save();
+
+        return response()->json([
+            'success' => true,
+        ]);
+
+      
     }
 }

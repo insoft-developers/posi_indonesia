@@ -1,4 +1,53 @@
 <script>
+    function removeArray(arr) {
+        var what, a = arguments,
+            L = a.length,
+            ax;
+        while (L > 1 && arr.length) {
+            what = a[--L];
+            while ((ax = arr.indexOf(what)) !== -1) {
+                arr.splice(ax, 1);
+            }
+        }
+        return arr;
+    }
+
+    function formatAngka(angka, prefix) {
+        var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+
+    function formatKoma(angka, prefix) {
+        var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? ',' : '';
+            rupiah += separator + ribuan.join(',');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+
+
     var monthNames = [
         "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
         "Agustus", "September", "Oktober", "November", "Desember"
@@ -390,6 +439,66 @@
 @endif
 @if ($view == 'cart')
     <script>
+        function tambahi(id) {
+            var nilai = $("#unit_cart_" + id).text();
+            var baru = parseInt(nilai) + 1;
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: "{{ route('cart.ubah') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id": id,
+                    "quantity": baru,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    $("#unit_cart_" + id).text(baru);
+
+                    var total = $("#unit_total_" + id).val();
+                    var angka_total = baru * total;
+                    $("#cart_total_text_" + id).html('<strong>Rp. ' + formatKoma(angka_total) + '</strong>');
+                    $("#cart_total_" + id).val(angka_total);
+                }
+            })
+        }
+
+
+        function kurangi(id) {
+            var nilai = $("#unit_cart_" + id).text();
+            var angka = parseInt(nilai);
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+
+            if (angka >= 2) {
+
+                var baru = parseInt(nilai) - 1;
+                $("#unit_cart_" + id).text(baru);
+                $.ajax({
+                    url: "{{ route('cart.ubah') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": id,
+                        "quantity": baru,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        $("#unit_cart_" + id).text(baru);
+
+                        var total = $("#unit_total_" + id).val();
+                        var angka_total = baru * total;
+                        $("#cart_total_text_" + id).html('<strong>Rp. ' + formatKoma(angka_total) +
+                        '</strong>');
+                        $("#cart_total_" + id).val(angka_total);
+                    }
+                })
+
+            }
+
+        }
+
         function hapus_cart(id) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var popup = confirm("Anda yakin ingin menghapus item belanja anda ?");
@@ -645,6 +754,7 @@
     <script>
         var jumlah_kompetisi = "{{ $nomor }}";
 
+        var selected_products = [];
 
 
         for (var i = 0; i <= jumlah_kompetisi; i++) {
@@ -751,7 +861,7 @@
             }
         }
 
-        $("#text-cari").keyup(function(){
+        $("#text-cari").keyup(function() {
             var nilai = $(this).val();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var comid = $("#pengumuman-competition-id").val();
@@ -763,71 +873,70 @@
                 data: {
                     "comid": comid,
                     "study": study,
-                    "search":nilai,
+                    "search": nilai,
                     "_token": csrf_token
                 },
                 success: function(data) {
-                    
+
                     var html = '';
-                    
-                    if(data.data.length > 0) {
+
+                    if (data.data.length > 0) {
                         for (var i = 0; i < data.data.length; i++) {
-                        html += '<div class="row row-pengumuman">';
-                        html += '<div class="col-md-1">';
-                        if (data.data[i].medali == 'emas') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
-                        } else if (data.data[i].medali == 'perak') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
-                        } else if (data.data[i].medali == 'perunggu') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
-                        } else {
-                            if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                            html += '<div onclick="order(' + data.data[i].id + ', ' + data.data[i]
+                                .userid + ')" class="row row-pengumuman">';
+                            html += '<div class="col-md-1">';
+                            if (data.data[i].medali == 'emas') {
                                 html +=
-                                    '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
+                            } else if (data.data[i].medali == 'perak') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
+                            } else if (data.data[i].medali == 'perunggu') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
                             } else {
-                                html +=
-                                    '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                                if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                                    html +=
+                                        '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                                } else {
+                                    html +=
+                                        '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                                }
+
                             }
 
+
+                            html += '</div>';
+                            html += '<div class="col-md-9">';
+                            html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i]
+                                .user.name
+                                .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i]
+                                .user
+                                .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah +
+                                '</span><br>';
+                            if (data.data[i].medali == 'emas') {
+                                html += '<span class="ann-school">Peraih Medali Emas</span>';
+                            } else if (data.data[i].medali == 'perak') {
+                                html += '<span class="ann-school">Peraih Medali Perak</span>';
+                            } else if (data.data[i].medali == 'perunggu') {
+                                html += '<span class="ann-school">Peraih Medali Perunggu</span>';
+                            } else {
+                                html += '<span class="ann-school">Peserta Aktif</span>';
+                            }
+
+                            html += '</div>';
+
+                            html += '</div>';
+                            html += '<div class="col-md-2">';
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
+                                data.data[i].nilai + '</span>';
+                            html += '</div>';
+                            html += '</div>';
                         }
-
-
-                        html += '</div>';
-                        html += '<div class="col-md-9">';
-                        html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user.name
-                            .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
-                            .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
-                        if (data.data[i].medali == 'emas') {
-                            html += '<span class="ann-school">Peraih Medali Emas</span>';
-                        } else if (data.data[i].medali == 'perak') {
-                            html += '<span class="ann-school">Peraih Medali Perak</span>';
-                        } else if (data.data[i].medali == 'perunggu') {
-                            html += '<span class="ann-school">Peraih Medali Perunggu</span>';
-                        } else {
-                            html += '<span class="ann-school">Peserta Aktif</span>';
-                        }
-
-                        html += '</div>';
-
-                        html += '</div>';
-                        html += '<div class="col-md-2">';
-                        html +=
-                            '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
-                            data.data[i].nilai + '</span>';
-                        html += '</div>';
-                        html += '</div>';
-
-
-
-                    }
-                    } else{
+                    } else {
                         html += '<center><span style="color:red;">data tidak ada</span></center>';
                     }
-                    
-                   
 
                     $("#pemenang-content").html(html);
 
@@ -849,70 +958,69 @@
                     "_token": csrf_token
                 },
                 success: function(data) {
-                 
-                        $("#modal-pengumuman").modal("show");
-                        $(".modal-head-title").text(data.com.title);
-                        $("#modal-subtitle").text(data.study.pelajaran.name + ' ' + data.study.level.level_name);
-                    
-                   
+
+                    $("#modal-pengumuman").modal("show");
+                    $(".modal-head-title").text(data.com.title);
+                    $("#modal-subtitle").text(data.study.pelajaran.name + ' ' + data.study.level.level_name);
+
+
 
                     var html = '';
-                    if(data.data.length > 0) {
-                    for (var i = 0; i < data.data.length; i++) {
-                        html += '<div class="row row-pengumuman">';
-                        html += '<div class="col-md-1">';
-                        if (data.data[i].medali == 'emas') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
-                        } else if (data.data[i].medali == 'perak') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
-                        } else if (data.data[i].medali == 'perunggu') {
-                            html +=
-                                '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
-                        } else {
-                            if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                    if (data.data.length > 0) {
+                        for (var i = 0; i < data.data.length; i++) {
+                            html += '<div onclick="order(' + data.data[i].id + ', ' + data.data[i].userid +
+                                ')" class="row row-pengumuman">';
+                            html += '<div class="col-md-1">';
+                            if (data.data[i].medali == 'emas') {
                                 html +=
-                                    '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara1.png') }}" class="img-medali">';
+                            } else if (data.data[i].medali == 'perak') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara2.png') }}" class="img-medali">';
+                            } else if (data.data[i].medali == 'perunggu') {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/juara3.png') }}" class="img-medali">';
                             } else {
-                                html +=
-                                    '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                                if (data.data[i].user.jenis_kelamin == 'Laki Laki') {
+                                    html +=
+                                        '<img src="{{ asset('template/frontend/assets/umum/profile2.png') }}" class="img-medali">';
+                                } else {
+                                    html +=
+                                        '<img src="{{ asset('template/frontend/assets/umum/profile1.png') }}" class="img-medali">';
+                                }
+
                             }
 
+
+                            html += '</div>';
+                            html += '<div class="col-md-9">';
+                            html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
+                                .name
+                                .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
+                                .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                            if (data.data[i].medali == 'emas') {
+                                html += '<span class="ann-school">Peraih Medali Emas</span>';
+                            } else if (data.data[i].medali == 'perak') {
+                                html += '<span class="ann-school">Peraih Medali Perak</span>';
+                            } else if (data.data[i].medali == 'perunggu') {
+                                html += '<span class="ann-school">Peraih Medali Perunggu</span>';
+                            } else {
+                                html += '<span class="ann-school">Peserta Aktif</span>';
+                            }
+
+                            html += '</div>';
+
+                            html += '</div>';
+                            html += '<div class="col-md-2">';
+                            html +=
+                                '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
+                                data.data[i].nilai + '</span>';
+                            html += '</div>';
+                            html += '</div>';
                         }
-
-
-                        html += '</div>';
-                        html += '<div class="col-md-9">';
-                        html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user.name
-                            .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
-                            .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
-                        if (data.data[i].medali == 'emas') {
-                            html += '<span class="ann-school">Peraih Medali Emas</span>';
-                        } else if (data.data[i].medali == 'perak') {
-                            html += '<span class="ann-school">Peraih Medali Perak</span>';
-                        } else if (data.data[i].medali == 'perunggu') {
-                            html += '<span class="ann-school">Peraih Medali Perunggu</span>';
-                        } else {
-                            html += '<span class="ann-school">Peserta Aktif</span>';
-                        }
-
-                        html += '</div>';
-
-                        html += '</div>';
-                        html += '<div class="col-md-2">';
-                        html +=
-                            '<img src="{{ asset('template/frontend/assets/umum/rippon.png') }}" class="img-rippon"><span class="nilai-medali">' +
-                            data.data[i].nilai + '</span>';
-                        html += '</div>';
-                        html += '</div>';
-
-
-
+                    } else {
+                        html += '<center><span style="color:red;">data tidak ada</span></center>';
                     }
-                } else {
-                    html += '<center><span style="color:red;">data tidak ada</span></center>';
-                }
 
                     $("#pemenang-content").html(html);
 
@@ -920,6 +1028,121 @@
 
             });
 
+        }
+
+
+        function order(id, userid) {
+            var user_aktif = "{{ Auth::user()->id }}";
+            if (user_aktif == userid) {
+                confirm_order(id);
+            } else {
+                var c = confirm(
+                    'Anda memilih kartu pengumuman yang bukan nama anda. apakah anda yakin lanjut memesankan orang lain?'
+                );
+                if (c === true) {
+                    confirm_order(id);
+                }
+            }
+        }
+
+        function confirm_order(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('confirm.order') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id": id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    if (data.success) {
+                        $("#modal-product .modal-head-title").text(data.user.name);
+                        $("#modal-product #modal-subtitle").text("Merchandise " + data.kompetisi.title);
+                        $("#product-competition-id").val(data.kompetisi.id);
+                        $("#product-study-id").val(data.study_id);
+                        $("#product-user-id").val(data.user.id);
+
+                        var html = '';
+                        for (var i = 0; i < data.data.length; i++) {
+                            html += '<div onclick="select_product(' + data.data[i].id +
+                                ')" class="row product-row" id="row_' + data.data[i].id + '">';
+                            html += '<div class="col-md-1">';
+                            if (data.data[i].image == null) {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/product.png') }}" class="img-product-pengumuman">';
+                            }
+
+                            html += '</div>';
+                            html += '<div class="col-md-10"><span class="item-product-list">' + data.data[i]
+                                .name + '</span><br><span class="item-product-desc">' + data.data[i].desc +
+                                '</span><br><span class="item-product-price">Rp. ' + formatAngka(data.data[i]
+                                    .price) +
+                                '</span></div>';
+                            html += '<div class="col-md-1">';
+                            html += '<span style="display:none;" id="product_check_' + data.data[i].id +
+                                '" class="product-check"><i class="fa fa-check"></i></span>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+
+                        $("#product-list-content").html(html);
+
+
+                        $("#modal-product").modal("show");
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        }
+
+        function select_product(id) {
+            if ($("#row_" + id).hasClass("product-selected")) {
+                $("#row_" + id).removeClass("product-selected");
+                $("#product_check_" + id).hide();
+                removeArray(selected_products, id);
+            } else {
+                selected_products.push(id);
+                $("#row_" + id).addClass("product-selected");
+                $("#product_check_" + id).show();
+            }
+
+            console.log(selected_products);
+        }
+
+
+        function simpan_product_keranjang() {
+            if (selected_products.length > 0) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                var userid = $("#product-user-id").val();
+                var competition_id = $("#product-competition-id").val();
+                var study_id = $("#product-study-id").val();
+
+                $.ajax({
+                    url: "{{ route('simpan.product') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "userid": userid,
+                        "competition_id": competition_id,
+                        "study_id": study_id,
+                        "selected_product": selected_products,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.success) {
+                            window.location = "{{ url('cart') }}";
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                });
+
+            } else {
+                alert('belum ada produk merchandise yang dipilih..!');
+            }
         }
     </script>
 @endif

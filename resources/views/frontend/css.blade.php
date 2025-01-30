@@ -1,20 +1,114 @@
 <style>
-    .search-text{
-        border: 2px solid #2e303b;
-    left: 11px;
-    width: 791px;
-    position: relative;
-    font-size: 14px;
-    text-align: center;
+    .btn-cart-delete{
+        margin-top: 40px;
     }
-    .nilai-medali{
+    .cart-total-price{
         position: relative;
-    right: -41px;
-    color: white;
-    font-weight: bold;
-    font-size: 21px;
-    top: 5px;
+    top: 40px;
+    left: 19px;
     }
+    .tambahan-unit {
+        position: relative;
+        left: 39%;
+        margin-top: 15%;
+    }
+
+    .btn-tambah-unit {
+        background: white;
+        padding: 3px 7px;
+        border-radius: 5px;
+        cursor: pointer;
+        background: green;
+        color: white;
+        font-weight: bold;
+        margin-left: 11px;
+    }
+
+    .btn-kurang-unit {
+        background: white;
+        padding: 3px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        background: green;
+        color: white;
+        font-weight: bold;
+        margin-right: 11px;
+    }
+
+    .unit-cart {
+        background: white;
+        padding: 4px 21px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 13px;
+        border: 1px solid grey;
+    }
+
+    .product-check {
+        font-size: 28px;
+        color: green;
+
+        padding: 5px 9px;
+        border-radius: 31px;
+    }
+
+    .product-selected {
+        background: whitesmoke !important;
+    }
+
+    .img-product-pengumuman {
+        object-fit: cover;
+        height: 36px;
+        margin-top: 49%;
+        right: 7px;
+    }
+
+    .item-product-price {
+        font-size: 14px;
+        font-weight: bold;
+        color: green;
+    }
+
+    .item-product-list {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .item-product-desc {
+        font-size: 14px;
+        color: blue;
+
+    }
+
+    .product-row {
+        border: 2px solid whitesmoke;
+        margin: 10px 10px;
+        border-radius: 5px;
+        padding: 10px 10px;
+        cursor: pointer;
+    }
+
+
+
+
+    .search-text {
+        border: 2px solid #2e303b;
+        left: 11px;
+        width: 791px;
+        position: relative;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .nilai-medali {
+        position: relative;
+        right: -41px;
+        color: white;
+        font-weight: bold;
+        font-size: 21px;
+        top: 5px;
+    }
+
     .img-rippon {
         position: relative;
         right: -81px;
@@ -47,17 +141,17 @@
         cursor: pointer;
     }
 
-    .row-pengumuman:hover{
+    .row-pengumuman:hover {
         background: whitesmoke;
         transform: scale(1.01);
     }
 
     .img-medali {
 
-          
-    height: 58px;
-    object-fit: cover;
-   
+
+        height: 58px;
+        object-fit: cover;
+
 
     }
 
@@ -65,7 +159,7 @@
 
     .wa-chat {
         position: fixed;
-      
+
         right: 24px;
         bottom: 127px !important;
         width: 67px;
@@ -227,6 +321,10 @@
 
     .modal-600 {
         width: 500px !important;
+    }
+
+    .modal-800 {
+        width: 800px !important;
     }
 
     .tombol-daftar {

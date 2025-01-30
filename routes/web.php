@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::post('add_free_invoice', [TransactionController::class, 'add_free_invoice']);
     Route::get('cart', [HomeController::class, 'cart'])->middleware('cdata');
     Route::post('cart-delete', [HomeController::class, 'cart_delete']);
+    Route::post('cart-ubah-quantity', [HomeController::class, 'cart_ubah'])->name('cart.ubah');
+
+
 
     Route::get('transaction', [TransactionController::class, 'index'])->middleware('cdata');
     Route::post('transaction-store', [TransactionController::class, 'store']);
@@ -86,6 +89,8 @@ Route::middleware('auth')->group(function () {
     Route::get('jadwal', [JadwalController::class, 'index'])->middleware('cdata');
     Route::post('show_pengumuman', [JadwalController::class, 'show_pengumuman'])->name('show.pengumuman');
     Route::post('search_pengumuman', [JadwalController::class, 'search_pengumuman'])->name('search.pengumuman');
+    Route::post('confirm_order', [JadwalController::class, 'confirm_order'])->name('confirm.order');
+    Route::post('simpan_product', [JadwalController::class, 'simpan_product'])->name('simpan.product');
 
     Route::post('ujian-start', [UjianController::class, 'ujian_start']);
     Route::get('ujian/{token}', [UjianController::class, 'index']);

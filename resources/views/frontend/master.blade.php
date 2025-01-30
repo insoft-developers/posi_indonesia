@@ -176,13 +176,10 @@
                                             src="{{ asset('template/frontend') }}/assets/umum/notif.png"
                                             alt="notif"><span class="notif-number">0</span>
 
-
-
-
                                     </li>
                                     @php
-                                        $jumlah = \App\Models\Cart::where('userid', Auth::user()->id)
-                                            ->groupBy('competition_id')
+                                        $jumlah = \App\Models\Cart::where('buyer', Auth::user()->id)
+                                            
                                             ->get();
                                         if ($jumlah->count() > 0) {
                                             $style = '';
