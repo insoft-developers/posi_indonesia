@@ -77,8 +77,11 @@
                     <div class="row">
                         @php
                             $nomor = -1;
+                            $sekarang = date('Y-m-d');
                         @endphp
                         @foreach ($data as $d)
+                           
+                            @if($d->date <= $sekarang)
                             <div class="col-lg-6 col-md-6">
 
                                 <!-- Single Blog Start -->
@@ -92,7 +95,7 @@
                                                     alt="Competition Image"></a>
                                             <div class="blog-content">
                                                 <h4 class="jadwal-title"><a
-                                                        href="blog-details-left-sidebar.html">{{ $d->title }}</a></h4>
+                                                        href="#">{{ $d->title }}</a></h4>
                                                 <div class="author-name">
                                                     <a class="name" href="#">{{ hari_ini($d->date) }},
                                                         {{ date('d F Y', strtotime($d->date)) }}</a>
@@ -105,31 +108,30 @@
                                         </div>
                                         <div class="col-md-7 col-md-7">
                                             <div class="blog-content">
-                                                
-                                                @foreach ($d->transaction as $index => $t)
-                                               
-                                                @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1)
-                                                    @php
 
-                                                        $session = \App\Models\ExamSession::where(
-                                                            'competition_id',
-                                                            $t->competition_id,
-                                                        )
-                                                            ->where('study_id', $t->study_id)
-                                                            ->where('userid', Auth::user()->id);
-                                                        if ($session->count() > 0) {
-                                                            $sess = $session->first();
-                                                            if ($sess->is_finish == 1) {
-                                                                $selesai = 1;
+                                                @foreach ($d->transaction as $index => $t)
+                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1)
+                                                        @php
+
+                                                            $session = \App\Models\ExamSession::where(
+                                                                'competition_id',
+                                                                $t->competition_id,
+                                                            )
+                                                                ->where('study_id', $t->study_id)
+                                                                ->where('userid', Auth::user()->id);
+                                                            if ($session->count() > 0) {
+                                                                $sess = $session->first();
+                                                                if ($sess->is_finish == 1) {
+                                                                    $selesai = 1;
+                                                                } else {
+                                                                    $selesai = 0;
+                                                                }
                                                             } else {
                                                                 $selesai = 0;
                                                             }
-                                                        } else {
-                                                            $selesai = 0;
-                                                        }
-                                                        $nomor++;
-                                                    @endphp
-                                                   
+                                                            $nomor++;
+                                                        @endphp
+
                                                         <div> <img class="icon-utama"
                                                                 src="{{ asset('template/frontend/assets/umum/icon_buku.png') }}"><span
                                                                 style="color: #53b8ed;font-weight:bold;">
@@ -178,7 +180,7 @@
                                                 @endforeach
 
 
-                                                {{-- <a href="blog-details-left-sidebar.html"
+                                                {{-- <a href="#"
                                                 class="btn btn-secondary btn-hover-primary">Read
                                                 More</a> --}}
                                             </div>
@@ -189,6 +191,7 @@
                                 <!-- Single Blog End -->
 
                             </div>
+                            @endif
                         @endforeach
                     </div>
                 @else

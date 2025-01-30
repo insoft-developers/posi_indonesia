@@ -16,7 +16,11 @@ class HomeController extends Controller
     public function index()
     {
         $view = 'home';
-        return view('frontend.dashboard', compact('view'));
+        $sekarang = date('Y-m-d');
+        $kompetisi = Competition::where('is_active', 1)
+        ->where('date','>=', $sekarang)
+        ->get();
+        return view('frontend.dashboard', compact('view','kompetisi'));
     }
 
     public function about()
