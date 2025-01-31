@@ -1077,51 +1077,38 @@
 
                         var html = '';
                         for (var i = 0; i < data.data.length; i++) {
-                            if (data.data[i].exist > 0) {
-                                html += '<div class="row product-row product-selected" id="row_' + data.data[i].id + '">';
-                                html += '<div class="col-md-1">';
-                                if (data.data[i].image == null) {
-                                    html +=
-                                        '<img src="{{ asset('template/frontend/assets/umum/product.png') }}" class="img-product-pengumuman">';
-                                }
 
-                                html += '</div>';
-                                html += '<div class="col-md-10"><span class="item-product-list">' + data.data[i]
-                                    .name + '</span><br><span class="item-product-desc">' + data.data[i].desc +
-                                    '</span><br><span class="item-product-price">Rp. ' + formatAngka(data.data[
-                                            i]
-                                        .price) +
-                                    '</span></div>';
-                                html += '<div class="col-md-1">';
-                                html += '<span id="product_check_' + data.data[i].id +
-                                    '" class="product-check"><i class="fa fa-check"></i></span>';
-                                html += '</div>';
-                                html += '</div>';
+                            html += '<div onclick="select_product(' + data.data[i].id +
+                                ')" class="row product-row" id="row_' + data.data[i].id + '">';
+                            html += '<div class="col-md-1">';
+                            if (data.data[i].image == null) {
+                                html +=
+                                    '<img src="{{ asset('template/frontend/assets/umum/product.png') }}" class="img-product-pengumuman">';
                             } else {
-                                html += '<div onclick="select_product(' + data.data[i].id +
-                                    ')" class="row product-row" id="row_' + data.data[i].id + '">';
-                                html += '<div class="col-md-1">';
-                                if (data.data[i].image == null) {
-                                    html +=
-                                        '<img src="{{ asset('template/frontend/assets/umum/product.png') }}" class="img-product-pengumuman">';
-                                }
-
-                                html += '</div>';
-                                html += '<div class="col-md-10"><span class="item-product-list">' + data.data[i]
-                                    .name + '</span><br><span class="item-product-desc">' + data.data[i].desc +
-                                    '</span><br><span class="item-product-price">Rp. ' + formatAngka(data.data[
-                                            i]
-                                        .price) +
-                                    '</span></div>';
-                                html += '<div class="col-md-1">';
-                                html += '<span style="display:none;" id="product_check_' + data.data[i].id +
-                                    '" class="product-check"><i class="fa fa-check"></i></span>';
-                                html += '</div>';
-                                html += '</div>';
+                                html +=
+                                    '<img src="{{ asset('storage/image_files/product') }}/'+data.data[i].image+'" class="img-product-pengumuman">';
                             }
 
+                            html += '</div>';
+                            html += '<div class="col-md-10"><span class="item-product-list">' + data.data[i]
+                                .name + '</span>';
+                            html += '<br>';
+
+                            html += '<span class="item-product-desc">' + data.data[i].desc +
+                                '</span>';
 
 
+                            html += '<br>';
+
+                            html += '<span class="item-product-price">Rp. ' + formatAngka(data.data[
+                                        i]
+                                    .price) +
+                                '</span></div>';
+                            html += '<div class="col-md-1">';
+                            html += '<span style="display:none;" id="product_check_' + data.data[i].id +
+                                '" class="product-check"><i class="fa fa-check"></i></span>';
+                            html += '</div>';
+                            html += '</div>';
 
                         }
 

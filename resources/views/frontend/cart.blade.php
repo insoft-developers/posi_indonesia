@@ -36,11 +36,11 @@
 
                                         @if ($c->type == 1)
                                             <td width="8%">
-
+                                                
                                                 <img class="image-cart"
                                                     @if ($c->product->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                             @else 
-                                            src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}" @endif>
+                                            src="{{ asset('storage/image_files/product/' . $c->product->image) }}" @endif>
                                             </td>
                                             @php
                                                 

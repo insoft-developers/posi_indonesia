@@ -74,7 +74,7 @@
                                 </div>
 
                                 <div class="single-form">
-                                    <input class="register-input" name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" maxlength="12" >
+                                    <input class="register-input" name="whatsapp" type="text" placeholder="No. Whatsapp" value="{{ old('whatsapp') }}" maxlength="14" >
                                     <x-input-error :messages="$errors->get('whatsapp')"  class="mt-2"/>
                                 </div>
                                 <div class="single-form">

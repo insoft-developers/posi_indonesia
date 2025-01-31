@@ -106,18 +106,18 @@ class JadwalController extends Controller
 
 
 
-            $cek = Cart::where('userid', $session->userid)
-                ->where('competition_id', $session->competition_id)
-                ->where('study_id', $session->study_id)
+            // $cek = Cart::where('userid', $session->userid)
+            //     ->where('competition_id', $session->competition_id)
+            //     ->where('study_id', $session->study_id)
 
-                ->where('product_id', $product->id);
+            //     ->where('product_id', $product->id);
 
 
-            $cek2 = Transaction::where('userid', $session->userid)
-                ->where('competition_id', $session->competition_id)
-                ->where('study_id', $session->study_id)
+            // $cek2 = Transaction::where('userid', $session->userid)
+            //     ->where('competition_id', $session->competition_id)
+            //     ->where('study_id', $session->study_id)
 
-                ->where('product_id', $product->id);
+            //     ->where('product_id', $product->id);
 
 
             
@@ -131,7 +131,8 @@ class JadwalController extends Controller
                 $row['desc'] = $product->description;
                 $row['is_fisik'] = $product->is_fisik;
                 $row['image'] = $product->image;
-                $row['exist'] = (int)$cek->count() + (int)$cek2->count();
+                $row['exist'] =0;
+                $row['is_combo'] = $product->is_combo;
 
                 array_push($rows, $row);
             }

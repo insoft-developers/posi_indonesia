@@ -211,7 +211,7 @@
                                         @else
                                             @if ($user->google_id == null)
                                                 <img class="profile-image"
-                                                    src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                                    src="{{ asset('storage/app/public/image_files/profile/' . $user->user_image) }}"
                                                     alt="Author">
                                             @else
                                                 <img class="profile-image" src="{{ $user->user_image }}"

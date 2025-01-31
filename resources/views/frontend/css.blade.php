@@ -1,4 +1,18 @@
 <style>
+
+    #btn-email-verif{
+        background: whitesmoke;
+    padding: 10px 10px;
+    border: 2px solid #cdc1c1;
+    border-radius: 16px;
+    font-size: 14px;
+    position: relative;
+    margin-top: 13px;
+    display: block;
+    width: 187px;
+    text-align: center;
+    cursor: pointer;
+    }
     .btn-cart-delete{
         margin-top: 40px;
     }

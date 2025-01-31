@@ -59,10 +59,10 @@
                                 @endif
                             @else
                                 @if ($user->google_id == null)
-                                    <img src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                                    <img src="{{ asset('storage/app/public/image_files/profile/' . $user->user_image) }}"
                                         class="profile-image-i" id="profile-image-i">
                                 @else
-                                    <img src="{{ $user->user_image }}" class="profile-image-i">
+                                    <img src="{{ $user->user_image }}" class="profile-image-i" id="profile-image-i">
                                 @endif
                             @endif
 
@@ -77,6 +77,12 @@
 
 
                                         <!-- Single Form Start -->
+                                        <div class="single-form">
+                                            <label class="label-form">Nama Lengkap</label>
+                                            <input type="text" id="name" name="name" placeholder="Masukkan nama sesuai KTP (nama ini yang tampil di sertifikat)"
+                                                value="{{ $user->name }}">
+                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        </div>
                                         <div class="single-form">
                                             <label class="label-form">Username</label>
                                             <input type="text" id="username" name="username" placeholder="Username"
@@ -195,16 +201,16 @@
                                         <div class="single-form">
                                             <label class="label-form">Nomor Whatsapp</label>
                                             <input id="whatsapp" name="whatsapp" type="text"
-                                                placeholder="No. Whatsapp" value="{{ $user->whatsapp }}">
-                                            @if ($user->wa_status == 1)
-                                                <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i>
-                                                    verified</small>
-                                            @else
-                                                <a onclick="verif_wa({{ Auth::user()->id }})"
-                                                    href="javascript:void(0);"><small style="color: red;"><i
-                                                            class="fa fa-exclamation"></i> <strong>Verifikasi
-                                                            nomor whatsapp Anda</strong></small></a>
-                                            @endif
+                                                placeholder="No. Whatsapp" value="{{ $user->whatsapp }}" maxlength="14">
+                                            <!--@if ($user->wa_status == 1)-->
+                                            <!--    <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i>-->
+                                            <!--        verified</small>-->
+                                            <!--@else-->
+                                            <!--    <a onclick="verif_wa({{ Auth::user()->id }})"-->
+                                            <!--        href="javascript:void(0);"><small style="color: red;"><i-->
+                                            <!--                class="fa fa-exclamation"></i> <strong>Verifikasi-->
+                                            <!--                nomor whatsapp Anda</strong></small></a>-->
+                                            <!--@endif-->
                                         </div>
 
                                         <div class="single-form">

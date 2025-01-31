@@ -19,6 +19,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use File;
 
 class ProfileController extends Controller
 {
@@ -86,6 +87,7 @@ class ProfileController extends Controller
         $user = User::findorFail(Auth::user()->id);
 
         $rules = [
+            'name' => 'required',
             'username' => 'required|'.Rule::unique('users')->ignore($user->id ),
             'email' => 'required',
             'whatsapp' => 'required|'.Rule::unique('users')->ignore($user->id ),
@@ -119,7 +121,10 @@ class ProfileController extends Controller
         
 
         if ($request->has('user_image')) {
-            $path = storage_path('app\public\image_files\profile');
+            $path = storage_path('app/public/image_files/profile');
+            $url = url('storage/image_files/profile');
+            // if(!File::exists($path)) File::makeDirectory($path, 775);
+
             $manager = new ImageManager(new Driver());
             $file = $request->user_image;
             $filename = uniqid().date('YmdHis') .'.'.$file->getClientOriginalExtension();
@@ -128,10 +133,15 @@ class ProfileController extends Controller
                 $constraint->aspectRatio();
             })->save($path . '/' . $filename);
 
-            $user->user_image = $filename;
+            if($user->google_id == null) {
+                $user->user_image = $filename;
+            } else {
+                $user->user_image = $url.'/' . $filename;
+            }
+            
         }
-
-       
+    
+        $user->name = $input['name'];   
         $user->username = $input['username'];
         $user->level_id = $input['level_id'];
         $user->tanggal_lahir = $input['tanggal_lahir'];

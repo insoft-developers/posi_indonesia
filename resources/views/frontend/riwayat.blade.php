@@ -34,6 +34,7 @@
                                     <div style="margin-top:-13px;"></div>
                                     <hr />
                                     @foreach ($c->transaction as $s)
+                                      
                                         @if ($s->userid == Auth::user()->id && $s->invoices->payment_status == 1 && $s->invoices->transaction_status == 1)
                                             <div
                                                 class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
@@ -50,26 +51,62 @@
 
                                                             <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
                                                             <div class="list-tools" style="margin-left: -8px;">
+
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         src="{{ asset('template/frontend/assets/umum/pengumuman.png') }}"><span
                                                                         class="riwayat-text">Pengumuman</span>
                                                                 </div>
+                                                                @php
+                                                                $transaction = \App\Models\Transaction::where('competition_id', $c->id)
+                                                                    ->where('study_id', $s->study->id)
+                                                                    ->where('userid', Auth::user()->id)
+                                                                    ->where('product_id', '!=', null)
+                                                                    ->get(); 
+
+                                                                @endphp
+                                                                @foreach($transaction as $tt)
+                                                                @php
+                                                                $product = \App\Models\Product::findorFail($tt->product_id);
+                                                                @endphp
+
+                                                                @if($product->is_combo == 1)
+                                                                @php
+                                                                    $products = explode(",", $product->composition);                
+                                                                @endphp
+                                                                @foreach($products as $pid)
+                                                                @php
+                                                                    $barang = \App\Models\Product::findorFail($pid);
+                                                                @endphp
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
-                                                                        src="{{ asset('template/frontend/assets/umum/sertifikat2.png') }}"><span
-                                                                        class="riwayat-text">Sertifikat Digital</span>
+                                                                        @if($barang->image == null)
+                                                                        src="{{ asset('template/frontend/assets/umum/product.png') }}"
+                                                                        @else
+                                                                        src="{{ asset('storage/image_files/product/'.$barang->image) }}"
+                                                                        @endif
+                                                                     >
+                                                                        <span
+                                                                        class="riwayat-text">{{ $barang->product_name }}</span>
                                                                 </div>
+                                                                @endforeach
+                                                                @else
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
-                                                                        src="{{ asset('template/frontend/assets/umum/piagam.png') }}"><span
-                                                                        class="riwayat-text">Piagam Digital</span>
+                                                                        @if($product->image == null)
+                                                                        src="{{ asset('template/frontend/assets/umum/product.png') }}"
+                                                                        @else
+                                                                        src="{{ asset('storage/image_files/product/'.$product->image) }}"
+                                                                        @endif
+                                                                     >
+                                                                    <span
+                                                                        class="riwayat-text">{{ $product->product_name }}</span>
                                                                 </div>
-                                                                <div class="riwayat-tools">
-                                                                    <img class="riwayat-tools-image"
-                                                                        src="{{ asset('template/frontend/assets/umum/pembahasan.png') }}"><span
-                                                                        class="riwayat-text">Pembahasan</span>
-                                                                </div>
+                                                                
+                                                                @endif 
+
+                                                                @endforeach
+
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         src="{{ asset('template/frontend/assets/umum/forum.png') }}"><span

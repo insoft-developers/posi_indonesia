@@ -22,12 +22,12 @@ class GoogleController extends Controller
             $user = User::where('google_id', $google_user->getId())->first();
             if(!$user) {
                 $new_user = User::create([
-                    'name' => $google_user->getName(),
+                    'name' => '',
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId(),
                     'user_image' => $google_user->getAvatar(),
                     'email_status' => 1,
-                    'username' => uniqid().'@gmail.com'
+                    'username' => ''
                 ]);
                 Auth::login($new_user);
                 return redirect()->intended('main');
