@@ -72,6 +72,7 @@
             <div class="blog-wrapper">
                 @php
                     $nomor = 0;
+                    $ada = 0;
                 @endphp
                 @if ($data->count() > 0)
                     <div class="row">
@@ -82,6 +83,9 @@
                         @foreach ($data as $d)
                            
                             @if($d->date <= $sekarang)
+                            @php
+                            $ada++;
+                            @endphp
                             <div class="col-lg-6 col-md-6">
 
                                 <!-- Single Blog Start -->
@@ -194,8 +198,9 @@
                             @endif
                         @endforeach
                     </div>
-                @else
-                    <center><img src="{{ asset('template/frontend/assets/umum/empty_transaction.png') }}"
+                @endif
+                @if($ada <= 0)    
+                <center><img src="{{ asset('template/frontend/assets/umum/empty_transaction.png') }}"
                             class="empty-image"></center>
                     <center>
                         <p style="color: red;">Belum ada Jadwal</p>

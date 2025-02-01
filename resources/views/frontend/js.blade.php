@@ -1058,6 +1058,7 @@
         }
 
         function confirm_order(id) {
+            selected_products = [];
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: "{{ route('confirm.order') }}",

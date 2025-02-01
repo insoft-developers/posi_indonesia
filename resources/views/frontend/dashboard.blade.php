@@ -161,13 +161,15 @@
                             <input type="hidden" id="jumlah_kompetisi" value="{{ count($kompetisi) }}">
                             @foreach ($kompetisi as $index => $k)
                                 @php
-                                    $query = \App\Models\Transaction::where('competition_id', $k->id)->distinct('userid')->count('id');
-        
+                                    $query = \App\Models\Transaction::where('competition_id', $k->id)
+                                        ->distinct('userid')
+                                        ->count('id');
+
                                     $transaction = $query;
-                                   
+
                                 @endphp
                                 <div class="col-lg-4 col-md-6">
-        
+
                                     <!-- Single Blog Start -->
                                     <div class="single-blog">
                                         <div class="blog-image">
@@ -176,16 +178,97 @@
                                                     alt="Blog"></a>
                                         </div>
                                         <div class="blog-content">
-        
-        
-                                            <h4 class="title"><a href="#">{{ $k->title }}</a></h4>
-        
+
+
+                                            @php
+                                                $bonus = \App\Models\CompetitionBonusProduct::where(
+                                                    'competition_id',
+                                                    $k->id,
+                                                );
+                                                if ($bonus->count() > 0) {
+                                                    $bns = $bonus->first();
+                                                    $free_products = explode(',', $bns->free_register_product);
+                                                    $premium_products = explode(',', $bns->premium_register_product);
+
+                                                    $html1 = '';
+                                                    foreach ($free_products as $index1 => $fp) {
+                                                        $barang = \App\Models\Product::findorFail($fp);
+                                                        if ($index1 + 1 == count($free_products)) {
+                                                            if ($barang->is_combo == 1) {
+                                                                $html1 .=
+                                                                    '<span> ' .
+                                                                    $barang->product_name .
+                                                                    ' ( ' .
+                                                                    $barang->description .
+                                                                    ' )</span>';
+                                                            } else {
+                                                                $html1 .= '<span> ' . $barang->product_name . '</span>';
+                                                            }
+                                                        } else {
+                                                            if ($barang->is_combo == 1) {
+                                                                $html1 .=
+                                                                    '<span> ' .
+                                                                    $barang->product_name .
+                                                                    ' ( ' .
+                                                                    $barang->description .
+                                                                    ' )</span>,';
+                                                            } else {
+                                                                $html1 .=
+                                                                    '<span> ' . $barang->product_name . '</span>,';
+                                                            }
+                                                        }
+                                                    }
+
+                                                    $html2 = '';
+                                                    foreach ($premium_products as $index1 => $pp) {
+                                                        $barang = \App\Models\Product::findorFail($pp);
+                                                        if ($index1 + 1 == count($premium_products)) {
+                                                            if ($barang->is_combo == 1) {
+                                                                $html2 .=
+                                                                    '<span> ' .
+                                                                    $barang->product_name .
+                                                                    ' ( ' .
+                                                                    $barang->description .
+                                                                    ' )</span>';
+                                                            } else {
+                                                                $html2 .= '<span> ' . $barang->product_name . '</span>';
+                                                            }
+                                                        } else {
+                                                            if ($barang->is_combo == 1) {
+                                                                $html2 .=
+                                                                    '<span> ' .
+                                                                    $barang->product_name .
+                                                                    ' ( ' .
+                                                                    $barang->description .
+                                                                    ' )</span>,';
+                                                            } else {
+                                                                $html2 .=
+                                                                    '<span> ' . $barang->product_name . '</span>,';
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            @endphp
+
+                                            @if ($bonus->count() > 0)
+                                                <h4 class="title"><a href="#">{{ $k->title }} <br><span
+                                                            style="font-weight:bold;font-size:13px;">BONUS</span> : <span
+                                                            class="bonus-text"><?= $html2 ?>(Premium
+                                                            Register).</span><br><span
+                                                            class="bonus-text2"><?= $html1 ?>(Free Register).</span></a>
+                                                </h4>
+                                            @else
+                                                <h4 class="title"><a href="#">{{ $k->title }}</a></h4>
+                                            @endif
+
                                             <div class="blog-meta">
                                                 <span> <i class="icofont-calendar"></i>{{ hari_ini($k->date) }},
                                                     {{ date('d F Y', strtotime($k->date)) }}</span>
-                                                <input type="hidden" id="waktu_{{ $index }}" value="{{ $k->finish_registration_date }} {{ $k->finish_registration_time }}">
+                                                <input type="hidden" id="waktu_{{ $index }}"
+                                                    value="{{ $k->finish_registration_date }} {{ $k->finish_registration_time }}">
                                                 <span class="sisa-hari" id="countdown_{{ $index }}"></span>
-                                                
+
                                             </div>
                                             <div class="garis"></div>
                                             <div class="blog-meta">
@@ -210,7 +293,7 @@
                                                 @elseif($k->type == 2)
                                                     Gratis
                                                 @endif
-        
+
                                             </div>
                                             <div class="blog-meta">
                                                 <span> <i class="icofont-link"></i>Link Juknis</span>
@@ -219,13 +302,14 @@
                                                 <a href="">Lihat juknis disini</a>
                                             </div>
                                             <div class="garis"></div>
-                                            <a href="{{ url('main') }}"><button id="btn_daftar_{{ $index }}" class="btn btn-secondary btn-hover-primary">Daftar</button></a>
+                                            <a href="{{ url('main') }}"><button id="btn_daftar_{{ $index }}"
+                                                    class="btn btn-secondary btn-hover-primary">Daftar</button></a>
 
                                             <span class="foot-note">{{ $transaction }} Pedaftar</span>
                                         </div>
                                     </div>
                                     <!-- Single Blog End -->
-        
+
                                 </div>
                             @endforeach
                         </div>
@@ -233,7 +317,7 @@
                     <!-- All Courses Wrapper End -->
 
                 </div>
-                
+
             </div>
             <!-- All Courses tab content End -->
 
@@ -313,7 +397,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="call-to-action-btn">
-                            <a class="btn btn-primary btn-hover-dark" href="{{ url('register') }}">Daftar Sekarang Juga</a>
+                            <a class="btn btn-primary btn-hover-dark" href="{{ url('register') }}">Daftar Sekarang
+                                Juga</a>
                         </div>
                     </div>
                 </div>
@@ -464,8 +549,7 @@
                         <div class="single-testimonial swiper-slide">
                             <div class="testimonial-author">
                                 <div class="author-thumb">
-                                    <img src="{{ asset('template/frontend') }}/assets/testi/st1.png"
-                                        alt="Author">
+                                    <img src="{{ asset('template/frontend') }}/assets/testi/st1.png" alt="Author">
 
                                     <i class="icofont-quote-left"></i>
                                 </div>
@@ -489,8 +573,7 @@
                         <div class="single-testimonial swiper-slide">
                             <div class="testimonial-author">
                                 <div class="author-thumb">
-                                   <img src="{{ asset('template/frontend') }}/assets/testi/st2.png"
-                                        alt="Author">
+                                    <img src="{{ asset('template/frontend') }}/assets/testi/st2.png" alt="Author">
 
                                     <i class="icofont-quote-left"></i>
                                 </div>
@@ -512,8 +595,7 @@
                         <div class="single-testimonial swiper-slide">
                             <div class="testimonial-author">
                                 <div class="author-thumb">
-                                   <img src="{{ asset('template/frontend') }}/assets/testi/st3.png"
-                                        alt="Author">
+                                    <img src="{{ asset('template/frontend') }}/assets/testi/st3.png" alt="Author">
 
                                     <i class="icofont-quote-left"></i>
                                 </div>
@@ -630,8 +712,8 @@
                         <!-- Single Blog Start -->
                         <div class="single-blog">
                             <div class="blog-image">
-                                <a href="#"><img
-                                        src="{{ asset('template/frontend') }}/assets/event/1.webp" alt="Blog"></a>
+                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/1.webp"
+                                        alt="Blog"></a>
                             </div>
                             <div class="blog-content">
 
@@ -643,8 +725,7 @@
                                     <span> <i class="icofont-heart"></i> 2,568+ </span>
                                 </div>
 
-                                <a href="#"
-                                    class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
+                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
                             </div>
                         </div>
                         <!-- Single Blog End -->
@@ -655,8 +736,8 @@
                         <!-- Single Blog Start -->
                         <div class="single-blog">
                             <div class="blog-image">
-                                <a href="#"><img
-                                        src="{{ asset('template/frontend') }}/assets/event/2.webp" alt="Blog"></a>
+                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/2.webp"
+                                        alt="Blog"></a>
                             </div>
                             <div class="blog-content">
 
@@ -669,8 +750,7 @@
                                     <span> <i class="icofont-heart"></i> 2,568+ </span>
                                 </div>
 
-                                <a href="#"
-                                    class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
+                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
                             </div>
                         </div>
                         <!-- Single Blog End -->
@@ -681,8 +761,8 @@
                         <!-- Single Blog Start -->
                         <div class="single-blog">
                             <div class="blog-image">
-                                <a href="#"><img
-                                        src="{{ asset('template/frontend') }}/assets/event/3.webp" alt="Blog"></a>
+                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/3.webp"
+                                        alt="Blog"></a>
                             </div>
                             <div class="blog-content">
 
@@ -695,8 +775,7 @@
                                     <span> <i class="icofont-heart"></i> 2,568+ </span>
                                 </div>
 
-                                <a href="#"
-                                    class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
+                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
                             </div>
                         </div>
                         <!-- Single Blog End -->

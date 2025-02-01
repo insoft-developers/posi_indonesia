@@ -84,7 +84,7 @@
                             <div class="form-wrapper">
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
-                                    <div class="kartu">
+                                    {{-- <div class="kartu">
                                         <p class="login-title">Silahkan login dengan :</p>
                                         
                                         
@@ -111,8 +111,16 @@
                                                 Whatsapp
                                             </label>
                                         </div>
+                                    </div> --}}
+                                    <div class="single-form" id="user-input-model">
+                                        <select name="flexRadioDefault" id="login-option" required>
+                                            <option value="">Pilih login menggunakan</option>
+                                            <option value="email">Email</option>
+                                            <option value="username">Username</option>
+                                            <option value="wa">Nomor Whatsapp</option>
+                                        </select>
+                                        <x-input-error :messages="$errors->get('flexRadioDefault')" class="mt-2" />
                                     </div>
-
                                     <!-- Single Form Start -->
                                     <div class="single-form" id="user-input-model">
                                         <input type="text" name="username" placeholder="masukkan username anda..">

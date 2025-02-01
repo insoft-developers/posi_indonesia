@@ -73,31 +73,104 @@
                     <input type="hidden" id="jumlah_kompetisi" value="{{ count($kompetisi) }}">
                     @foreach ($kompetisi as $index => $k)
                         @php
-                            $query = \App\Models\Transaction::where('competition_id', $k->id)->distinct('userid')->count('id');
+                            $query = \App\Models\Transaction::where('competition_id', $k->id)
+                                ->distinct('userid')
+                                ->count('id');
 
                             $transaction = $query;
-                           
+
                         @endphp
                         <div class="col-lg-4 col-md-6">
 
                             <!-- Single Blog Start -->
                             <div class="single-blog">
                                 <div class="blog-image">
-                                    <a href="blog-details-left-sidebar.html"><img
+                                    <a href="#"><img
                                             src="{{ asset('template/frontend') }}/assets/kompetisi/{{ $k->image }}"
                                             alt="Blog"></a>
                                 </div>
                                 <div class="blog-content">
+                                    @php
+                                        $bonus = \App\Models\CompetitionBonusProduct::where('competition_id', $k->id);
+                                        if ($bonus->count() > 0) {
+                                            $bns = $bonus->first();
+                                            $free_products = explode(',', $bns->free_register_product);
+                                            $premium_products = explode(',', $bns->premium_register_product);
 
+                                            $html1 = '';
+                                            foreach ($free_products as $index1 => $fp) {
+                                                $barang = \App\Models\Product::findorFail($fp);
+                                                if ($index1 + 1 == count($free_products)) {
+                                                    if ($barang->is_combo == 1) {
+                                                        $html1 .=
+                                                            '<span> ' .
+                                                            $barang->product_name .
+                                                            ' ( ' .
+                                                            $barang->description .
+                                                            ' )</span>';
+                                                    } else {
+                                                        $html1 .= '<span> ' . $barang->product_name . '</span>';
+                                                    }
+                                                } else {
+                                                    if ($barang->is_combo == 1) {
+                                                        $html1 .=
+                                                            '<span> ' .
+                                                            $barang->product_name .
+                                                            ' ( ' .
+                                                            $barang->description .
+                                                            ' )</span>,';
+                                                    } else {
+                                                        $html1 .= '<span> ' . $barang->product_name . '</span>,';
+                                                    }
+                                                }
+                                            }
 
-                                    <h4 class="title"><a href="blog-details-left-sidebar.html">{{ $k->title }}</a></h4>
+                                            $html2 = '';
+                                            foreach ($premium_products as $index1 => $pp) {
+                                                $barang = \App\Models\Product::findorFail($pp);
+                                                if ($index1 + 1 == count($premium_products)) {
+                                                    if ($barang->is_combo == 1) {
+                                                        $html2 .=
+                                                            '<span> ' .
+                                                            $barang->product_name .
+                                                            ' ( ' .
+                                                            $barang->description .
+                                                            ' )</span>';
+                                                    } else {
+                                                        $html2 .= '<span> ' . $barang->product_name . '</span>';
+                                                    }
+                                                } else {
+                                                    if ($barang->is_combo == 1) {
+                                                        $html2 .=
+                                                            '<span> ' .
+                                                            $barang->product_name .
+                                                            ' ( ' .
+                                                            $barang->description .
+                                                            ' )</span>,';
+                                                    } else {
+                                                        $html2 .= '<span> ' . $barang->product_name . '</span>,';
+                                                    }
+                                                }
+                                            }
+                                        }
 
+                                    @endphp
+
+                                    @if ($bonus->count() > 0)
+                                        <h4 class="title"><a href="#">{{ $k->title }} <br><span
+                                                    style="font-weight:bold;font-size:13px;">BONUS</span> : <span
+                                                    class="bonus-text"><?= $html2 ?>(Premium Register).</span><br><span
+                                                    class="bonus-text2"><?= $html1 ?>(Free Register).</span></a></h4>
+                                    @else
+                                        <h4 class="title"><a href="#">{{ $k->title }}</a></h4>
+                                    @endif
                                     <div class="blog-meta">
                                         <span> <i class="icofont-calendar"></i>{{ hari_ini($k->date) }},
                                             {{ date('d F Y', strtotime($k->date)) }}</span>
-                                        <input type="hidden" id="waktu_{{ $index }}" value="{{ $k->finish_registration_date }} {{ $k->finish_registration_time }}">
+                                        <input type="hidden" id="waktu_{{ $index }}"
+                                            value="{{ $k->finish_registration_date }} {{ $k->finish_registration_time }}">
                                         <span class="sisa-hari" id="countdown_{{ $index }}"></span>
-                                        
+
                                     </div>
                                     <div class="garis"></div>
                                     <div class="blog-meta">
@@ -131,7 +204,8 @@
                                         <a href="">Lihat juknis disini</a>
                                     </div>
                                     <div class="garis"></div>
-                                    <button id="btn_daftar_{{ $index }}" href="javascript:void(0);" onclick="daftar({{ $k->id }})"
+                                    <button id="btn_daftar_{{ $index }}" href="javascript:void(0);"
+                                        onclick="daftar({{ $k->id }})"
                                         class="btn btn-secondary btn-hover-primary">Daftar</button>
                                     <span class="foot-note">{{ $transaction }} Pedaftar</span>
                                 </div>

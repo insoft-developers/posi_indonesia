@@ -59,7 +59,7 @@
                                 @endif
                             @else
                                 @if ($user->google_id == null)
-                                    <img src="{{ asset('storage/app/public/image_files/profile/' . $user->user_image) }}"
+                                    <img src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
                                         class="profile-image-i" id="profile-image-i">
                                 @else
                                     <img src="{{ $user->user_image }}" class="profile-image-i" id="profile-image-i">

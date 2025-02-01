@@ -78,6 +78,7 @@
                                                                 @php
                                                                     $barang = \App\Models\Product::findorFail($pid);
                                                                 @endphp
+                                                                @if($barang->is_fisik !== 1)
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         @if($barang->image == null)
@@ -89,8 +90,10 @@
                                                                         <span
                                                                         class="riwayat-text">{{ $barang->product_name }}</span>
                                                                 </div>
+                                                                @endif
                                                                 @endforeach
                                                                 @else
+                                                                @if($product->is_fisik !== 1)
                                                                 <div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         @if($product->image == null)
@@ -102,7 +105,7 @@
                                                                     <span
                                                                         class="riwayat-text">{{ $product->product_name }}</span>
                                                                 </div>
-                                                                
+                                                                @endif
                                                                 @endif 
 
                                                                 @endforeach
