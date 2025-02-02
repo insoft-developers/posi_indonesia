@@ -439,6 +439,110 @@
 @endif
 @if ($view == 'cart')
     <script>
+        $("#provinsi").change(function() {
+            var prov = $(this).val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('ro.kota') }}",
+                type: "POST",
+                data: {
+                    "prov": prov,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    console.log(data);
+                    var html = '';
+                    html += '<option value=="">Pilih Kota</option>';
+                    for (var i = 0; i < data.data.length; i++) {
+                        html += '<option value="' + data.data[i].city_id + '">' + data.data[i]
+                            .city_name + '</option>';
+                    }
+
+                    $("#kota").html(html);
+                }
+            });
+        });
+
+
+        $("#kota").change(function() {
+            var kota = $(this).val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('ro.district') }}",
+                type: "POST",
+                data: {
+                    "kota": kota,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    console.log(data);
+                    var html = '';
+                    html += '<option value=="">Pilih Kecamatan</option>';
+                    for (var i = 0; i < data.data.length; i++) {
+                        html += '<option value="' + data.data[i].subdistrict_id + '">' + data.data[i]
+                            .subdistrict_name + '</option>';
+                    }
+
+                    $("#kecamatan").html(html);
+                }
+            });
+        });
+
+
+        $("#kecamatan").change(function() {
+            var html = '';
+            html += '<option value=="">Pilih Kurir</option>';
+            html += '<option value="jne">JNE</option>';
+            html += '<option value="pos">POS</option>';
+            html += '<option value="tiki">TIKI</option>';
+            html += '<option value="wahana">WAHANA</option>';
+            html += '<option value="sicepat">SICEPAT</option>';
+            html += '<option value="jnt">JNT</option>';
+            html += '<option value="indah">INDAH CARGO</option>';
+            html += '<option value="ninja">NINJA EXPRESS</option>';
+            html += '<option value="lion">LION PARCEL</option>';
+            html += '<option value="anteraja">ANTER AJA</option>';
+
+
+            $("#courier").html(html);
+
+        });
+
+
+
+        $("#courier").change(function() {
+            var kurir = $(this).val();
+            var kecamatan = $("#kecamatan").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('ro.cost') }}",
+                type: "POST",
+                data: {
+                    "kecamatan": kecamatan,
+                    "kurir": kurir,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    var cost = data.data[0].costs;
+                    var html = '';
+                    if (cost.length > 0) {
+                        html += '<option value=="">Pilih Layanan</option>';
+                        for (var i = 0; i < cost.length; i++) {
+                            html += '<option value="' + cost[i].cost[0].value + '">' + cost[i].service + ' - '+ cost[i].description +'  '+cost[i].cost[0].etd+' (Rp. '+formatAngka(cost[i].cost[0].value)+')</option>';
+
+                        }
+
+                    } else {
+                        html += '<option value=="">Tidak ada Layanan</option>';
+                    }
+                    $("#service").html(html);
+                }
+            });
+        });
+
+
+
+
         function hitung_subtotal() {
             var subtotal = 0;
             $(".subtotal").each(function() {
@@ -766,7 +870,7 @@
     <script>
         var jumlah_kompetisi = "{{ $nomor }}";
 
-        var selected_products = [];
+
 
 
         for (var i = 0; i <= jumlah_kompetisi; i++) {
@@ -872,6 +976,11 @@
                 })
             }
         }
+    </script>
+@endif
+@if ($view == 'jadwal' || $view == 'riwayat')
+    <script>
+        var selected_products = [];
 
         $("#text-cari").keyup(function() {
             var nilai = $(this).val();
@@ -1081,17 +1190,18 @@
 
                             html += '<div onclick="select_product(' + data.data[i].id +
                                 ')" class="row product-row" id="row_' + data.data[i].id + '">';
-                            html += '<div class="col-md-1">';
+                            html += '<div class="col-md-2">';
                             if (data.data[i].image == null) {
                                 html +=
                                     '<img src="{{ asset('template/frontend/assets/umum/product.png') }}" class="img-product-pengumuman">';
                             } else {
                                 html +=
-                                    '<img src="{{ asset('storage/image_files/product') }}/'+data.data[i].image+'" class="img-product-pengumuman">';
+                                    '<img src="{{ asset('storage/image_files/product') }}/' + data.data[i]
+                                    .image + '" class="img-product-pengumuman">';
                             }
 
                             html += '</div>';
-                            html += '<div class="col-md-10"><span class="item-product-list">' + data.data[i]
+                            html += '<div class="col-md-8"><span class="item-product-list">' + data.data[i]
                                 .name + '</span>';
                             html += '<br>';
 
@@ -1105,7 +1215,7 @@
                                         i]
                                     .price) +
                                 '</span></div>';
-                            html += '<div class="col-md-1">';
+                            html += '<div class="col-md-2">';
                             html += '<span style="display:none;" id="product_check_' + data.data[i].id +
                                 '" class="product-check"><i class="fa fa-check"></i></span>';
                             html += '</div>';
@@ -2061,7 +2171,8 @@
                             HTML +=
                                 '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item">';
                             if (data.data[av].option_image_b != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_b + '" class="gambar-soal img-responsive">';
                             }
                             HTML += 'B. ' + data
@@ -2074,7 +2185,8 @@
                             HTML +=
                                 '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item selected-jawaban">';
                             if (data.data[av].option_image_d != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_d + '" class="gambar-soal img-responsive">';
                             }
                             HTML += 'D. ' +
@@ -2083,7 +2195,8 @@
                             HTML +=
                                 '<div onclick="selected(4)" id="jawaban-d" class="jawaban-item">';
                             if (data.data[av].option_image_d != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_d + '" class="gambar-soal img-responsive">';
                             }
                             HTML += 'D. ' + data
@@ -2156,6 +2269,36 @@
 
                 }
             });
+        }
+    </script>
+@endif
+
+@if ($view == 'riwayat')
+    <script>
+        function bonus_claim(comid, id) {
+            var pop = confirm(
+                'Untuk produk bonus yang berbentuk fisik maka biaya pengiriman akan dibebankan kepada pengklaim, lanjutkan klaim bonus ?'
+            );
+            if (pop === true) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('bonus.claim') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "comid": comid,
+                        "study": id,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            window.location = "{{ url('cart') }}";
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                });
+            }
         }
     </script>
 @endif

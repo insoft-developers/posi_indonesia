@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\Invoice;
+use App\Models\Setting;
 use App\Models\Study;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -17,10 +18,8 @@ class HomeController extends Controller
     {
         $view = 'home';
         $sekarang = date('Y-m-d');
-        $kompetisi = Competition::where('is_active', 1)
-        ->where('date','>=', $sekarang)
-        ->get();
-        return view('frontend.dashboard', compact('view','kompetisi'));
+        $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
+        return view('frontend.dashboard', compact('view', 'kompetisi'));
     }
 
     public function about()
@@ -102,7 +101,7 @@ class HomeController extends Controller
 
         $compete = Competition::findorFail($input['compete_id']);
         $harga = $compete->price;
-        
+
         $ids = $input['id'];
         foreach ($ids as $id) {
             Cart::updateOrCreate([
@@ -114,7 +113,7 @@ class HomeController extends Controller
                 'quantity' => 1,
                 'unit_price' => $harga,
                 'total_purchase' => $harga,
-                'is_fisik' => 0
+                'is_fisik' => 0,
             ]);
         }
 
@@ -134,17 +133,47 @@ class HomeController extends Controller
         $view = 'cart';
         $cart = Cart::with('competition', 'user', 'study.pelajaran', 'study.level')
             ->where('buyer', Auth::user()->id)
-            // ->groupBy('competition_id')
             ->get();
-        return view('frontend.cart', compact('view', 'cart'));
+
+        $fisik = Cart::where('buyer', Auth::user()->id)->where('is_fisik', 1);
+
+        if ($fisik->count() > 0) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => 'https://pro.rajaongkir.com/api/province',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                echo 'cURL Error #:' . $err;
+            }
+
+            $ro = json_decode($response);
+            $provinsi = $ro->rajaongkir->results;
+        } else {
+            $provinsi = [];
+        }
+
+        return view('frontend.cart', compact('view', 'cart', 'provinsi'));
     }
 
     public function cart_delete(Request $request)
     {
         try {
             $input = $request->all();
-            
-           
+
             Cart::destroy($input['id']);
             return response()->json([
                 'success' => true,
@@ -172,6 +201,131 @@ class HomeController extends Controller
 
         return response()->json([
             'success' => true,
+        ]);
+    }
+
+    public function ro_kota(Request $request)
+    {
+        $input = $request->all();
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://pro.rajaongkir.com/api/city?id=&province='.$input['prov'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo 'cURL Error #:' . $err;
+        }
+
+        $ro = json_decode($response);
+        $data = $ro->rajaongkir->results;
+
+        return response()->json([
+            "success" => true,
+            "data" => $data
+        ]);
+    }
+
+
+    public function ro_district(Request $request)
+    {
+        $input = $request->all();
+        $kota = $input['kota'];
+      
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city='.$kota.'',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo 'cURL Error #:' . $err;
+        }
+
+        $ro = json_decode($response);
+        $data = $ro->rajaongkir->results;
+
+        return response()->json([
+            "success" => true,
+            "data" => $data
+        ]);
+    }
+
+
+    public function ro_cost(Request $request)
+    {
+        $input = $request->all();
+        $setting = Setting::findorFail(1);
+        $asal = $setting->kecamatan;
+        $kecamatan = $input['kecamatan'];
+        $kurir = $input['kurir'];
+        
+        $field = [
+            "origin" => $asal,
+            "originType" => 'subdistrict',
+            "destination" => $kecamatan,
+            "destinationType" => "subdistrict",
+            "weight" => 1,
+            "courier" => $kurir
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://pro.rajaongkir.com/api/cost',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '', 
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+            CURLOPT_POSTFIELDS =>  http_build_query($field)
+        ]);
+
+      
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo 'cURL Error #:' . $err;
+        }
+
+        $ro = json_decode($response);
+        $data = $ro->rajaongkir->results;
+
+        return response()->json([
+            "success" => true,
+            "data" => $data
         ]);
     }
 }

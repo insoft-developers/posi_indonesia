@@ -34,7 +34,6 @@
                                     <div style="margin-top:-13px;"></div>
                                     <hr />
                                     @foreach ($c->transaction as $s)
-                                      
                                         @if ($s->userid == Auth::user()->id && $s->invoices->payment_status == 1 && $s->invoices->transaction_status == 1)
                                             <div
                                                 class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
@@ -52,69 +51,91 @@
                                                             <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
                                                             <div class="list-tools" style="margin-left: -8px;">
 
-                                                                <div class="riwayat-tools">
+                                                                <div onclick="show_pengumuman({{ $c->id }},{{ $s->study->id }})" class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         src="{{ asset('template/frontend/assets/umum/pengumuman.png') }}"><span
                                                                         class="riwayat-text">Pengumuman</span>
                                                                 </div>
                                                                 @php
-                                                                $transaction = \App\Models\Transaction::where('competition_id', $c->id)
-                                                                    ->where('study_id', $s->study->id)
-                                                                    ->where('userid', Auth::user()->id)
-                                                                    ->where('product_id', '!=', null)
-                                                                    ->get(); 
+                                                                    $transaction = \App\Models\Transaction::where(
+                                                                        'competition_id',
+                                                                        $c->id,
+                                                                    )
+                                                                        ->where('study_id', $s->study->id)
+                                                                        ->where('userid', Auth::user()->id)
+                                                                        ->where('product_id', '!=', null)
+                                                                        ->get();
 
                                                                 @endphp
-                                                                @foreach($transaction as $tt)
-                                                                @php
-                                                                $product = \App\Models\Product::findorFail($tt->product_id);
-                                                                @endphp
 
-                                                                @if($product->is_combo == 1)
-                                                                @php
-                                                                    $products = explode(",", $product->composition);                
-                                                                @endphp
-                                                                @foreach($products as $pid)
-                                                                @php
-                                                                    $barang = \App\Models\Product::findorFail($pid);
-                                                                @endphp
-                                                                @if($barang->is_fisik !== 1)
-                                                                <div class="riwayat-tools">
-                                                                    <img class="riwayat-tools-image"
-                                                                        @if($barang->image == null)
-                                                                        src="{{ asset('template/frontend/assets/umum/product.png') }}"
+                                                                @foreach ($transaction as $tt)
+                                                                    @php
+                                                                        $product = \App\Models\Product::findorFail(
+                                                                            $tt->product_id,
+                                                                        );
+                                                                    @endphp
+
+                                                                    @if ($product->is_combo == 1)
+                                                                        @php
+                                                                            $products = explode(
+                                                                                ',',
+                                                                                $product->composition,
+                                                                            );
+                                                                        @endphp
+                                                                        @foreach ($products as $pid)
+                                                                            @php
+                                                                                $barang = \App\Models\Product::findorFail(
+                                                                                    $pid,
+                                                                                );
+                                                                            @endphp
+                                                                            @if ($barang->is_fisik !== 1)
+                                                                                <div class="riwayat-tools">
+                                                                                    <img class="riwayat-tools-image"
+                                                                                        @if ($barang->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                                                         @else
-                                                                        src="{{ asset('storage/image_files/product/'.$barang->image) }}"
-                                                                        @endif
-                                                                     >
-                                                                        <span
-                                                                        class="riwayat-text">{{ $barang->product_name }}</span>
-                                                                </div>
-                                                                @endif
-                                                                @endforeach
-                                                                @else
-                                                                @if($product->is_fisik !== 1)
-                                                                <div class="riwayat-tools">
-                                                                    <img class="riwayat-tools-image"
-                                                                        @if($product->image == null)
-                                                                        src="{{ asset('template/frontend/assets/umum/product.png') }}"
+                                                                        src="{{ asset('storage/image_files/product/' . $barang->image) }}" @endif>
+                                                                                    <span
+                                                                                        class="riwayat-text">{{ $barang->product_name }}</span>
+                                                                                </div>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @else
+                                                                        @if ($product->is_fisik !== 1)
+                                                                            <div class="riwayat-tools">
+                                                                                <img class="riwayat-tools-image"
+                                                                                    @if ($product->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                                                         @else
-                                                                        src="{{ asset('storage/image_files/product/'.$product->image) }}"
+                                                                        src="{{ asset('storage/image_files/product/' . $product->image) }}" @endif>
+                                                                                <span
+                                                                                    class="riwayat-text">{{ $product->product_name }}</span>
+                                                                            </div>
                                                                         @endif
-                                                                     >
-                                                                    <span
-                                                                        class="riwayat-text">{{ $product->product_name }}</span>
-                                                                </div>
-                                                                @endif
-                                                                @endif 
-
+                                                                    @endif
                                                                 @endforeach
+                                                                
 
-                                                                <div class="riwayat-tools">
+                                                                <a href="{{ $s->study->forum_link }}" target="_blank"><div class="riwayat-tools">
                                                                     <img class="riwayat-tools-image"
                                                                         src="{{ asset('template/frontend/assets/umum/forum.png') }}"><span
                                                                         class="riwayat-text">Forum</span>
+                                                                </div></a>
+                                                                @php
+                                                                    $cek_bonus = \App\Models\CompetitionBonusProduct::where('competition_id', $c->id);
+                                                                    $claim = \App\Models\BonusClaimed::where('userid', Auth::user()->id)
+                                                                        ->where('competition_id', $c->id)
+                                                                        ->where('study_id', $s->study->id)
+                                                                        ->count();
+                                                                        
+                                                                    
+                                                                @endphp
+                                                                @if($cek_bonus->count() > 0 && $claim <= 0)
+                                                                @php $bonus_list = $cek_bonus->first();  @endphp
+                                                                <div onclick="bonus_claim({{ $c->id }}, {{ $s->study->id }})" class="riwayat-tools">
+                                                                    <img class="riwayat-tools-image"
+                                                                        src="{{ asset('template/frontend/assets/umum/bonus.png') }}"><span
+                                                                        class="riwayat-text">Claim Bonus</span>
                                                                 </div>
+                                                                @endif
                                                             </div>
 
                                                         </div>
@@ -140,4 +161,62 @@
     </div>
     </div>
     <!-- Blog End -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-pengumuman" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title"></span><br><span class="modal-subtitle"
+                            id="modal-subtitle"></span></p>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" id="pengumuman-competition-id">
+                        <input type="hidden" id="pengumuman-study-id">
+                        <input type="text" class="form-control search-text" id="text-cari"
+                            placeholder="Cari nama peserta">
+                    </div>
+                    <div id="pemenang-content"></div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-600">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title"><span class="modal-head-title"></span><br><span class="modal-subtitle"
+                            id="modal-subtitle"></span></p>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="product-user-id">
+                    <input type="hidden" id="product-competition-id">
+                    <input type="hidden" id="product-study-id">
+                    <div id="product-list-content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="simpan_product_keranjang()" type="button" class="btn btn-primary btn-sm">Buka
+                        Keranjang</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection

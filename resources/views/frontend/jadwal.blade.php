@@ -296,7 +296,7 @@
     <!-- Modal -->
     <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="staticBackdropLabel"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-800">
+        <div class="modal-dialog modal-600">
             <div class="modal-content">
                 <div class="modal-header">
                     <p class="modal-title"><span class="modal-head-title"></span><br><span class="modal-subtitle"

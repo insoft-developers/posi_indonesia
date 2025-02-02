@@ -30,8 +30,13 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        
+        $trans = Cart::where('buyer', Auth::user()->id)->where('is_fisik', 1);
+        if($trans->count() > 0) {
+            
+        }
+        
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
-
         try {
             $transaction = Cart::where('buyer', Auth::user()->id)
                 ->get();

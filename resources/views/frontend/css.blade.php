@@ -1,5 +1,9 @@
 <style>
-
+    .ongkir-form{
+        background: whitesmoke;
+    padding: 17px 44px;
+    border-radius: 10px;
+    }
     .bonus-text{
         font-size: 12px;
         color:blue;
@@ -351,6 +355,10 @@
 
     .modal-800 {
         width: 800px !important;
+    }
+
+    .modal-500 {
+        width: 400px !important;
     }
 
     .tombol-daftar {

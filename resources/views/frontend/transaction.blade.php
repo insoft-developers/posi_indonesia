@@ -79,18 +79,15 @@
                                                     @endif
                                                 @else
                                                     <span style="color: green"><strong><i class="fa fa-check"></i>
-                                                            FREE</strong></span>
+                                                            Gratis</strong></span>
                                                 @endif
                                             </center>
                                         </td>
                                         <td width="15%">
                                             <strong>
-                                                @if ($t->total_amount > 0)
+                                              
                                                     Rp. {{ number_format($inv_amount) }}
-                                                @else
-                                                    <span style="color: green"><strong><i class="fa fa-check"></i>
-                                                            FREE</strong></span>
-                                                @endif
+                                              
                                             </strong>
                                         </td>
                                         <td width="15%">{{ $t->payment_with == null ? 'no-payment' : $t->payment_with }}
@@ -104,8 +101,7 @@
                                                             class="btn-insoft bg-success">Bayar</button></center>
                                                 @endif
                                             @else
-                                                <span style="color: green"><strong>
-                                                        FREE</strong></span>
+                                                
                                             @endif
 
                                         </td>

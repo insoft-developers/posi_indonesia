@@ -27,23 +27,23 @@
                                 @endphp
 
                                 @foreach ($cart as $index => $c)
-                                     @php
-                                      $total_harga = $total_harga + $c->total_purchase;   
+                                    @php
+                                        $total_harga = $total_harga + $c->total_purchase;
 
-                                     @endphp
-                                     
+                                    @endphp
+
                                     <tr style="vertical-align: middle">
 
                                         @if ($c->type == 1)
                                             <td width="8%">
-                                                
+
                                                 <img class="image-cart"
                                                     @if ($c->product->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                             @else 
                                             src="{{ asset('storage/image_files/product/' . $c->product->image) }}" @endif>
                                             </td>
                                             @php
-                                                
+
                                                 $session = \App\Models\ExamSession::where('userid', $c->user->id)
                                                     ->where('competition_id', $c->competition->id)
                                                     ->where('study_id', $c->study->id)
@@ -52,7 +52,7 @@
                                             <td width="35%"><strong>{{ strtoupper($c->product->product_name) }}</strong>
                                                 <br>{{ $c->user->name }} - {{ $c->user->nama_sekolah }}
                                                 <br>{{ $c->competition->title }} - {{ $c->study->pelajaran->name }} -
-                                                {{ $session->medali }}
+                                                {{ $session->medali ?? null }}
                                                 <br><span
                                                     style="font-size:13px;color:blue;">{{ $c->product->description }}</span>
                                             </td>
@@ -64,28 +64,27 @@
                                                 {{ $c->premium == 1 ? 'Berbayar' : 'Gratis' }}<br>{{ $c->user->name }} -
                                                 {{ $c->user->nama_sekolah }}
                                                 <br>
-                                                <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }} - {{ $c->study->level->level_name }}</span>
+                                                <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }}
+                                                    - {{ $c->study->level->level_name }}</span>
                                             </td>
                                         @endif
 
                                         <td width="25%">
                                             <div class="tambahan-unit">
-                                                @if($c->is_fisik == 1)
-                                                <span onclick="kurangi({{ $c->id }})"
-                                                    class="btn-kurang-unit">-</span>
+                                                @if ($c->is_fisik == 1 && $c->total_purchase > 0)
+                                                    <span onclick="kurangi({{ $c->id }})"
+                                                        class="btn-kurang-unit">-</span>
                                                 @else
-                                                <span style="background-color: grey;" class="btn-kurang-unit">-</span>
+                                                    <span style="background-color: grey;" class="btn-kurang-unit">-</span>
                                                 @endif
-                                                    <span
-                                                    id="unit_cart_{{ $c->id }}"
+                                                <span id="unit_cart_{{ $c->id }}"
                                                     class="unit-cart">{{ $c->quantity }}</span>
-                                                    @if($c->is_fisik == 1)
-                                                    <span
-                                                    onclick="tambahi({{ $c->id }})" class="btn-tambah-unit">+</span>
-                                                    @else
-                                                    <span style="background: grey;"
-                                                    class="btn-tambah-unit">+</span>
-                                                    @endif
+                                                @if ($c->is_fisik == 1 && $c->total_purchase > 0)
+                                                    <span onclick="tambahi({{ $c->id }})"
+                                                        class="btn-tambah-unit">+</span>
+                                                @else
+                                                    <span style="background: grey;" class="btn-tambah-unit">+</span>
+                                                @endif
                                             </div>
 
                                         </td>
@@ -123,6 +122,96 @@
                             <br>
                             <br>
                         @endif
+                        <div style="margin-top:20px"></div>
+
+
+
+
+                        <div class="ongkir-form">
+                            <p><strong>Pengaturan Ongkos Kirim</strong></p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="single-form">
+                                        <div class="courses-select">
+                                            <select class="register-input" id="provinsi" name="provinsi">
+                                                <option value="">Pilih provinsi Tujuan</option>
+                                                @foreach ($provinsi as $p)
+                                                    <option value="{{ $p->province_id }}">{{ $p->province }}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('provinsi')" class="mt-2" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="single-form">
+                                        <div class="courses-select">
+                                            <select class="register-input" id="kota" name="kota">
+                                                <option value="">Pilih Provinsi Dahulu</option>
+
+                                            </select>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('kota')" class="mt-2" />
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3">
+                                    <div class="single-form">
+                                        <div class="courses-select">
+                                            <select class="register-input" id="kecamatan" name="kecamatan">
+                                                <option value="">Pilih Kota Dahulu</option>
+
+                                            </select>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-3">
+                                    <div class="single-form">
+                                        <div class="courses-select">
+                                            <select class="register-input" id="courier" name="courier">
+                                                <option value="">Pilih Kecamatan Dahulu</option>
+                                            </select>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('courier')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <div class="courses-select">
+                                            <select class="register-input" id="service" name="service">
+                                                <option value="">Pilih Kurir Dahulu</option>
+                                            </select>
+                                        </div>
+                                        <x-input-error :messages="$errors->get('service')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <textarea id="alamat" name="alamat" style="height: 120px" placeholder="Masukkan alamat lengkap" value=""></textarea>
+
+                                        <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top:50px"></div>
                         @if ($cart->count() > 0)
                             <button onclick="pesan_sekarang()" class="btn btn-success">Pesan Sekarang</button>
                         @endif

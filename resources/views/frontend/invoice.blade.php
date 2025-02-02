@@ -187,7 +187,7 @@
                                             class="font-kecil">{{ $key->tuser->name }} -
                                             {{ $key->tuser->nama_sekolah }}</span><br><span
                                             class="font-kecil">{{ $key->competition->title }} - {{ $key->study->pelajaran->name }} -
-                                            {{ $sesi->medali }}</span>
+                                            {{ $sesi->medali ?? null }}</span>
                                             <br><span style="color:green;font-size:13px;">({{ $key->product->description }})</span>
                                         @else
                                         <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span

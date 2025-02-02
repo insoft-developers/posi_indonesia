@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::get('cart', [HomeController::class, 'cart'])->middleware('cdata');
     Route::post('cart-delete', [HomeController::class, 'cart_delete']);
     Route::post('cart-ubah-quantity', [HomeController::class, 'cart_ubah'])->name('cart.ubah');
+    Route::post('ro-kota', [HomeController::class, 'ro_kota'])->name('ro.kota');
+    Route::post('ro-district', [HomeController::class, 'ro_district'])->name('ro.district');
+    Route::post('ro-cost', [HomeController::class, 'ro_cost'])->name('ro.cost');
 
     Route::get('transaction', [TransactionController::class, 'index'])->middleware('cdata');
     Route::post('transaction-store', [TransactionController::class, 'store']);
@@ -94,36 +97,36 @@ Route::middleware('auth')->group(function () {
     Route::post('selesai_ujian', [UjianController::class, 'selesai_ujian']);
 
     Route::get('riwayat', [RiwayatController::class, 'index'])->middleware('cdata');
+    Route::post('bonus_claim', [RiwayatController::class, 'bonus_claim'])->name('bonus.claim');
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
 
-// Route::get('raja', function () {
+Route::get('raja', function () {
+    $curl = curl_init();
 
-//     $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city=112',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+    ]);
 
-//     curl_setopt_array($curl, [
-//         CURLOPT_URL => 'https://api.rajaongkir.com/starter/province',
-//         CURLOPT_RETURNTRANSFER => true,
-//         CURLOPT_ENCODING => '',
-//         CURLOPT_MAXREDIRS => 10,
-//         CURLOPT_TIMEOUT => 30,
-//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//         CURLOPT_CUSTOMREQUEST => 'GET',
-//         CURLOPT_HTTPHEADER => ['key: 7XYYSAM1d02c227e6646df3eC1pYdOF6'],
-//     ]);
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
 
-//     $response = curl_exec($curl);
-//     $err = curl_error($curl);
+    curl_close($curl);
 
-//     curl_close($curl);
-
-//     if ($err) {
-//         echo 'cURL Error #:' . $err;
-//     } else {
-//         echo $response;
-//     }
-// });
+    if ($err) {
+        echo 'cURL Error #:' . $err;
+    } else {
+        echo $response;
+    }
+});
 
 // Route::get('hitung_juara/{com}/{study}', [JuaraController::class, 'hitung']);
 
