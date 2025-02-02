@@ -495,10 +495,8 @@
             html += '<option value="jne">JNE</option>';
             html += '<option value="pos">POS</option>';
             html += '<option value="tiki">TIKI</option>';
-            html += '<option value="wahana">WAHANA</option>';
             html += '<option value="sicepat">SICEPAT</option>';
             html += '<option value="jnt">JNT</option>';
-            html += '<option value="indah">INDAH CARGO</option>';
             html += '<option value="ninja">NINJA EXPRESS</option>';
             html += '<option value="lion">LION PARCEL</option>';
             html += '<option value="anteraja">ANTER AJA</option>';
@@ -541,6 +539,10 @@
         });
 
 
+        $("#service").change(function(){
+            var nilai = $("#service option:selected").text();
+            
+        });
 
 
         function hitung_subtotal() {
@@ -641,6 +643,33 @@
         function pesan_sekarang() {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var pesan = confirm("Anda yakin akan melanjutkan pesanan ini..?");
+            var tipe = $(".ongkir-form").length;
+            
+            if(tipe > 0) {
+                var province_id = $("#provinsi").val();
+                var city_id = $("#kota").val();
+                var district_id = $("#kecamatan").val();
+                var province_name =$("#provinsi option:selected").text();
+                var city_name =$("#kota option:selected").text();
+                var district_name =$("#kecamatan option:selected").text();
+                var kurir = $("#courier").val();
+                var layanan = $("#service option:selected").text();
+                var delivery_cost = $("#service").val();
+                var alamat = $("#alamat").val();
+            } else {
+                var province_id = '';
+                var city_id = '';
+                var district_id = '';
+                var province_name ='';
+                var city_name ='';
+                var district_name ='';
+                var kurir = '';
+                var layanan = '';
+                var delivery_cost = '';
+                var alamat = '';
+            }
+
+           
             if (pesan === true) {
                 $.ajax({
                     url: "{{ url('transaction-store') }}",
@@ -648,6 +677,16 @@
                     dataType: "JSON",
                     data: {
                         "pesan": "pesan",
+                        "province_id" : province_id,
+                        "city_id" : city_id,
+                        "district_id" : district_id,
+                        "province_name" :province_name,
+                        "city_name" :city_name,
+                        "district_name" :district_name,
+                        "kurir" : kurir,
+                        "layanan" : layanan,
+                        "delivery_cost" : delivery_cost,
+                        "alamat" : alamat,
                         "_token": csrf_token
                     },
                     success: function(data) {

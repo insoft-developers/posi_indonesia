@@ -73,6 +73,7 @@ class RiwayatController extends Controller
                             'total_purchase' => 0,
                             'buyer' => Auth::user()->id,
                             'is_fisik' => $barang->is_fisik,
+                            'berat' => $barang->berat
                         ];
                         Cart::create($data_cart);
                     }

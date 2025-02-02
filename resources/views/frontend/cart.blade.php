@@ -122,11 +122,18 @@
                             <br>
                             <br>
                         @endif
+                       
+
+
+                        @php
+                        $fisik = \App\Models\Cart::where('buyer', Auth::user()->id)
+                            ->where('product_id', '!=', null)
+                            ->where('is_fisik', 1)->count();    
+
+
+                        @endphp
+                        @if($fisik > 0)
                         <div style="margin-top:20px"></div>
-
-
-
-
                         <div class="ongkir-form">
                             <p><strong>Pengaturan Ongkos Kirim</strong></p>
                             <div class="row">
@@ -210,7 +217,7 @@
                             </div>
 
                         </div>
-
+                        @endif
                         <div style="margin-top:50px"></div>
                         @if ($cart->count() > 0)
                             <button onclick="pesan_sekarang()" class="btn btn-success">Pesan Sekarang</button>

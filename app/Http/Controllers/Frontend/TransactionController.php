@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class TransactionController extends Controller
@@ -33,7 +34,22 @@ class TransactionController extends Controller
         
         $trans = Cart::where('buyer', Auth::user()->id)->where('is_fisik', 1);
         if($trans->count() > 0) {
-            
+            $rules = [
+                "province_id" => "required",
+                "city_id" => "required",
+                "district_id" => "required",
+                "kurir" => "required",
+                "layanan" => "required",
+                "alamat" => "required"
+            ];
+
+            $validator = Validator::make($input, $rules);
+            if($validator->fails()) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Silahkan Lengkapi data pengiriman anda!"
+                ]);
+            }
         }
         
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
@@ -52,6 +68,20 @@ class TransactionController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
                 'expired_time' => $this->tambah_jam(24, date('Y-m-d H:i:s')),
             ];
+
+            if($trans->count() > 0) {
+                $data_invoice['berat'] = $trans->sum('berat');
+                $data_invoice['province_id'] = $input['province_id'];
+                $data_invoice['city_id'] = $input['city_id'];
+                $data_invoice['district_id'] = $input['district_id'];
+                $data_invoice['province_name'] = $input['province_name'];
+                $data_invoice['city_name'] = $input['city_name'];
+                $data_invoice['district_name'] = $input['district_name'];
+                $data_invoice['kurir'] = $input['kurir'];
+                $data_invoice['service'] = $input['layanan'];
+                $data_invoice['delivery_cost'] = $input['delivery_cost'];
+                $data_invoice['address'] = $input['alamat'];
+            }
             $id = Invoice::insertGetId($data_invoice);
 
             $total_value = 0;
@@ -83,7 +113,7 @@ class TransactionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => 'Transaksi Berhasil',
+                'message' => 'Transaksi Berhasil',
             ]);
         } catch (\Exception $e) {
             return response()->json([

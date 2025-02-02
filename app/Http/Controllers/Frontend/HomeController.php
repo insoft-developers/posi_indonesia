@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\Invoice;
+use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Study;
 use App\Models\Transaction;
@@ -192,10 +193,14 @@ class HomeController extends Controller
         $input = $request->all();
 
         $cart = Cart::findorFail($input['id']);
+
+        $product = Product::findorFail($cart->product_id);
+        
         $price = $cart->unit_price;
 
         $cart->quantity = $input['quantity'];
         $cart->total_purchase = $input['quantity'] * $price;
+        $cart->berat = $product->berat * $input['quantity'];
 
         $cart->save();
 
@@ -285,13 +290,17 @@ class HomeController extends Controller
         $asal = $setting->kecamatan;
         $kecamatan = $input['kecamatan'];
         $kurir = $input['kurir'];
+
+        $berat = Cart::where('buyer', Auth::user()->id)
+            ->where('is_fisik', 1)->sum('berat');
+        
         
         $field = [
             "origin" => $asal,
             "originType" => 'subdistrict',
             "destination" => $kecamatan,
             "destinationType" => "subdistrict",
-            "weight" => 1,
+            "weight" => $berat == null ? 0 : (int) $berat,
             "courier" => $kurir
         ];
 
