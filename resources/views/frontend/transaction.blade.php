@@ -34,12 +34,12 @@
                                 </thead>
 
                                 @foreach ($transaction as $t)
-                                    @php
+                                    {{-- @php
                                         $inv_amount = \App\Models\Transaction::where('invoice', $t->invoice)->sum(
                                             'amount',
                                         );
 
-                                    @endphp
+                                    @endphp --}}
 
                                     <tr style="vertical-align: middle">
                                         <td width="20%"><a href="{{ url('show-invoice/' . $t->invoice) }}"><span
@@ -86,7 +86,7 @@
                                         <td width="15%">
                                             <strong>
                                               
-                                                    Rp. {{ number_format($inv_amount) }}
+                                                    Rp. {{ number_format($t->grand_total) }}
                                               
                                             </strong>
                                         </td>

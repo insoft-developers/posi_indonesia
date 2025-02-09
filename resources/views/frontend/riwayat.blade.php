@@ -69,6 +69,7 @@
                                                                 @endphp
 
                                                                 @foreach ($transaction as $tt)
+                                                                   
                                                                     @php
                                                                         $product = \App\Models\Product::findorFail(
                                                                             $tt->product_id,
@@ -89,7 +90,7 @@
                                                                                 );
                                                                             @endphp
                                                                             @if ($barang->is_fisik !== 1)
-                                                                                <div class="riwayat-tools">
+                                                                                <div onclick="get_facility({{ $tt->id }} , {{ $barang->id }})" class="riwayat-tools">
                                                                                     <img class="riwayat-tools-image"
                                                                                         @if ($barang->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                                                         @else
@@ -101,7 +102,7 @@
                                                                         @endforeach
                                                                     @else
                                                                         @if ($product->is_fisik !== 1)
-                                                                            <div class="riwayat-tools">
+                                                                            <div onclick="get_facility({{ $tt->id }}, {{ $product->id }})" class="riwayat-tools">
                                                                                 <img class="riwayat-tools-image"
                                                                                     @if ($product->image == null) src="{{ asset('template/frontend/assets/umum/product.png') }}"
                                                                         @else

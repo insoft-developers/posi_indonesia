@@ -526,7 +526,9 @@
                     if (cost.length > 0) {
                         html += '<option value=="">Pilih Layanan</option>';
                         for (var i = 0; i < cost.length; i++) {
-                            html += '<option value="' + cost[i].cost[0].value + '">' + cost[i].service + ' - '+ cost[i].description +'  '+cost[i].cost[0].etd+' (Rp. '+formatAngka(cost[i].cost[0].value)+')</option>';
+                            html += '<option value="' + cost[i].cost[0].value + '">' + cost[i].service +
+                                ' - ' + cost[i].description + '  ' + cost[i].cost[0].etd + ' (Rp. ' +
+                                formatAngka(cost[i].cost[0].value) + ')</option>';
 
                         }
 
@@ -539,9 +541,9 @@
         });
 
 
-        $("#service").change(function(){
+        $("#service").change(function() {
             var nilai = $("#service option:selected").text();
-            
+
         });
 
 
@@ -577,8 +579,15 @@
                     $("#cart_total_text_" + id).html('<strong>Rp. ' + formatKoma(angka_total) + '</strong>');
                     $("#cart_total_" + id).val(angka_total);
                     hitung_subtotal();
+                    bersikan_kurir();
                 }
             })
+        }
+
+
+        function bersikan_kurir() {
+            $("#service").val("");
+            $("#courier").val("");
         }
 
 
@@ -610,7 +619,9 @@
                             '</strong>');
                         $("#cart_total_" + id).val(angka_total);
                         hitung_subtotal();
+                        bersikan_kurir();
                     }
+
                 })
 
             }
@@ -644,14 +655,14 @@
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var pesan = confirm("Anda yakin akan melanjutkan pesanan ini..?");
             var tipe = $(".ongkir-form").length;
-            
-            if(tipe > 0) {
+
+            if (tipe > 0) {
                 var province_id = $("#provinsi").val();
                 var city_id = $("#kota").val();
                 var district_id = $("#kecamatan").val();
-                var province_name =$("#provinsi option:selected").text();
-                var city_name =$("#kota option:selected").text();
-                var district_name =$("#kecamatan option:selected").text();
+                var province_name = $("#provinsi option:selected").text();
+                var city_name = $("#kota option:selected").text();
+                var district_name = $("#kecamatan option:selected").text();
                 var kurir = $("#courier").val();
                 var layanan = $("#service option:selected").text();
                 var delivery_cost = $("#service").val();
@@ -660,16 +671,16 @@
                 var province_id = '';
                 var city_id = '';
                 var district_id = '';
-                var province_name ='';
-                var city_name ='';
-                var district_name ='';
+                var province_name = '';
+                var city_name = '';
+                var district_name = '';
                 var kurir = '';
                 var layanan = '';
                 var delivery_cost = '';
                 var alamat = '';
             }
 
-           
+
             if (pesan === true) {
                 $.ajax({
                     url: "{{ url('transaction-store') }}",
@@ -677,16 +688,16 @@
                     dataType: "JSON",
                     data: {
                         "pesan": "pesan",
-                        "province_id" : province_id,
-                        "city_id" : city_id,
-                        "district_id" : district_id,
-                        "province_name" :province_name,
-                        "city_name" :city_name,
-                        "district_name" :district_name,
-                        "kurir" : kurir,
-                        "layanan" : layanan,
-                        "delivery_cost" : delivery_cost,
-                        "alamat" : alamat,
+                        "province_id": province_id,
+                        "city_id": city_id,
+                        "district_id": district_id,
+                        "province_name": province_name,
+                        "city_name": city_name,
+                        "district_name": district_name,
+                        "kurir": kurir,
+                        "layanan": layanan,
+                        "delivery_cost": delivery_cost,
+                        "alamat": alamat,
                         "_token": csrf_token
                     },
                     success: function(data) {
@@ -2314,6 +2325,26 @@
 
 @if ($view == 'riwayat')
     <script>
+        function get_facility(id, productid) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('facility.show') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "transaction_id":id,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    if (data.success) {
+                       window.open("{{ url('facility_file') }}"+"/"+id+"/"+productid);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        }
+
         function bonus_claim(comid, id) {
             var pop = confirm(
                 'Untuk produk bonus yang berbentuk fisik maka biaya pengiriman akan dibebankan kepada pengklaim, lanjutkan klaim bonus ?'

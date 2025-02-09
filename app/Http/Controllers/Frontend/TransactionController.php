@@ -80,8 +80,8 @@ class TransactionController extends Controller
                 $data_invoice['kurir'] = $input['kurir'];
                 $data_invoice['service'] = $input['layanan'];
                 $data_invoice['delivery_cost'] = $input['delivery_cost'];
-                $data_invoice['address'] = $input['alamat'];
-            }
+                $data_invoice['address'] = $input['alamat'];  
+            } 
             $id = Invoice::insertGetId($data_invoice);
 
             $total_value = 0;
@@ -107,6 +107,7 @@ class TransactionController extends Controller
 
             Invoice::where('id', $id)->update([
                 'total_amount' => $total_value,
+                'grand_total' => $request->delivery_cost == null ? $total_value : ($total_value + (int)$input['delivery_cost'])
             ]);
 
             Cart::where('buyer', Auth::user()->id)->delete();
@@ -137,6 +138,7 @@ class TransactionController extends Controller
                 'payment_status' => 0,
                 'transaction_status' => 0,
                 'buyer' => Auth::user()->id,
+                'grand_total' => 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'expired_time' => date('Y-m-d H:i:s'),
@@ -187,7 +189,7 @@ class TransactionController extends Controller
         if ($transaction->first()) {
             $invoice = $transaction->invoice;
 
-            $total = $transaction->total_amount;
+            $total = $transaction->grand_total;
             $user = User::findorFail($transaction->userid);
 
             // Set your Merchant Server Key

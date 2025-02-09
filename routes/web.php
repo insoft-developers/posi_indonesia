@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use phpseclib3\Crypt\Rijndael;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,35 +99,38 @@ Route::middleware('auth')->group(function () {
 
     Route::get('riwayat', [RiwayatController::class, 'index'])->middleware('cdata');
     Route::post('bonus_claim', [RiwayatController::class, 'bonus_claim'])->name('bonus.claim');
+    Route::post('facility_show', [RiwayatController::class, 'facility_show'])->name('facility.show');
+    Route::get('facility_file/{transactionid}/{token}', [RiwayatController::class, 'facility_file']);
+
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
 
-Route::get('raja', function () {
-    $curl = curl_init();
+// Route::get('raja', function () {
+//     $curl = curl_init();
 
-    curl_setopt_array($curl, [
-        CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city=112',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
-    ]);
+//     curl_setopt_array($curl, [
+//         CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city=112',
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_ENCODING => '',
+//         CURLOPT_MAXREDIRS => 10,
+//         CURLOPT_TIMEOUT => 30,
+//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//         CURLOPT_CUSTOMREQUEST => 'GET',
+//         CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
+//     ]);
 
-    $response = curl_exec($curl);
-    $err = curl_error($curl);
+//     $response = curl_exec($curl);
+//     $err = curl_error($curl);
 
-    curl_close($curl);
+//     curl_close($curl);
 
-    if ($err) {
-        echo 'cURL Error #:' . $err;
-    } else {
-        echo $response;
-    }
-});
+//     if ($err) {
+//         echo 'cURL Error #:' . $err;
+//     } else {
+//         echo $response;
+//     }
+// });
 
 // Route::get('hitung_juara/{com}/{study}', [JuaraController::class, 'hitung']);
 

@@ -7,8 +7,10 @@ use App\Models\BonusClaimed;
 use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\CompetitionBonusProduct;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\Ujian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,5 +103,59 @@ class RiwayatController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+
+    public function facility_show(Request $request) {
+        $input = $request->all();
+        
+
+        $transaction = Transaction::findorFail($input['transaction_id']);
+        $invoice = Invoice::findorFail($transaction->invoice_id);
+
+        if($invoice->payment_status == 1) {
+
+            return response()->json([
+                "success" => true,
+                "message" => "success"
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "message" => "Anda belum menyelesaikan pembayaran...!"
+            ]);
+        }
+    }
+
+
+    public function facility_file($transactionid, $productid) {
+        $transaction = Transaction::findorFail($transactionid);
+        $userid = $transaction->userid;
+        
+
+        if($userid !== Auth::user()->id) {
+            return response()->json([
+                "success" => false,
+                "message" => "Anda tidak punya akses untuk membuka halaman ini!"
+            ]);
+        }
+
+        $product = Product::findorFail($productid);
+
+        if($product->document_type == 'pembahasan') {
+            $view = 'pembahasan';
+            $ujian = Ujian::with('pembahasan','competition','study.pelajaran')->where('competition_id', $transaction->competition_id)
+                ->where('study_id', $transaction->study_id)
+                ->orderBy('id', 'asc')
+                ->get();
+
+
+            return view('frontend.pembahasan', compact('product','transaction', 'view', 'ujian'));
+        } else {
+            return view('frontend.cert', compact('product','transaction'));
+        }
+
+
+       
     }
 }

@@ -8,6 +8,7 @@
     <title>Invoice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
     <style>
         body {
             margin: 0;
@@ -207,22 +208,29 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th></th>
-                                <th>Total</th>
+                                <th colspan="2">Total</th>
                                 <th>Rp. {{ number_format($data->total_amount) }}</th>
                             </tr>
 
                             <tr>
                                 <th></th>
-                                <th></th>
-                                <th>Discount</th>
+                              
+                                <th colspan="2">Discount</th>
                                 <th>Rp. 0</th>
                             </tr>
+                            @if($data->delivery_cost !== null)
+                            <tr>
+                                <th><span style="font-weight: normal; font-size:12px;">[ {{ $data->service }}<br>{{ $data->province_name }} - {{ $data->city_name }} - {{ $data->district_name }} ]</span></th>
+                                
+                                <th colspan="2">Ongkos Kirim </th>
+                                <th>Rp. {{ number_format($data->delivery_cost) }}</th>
+                            </tr>
+                            @endif
                             <tr>
                                 <th style="color: green;">Net Amount</th>
                                 <th></th>
                                 <th></th>
-                                <th style="color: green;">Rp. {{ number_format($data->total_amount) }}</th>
+                                <th style="color: green;">Rp. {{ number_format($data->grand_total) }}</th>
                             </tr>
 
                         </thead>

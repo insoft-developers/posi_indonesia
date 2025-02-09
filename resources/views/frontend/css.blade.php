@@ -1,18 +1,97 @@
 <style>
-    .ongkir-form{
-        background: whitesmoke;
-    padding: 17px 44px;
-    border-radius: 10px;
-    }
-    .bonus-text{
-        font-size: 12px;
-        color:blue;
+    .item-item {
+        background-color: white !important;
+        opacity: 0.98;
     }
 
-    .bonus-text2{
-        font-size: 12px;
-        color:orange;
+    .pembahasan-title {
+        font-weight: bold;
+        background: white;
+        text-align: center;
+        width: 80%;
+        margin: auto;
+        margin-bottom: 16px;
+        padding: 10px 20px 10px 20px;
+        border-radius: 5px;
+
+
     }
+
+
+
+    .title-one {}
+
+    .title-two {
+        margin-top: -21px;
+    }
+
+    .pembahasan-item {
+        /* background-color: white; */
+        padding: 25px 35px 25px 35px;
+    margin-bottom: 21px !important;
+    border-radius: 5px;
+    text-align: justify;
+    width: 80%;
+    margin: auto;
+    background: linear-gradient(rgb(255 255 255), rgb(255 255 255 / 88%)), url(/template/frontend/assets/umum/logo_600.png);
+    background-size: contain;
+
+    }
+
+
+
+    .pembahasan-no-soal {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .pembahasan-soal {
+        font-size: 14px;
+
+
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .pembahasan-opt-a {
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+    .pembahasan-option-a {
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+
+    .pembahasan-jawaban {
+        font-size: 13px;
+        margin-bottom: 3px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .pembahasan-pembahasan {
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+    . .ongkir-form {
+        background: whitesmoke;
+        padding: 17px 44px;
+        border-radius: 10px;
+    }
+
+    .bonus-text {
+        font-size: 12px;
+        color: blue;
+    }
+
+    .bonus-text2 {
+        font-size: 12px;
+        color: orange;
+    }
+
     #btn-email-verif {
         background: whitesmoke;
         padding: 10px 10px;
