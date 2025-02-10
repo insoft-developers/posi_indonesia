@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\JuaraController;
+use App\Http\Controllers\Backend\CompetitionController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -30,6 +33,22 @@ use phpseclib3\Crypt\Rijndael;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::prefix('posiadmin')->group(function () {
+    Route::get('/login', [LoginController::class, 'login'])->name('admin.login');
+    Route::post('/login-post', [LoginController::class, 'login_post'])->name('login.post');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+});
+
+Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function () {
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::resource('/competition', CompetitionController::class);
+    Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table');
+});
+
+// =====================================================================================
+//                                        FRONT END
+// =====================================================================================
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -101,7 +120,6 @@ Route::middleware('auth')->group(function () {
     Route::post('bonus_claim', [RiwayatController::class, 'bonus_claim'])->name('bonus.claim');
     Route::post('facility_show', [RiwayatController::class, 'facility_show'])->name('facility.show');
     Route::get('facility_file/{transactionid}/{token}', [RiwayatController::class, 'facility_file']);
-
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);

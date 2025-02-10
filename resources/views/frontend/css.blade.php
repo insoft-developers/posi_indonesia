@@ -13,8 +13,6 @@
         margin-bottom: 16px;
         padding: 10px 20px 10px 20px;
         border-radius: 5px;
-
-
     }
 
 
@@ -28,13 +26,13 @@
     .pembahasan-item {
         /* background-color: white; */
         padding: 25px 35px 25px 35px;
-    margin-bottom: 21px !important;
-    border-radius: 5px;
-    text-align: justify;
-    width: 80%;
-    margin: auto;
-    background: linear-gradient(rgb(255 255 255), rgb(255 255 255 / 88%)), url(/template/frontend/assets/umum/logo_600.png);
-    background-size: contain;
+        margin-bottom: 21px !important;
+        border-radius: 5px;
+        text-align: justify;
+        width: 80%;
+        margin: auto;
+        background: linear-gradient(rgb(255 255 255), rgb(255 255 255 / 88%)), url(/template/frontend/assets/umum/logo_600.png);
+        background-size: contain;
 
     }
 
