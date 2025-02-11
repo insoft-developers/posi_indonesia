@@ -27,9 +27,9 @@
         border-radius: 5px;
     }
 
-    .btn-insoft{
+    .btn-insoft {
         padding: 8px !important;
-    font-size: 12px;
-    float: right;
+        font-size: 12px;
+        float: right;
     }
 </style>

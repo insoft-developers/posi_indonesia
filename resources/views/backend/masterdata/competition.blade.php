@@ -49,8 +49,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-kompetisi">
+    <div class="modal fade" id="modal-tambah">
         <div class="modal-dialog">
+            <form id="form-tambah" enctype="multipart/form-data">
+            {{ csrf_field() }} {{ method_field('POST') }}
+            <input type="hidden" id="id" name="id">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Kompetisi</h5>
@@ -58,6 +61,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">Gambar Kompetisi</label>
+                            <input type="file" id="image" name="image" class="form-control" accept="*.jpg, *.jpeg, *.png">
+                        </div>
+                        <div style="margin-top:15px;"></div>
                         <div class="col-12">
                             <label class="form-label">Nama Kompetisi</label>
                             <input type="text" id="title" name="title" class="form-control">
@@ -140,7 +148,7 @@
                             </select>
                         </div>
                         <div style="margin-top:15px;"></div>
-                        
+
                         <div class="col-12">
                             <label class="form-label">Jenis Kompetisi</label>
                             <select id="type" name="type" class="form-control">
@@ -158,16 +166,72 @@
                         <div style="margin-top:15px;"></div>
                         <div class="col-12">
                             <label class="form-label">Level Kompetisi</label>
-                            <select id="type" name="type" class="form-control">
+                            <select id="level" name="level" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="1">Level</option>
-                               
+                                @foreach ($level as $l)
+                                    <option value="{{ $l->id }}">{{ $l->level_name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div style="margin-top:15px;"></div>
                         <div class="col-12">
+                            <label class="form-label">Provinsi</label>
+                            <select id="province_code" name="province_code" class="form-control">
+                                <option value="">- Semua Provinsi -</option>
+                                @foreach ($province as $p)
+                                    <option value="{{ $p->province_code }}">{{ $p->province_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Kabupaten/Kota</label>
+                            <select id="city_code" name="city_code" class="form-control">
+                                <option value="">Pilih Provinsi Dulu</option>
+                            </select>
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Kecamatan</label>
+                            <select id="district_code" name="district_code" class="form-control">
+                                <option value="">Pilih Kota Dulu</option>
+                            </select>
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Nama Sekolah</label>
+                            <select id="sekolah" name="sekolah" class="form-control">
+                                <option value="">Pilih Kecamatan Dulu</option>
+                            </select>
+                        </div>
+                        <div id="container-sekolah-lain" style="display: none;">
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Nama Sekolah</label>
+                                <input type="text" id="sekolah-lain" name="sekolah_lain" class="form-control"
+                                    placeholder="Masukkan nama sekolah">
+
+                            </div>
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Agama</label>
+                            <select id="agama" name="agama" class="form-control">
+                                <option value="">- Semua Agama -</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Protestan">Protestan</option>
+                                <option value="Katholik">Katholik</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Kong Hu Cu">Kong Hu Cu</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
                             <label class="form-label">Status Kompetisi</label>
-                            <select id="type" name="type" class="form-control">
+                            <select id="is_active" name="is_active" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="1">Aktif</option>
                                 <option value="0">Tidak Aktif</option>
@@ -177,9 +241,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 @endsection

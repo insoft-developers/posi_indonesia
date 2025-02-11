@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/file-upload.css">
 
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/audioplayer.css">
+    
     <!-- main css -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/style.css">
     @include('backend.css');
@@ -223,6 +224,8 @@
     <script src="{{ asset('template/backend') }}/assets/js/lib/file-upload.js"></script>
     <!-- audioplayer -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/audioplayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <!-- main js -->
     <script src="{{ asset('template/backend') }}/assets/js/app.js"></script>

@@ -34,6 +34,10 @@ use phpseclib3\Crypt\Rijndael;
 |
 */
 
+Route::get('path', function(){
+    return public_path('/');
+});
+
 Route::prefix('posiadmin')->group(function () {
     Route::get('/login', [LoginController::class, 'login'])->name('admin.login');
     Route::post('/login-post', [LoginController::class, 'login_post'])->name('login.post');
@@ -44,6 +48,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/competition', CompetitionController::class);
     Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table');
+    Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
+    Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
+    Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah']);
 });
 
 // =====================================================================================
