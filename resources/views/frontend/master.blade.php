@@ -146,17 +146,17 @@
                                         <a href="#">Info</a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="{{ url('/berita') }}">Berita</a>
+                                                <a href="#">Berita</a>
 
                                             </li>
                                             <li>
-                                                <a href="{{ url('/event') }}">Event</a>
+                                                <a href="#">Event</a>
                                             </li>
 
                                         </ul>
                                     </li>
                                     <li><a href="{{ url('/contact') }}">Kontak</a></li>
-                                    <li><a href="{{ url('/pengumuman') }}">Pengumuman</a></li>
+                                    <li><a href="#">Pengumuman</a></li>
                                 @endif
                             </ul>
 

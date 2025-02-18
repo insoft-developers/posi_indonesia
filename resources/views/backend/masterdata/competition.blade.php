@@ -169,7 +169,7 @@
                             <select id="level" name="level" class="form-control">
                                 <option value="">Pilih</option>
                                 @foreach ($level as $l)
-                                    <option value="{{ $l->id }}">{{ $l->level_name }}</option>
+                                    <option value="{{ $l->id }}_{{ $l->jenjang }}">{{ $l->level_name }}</option>
                                 @endforeach
                             </select>
                         </div>

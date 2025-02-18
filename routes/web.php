@@ -50,7 +50,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table');
     Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
-    Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah']);
+    Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
 });
 
 // =====================================================================================

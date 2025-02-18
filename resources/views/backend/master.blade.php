@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POSI - Admin Panel</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
     <!-- remix icon font css  -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/remixicon.css">
@@ -204,7 +206,9 @@
     <!-- Bootstrap js -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/bootstrap.bundle.min.js"></script>
     <!-- Apex Chart js -->
+    @if($view == 'dashboard')
     <script src="{{ asset('template/backend') }}/assets/js/lib/apexcharts.min.js"></script>
+    @endif
     <!-- Data Table js -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/dataTables.min.js"></script>
     <!-- Iconify Font js -->
@@ -229,8 +233,9 @@
 
     <!-- main js -->
     <script src="{{ asset('template/backend') }}/assets/js/app.js"></script>
-
+    @if($view == 'dashboard')
     <script src="{{ asset('template/backend') }}/assets/js/homeOneChart.js"></script>
+    @endif
     @include('backend.js')
 
 </body>
