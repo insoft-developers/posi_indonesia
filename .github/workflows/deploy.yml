@@ -51,5 +51,5 @@ jobs:
             script: 
                 cd /www/wwwroot/posismart.id/posi_indonesia
                 php artisan migrate --force
-                php artisan optimize
+                
 
