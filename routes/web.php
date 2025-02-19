@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\JuaraController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\LoginController;
+use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -51,6 +52,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
     Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
+
+    Route::resource('/pelajaran', PelajaranController::class);
+    Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table');
 });
 
 // =====================================================================================

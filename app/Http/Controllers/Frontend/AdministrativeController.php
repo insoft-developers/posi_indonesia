@@ -54,7 +54,7 @@ class AdministrativeController extends Controller
                 [
                     'message' => 'Curl Error ' . $err,
                 ],
-                500,
+                500
             );
         } else {
             $data = json_decode($response);
