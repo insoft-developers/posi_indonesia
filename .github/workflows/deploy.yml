@@ -30,12 +30,13 @@ jobs:
           run: npm install
 
         - name: Build NPM Asset
-          run: npm run build
+          run: npm run
 
         - name: Synchronize Files to Server
           uses: easingthemes/ssh-deploy@v2.1.5
           env: 
-            SSH_PRIVATE_KEY: "."
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
+            SOURCE: "."
             REMOTE_HOST: ${{ secrets.VPS_HOST }}
             REMOTE_USER: ${{ secrets.VPS_USER }}
             TARGET: "/www/wwwroot/posismart.id/posi_indonesia"
@@ -47,8 +48,7 @@ jobs:
             port: ${{ secrets.VPS_PORT }}
             username: ${{ secrets.VPS_USER }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: 
+            script: |
                 cd /www/wwwroot/posismart.id/posi_indonesia
                 php artisan migrate --force
                 php artisan optimize
-

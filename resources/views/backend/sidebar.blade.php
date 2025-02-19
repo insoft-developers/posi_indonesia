@@ -32,7 +32,7 @@
                     <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bidang Studi</a>
                   </li>
                   <li>
-                    <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Pelajaran</a>
+                    <a href="{{ url('posiadmin/pelajaran') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Pelajaran</a>
                   </li>
                   <li>
                     <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Kelas</a>
