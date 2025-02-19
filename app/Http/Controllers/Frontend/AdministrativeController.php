@@ -33,6 +33,9 @@ class AdministrativeController extends Controller
             return response()->json($sekolah);
         }
 
+
+        // testing 
+
         $headers = ['Content-Type: application/json'];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://api-sekolah-indonesia.vercel.app/sekolah/' . $jenjang . '?kec=' . $item[0] . '&page=1&perPage=100000');
