@@ -47,7 +47,8 @@ jobs:
             port: ${{ secrets.VPS_PORT }}
             username: ${{ secrets.VPS_USER }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: |
+            script: 
                 cd /www/wwwroot/posismart.id/posi_indonesia
                 php artisan migrate --force
                 php artisan optimize
+
