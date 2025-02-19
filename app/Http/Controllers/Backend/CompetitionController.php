@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Level;
+use App\Models\Pelajaran;
 use App\Models\Province;
 use App\Models\Sekolah;
+use App\Models\Study;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +25,8 @@ class CompetitionController extends Controller
         $view = 'competition';
         $level = Level::all();
         $province = Province::groupBy('province_code')->get();
-        return view('backend.masterdata.competition', compact('view','level', 'province'));
+        $pelajaran = Pelajaran::all();
+        return view('backend.masterdata.competition', compact('view','level', 'province','pelajaran'));
     }
 
     /**
@@ -104,7 +107,53 @@ class CompetitionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Study::where('competition_id', $id)->orderBy('id','desc')->get();
+
+        if($data->count() <= 0) {
+            $html = '';
+            $html .= '<div style="text-align:center;">Belum ada data bidang studi</div>';
+            return $html;
+        }
+        
+        $html = '';
+        $html .= '<table class="table table-bordered table-striped">';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th>No</th>';
+        $html .= '<th>Action</th>';
+        $html .= '<th>Kompetisi</th>';
+        $html .= '<th>Bidang Studi</th>';
+        $html .= '<th>Tanggal Kompetisi</th>';
+        $html .= '<th>Mulai Jam</th>';
+        $html .= '<th>Selesai Jam</th>';
+        $html .= '<th>Forum Link</th>';
+        
+        $html .= '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        foreach($data as $index => $d) {
+            $html .= '<tr>';
+            $html .= '<td>'.($index + 1).'</td>';
+            $html .= '<td><a onclick="editStudy('.$d->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="lucide:edit"></iconify-icon>
+                </a>
+                <a onclick="deleteStudy('.$d->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+                </a></td>';
+            $html .= '<td>'.$d->competition->title.'</td>';
+            $html .= '<td>'.$d->pelajaran->name.'</td>';
+            $html .= '<td class="text-center">'.date('d-m-Y', strtotime($d->start_date)).'</td>';
+            $html .= '<td class="text-center">'.$d->start_time.'</td>';
+            $html .= '<td class="text-center">'.$d->finish_time.'</td>';
+            $html .= '<td>'.$d->forum_link.'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</tbody>';
+        $html .= '</table>';
+
+        return $html;
+
+        
     }
 
     /**
@@ -263,8 +312,8 @@ class CompetitionController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '
-                <a href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
-                  <iconify-icon icon="iconamoon:eye-light"></iconify-icon>
+                <a onclick="studyData('.$data->id.')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
                 </a>
                 <a onclick="editData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
@@ -276,5 +325,72 @@ class CompetitionController extends Controller
             ->rawColumns(['action', 'date', 'image', 'registration', 'price','target'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function simpan_study(Request $request) {
+        $input = $request->all();
+        $competition = Competition::findorFail($input['competition_id']);
+
+        Study::create([
+            "competition_id" => $input['competition_id'],
+            "pelajaran_id" => $input['s-pelajaran'],
+            "level_id" => $competition->level,
+            "start_date" => $competition->date,
+            "start_time" => $input['s-start-time'],
+            "finish_time" => $input['s-finish-time'],
+            "forum_link" => $input['s-forum-link']
+        ]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "success",
+            "id" => $input['competition_id']
+        ]);
+    }
+
+
+    public function update_study(Request $request) {
+        $input = $request->all();
+        $competition = Competition::findorFail($input['competition_id']);
+
+        $study = Study::findorFail($input['study-id']);
+
+        $study->update([
+            "competition_id" => $input['competition_id'],
+            "pelajaran_id" => $input['s-pelajaran'],
+            "level_id" => $competition->level,
+            "start_date" => $competition->date,
+            "start_time" => $input['s-start-time'],
+            "finish_time" => $input['s-finish-time'],
+            "forum_link" => $input['s-forum-link']
+        ]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "success",
+            "id" => $input['competition_id']
+        ]);
+    }
+
+
+    public function edit_study($id) {
+        $data = Study::findorFail($id);
+        return response()->json([
+            "success" => true,
+            "data" => $data
+        ]);
+    }
+
+
+    public function delete_study(Request $request) {
+        $input = $request->all();
+        $study = Study::findorFail($input['id']);
+        $cid = $study->competition_id;
+
+        $study->delete();
+        return response()->json([
+            "success" => true,
+            "id" => $cid
+        ]);
     }
 }

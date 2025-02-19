@@ -342,12 +342,106 @@
                     url: "{{ url('posiadmin/competition') }}" + "/" + id,
                     type: "DELETE",
                     dataType: "JSON",
-                    data: {"id":id, '_token':csrf_token},
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
                     success: function(data) {
                         table.ajax.reload(null, false);
                     }
                 })
             }
+        }
+
+
+        function studyData(id) {
+
+            $.ajax({
+                url: "{{ url('posiadmin/competition') }}" + "/" + id,
+                type: "GET",
+                success: function(data) {
+                    $("#competition_id").val(id);
+                    $("#method-type").val("add");
+                    $(".modal-title").text("Daftar Bidang Studi");
+                    $("#modal-study").modal("show");
+                    $("#modal-study-content").html(data);
+                    reset_study();
+                }
+            });
+        }
+
+
+
+        $("#form-tambahan").submit(function(e) {
+            e.preventDefault();
+            var method = $("#method-type").val();
+
+            var url = '';
+            if (method == 'add') {
+                url = "{{ url('posiadmin/simpan_study') }}";
+            } else {
+                url = "{{ url('posiadmin/update_study') }}";
+            }
+            $.ajax({
+
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: $(this).serialize(),
+                success: function(data) {
+                    if (data.success) {
+                        reset_study();
+                        studyData(data.id);
+                    }
+                }
+            });
+        })
+
+
+        function editStudy(id) {
+            $.ajax({
+                url: "{{ url('posiadmin/edit_study') }}" + "/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    if (data.success) {
+                        $("#method-type").val('edit');
+                        $("#competition_id").val(data.data.competition_id);
+                        $("#s-start-time").val(data.data.start_time);
+                        $("#s-finish-time").val(data.data.finish_time);
+                        $("#s-forum-link").val(data.data.forum_link);
+                        $("#s-pelajaran").val(data.data.pelajaran_id);
+                        $("#study-id").val(id);
+                    }
+                }
+            });
+        }
+
+        function deleteStudy(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var pop = confirm('Apakah anda yakin ingin menghapus bidang studi ini...?');
+            if (pop === true) {
+                $.ajax({
+                    url: "{{ url('posiadmin/delete_study') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {"id":id, "_token":csrf_token},
+                    success: function(data) {
+                        if (data.success) {
+                            studyData(data.id);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        function reset_study() {
+            $("#s-pelajaran").val("");
+            $("#s-start-time").val("");
+            $("#s-finish-time").val("");
+            $("#s-forum-link").val("");
+
         }
     </script>
 @endif

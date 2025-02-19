@@ -28,9 +28,7 @@
                   <li>
                     <a href="{{ url('posiadmin/competition') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Kompetisi</a>
                   </li>
-                  <li>
-                    <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bidang Studi</a>
-                  </li>
+                 
                   <li>
                     <a href="{{ url('posiadmin/pelajaran') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Pelajaran</a>
                   </li>
