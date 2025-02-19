@@ -1,35 +1,54 @@
+name: Deploy Application
+
 on:
-  push:
-    branches:
-      - master
-      
-  pull_request:
-    branches:
-      - master     
-      
+    push:
+        branches:
+            - master
+
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        steps:
+        - name: Checkout Code
+          uses: actions/checkout@V3
 
-      - name: Getting git commit data
-        uses: rlespinasse/git-commit-data-action@v1
-        
-      - name: Autodeployment Production
-        if: github.ref == 'refs/heads/master'
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          port: ${{ secrets.VPS_PORT }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /www/wwwroot/posismart.id/posi_indonesia
-            git checkout master
-            git pull origin master
-            git push all master
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.1
+
+        - name: Install Composer Dependencies
+          run: composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist
+
+        - name: Install Node JS
+          uses: actions/setup-node@v3
+          with: 
+            node-version: '20'
+
+        - name: Install NPM Dependencies
+          run: npm install
+
+        - name: Build NPM Asset
+          run: npm run
+
+        - name: Synchronize Files to Server
+          uses: easingthemes/ssh-deploy@v2.1.5
+          env: 
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} 
+            SOURCE: "."
+            REMOTE_HOST: ${{ secrets.VPS_HOST }}
+            REMOTE_USER: ${{ secrets.VPS_USER }}
+            TARGET: "/www/wwwroot/posismart.id/posi_indonesia"
+
+        - name: Run Remote/Artisan Commands
+          uses: appleboy/ssh-action@v0.1.6
+          with: 
+            host: ${{ secrets.VPS_HOST }}
+            port: ${{ secrets.VPS_PORT }}
+            username: ${{ secrets.VPS_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+                cd /www/wwwroot/posismart.id/posi_indonesia
+                php artisan migrate --force
+                php artisan optimize
