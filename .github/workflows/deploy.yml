@@ -1,0 +1,35 @@
+on:
+    push:
+      branches:
+        - master
+       
+    pull_request:
+      branches:
+        - master
+         
+jobs:
+    deploy:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Getting git commit data
+          uses: rlespinasse/git-commit-data-action@v1
+
+        - name: Autodeployment Production
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.VPS_HOST }}
+            port: ${{ secrets.VPS_PORT }}
+            username: ${{ secrets.VPS_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+              cd /www/wwwroot/posismart.id/posi
+              git checkout master
+              git pull origin master
+              git push all master
+              composer install --no-dev --optimize-autoloader
+              php artisan migrate --force
+  

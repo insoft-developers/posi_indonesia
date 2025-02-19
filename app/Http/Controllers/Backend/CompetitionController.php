@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Level;
 use App\Models\Province;
+use App\Models\Sekolah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -74,8 +75,24 @@ class CompetitionController extends Controller
             $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
         }
 
+        $sekolah = $input['sekolah'];
+
         $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+        $level = explode("_",$input['level']);
+
+        $input['level'] = $level[0];
         Competition::create($input);
+
+        if($sekolah == 'lainnya') {
+            Sekolah::create([
+                "name" => $input['sekolah_lain'],
+                "province_code" => $input['province_code'],
+                "city_code" => $input['city_code'],
+                "district_code" => $input['district_code'],
+                "jenjang" => $level[1]
+            ]);
+        }
+
         return response()->json([
             "success" => true,
             "message" => 'success'
@@ -95,7 +112,7 @@ class CompetitionController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Competition::findorFail($id);
+        $data = Competition::with('levels')->where('id', $id)->first();
         return $data;
     }
 
@@ -104,7 +121,63 @@ class CompetitionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $input = $request->all();
+        $rules = [
+            "title" => "required",
+            "date" => "required",
+            "start_registration_date" => "required",
+            "start_registration_time" => "required",
+            "finish_registration_date" => "required",
+            "finish_registration_time" => "required",
+            "type" => "required",
+            "price" => "required|numeric",
+        ];
+
+        $validator = Validator::make($input, $rules);
+        if($validator->fails()) {
+            $pesan = $validator->errors();
+            $pesanarr = explode(",", $pesan);
+            $find = array("[","]","{","}");
+            $html = '';
+            foreach($pesanarr as $p ) {
+                $html .= str_replace($find,"",$p).'<br>';
+            }
+            return response()->json([
+                "success" => false,
+                "message" => $html
+            ]);
+        }
+
+        $com = Competition::findorFail($id);
+        $input['image'] = $com->image;
+        $unik = uniqid();
+        if($request->hasFile('image')){
+            $input['image'] = Str::slug($unik, '-').'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
+        }
+
+        $sekolah = $input['sekolah'];
+
+        $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+        $level = explode("_",$input['level']);
+
+        $input['level'] = $level[0];
+        $com->update($input);
+
+        if($sekolah == 'lainnya') {
+            Sekolah::create([
+                "name" => $input['sekolah_lain'],
+                "province_code" => $input['province_code'],
+                "city_code" => $input['city_code'],
+                "district_code" => $input['district_code'],
+                "jenjang" => $level[1]
+            ]);
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => 'success'
+        ]);
     }
 
     /**
@@ -112,7 +185,7 @@ class CompetitionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       return  Competition::destroy($id);
     }
 
     public function competition_table()
@@ -196,7 +269,7 @@ class CompetitionController extends Controller
                 <a onclick="editData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
                 </a>
-                <a href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                <a onclick="deleteData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
