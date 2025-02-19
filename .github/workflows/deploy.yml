@@ -46,7 +46,7 @@ jobs:
             username: ${{ secrets.VPS_USER }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: 
-                cd /www/wwwroot/posismart.id/posi_indonesia
+                cd "/www/wwwroot/posismart.id/posi_indonesia"
                 git checkout master
                 git pull origin master
                 git push origin master
