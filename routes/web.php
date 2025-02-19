@@ -47,14 +47,21 @@ Route::prefix('posiadmin')->group(function () {
 
 Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function () {
     Route::get('/', [DashboardController::class, 'index']);
+
     Route::resource('/competition', CompetitionController::class);
     Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table');
+    Route::post('/simpan_study', [CompetitionController::class, 'simpan_study']);
+    Route::post('/update_study', [CompetitionController::class, 'update_study']);
+    Route::get('/edit_study/{id}', [CompetitionController::class, 'edit_study']);
+    Route::post('/delete_study', [CompetitionController::class, 'delete_study']);
+
     Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
     Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
 
     Route::resource('/pelajaran', PelajaranController::class);
     Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table');
+
 });
 
 // =====================================================================================
