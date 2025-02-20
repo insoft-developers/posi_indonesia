@@ -115,6 +115,7 @@
                                             <label class="label-form">Akun Sebagai</label>
                                             <div class="courses-select">
                                                 <select id="level_id" name="level_id">
+                                                    <option value=""> - Pilih - </option>
                                                     @foreach ($level as $l)
                                                         <option <?php if ($user->level_id == $l->id) {
                                                             echo 'selected';
@@ -126,22 +127,29 @@
                                             <x-input-error :messages="$errors->get('level_id')" class="mt-2" />
                                         </div>
                                         @php
-                                        $vel = \App\Models\Level::findorFail($user->level_id);
-                                        $kelas = \App\Models\Kelas::where('jenjang',$vel->jenjang)->get();
+                                        if($user->level_id != 0) {
+                                            $vel = \App\Models\Level::findorFail($user->level_id);
+                                            $kelas = \App\Models\Kelas::where('jenjang',$vel->jenjang)->get();
+                                            $jenjang = $vel->jenjang;
+                                        } else {
+                                            $jenjang = "";
+                                        }
                                         
                                         @endphp
                                         <div class="single-form">
-                                            <input type="hidden" id="tingkat" name="tingkat" value="{{ $vel->jenjang }}">
+                                            <input type="hidden" id="tingkat" name="tingkat" value="{{ $jenjang }}">
                                             <label class="label-form">Kelas</label>
                                             <div class="courses-select">
                                                 <select id="kelas_id" name="kelas_id">
                                                     <option value="">Pilih</option>
+                                                    @if($user->level_id !== 0)
                                                     @foreach ($kelas as $k)
                                                         <option <?php if ($user->kelas_id == $k->id) {
                                                             echo 'selected';
                                                         } ?> value="{{ $k->id }}">
                                                             {{ $k->nama_kelas }}</option>
                                                     @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                             <x-input-error :messages="$errors->get('kelas_id')" class="mt-2" />
