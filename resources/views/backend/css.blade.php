@@ -1,7 +1,40 @@
 <style>
-    .btn-position{
+    .cust-control {}
+
+    .select2-selection__rendered {
+        font-size: 16px;
+        padding-top: 3px !important;
+        padding-bottom: 0px !important;
+        padding-left: 21px !important
+
+
+    }
+
+    .select2-container .select2-selection--single {
+        padding: .150rem 2.25rem .375rem .45rem !important;
+        min-width: 466px !important;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+    }
+
+
+    .select2-container .select2-selection--multiple {
+        padding: .150rem 2.25rem .375rem .45rem !important;
+        min-width: 466px !important;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+    }
+
+    .select2-container .select2-selection {
+        min-height: calc(1.8em + .75rem + 2px) !important;
+    }
+
+
+
+    .btn-position {
         margin-top: 31px;
     }
+
     .dt-search {
         margin-bottom: 12px;
         position: absolute;

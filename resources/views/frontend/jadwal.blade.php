@@ -68,6 +68,7 @@
             <div class="section-title shape-03">
                 <h2 class="main-judul">Jadwal Ujian</h2>
             </div>
+           
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
                 @php
@@ -82,7 +83,7 @@
                         @endphp
                         @foreach ($data as $d)
                            
-                            @if($d->date <= $sekarang)
+                           
                             @php
                             $ada++;
                             @endphp
@@ -105,7 +106,10 @@
                                                         {{ date('d F Y', strtotime($d->date)) }}</a>
                                                 </div>
                                                 <div class="author-name">
-                                                    <a class="name" href="#">{{ $d->levels->level_name }},
+                                                    @php
+                                                        $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                                    @endphp
+                                                    <a class="name" href="#">{{ $lavel->level_name }},
                                                     </a>
                                                 </div>
                                             </div>
@@ -149,7 +153,7 @@
                                                                 <div style="color: #0fa4c9;" class="col-lg-6 col-md-6">
                                                                     <strong><img class="icon-telegram"
                                                                             src="{{ asset('template/frontend/assets/umum/icon_telegram.png') }}"><a
-                                                                            href="#">Link Group</a></strong>
+                                                                            href="{{ $t->study->forum_link }}" target="_blank">Link Group</a></strong>
                                                                 </div>
                                                                 @if ($selesai == 1)
                                                                     <div style="color:green" class="col-lg-6 col-md-6">
@@ -195,7 +199,7 @@
                                 <!-- Single Blog End -->
 
                             </div>
-                            @endif
+                            
                         @endforeach
                     </div>
                 @endif
@@ -232,7 +236,10 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
-                                                <div class="subtitle-pengumuman">{{ $um->levels->level_name }}</div>
+                                                @php
+                                                $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                            @endphp
+                                                <div class="subtitle-pengumuman">{{ $lavel->level_name }}</div>
                                             </div>
                                         </div>
                                         <div style="margin-top:-25px"></div>

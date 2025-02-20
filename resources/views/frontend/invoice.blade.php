@@ -191,11 +191,14 @@
                                             {{ $sesi->medali ?? null }}</span>
                                             <br><span style="color:green;font-size:13px;">({{ $key->product->description }})</span>
                                         @else
+                                        @php
+                                            $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                        @endphp
                                         <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
                                             class="font-kecil">{{ $data->user->name }} -
                                             {{ $data->user->nama_sekolah }}</span><br><span
                                             class="font-kecil">{{ $key->study->pelajaran->name }} -
-                                            {{ $key->competition->levels->level_name }}</span>
+                                            {{ $lavel->level_name }}</span>
                                         @endif
                                         
                                     </td>

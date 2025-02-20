@@ -20,6 +20,7 @@ class HomeController extends Controller
         $view = 'home';
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
+        
         return view('frontend.dashboard', compact('view', 'kompetisi'));
     }
 
@@ -56,9 +57,41 @@ class HomeController extends Controller
     public function main()
     {
         $view = 'main';
-        $kompetisi = Competition::where('is_active', 1)
-            ->where('level', Auth::user()->level_id)
-            ->get();
+        $kompetisi = Competition::where('is_active', 1)->get();
+        // $kompetisi = [];
+        // foreach($kom as $key) {
+        //     $level_array = explode(",", $key->level);
+        //     $level_user = Auth::user()->level_id;
+        //     $cek = array_search((String)$level_user, $level_array, true);
+        //     if($cek != false) {
+        //         $row['id'] = $key->id;
+        //         $row['title'] = $key->title;
+        //         $row['date'] = $key->date;
+        //         $row['start_registration_date'] = $key->start_registration_date;
+        //         $row['finish_registration_date'] = $key->finish_registration_date;
+        //         $row['start_registration_time'] = $key->start_registration_time;
+        //         $row['finish_registration_time'] = $key->finish_registration_time;
+        //         $row['type'] = $key->type;
+        //         $row['price'] = $key->price;
+        //         $row['image'] = $key->image;
+        //         $row['is_active'] = $key->is_active;
+        //         $row['level'] = $key->level;
+        //         $row['created_at'] = $key->created_at;
+        //         $row['updated_at'] = $key->updated_at;
+        //         $row['province_code'] = $key->province_code;
+        //         $row['city_code'] = $key->city_code;
+        //         $row['district_code'] = $key->district_code;
+        //         $row['province_name'] = $key->province_name;
+        //         $row['city_name'] = $key->city_name;
+        //         $row['district_name'] = $key->district_name;
+        //         $row['agama'] = $key->agama;
+        //         $row['sekolah'] = $key->sekolah;
+
+        //         array_push($kompetisi, $row);
+        //     }
+            
+        // }
+
 
         return view('frontend.main', compact('kompetisi', 'view'));
     }
@@ -72,7 +105,6 @@ class HomeController extends Controller
         $detail = Study::with([
             'competition',
             'pelajaran',
-            'level',
             'cart' => function ($q) {
                 $q->where('userid', Auth::user()->id);
             },

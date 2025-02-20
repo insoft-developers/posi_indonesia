@@ -67,7 +67,7 @@
                 </a>
                 <ul class="sidebar-submenu">
                   <li>
-                    <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Produk</a>
+                    <a href="{{ url('posiadmin/product') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Produk</a>
                   </li>
                  
                 </ul>
