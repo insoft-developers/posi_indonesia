@@ -27,14 +27,13 @@ class JadwalController extends Controller
             },
             'transaction.invoices',
             'transaction.study.pelajaran',
-            'levels',
-        ])->where('date', '>=', $tanggal_sekarang);
+        ]);
         $query->where('is_active', 1);
 
         $data = $query->get();
 
         $sekarang = date('Y-m-d');
-        $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->where('date', '<', $sekarang)->get();
+        $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
 
         return view('frontend.jadwal', compact('view', 'data', 'umum'));
     }

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-
 class CompetitionController extends Controller
 {
     /**
@@ -26,7 +25,7 @@ class CompetitionController extends Controller
         $level = Level::all();
         $province = Province::groupBy('province_code')->get();
         $pelajaran = Pelajaran::all();
-        return view('backend.masterdata.competition', compact('view','level', 'province','pelajaran'));
+        return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran'));
     }
 
     /**
@@ -43,62 +42,68 @@ class CompetitionController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+
         $rules = [
-            "image" => "required",
-            "title" => "required",
-            "date" => "required",
-            "start_registration_date" => "required",
-            "start_registration_time" => "required",
-            "finish_registration_date" => "required",
-            "finish_registration_time" => "required",
-            "type" => "required",
-            "price" => "required|numeric",
+            'image' => 'required',
+            'title' => 'required',
+            'date' => 'required',
+            'start_registration_date' => 'required',
+            'start_registration_time' => 'required',
+            'finish_registration_date' => 'required',
+            'finish_registration_time' => 'required',
+            'type' => 'required',
+            'price' => 'required|numeric',
+            'level' => 'required',
         ];
 
         $validator = Validator::make($input, $rules);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $pesan = $validator->errors();
-            $pesanarr = explode(",", $pesan);
-            $find = array("[","]","{","}");
+            $pesanarr = explode(',', $pesan);
+            $find = ['[', ']', '{', '}'];
             $html = '';
-            foreach($pesanarr as $p ) {
-                $html .= str_replace($find,"",$p).'<br>';
+            foreach ($pesanarr as $p) {
+                $html .= str_replace($find, '', $p) . '<br>';
             }
             return response()->json([
-                "success" => false,
-                "message" => $html
+                'success' => false,
+                'message' => $html,
             ]);
         }
 
-
         $input['image'] = null;
         $unik = uniqid();
-        if($request->hasFile('image')){
-            $input['image'] = Str::slug($unik, '-').'.'.$request->image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $input['image'] = Str::slug($unik, '-') . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
         }
 
         $sekolah = $input['sekolah'];
 
         $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
-        $level = explode("_",$input['level']);
 
-        $input['level'] = $level[0];
+        $level = [];
+        foreach ($input['level'] as $il) {
+            $lid = explode('_', $il);
+            array_push($level, $lid[0]);
+        }
+        // dd($level);
+        $input['level'] = implode(',', $level);
         Competition::create($input);
 
-        if($sekolah == 'lainnya') {
+        if ($sekolah == 'lainnya') {
             Sekolah::create([
-                "name" => $input['sekolah_lain'],
-                "province_code" => $input['province_code'],
-                "city_code" => $input['city_code'],
-                "district_code" => $input['district_code'],
-                "jenjang" => $level[1]
+                'name' => $input['sekolah_lain'],
+                'province_code' => $input['province_code'],
+                'city_code' => $input['city_code'],
+                'district_code' => $input['district_code'],
+                'jenjang' => $level[1],
             ]);
         }
 
         return response()->json([
-            "success" => true,
-            "message" => 'success'
+            'success' => true,
+            'message' => 'success',
         ]);
     }
 
@@ -107,14 +112,14 @@ class CompetitionController extends Controller
      */
     public function show(string $id)
     {
-        $data = Study::where('competition_id', $id)->orderBy('id','desc')->get();
+        $data = Study::where('competition_id', $id)->orderBy('id', 'desc')->get();
 
-        if($data->count() <= 0) {
+        if ($data->count() <= 0) {
             $html = '';
             $html .= '<div style="text-align:center;">Belum ada data bidang studi</div>';
             return $html;
         }
-        
+
         $html = '';
         $html .= '<table class="table table-bordered table-striped">';
         $html .= '<thead>';
@@ -127,33 +132,36 @@ class CompetitionController extends Controller
         $html .= '<th>Mulai Jam</th>';
         $html .= '<th>Selesai Jam</th>';
         $html .= '<th>Forum Link</th>';
-        
+
         $html .= '</tr>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        foreach($data as $index => $d) {
+        foreach ($data as $index => $d) {
             $html .= '<tr>';
-            $html .= '<td>'.($index + 1).'</td>';
-            $html .= '<td><a onclick="editStudy('.$d->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+            $html .= '<td>' . ($index + 1) . '</td>';
+            $html .=
+                '<td><a onclick="editStudy(' .
+                $d->id .
+                ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
                 </a>
-                <a onclick="deleteStudy('.$d->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                <a onclick="deleteStudy(' .
+                $d->id .
+                ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a></td>';
-            $html .= '<td>'.$d->competition->title.'</td>';
-            $html .= '<td>'.$d->pelajaran->name.'</td>';
-            $html .= '<td class="text-center">'.date('d-m-Y', strtotime($d->start_date)).'</td>';
-            $html .= '<td class="text-center">'.$d->start_time.'</td>';
-            $html .= '<td class="text-center">'.$d->finish_time.'</td>';
-            $html .= '<td>'.$d->forum_link.'</td>';
+            $html .= '<td>' . $d->competition->title . '</td>';
+            $html .= '<td>' . $d->pelajaran->name . '</td>';
+            $html .= '<td class="text-center">' . date('d-m-Y', strtotime($d->start_date)) . '</td>';
+            $html .= '<td class="text-center">' . $d->start_time . '</td>';
+            $html .= '<td class="text-center">' . $d->finish_time . '</td>';
+            $html .= '<td>' . $d->forum_link . '</td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
         $html .= '</table>';
 
         return $html;
-
-        
     }
 
     /**
@@ -161,7 +169,18 @@ class CompetitionController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Competition::with('levels')->where('id', $id)->first();
+        $data['data'] = Competition::findorFail($id);
+        $level = [];
+        $lvl = explode(',', $data['data']->level);
+        foreach ($lvl as $l) {
+            $lev = Level::where('id', $l);
+            if ($lev->count() > 0) {
+                array_push($level, $l . '_' . $lev->first()->jenjang);
+            }
+        }
+
+        $data['level'] = $level;
+
         return $data;
     }
 
@@ -172,60 +191,75 @@ class CompetitionController extends Controller
     {
         $input = $request->all();
         $rules = [
-            "title" => "required",
-            "date" => "required",
-            "start_registration_date" => "required",
-            "start_registration_time" => "required",
-            "finish_registration_date" => "required",
-            "finish_registration_time" => "required",
-            "type" => "required",
-            "price" => "required|numeric",
+            'title' => 'required',
+            'date' => 'required',
+            'start_registration_date' => 'required',
+            'start_registration_time' => 'required',
+            'finish_registration_date' => 'required',
+            'finish_registration_time' => 'required',
+            'type' => 'required',
+            'price' => 'required|numeric',
+            'level' => 'required',
         ];
 
         $validator = Validator::make($input, $rules);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $pesan = $validator->errors();
-            $pesanarr = explode(",", $pesan);
-            $find = array("[","]","{","}");
+            $pesanarr = explode(',', $pesan);
+            $find = ['[', ']', '{', '}'];
             $html = '';
-            foreach($pesanarr as $p ) {
-                $html .= str_replace($find,"",$p).'<br>';
+            foreach ($pesanarr as $p) {
+                $html .= str_replace($find, '', $p) . '<br>';
             }
             return response()->json([
-                "success" => false,
-                "message" => $html
+                'success' => false,
+                'message' => $html,
             ]);
         }
 
         $com = Competition::findorFail($id);
         $input['image'] = $com->image;
         $unik = uniqid();
-        if($request->hasFile('image')){
-            $input['image'] = Str::slug($unik, '-').'.'.$request->image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $input['image'] = Str::slug($unik, '-') . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
         }
 
         $sekolah = $input['sekolah'];
 
         $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
-        $level = explode("_",$input['level']);
 
-        $input['level'] = $level[0];
+        $level = [];
+        $jenjang = [];
+        foreach ($input['level'] as $il) {
+            $lid = explode('_', $il);
+            array_push($level, $lid[0]);
+            array_push($jenjang, $lid[1]);
+        }
+        // dd($level);
+        $input['level'] = implode(',', $level);
         $com->update($input);
 
-        if($sekolah == 'lainnya') {
-            Sekolah::create([
-                "name" => $input['sekolah_lain'],
-                "province_code" => $input['province_code'],
-                "city_code" => $input['city_code'],
-                "district_code" => $input['district_code'],
-                "jenjang" => $level[1]
+        Study::where('competition_id', $id)
+            ->update([
+                "start_date" => $input['date']
             ]);
+
+        if ($sekolah == 'lainnya') {
+            foreach ($jenjang as $vel) {
+                Sekolah::create([
+                    'name' => $input['sekolah_lain'],
+                    'province_code' => $input['province_code'],
+                    'city_code' => $input['city_code'],
+                    'district_code' => $input['district_code'],
+                    'jenjang' => $vel,
+                ]);
+            }
         }
 
         return response()->json([
-            "success" => true,
-            "message" => 'success'
+            'success' => true,
+            'message' => 'success',
         ]);
     }
 
@@ -234,7 +268,7 @@ class CompetitionController extends Controller
      */
     public function destroy(string $id)
     {
-       return  Competition::destroy($id);
+        return Competition::destroy($id);
     }
 
     public function competition_table()
@@ -242,38 +276,45 @@ class CompetitionController extends Controller
         $data = Competition::with('levels')->get();
 
         return DataTables::of($data)
-           
-            ->addColumn('level', function($data){
-                return $data->levels->level_name;
+
+            ->addColumn('level', function ($data) {
+                $level = explode(',', $data->level);
+                $html = '<ul>';
+                foreach ($level as $l) {
+                    $level = Level::findorFail($l) ?? null;
+                    $html .= '<li>' . $level->level_name ?? null . '</li>';
+                }
+                $html .= '</ul>';
+                return $html;
             })
-            ->addColumn('target', function($data){
-                $html = "";
-                if(empty($data->province_code)) {
+            ->addColumn('target', function ($data) {
+                $html = '';
+                if (empty($data->province_code)) {
                     $html .= 'Semua Provinsi';
                 } else {
                     $html .= $data->province_name;
                 }
 
-                if(empty($data->city_code)) {
+                if (empty($data->city_code)) {
                     $html .= '<br>Semua Kota';
                 } else {
-                    $html .= '<br>'.$data->city_name;
+                    $html .= '<br>' . $data->city_name;
                 }
 
-                if(empty($data->district_code)) {
+                if (empty($data->district_code)) {
                     $html .= '<br>Semua Kecamatan';
                 } else {
-                    $html .= '<br>'.$data->district_name;
+                    $html .= '<br>' . $data->district_name;
                 }
-                if(empty($data->sekolah)) {
+                if (empty($data->sekolah)) {
                     $html .= '<br>Semua Sekolah';
                 } else {
-                    $html .= '<br>'.$data->sekolah;
+                    $html .= '<br>' . $data->sekolah;
                 }
-                if(empty($data->agama)) {
+                if (empty($data->agama)) {
                     $html .= '<br>Semua Agama';
                 } else {
-                    $html .= '<br>'.$data->agama;
+                    $html .= '<br>' . $data->agama;
                 }
 
                 return $html;
@@ -291,9 +332,9 @@ class CompetitionController extends Controller
                 }
             })
             ->addColumn('is_active', function ($data) {
-                if ($data->type == 1) {
+                if ($data->is_active == 1) {
                     return 'Active';
-                }else{ 
+                } else {
                     return 'Not Active';
                 }
             })
@@ -312,85 +353,93 @@ class CompetitionController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '
-                <a onclick="studyData('.$data->id.')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
+                <a onclick="studyData(' .
+                    $data->id .
+                    ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
                 </a>
-                <a onclick="editData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                <a onclick="editData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
                 </a>
-                <a onclick="deleteData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                <a onclick="deleteData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'date', 'image', 'registration', 'price','target'])
+            ->rawColumns(['action', 'date', 'image', 'registration', 'price', 'target', 'level'])
             ->addIndexColumn()
             ->make(true);
     }
 
-    public function simpan_study(Request $request) {
+    public function simpan_study(Request $request)
+    {
         $input = $request->all();
         $competition = Competition::findorFail($input['competition_id']);
 
         Study::create([
-            "competition_id" => $input['competition_id'],
-            "pelajaran_id" => $input['s-pelajaran'],
-            "level_id" => $competition->level,
-            "start_date" => $competition->date,
-            "start_time" => $input['s-start-time'],
-            "finish_time" => $input['s-finish-time'],
-            "forum_link" => $input['s-forum-link']
+            'competition_id' => $input['competition_id'],
+            'pelajaran_id' => $input['s-pelajaran'],
+            'level_id' => $competition->level,
+            'start_date' => $competition->date,
+            'start_time' => $input['s-start-time'],
+            'finish_time' => $input['s-finish-time'],
+            'forum_link' => $input['s-forum-link'],
+            'status' => 1
         ]);
 
         return response()->json([
-            "success" => true,
-            "message" => "success",
-            "id" => $input['competition_id']
+            'success' => true,
+            'message' => 'success',
+            'id' => $input['competition_id'],
         ]);
     }
 
-
-    public function update_study(Request $request) {
+    public function update_study(Request $request)
+    {
         $input = $request->all();
         $competition = Competition::findorFail($input['competition_id']);
 
         $study = Study::findorFail($input['study-id']);
 
         $study->update([
-            "competition_id" => $input['competition_id'],
-            "pelajaran_id" => $input['s-pelajaran'],
-            "level_id" => $competition->level,
-            "start_date" => $competition->date,
-            "start_time" => $input['s-start-time'],
-            "finish_time" => $input['s-finish-time'],
-            "forum_link" => $input['s-forum-link']
+            'competition_id' => $input['competition_id'],
+            'pelajaran_id' => $input['s-pelajaran'],
+            'level_id' => $competition->level,
+            'start_date' => $competition->date,
+            'start_time' => $input['s-start-time'],
+            'finish_time' => $input['s-finish-time'],
+            'forum_link' => $input['s-forum-link'],
         ]);
 
         return response()->json([
-            "success" => true,
-            "message" => "success",
-            "id" => $input['competition_id']
+            'success' => true,
+            'message' => 'success',
+            'id' => $input['competition_id'],
         ]);
     }
 
-
-    public function edit_study($id) {
+    public function edit_study($id)
+    {
         $data = Study::findorFail($id);
         return response()->json([
-            "success" => true,
-            "data" => $data
+            'success' => true,
+            'data' => $data,
         ]);
     }
 
-
-    public function delete_study(Request $request) {
+    public function delete_study(Request $request)
+    {
         $input = $request->all();
         $study = Study::findorFail($input['id']);
         $cid = $study->competition_id;
 
         $study->delete();
         return response()->json([
-            "success" => true,
-            "id" => $cid
+            'success' => true,
+            'id' => $cid,
         ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -60,7 +61,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
-    Route::get('/get_sekolah_by_kecamatan_id/{id}', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
+    Route::post('/get_sekolah_by_kecamatan_id', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
 
     Route::resource('/pelajaran', PelajaranController::class);
     Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table');
@@ -70,6 +71,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/level', LevelController::class);
     Route::get('/level-table', [LevelController::class, 'level_table'])->name('level.table');
+
+    Route::resource('/product', ProductController::class);
+    Route::get('/product-table', [ProductController::class, 'product_table'])->name('product.table');
 
 });
 
@@ -122,11 +126,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('send_email_passcode', [ProfileController::class, 'send_email_passcode']);
     Route::post('verify_email_passcode', [ProfileController::class, 'verify_email_passcode']);
+    Route::get('get_kelas_by_jenjang/{level}', [ProfileController::class, 'get_kelas']);
 
     Route::get('get_kabupaten_by_province_id/{p}', [AdministrativeController::class, 'get_kabupaten']);
     Route::get('get_kecamatan_by_kabupaten_id/{p}', [AdministrativeController::class, 'get_kecamatan']);
-    Route::get('get_sekolah_by_kecamatan_id/{p}', [AdministrativeController::class, 'get_sekolah']);
-
+    // Route::get('get_sekolah_by_kecamatan_id/{p}', [AdministrativeController::class, 'get_sekolah']);
+    Route::post('/get_sekolah_by_kecamatan_id', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
+    
     Route::get('jadwal', [JadwalController::class, 'index'])->middleware('cdata');
     Route::post('show_pengumuman', [JadwalController::class, 'show_pengumuman'])->name('show.pengumuman');
     Route::post('search_pengumuman', [JadwalController::class, 'search_pengumuman'])->name('search.pengumuman');

@@ -40,6 +40,8 @@
     
     <!-- main css -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     @include('backend.css');
 </head>
 
@@ -233,6 +235,8 @@
 
     <!-- main js -->
     <script src="{{ asset('template/backend') }}/assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     @if($view == 'dashboard')
     <script src="{{ asset('template/backend') }}/assets/js/homeOneChart.js"></script>
     @endif

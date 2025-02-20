@@ -73,6 +73,19 @@
                     <input type="hidden" id="jumlah_kompetisi" value="{{ count($kompetisi) }}">
                     @foreach ($kompetisi as $index => $k)
                         @php
+                            $level_array = explode(',', $k->level);
+                            $level_user = Auth::user()->level_id;
+                            $cek = array_search((string) $level_user, $level_array, true); 
+                            $user = \App\Models\User::findorFail(Auth::user()->id);
+                            
+                        @endphp
+                        @if($cek !== false)
+                        @if($k->province_code == null || $k->province_code == $user->provinsi)
+                        @if($k->city_code == null || $k->city_code == $user->kabupaten)
+                        @if($k->district_code == null || $k->district_code == $user->kecamatan)
+                        @if($k->sekolah == null || $k->sekolah == $user->nama_sekolah)
+                        @if($k->agama == null || $k->agama == $user->agama)
+                        @php
                             $query = \App\Models\Transaction::where('competition_id', $k->id)
                                 ->distinct('userid')
                                 ->count('id');
@@ -192,8 +205,8 @@
                                             Rp. {{ number_format($k->price) }} atau gratis dengan syarat
                                         @elseif($k->type == 2)
                                             Rp. {{ number_format($k->price) }}
-                                        @elseif($k->type == 2)
-                                            Gratis
+                                        @elseif($k->type == 3)
+                                            Gratis Dengan Syarat
                                         @endif
 
                                     </div>
@@ -213,6 +226,12 @@
                             <!-- Single Blog End -->
 
                         </div>
+                        @endif
+                        @endif
+                        @endif
+                        @endif
+                        @endif
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -275,8 +294,8 @@
                     <div id="modal-daftar-list-content"></div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="syarat_gratis()" type="button" class="btn btn-warning btn-sm">Gratis</button>
-                    <button onclick="simpan_bayar()" type="button" class="btn btn-primary btn-sm">Berbayar</button>
+                    <button id="btn_simpan_gratis" onclick="syarat_gratis()" type="button" class="btn btn-warning btn-sm">Gratis</button>
+                    <button id="btn_simpan_premium" onclick="simpan_bayar()" type="button" class="btn btn-primary btn-sm">Berbayar</button>
                 </div>
 
             </div>

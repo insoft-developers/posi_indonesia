@@ -269,7 +269,7 @@
                                 '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
                             html += '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
                                 details[i].pelajaran.name +
-                                ' ' + details[i].level.level_name + '</span><br><span class="detail-date">' +
+                                '</span><br><span class="detail-date">' +
                                 formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                 '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
                                     5) +
@@ -294,7 +294,6 @@
                                 html +=
                                     '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
                                     details[i].pelajaran.name +
-                                    ' ' + details[i].level.level_name +
                                     '</span><br><span class="detail-date">' +
                                     formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                     '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
@@ -314,9 +313,7 @@
                                     '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
                                 html +=
                                     '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
-                                    details[i].pelajaran.name +
-                                    ' ' + details[i].level.level_name +
-                                    '</span><br><span class="detail-date">' +
+                                    details[i].pelajaran.name +'</span><br><span class="detail-date">' +
                                     formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                     '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
                                         5) +
@@ -339,6 +336,18 @@
                     $("#modal-daftar-list-content").html(html);
 
                     $("#modal-daftar-list").modal("show");
+                    if(data.data.type == 1) {
+                        $("#btn_simpan_gratis").show();
+                        $("#btn_simpan_premium").show();
+                    }
+                    else if(data.data.type == 2) {
+                        $("#btn_simpan_gratis").hide();
+                        $("#btn_simpan_premium").show();
+                    }
+                    else if(data.data.type == 3) {
+                        $("#btn_simpan_gratis").show();
+                        $("#btn_simpan_premium").hide();
+                    }
 
                 }
             })
@@ -804,6 +813,7 @@
 
 
                     var html = '';
+                    html += '<option value=""> - Pilih Kabupaten - </option>';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].regency_code + '">' + data[i].regency_name +
                             '</option>';
@@ -828,6 +838,7 @@
 
 
                     var html = '';
+                    html += '<option value=""> - Pilih Kecamatan - </option>';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].district_code + '">' + data[i]
                             .district_name + '</option>';
@@ -843,12 +854,20 @@
 
         $("#kecamatan").change(function() {
             var p = $(this).val();
+            var tingkat = $("#tingkat").val();
+            var level = $("#level_id").val();
+            var kirim = level+'_'+tingkat;
+            var level_array = [kirim];
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
             $.ajax({
-                url: "{{ url('get_sekolah_by_kecamatan_id') }}" + "/" + p,
-                type: "GET",
+                url: "{{ url('get_sekolah_by_kecamatan_id') }}",
+                type: "POST",
                 dataType: "JSON",
+                data: {"level":level_array, "kecamatan":p, "_token":csrf_token},
                 success: function(data) {
                     var html = '';
+                    html += '<option value=""> - Pilih Sekolah - </option>';
                     for (var i = 0; i < data.length; i++) {
                         html += '<option value="' + data[i].sekolah + '">' + data[i].sekolah +
                             '</option>';
@@ -856,6 +875,27 @@
                     html += '<option value="lainnya">LAINNYA</option>';
                     $("#nama_sekolah").html(html);
                     $("#container-sekolah-lain").hide();
+                }
+            })
+        });
+
+        $("#level_id").change(function(){
+            var level_id = $(this).val();
+            
+            $.ajax({
+                url: "{{ url('get_kelas_by_jenjang') }}" + "/" + level_id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    var html = '';
+                    html += '<option value=""> - Pilih kelas - </option>';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].id + '">' + data[i].nama_kelas +
+                            '</option>';
+                    }
+                    $("#kelas_id").html(html);
+                    $("#tingkat").val(data[0].jenjang);
+                   
                 }
             })
         });

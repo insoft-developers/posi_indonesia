@@ -125,7 +125,13 @@
                                             </div>
                                             <x-input-error :messages="$errors->get('level_id')" class="mt-2" />
                                         </div>
+                                        @php
+                                        $vel = \App\Models\Level::findorFail($user->level_id);
+                                        $kelas = \App\Models\Kelas::where('jenjang',$vel->jenjang)->get();
+                                        
+                                        @endphp
                                         <div class="single-form">
+                                            <input type="hidden" id="tingkat" name="tingkat" value="{{ $vel->jenjang }}">
                                             <label class="label-form">Kelas</label>
                                             <div class="courses-select">
                                                 <select id="kelas_id" name="kelas_id">

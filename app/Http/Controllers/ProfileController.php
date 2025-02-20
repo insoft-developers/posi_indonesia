@@ -7,6 +7,7 @@ use App\Mail\RegisMail;
 use App\Models\Kelas;
 use App\Models\Level;
 use App\Models\Province;
+use App\Models\Sekolah;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -76,9 +77,9 @@ class ProfileController extends Controller
         $user = User::findorFail($id);
         $level = Level::all();
         $province = Province::groupBy('province_code')->orderBy('id')->get();
-        $kelas = Kelas::all();
+        
 
-        return view('frontend.after_register', compact('view', 'user', 'level', 'province','kelas'));
+        return view('frontend.after_register', compact('view', 'user', 'level', 'province'));
     }
 
     public function after_register_store(Request $request)
@@ -155,6 +156,16 @@ class ProfileController extends Controller
         $user->whatsapp = $input['whatsapp'];
         $user->save();
 
+        if($input['nama_sekolah'] == 'lainnya') {
+            Sekolah::create([
+                "name" => $input['sekolah_lain'],
+                "province_code" => $input['provinsi'],
+                "city_code" => $input['kabupaten'],
+                "district_code" => $input['kecamatan'],
+                "jenjang" => $input['tingkat']
+            ]);
+        }
+
         return back()->with('success', 'Update data berhasil...');
     }
 
@@ -205,5 +216,15 @@ class ProfileController extends Controller
                 'success' => false,
             ]);
         }
+    }
+
+
+    public function get_kelas($level) {
+        $level = Level::findorFail($level);
+        $jenjang = $level->jenjang;
+
+        $kelas = Kelas::where('jenjang', $jenjang)->get();
+        return response()->json($kelas);
+
     }
 }

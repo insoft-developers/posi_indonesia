@@ -64,8 +64,11 @@
                                                 {{ $c->premium == 1 ? 'Berbayar' : 'Gratis' }}<br>{{ $c->user->name }} -
                                                 {{ $c->user->nama_sekolah }}
                                                 <br>
+                                                @php
+                                                    $lvl = \App\Models\Level::findorfail(Auth::user()->level_id);   
+                                                @endphp
                                                 <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }}
-                                                    - {{ $c->study->level->level_name }}</span>
+                                                    - {{ $lvl->level_name }}</span>
                                             </td>
                                         @endif
 
