@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\JuaraController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\KelasController;
+use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Frontend\AdministrativeController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\ProfileController;
 use App\Mail\RegisMail;
 use App\Models\Administrasi;
 use App\Models\ExamSession;
+use App\Models\Kelas;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
@@ -61,6 +64,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/pelajaran', PelajaranController::class);
     Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table');
+
+    Route::resource('/kelas', KelasController::class);
+    Route::get('/kelas-table', [KelasController::class, 'kelas_table'])->name('kelas.table');
+
+    Route::resource('/level', LevelController::class);
+    Route::get('/level-table', [LevelController::class, 'level_table'])->name('level.table');
 
 });
 

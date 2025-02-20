@@ -33,10 +33,10 @@
                     <a href="{{ url('posiadmin/pelajaran') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Pelajaran</a>
                   </li>
                   <li>
-                    <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Kelas</a>
+                    <a href="{{ url('posiadmin/kelas') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Kelas</a>
                   </li>
                   <li>
-                    <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Level</a>
+                    <a href="{{ url('posiadmin/level') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Level</a>
                   </li>
                 </ul>
               </li>

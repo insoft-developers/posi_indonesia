@@ -11,13 +11,13 @@
                     </a>
                 </li>
                 <li>-</li>
-                <li class="fw-medium">Daftar Pelajaran</li>
+                <li class="fw-medium">Level (Jenjang)</li>
             </ul>
         </div>
 
         <div class="card basic-data-table">
             <div class="card-header">
-                <h5 class="card-title mb-0">Daftar Pelajaran</h5>
+                <h5 class="card-title mb-0">Level (Jenjang)</h5>
                 <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
                     Tambah</button>
             </div>
@@ -27,9 +27,10 @@
                     <table style="width: 100%;" class="table bordered-table mb-0" id="table-list">
                         <thead>
                             <tr>
-                                <th scope="col" >ID</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Action</th>
-                                <th scope="col">Nama Pelajaran</th>
+                                <th scope="col">Nama Level</th>
+                                <th scope="col">Jenjang</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -46,7 +47,7 @@
             <input type="hidden" id="id" name="id">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Pelajaran</h5>
+                    <h5 class="modal-title"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -54,8 +55,19 @@
                         
                         <div style="margin-top:15px;"></div>
                         <div class="col-12">
-                            <label class="form-label">Nama Pelajaran</label>
-                            <input type="text" id="name" name="name" class="form-control">
+                            <label class="form-label">Nama Level</label>
+                            <input type="text" id="level_name" name="level_name" class="form-control">
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Jenjang</label>
+                            <select id="jenjang" name="jenjang" class="form-control">
+                                <option value=""> - Pilih - </option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                                <option value="MHS">MHS</option>
+                            </select>
                         </div>
                     </div>
                 </div>
