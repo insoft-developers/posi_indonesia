@@ -98,7 +98,7 @@
                             <!-- Single Blog Start -->
                             <div class="single-blog">
                                 <div class="blog-image">
-                                    <a href="#"><img
+                                    <a href="#"><img class="gambar-kompetisi"
                                             src="{{ asset('template/frontend') }}/assets/kompetisi/{{ $k->image }}"
                                             alt="Blog"></a>
                                 </div>

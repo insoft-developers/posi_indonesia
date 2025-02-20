@@ -1,4 +1,8 @@
 <style>
+    .gambar-kompetisi{
+        height: 280px;
+    object-fit: cover;
+    }
     .item-item {
         background-color: white !important;
         opacity: 0.98;
@@ -699,6 +703,8 @@
 
         margin-left: -14px;
         margin-top: -15px;
+        width: 210px;
+    object-fit: cover;
     }
 
     .jadwal-title {
@@ -927,7 +933,7 @@
         border-bottom-left-radius: 10px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 128px;
-        height: auto;
+        height: 274px;
         position: relative;
         margin: -15px !important;
         width: 360px;

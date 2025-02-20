@@ -30,7 +30,10 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $c->title }}</h5>
                                     <div style="margin-top:-10px;"></div>
-                                    <p>{{ $c->levels->level_name }}</p>
+                                    @php
+                                        $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                    @endphp
+                                    <p>{{ $lavel->level_name }}</p>
                                     <div style="margin-top:-13px;"></div>
                                     <hr />
                                     @foreach ($c->transaction as $s)
