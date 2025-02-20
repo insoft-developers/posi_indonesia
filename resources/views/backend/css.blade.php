@@ -1,5 +1,5 @@
 <style>
-    .cust-control {}
+    
 
     .select2-selection__rendered {
         font-size: 16px;
