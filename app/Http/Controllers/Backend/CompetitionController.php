@@ -118,7 +118,20 @@ class CompetitionController extends Controller
         if ($data->count() <= 0) {
             $html = '';
             $html .= '<div style="text-align:center;">Belum ada data bidang studi</div>';
-            return $html;
+            
+            $com = Competition::findorFail($id);
+            $levels = explode(",", $com->level);
+            $rows = [];
+            foreach($levels as $level) {
+                $lvl = Level::findorFail($level);
+                $row['id'] = $lvl->id;
+                $row['level_name'] = $lvl->level_name;
+                array_push($rows, $row);
+            }
+    
+            $data['html'] = $html;
+            $data['level'] = $rows;
+            return $data;
         }
 
         $html = '';
