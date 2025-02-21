@@ -113,6 +113,7 @@ class HomeController extends Controller
             },
         ])
             ->where('status', 1)
+            ->where('level_id', Auth::user()->level_id)
             ->where('competition_id', $input['id'])
             ->get();
 

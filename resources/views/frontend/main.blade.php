@@ -211,11 +211,33 @@
 
                                     </div>
                                     <div class="blog-meta">
-                                        <span> <i class="icofont-link"></i>Link Juknis</span>
+                                        <span> <i class="icofont-link"></i>Links</span>
                                     </div>
                                     <div class="blog-note">
-                                        <a href="">Lihat juknis disini</a>
+                                        <a target="_blank" href="{{ $k->link_juknis }}">Link juknis</a>
+                                        <a target="_blank" style="margin-left:15px;" href="{{ $k->link_twibbon }}">Link Twibbon</a>
+                                        
+                                        
                                     </div>
+
+                                    @php
+                                        $transaction = \App\Models\Transaction::where('userid', Auth::user()->id)
+                                            ->where('competition_id', $k->id)
+                                            ->whereHas('invoices', function($q){
+                                                $q->where('payment_status', 1);
+                                            })->count();
+
+                                     
+
+                                    @endphp
+                                    @if($transaction > 0)
+                                    <div class="blog-note">
+                                        <a target="_blank" href="{{ $k->link_zoom }}">Link Zoom</a>
+                                        <a target="_blank" style="margin-left:15px;" href="{{ $k->link_wa }}">Link Whatsapp</a>
+                                        <a target="_blank" style="margin-left:15px;" href="{{ $k->link_telegram }}">Link Telegram</a>
+                                        
+                                    </div>
+                                    @endif
                                     <div class="garis"></div>
                                     <button id="btn_daftar_{{ $index }}" href="javascript:void(0);"
                                         onclick="daftar({{ $k->id }})"

@@ -118,7 +118,8 @@
                                             <div class="blog-content">
 
                                                 @foreach ($d->transaction as $index => $t)
-                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1)
+                                               
+                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id)
                                                         @php
 
                                                             $session = \App\Models\ExamSession::where(
@@ -225,6 +226,11 @@
 
                 <div class="row">
                     @foreach ($umum as $um)
+                        @php
+                        $levels_id = explode(",", $um->level);
+                        
+                        @endphp
+                        @foreach($levels_id as $li)
                         <div class="col-lg-12 col-md-12 col-sm-12">
 
                             <!-- Single Blog Start -->
@@ -237,7 +243,7 @@
                                             <div class="col-md-12">
                                                 <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
                                                 @php
-                                                $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                                $lavel = \App\Models\Level::findorFail($li);
                                             @endphp
                                                 <div class="subtitle-pengumuman">{{ $lavel->level_name }}</div>
                                             </div>
@@ -246,10 +252,12 @@
                                         <hr />
                                         <div class="row">
                                             @foreach ($um->study as $s)
+                                                @if($s->level_id == $li)
                                                 <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})"
                                                     class="col-md-4 study-item"><img class="icon-n"
                                                         src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
                                                     {{ $s->pelajaran->name }}</div>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -259,6 +267,7 @@
                             <!-- Single Blog End -->
 
                         </div>
+                        @endforeach
                     @endforeach
                 </div>
             </div>

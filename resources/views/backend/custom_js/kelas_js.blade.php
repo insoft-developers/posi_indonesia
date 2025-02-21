@@ -44,6 +44,10 @@
                     data: 'nama_kelas',
                     name: 'nama_kelas',
                 },
+                {
+                    data: 'jenjang',
+                    name: 'jenjang',
+                },
                 
 
             ]
@@ -96,6 +100,7 @@
                     $('.modal-title').text("Edit Kelas");
                     $('#id').val(data.id);
                     $("#nama_kelas").val(data.nama_kelas);
+                    $("#jenjang").val(data.jenjang);
                 }
             });
         }

@@ -296,10 +296,11 @@
 
                                             </div>
                                             <div class="blog-meta">
-                                                <span> <i class="icofont-link"></i>Link Juknis</span>
+                                                <span> <i class="icofont-link"></i>Links</span>
                                             </div>
                                             <div class="blog-note">
-                                                <a href="">Lihat juknis disini</a>
+                                                <a target="_blank" href="{{ $k->link_juknis }}">Link juknis</a>
+                                                <a target="_blank" style="margin-left:15px;" href="{{ $k->link_twibbon }}">Link Twibbon</a>
                                             </div>
                                             <div class="garis"></div>
                                             <a href="{{ url('main') }}"><button id="btn_daftar_{{ $index }}"
