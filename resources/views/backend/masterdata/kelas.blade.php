@@ -30,6 +30,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Nama Kelas</th>
+                                <th scope="col">Jenjang</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -56,6 +57,17 @@
                         <div class="col-12">
                             <label class="form-label">Nama Kelas</label>
                             <input type="text" id="nama_kelas" name="nama_kelas" class="form-control">
+                        </div>
+                        <div style="margin-top:15px;"></div>
+                        <div class="col-12">
+                            <label class="form-label">Jenjang</label>
+                            <select id="jenjang" name="jenjang" class="form-control">
+                                <option value=""> - Pilih - </option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                                <option value="MHS">MHS</option>
+                            </select>
                         </div>
                     </div>
                 </div>

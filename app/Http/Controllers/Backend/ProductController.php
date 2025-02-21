@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $view = 'product';
-        return view('backend.masterdata.level', compact('view'));
+        return view('backend.masterdata.product', compact('view'));
     }
 
     /**

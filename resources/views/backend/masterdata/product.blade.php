@@ -7,17 +7,17 @@
                 <li class="fw-medium">
                     <a href="#" class="d-flex align-items-center gap-1 hover-text-primary">
 
-                        Master Data
+                        Data Produk
                     </a>
                 </li>
                 <li>-</li>
-                <li class="fw-medium">Level (Jenjang)</li>
+                <li class="fw-medium">Daftar Produk</li>
             </ul>
         </div>
 
         <div class="card basic-data-table">
             <div class="card-header">
-                <h5 class="card-title mb-0">Level (Jenjang)</h5>
+                <h5 class="card-title mb-0">Daftar Produk</h5>
                 <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
                     Tambah</button>
             </div>

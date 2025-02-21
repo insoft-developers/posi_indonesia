@@ -234,6 +234,34 @@
 
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
+                                <label class="form-label">Link Juknis</label>
+                                <input type="text" id="link_juknis" name="link_juknis" class="form-control">
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Link Zoom</label>
+                                <input type="text" id="link_zoom" name="link_zoom" class="form-control">
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Link Twibbon</label>
+                                <input type="text" id="link_twibbon" name="link_twibbon" class="form-control">
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Link Whatsapp</label>
+                                <input type="text" id="link_wa" name="link_wa" class="form-control">
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Link Telegram</label>
+                                <input type="text" id="link_telegram" name="link_telegram" class="form-control">
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
                                 <label class="form-label">Status Kompetisi</label>
                                 <select id="is_active" name="is_active" class="form-control">
                                     <option value="">Pilih</option>
@@ -270,7 +298,7 @@
                                     <form id="form-tambahan" method="POST">
                                         @csrf
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <input type="hidden" id="competition_id" name="competition_id">
                                             <input type="hidden" id="method-type" name="method-type">
                                             <input type="hidden" id="study-id" name="study-id">
@@ -281,6 +309,16 @@
                                                     @foreach ($pelajaran as $p)
                                                         <option value="{{ $p->id }}">{{ $p->name }}</option>
                                                     @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Jenjang</label>
+                                                <select id="s-jenjang" name="s-jenjang" class="form-control" required>
+                                                    <option value=""> - Pilih jenjang - </option>
+                                                    
                                                 </select>
                                             </div>
                                         </div>
@@ -298,14 +336,14 @@
                                                     class="form-control" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="form-label">Forum Link</label>
                                                 <input type="text" id="s-forum-link" name="s-forum-link"
                                                     class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-1">
                                             <button type="submit"
                                                 class="btn btn-success-600 radius-8 px-20 py-11 btn-position">Simpan</button>
                                         </div>

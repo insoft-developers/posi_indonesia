@@ -25,6 +25,7 @@ class CompetitionController extends Controller
         $level = Level::all();
         $province = Province::groupBy('province_code')->get();
         $pelajaran = Pelajaran::all();
+        
         return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran'));
     }
 
@@ -127,6 +128,7 @@ class CompetitionController extends Controller
         $html .= '<th>No</th>';
         $html .= '<th>Action</th>';
         $html .= '<th>Kompetisi</th>';
+        $html .= '<th>Jenjang</th>';
         $html .= '<th>Bidang Studi</th>';
         $html .= '<th>Tanggal Kompetisi</th>';
         $html .= '<th>Mulai Jam</th>';
@@ -151,6 +153,7 @@ class CompetitionController extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a></td>';
             $html .= '<td>' . $d->competition->title . '</td>';
+            $html .= '<td>' . $d->level->level_name . '</td>';
             $html .= '<td>' . $d->pelajaran->name . '</td>';
             $html .= '<td class="text-center">' . date('d-m-Y', strtotime($d->start_date)) . '</td>';
             $html .= '<td class="text-center">' . $d->start_time . '</td>';
@@ -161,7 +164,20 @@ class CompetitionController extends Controller
         $html .= '</tbody>';
         $html .= '</table>';
 
-        return $html;
+
+        $com = Competition::findorFail($id);
+        $levels = explode(",", $com->level);
+        $rows = [];
+        foreach($levels as $level) {
+            $lvl = Level::findorFail($level);
+            $row['id'] = $lvl->id;
+            $row['level_name'] = $lvl->level_name;
+            array_push($rows, $row);
+        }
+
+        $data['html'] = $html;
+        $data['level'] = $rows;
+        return $data;
     }
 
     /**
@@ -382,7 +398,7 @@ class CompetitionController extends Controller
         Study::create([
             'competition_id' => $input['competition_id'],
             'pelajaran_id' => $input['s-pelajaran'],
-            'level_id' => $competition->level,
+            'level_id' => $input['s-jenjang'],
             'start_date' => $competition->date,
             'start_time' => $input['s-start-time'],
             'finish_time' => $input['s-finish-time'],
@@ -407,11 +423,12 @@ class CompetitionController extends Controller
         $study->update([
             'competition_id' => $input['competition_id'],
             'pelajaran_id' => $input['s-pelajaran'],
-            'level_id' => $competition->level,
+            'level_id' => $input['s-jenjang'],
             'start_date' => $competition->date,
             'start_time' => $input['s-start-time'],
             'finish_time' => $input['s-finish-time'],
             'forum_link' => $input['s-forum-link'],
+            
         ]);
 
         return response()->json([

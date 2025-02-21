@@ -171,6 +171,11 @@
                     $("#province_code").val(data.data.province_code);
                     $("#sekolah").val(data.data.sekolah);
                     $("#agama").val(data.data.agama);
+                    $("#link_juknis").val(data.data.link_juknis);
+                    $("#link_zoom").val(data.data.link_zoom);
+                    $("#link_twibbon").val(data.data.link_twibbon);
+                    $("#link_wa").val(data.data.link_wa);
+                    $("#link_telegram").val(data.data.link_telegram);
                     $("#is_active").val(data.data.is_active);
 
                     var p = data.data.province_code;
@@ -396,8 +401,17 @@
                     $("#method-type").val("add");
                     $(".modal-title").text("Daftar Bidang Studi");
                     $("#modal-study").modal("show");
-                    $("#modal-study-content").html(data);
+                    $("#modal-study-content").html(data.html);
+
+                    var html = '';
+                    html += '<option value=""> - Pilih jenjang - </option>';
+                    for(var i=0; i<data.level.length; i++) {
+                        html += '<option value="'+data.level[i].id+'">'+data.level[i].level_name+'</option>';
+                    }
+
+                    $("#s-jenjang").html(html);
                     reset_study();
+
                 }
             });
         }
@@ -443,6 +457,7 @@
                         $("#s-finish-time").val(data.data.finish_time);
                         $("#s-forum-link").val(data.data.forum_link);
                         $("#s-pelajaran").val(data.data.pelajaran_id);
+                        $("#s-jenjang").val(data.data.level_id);
                         $("#study-id").val(id);
                     }
                 }
