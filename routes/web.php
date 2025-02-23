@@ -80,6 +80,10 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/user', UserController::class);
     Route::get('/user-table', [UserController::class, 'user_table'])->name('user.table');
+    Route::post('/list_kelas', [UserController::class, 'list_kelas']);
+    Route::post('/list_kabupaten', [UserController::class, 'list_kabupaten']);
+    Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan']);
+    Route::post('/list_sekolah', [UserController::class, 'list_sekolah']);
 
 });
 

@@ -66,122 +66,136 @@
 
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Nama Produk</label>
-                                <input type="text" id="product_name" name="product_name" class="form-control">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" id="name" name="name" class="form-control">
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Harga</label>
-                                <input type="number" id="product_price" name="product_price" class="form-control">
+                                <label class="form-label">Username</label>
+                                <input type="text" id="username" name="username" class="form-control">
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Foto Produk</label>
-                                <input type="file" id="image" name="image" class="form-control"
-                                    accept="*.jpg, *.jpeg, *.png">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="password" name="password" class="form-control">
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Link Produk</label>
-                                <input type="text" id="product_link" name="product_link" class="form-control">
+                                <label class="form-label">Foto</label>
+                                <input type="file" id="user_image" name="user_image" class="form-control" accept="*.jpg, *.jpeg, *.png">
                             </div>
-
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Kompetisi</label>
-                                <select id="competition_id" name="competition_id" class="form-control">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-control">
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Whatsapp</label>
+                                <input type="text" id="whatsapp" name="whatsapp" class="form-control">
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Jenjang</label>
+                                <select id="level_id" name="level_id" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                    @foreach($level as $l) 
+                                    <option value="{{ $l->id }}">{{ $l->level_name }}</option>
+                                    @endforeach
+                                   
+                                </select>
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Kelas</label>
+                                <select id="kelas_id" name="kelas_id" class="form-control">
                                     <option value=""> - Pilih - </option>
                                    
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Bidang Pelajaran</label>
-                                <select id="study_id" name="study_id" class="form-control">
+                                <label class="form-label">Tanggal Lahir</label>
+                                <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control">
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Agama</label>
+                                <select id="agama" name="agama" class="form-control">
                                     <option value=""> - Pilih - </option>
-
+                                    <option value="Islam">Islam</option>
+                                    <option value="Protestan">Protestan</option>
+                                    <option value="Katholik">Katholik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Budha">Budha</option>
+                                    <option value="Kong Hu Cu">Kong Hu Cu</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                   
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Bentuk Produk</label>
-                                <select id="is_fisik" name="is_fisik" class="form-control">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
                                     <option value=""> - Pilih - </option>
-                                    <option value="0">Digital</option>
-                                    <option value="1">Fisik</option>
+                                    <option value="Laki Laki">Laki Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                   
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Target Produk</label>
-                                <select id="product_for" name="product_for[]" multiple class="form-control">
-                                    <option value="1">Peraih Medali Emas</option>
-                                    <option value="2">Peraih Medali Perak</option>
-                                    <option value="3">Peraih Medali Perunggu</option>
-                                    <option value="0">Peserta Aktif</option>
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-
-                            <div class="col-12">
-                                <label class="form-label">Jenis Produk</label>
-                                <select id="is_combo" name="is_combo" class="form-control">
+                                <label class="form-label">Provinsi</label>
+                                <select id="provinsi" name="provinsi" class="form-control">
                                     <option value=""> - Pilih - </option>
-                                    <option value="0">Single Produk</option>
-                                    <option value="1">Bundle Produk</option>
+                                     @foreach($province as $p)
+                                     <option value="{{ $p->province_code }}">{{ $p->province_name }}</option>
+                                     @endforeach
                                 </select>
                             </div>
-
-                            <div class="composition-container" style="display: none;">
-                                <div style="margin-top:5px;"></div>
-                                <div class="col-12">
-                                    <select id="composition" name="composition[]" multiple class="form-control">
-                                       
-                                    </select>
-                                </div>
-                            </div>
-
-
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Berat Produk (in Gram)</label>
-                                <input type="text" id="berat" name="berat" class="form-control">
-
+                                <label class="form-label">Kabupaten/Kota</label>
+                                <select id="kabupaten" name="kabupaten" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                   
+                                </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="col-12">
-                                            <label class="form-label">Jenis Dokumen</label>
-                                            <select id="document_type" name="document_type" class="form-control">
-                                                <option value=""> - Tidak ada - </option>
-                                                <option value="sertifikat">Sertifikat</option>
-                                                <option value="piagam">Piagam</option>
-                                                <option value="pembahasan">Pembahasan</option>
-                                            </select>
-                                        </div>
-                                        <div class="document-container" style="display: none;">
-                                            <div style="margin-top:5px;"></div>
-                                            <div class="col-12">
-                                                <input type="file" id="document" name="document"
-                                                    accept="*.jpg, *.jpeg, *.png" class="form-control">
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                <label class="form-label">Kecamatan</label>
+                                <select id="kecamatan" name="kecamatan" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                   
+                                </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Status</label>
-                                <select id="is_active" name="is_active" class="form-control">
+                                <label class="form-label">Nama Sekolah</label>
+                                <select id="nama_sekolah" name="nama_sekolah" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                   
+                                </select>
+                            </div>
+                            <div class="lainnya-container" style="display: none;">
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Nama Sekolah</label>
+                                <input type="text" id="sekolah_lain" name="sekolah_lain" class="form-control">
+                            </div>
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Email Status</label>
+                                <select id="email_status" name="email_status" class="form-control">
                                     <option value=""> - Pilih - </option>
                                     <option value="1">Aktif</option>
-                                    <option value="0">TIdak Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
                                 </select>
                             </div>
+                            
+                            
 
                         </div>
                     </div>
