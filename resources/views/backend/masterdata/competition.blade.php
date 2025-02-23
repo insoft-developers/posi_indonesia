@@ -73,9 +73,30 @@
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
+                                <label class="form-label">Premium Registration Bonus Product</label>
+                                <br>
+                                <select id="premium_bonus_product" name="premium_bonus_product[]" multiple="multiple" class="form-control cust-control">
+                                    @foreach($product as $p)
+                                    <option value="{{ $p->id }}">{{ $p->product_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Free Registration Bonus Product</label>
+                                <br>
+                                <select id="free_bonus_product" name="free_bonus_product[]" multiple="multiple" class="form-control cust-control">
+                                    @foreach($product as $p)
+                                    <option value="{{ $p->id }}">{{ $p->product_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
                                 <label class="form-label">Tanggal Kompetisi</label>
                                 <input type="date" id="date" name="date" class="form-control">
                             </div>
+                            
                             <div style="margin-top:15px;"></div>
                             <div class="col-6">
                                 <label class="form-label">Tanggal Buka Pendaftaran</label>

@@ -19,18 +19,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'username',
-        'tanggal_lahir',
-        'email',
-        'password',
-        'whatsapp',
-        'level_id',
-        'kelas_id',
-        'google_id',
-        'user_image',
-        'email_status',
+    protected $guarded = [
+        'id'
     ];
 
     /**
@@ -56,5 +46,21 @@ class User extends Authenticatable
     public function wilayah(): BelongsTo
     {
         return $this->belongsTo(Province::class, 'provinsi', 'province_code');
+    }
+
+
+    public function level():BelongsTo
+    {
+        return $this->belongsTo(Level::class, 'level_id', 'id');
+    }
+
+    public function kelas():BelongsTo
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
+    }
+
+    public function district():BelongsTo
+    {
+        return $this->belongsTo(Province::class, 'kecamatan', 'district_code');
     }
 }
