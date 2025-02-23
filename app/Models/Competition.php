@@ -33,5 +33,10 @@ class Competition extends Model
     {
         return $this->HasONe(ExamSession::class, 'competition_id', 'id');
     }
+
+    public function bonus(): HasOne
+    {
+        return $this->hasOne(CompetitionBonusProduct::class, 'competition_id', 'id');
+    }
     
 }

@@ -4,6 +4,14 @@
             dropdownParent: $("#modal-tambah .modal-content"),
             placeholder: 'Pilih'
         });
+        $("#premium_bonus_product").select2({
+            dropdownParent: $("#modal-tambah .modal-content"),
+            placeholder: 'Pilih'
+        });
+        $("#free_bonus_product").select2({
+            dropdownParent: $("#modal-tambah .modal-content"),
+            placeholder: 'Pilih'
+        });
 
         function tambah() {
             save_method = "add";
@@ -31,6 +39,8 @@
             $("#sekolah").html('<option value=""> - Semua Sekolah - </option>');
             $("#agama").val("");
             $("#is_active").val("");
+            $("#premium_bonus_product").val(null).trigger('change');
+            $("#free_bonus_product").val(null).trigger('change');
         }
 
         var table = $('#table-list').DataTable({
@@ -177,6 +187,16 @@
                     $("#link_wa").val(data.data.link_wa);
                     $("#link_telegram").val(data.data.link_telegram);
                     $("#is_active").val(data.data.is_active);
+                    if(data.data.bonus !== null) {
+                        var premium_bonus = explode(data.data.bonus.premium_register_product);
+                        $("#premium_bonus_product").val(premium_bonus).trigger('change');
+                        var free_bonus = explode(data.data.bonus.free_register_product);
+                        $("#free_bonus_product").val(free_bonus).trigger('change');
+                        
+                    } else {
+                        $("#premium_bonus_product").val(null).trigger('change');
+                        $("#free_bonus_product").val(null).trigger('change');
+                    }
 
                     var p = data.data.province_code;
                     $.ajax({

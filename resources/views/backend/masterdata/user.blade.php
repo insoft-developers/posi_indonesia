@@ -7,17 +7,17 @@
                 <li class="fw-medium">
                     <a href="#" class="d-flex align-items-center gap-1 hover-text-primary">
 
-                        Data Produk
+                        Data Peserta
                     </a>
                 </li>
                 <li>-</li>
-                <li class="fw-medium">Daftar Produk</li>
+                <li class="fw-medium">Daftar Peserta</li>
             </ul>
         </div>
 
         <div class="card basic-data-table">
             <div class="card-header">
-                <h5 class="card-title mb-0">Daftar Produk</h5>
+                <h5 class="card-title mb-0">Daftar Peserta</h5>
                 <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
                     Tambah</button>
             </div>
@@ -29,19 +29,19 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
-                                <th scope="col">Nama Produk </th>
-                                <th scope="col">Harga</th>
+                                <th scope="col">Nama Peserta </th>
+                                <th scope="col">Username</th>
                                 <th scope="col">Foto</th>
-                                <th scope="col">Link</th>
-                                <th scope="col">Kompetisi</th>
-                                <th scope="col">Study</th>
-                                <th scope="col">Bentuk</th>
-                                <th scope="col">Target</th>
-                                <th scope="col">Jenis</th>
-                                <th scope="col">Berat(gr)</th>
-                                <th scope="col">Document</th>
-                                <th scope="col">Status</th>
-
+                                <th scope="col">Email</th>
+                                <th scope="col">Whatsapp</th>
+                                <th scope="col">Jenjang</th>
+                                <th scope="col">Kelas</th>
+                                <th scope="col">Tgl Lahir</th>
+                                <th scope="col">Agama</th>
+                                <th scope="col">J.Kelamin</th>
+                                <th scope="col">Wilayah</th>
+                                <th scope="col">Sekolah</th>
+                                
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -91,9 +91,7 @@
                                 <label class="form-label">Kompetisi</label>
                                 <select id="competition_id" name="competition_id" class="form-control">
                                     <option value=""> - Pilih - </option>
-                                    @foreach ($competition as $c)
-                                        <option value="{{ $c->id }}">{{ $c->title }}</option>
-                                    @endforeach
+                                   
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>
@@ -138,10 +136,7 @@
                                 <div style="margin-top:5px;"></div>
                                 <div class="col-12">
                                     <select id="composition" name="composition[]" multiple class="form-control">
-                                        @foreach ($composition as $com)
-                                            <option value="{{ $com->id }}">{{ $com->product_name }}
-                                            </option>
-                                        @endforeach
+                                       
                                     </select>
                                 </div>
                             </div>

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\CompetitionBonusProduct;
 use App\Models\Level;
 use App\Models\Pelajaran;
+use App\Models\Product;
 use App\Models\Province;
 use App\Models\Sekolah;
 use App\Models\Study;
@@ -25,8 +27,8 @@ class CompetitionController extends Controller
         $level = Level::all();
         $province = Province::groupBy('province_code')->get();
         $pelajaran = Pelajaran::all();
-        
-        return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran'));
+        $product = Product::where('is_active', 1)->get();
+        return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran','product'));
     }
 
     /**
@@ -90,7 +92,16 @@ class CompetitionController extends Controller
         }
         // dd($level);
         $input['level'] = implode(',', $level);
-        Competition::create($input);
+
+        $com = Competition::create($input);
+        if($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
+            CompetitionBonusProduct::create([
+                "competition_id" => $com->id,
+                "free_register_product" => $request->free_bonus_product == null ? null : implode(",", $input['free_bonus_product']),
+                "premium_register_product" => $request->premium_bonus_product == null ? null : implode(",", $input['premium_bonus_product']),
+            ]);   
+        }
+
 
         if ($sekolah == 'lainnya') {
             Sekolah::create([
@@ -179,6 +190,9 @@ class CompetitionController extends Controller
 
 
         $com = Competition::findorFail($id);
+
+
+        
         $levels = explode(",", $com->level);
         $rows = [];
         foreach($levels as $level) {
@@ -198,7 +212,7 @@ class CompetitionController extends Controller
      */
     public function edit(string $id)
     {
-        $data['data'] = Competition::findorFail($id);
+        $data['data'] = Competition::with('bonus')->findorFail($id);
         $level = [];
         $lvl = explode(',', $data['data']->level);
         foreach ($lvl as $l) {
@@ -268,6 +282,14 @@ class CompetitionController extends Controller
         // dd($level);
         $input['level'] = implode(',', $level);
         $com->update($input);
+
+
+        if($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
+            CompetitionBonusProduct::updateOrCreate(["competition_id" => $id],[
+                "free_register_product" => $request->free_bonus_product == null ? null : implode(",", $input['free_bonus_product']),
+                "premium_register_product" => $request->premium_bonus_product == null ? null : implode(",", $input['premium_bonus_product']),
+            ]);   
+        }
 
         Study::where('competition_id', $id)
             ->update([

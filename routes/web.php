@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -74,6 +75,11 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/product', ProductController::class);
     Route::get('/product-table', [ProductController::class, 'product_table'])->name('product.table');
+    Route::post('/product_study', [ProductController::class, 'product_study']);
+
+
+    Route::resource('/user', UserController::class);
+    Route::get('/user-table', [UserController::class, 'user_table'])->name('user.table');
 
 });
 

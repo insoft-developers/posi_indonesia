@@ -253,7 +253,7 @@
 
                                             @if ($bonus->count() > 0)
                                                 <h4 class="title"><a href="#">{{ $k->title }} <br><span
-                                                            style="font-weight:bold;font-size:13px;">BONUS</span> : <span
+                                                            style="font-weight:bold;font-size:13px;">FASILITAS</span> : <span
                                                             class="bonus-text"><?= $html2 ?>(Premium
                                                             Register).</span><br><span
                                                             class="bonus-text2"><?= $html1 ?>(Free Register).</span></a>

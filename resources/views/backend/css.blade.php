@@ -1,13 +1,9 @@
 <style>
-    
-
     .select2-selection__rendered {
         font-size: 16px;
         padding-top: 3px !important;
         padding-bottom: 0px !important;
         padding-left: 21px !important
-
-
     }
 
     .select2-container .select2-selection--single {
@@ -18,12 +14,16 @@
     }
 
 
+
     .select2-container .select2-selection--multiple {
         padding: .150rem 2.25rem .375rem .45rem !important;
-        min-width: 466px !important;
         border: 1px solid #d1d5db;
         border-radius: 6px;
+        min-width: 466px !important;
     }
+
+   
+
 
     .select2-container .select2-selection {
         min-height: calc(1.8em + .75rem + 2px) !important;
@@ -67,5 +67,19 @@
         padding: 8px !important;
         font-size: 12px;
         float: right;
+    }
+
+    #table-list th,
+    td {
+        max-width: 380px !important;
+    }
+
+    .product-image-table {
+        width: 58px;
+        height: 47px;
+        object-fit: cover;
+        background: beige;
+        padding: 4px;
+        border-radius: 7px;
     }
 </style>
