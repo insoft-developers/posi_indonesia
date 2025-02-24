@@ -6,3 +6,4 @@
 @include('backend.custom_js.level_js')
 @include('backend.custom_js.product_js')
 @include('backend.custom_js.user_js')
+@include('backend.custom_js.pesanan_js')

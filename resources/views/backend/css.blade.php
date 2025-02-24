@@ -82,4 +82,7 @@
         padding: 4px;
         border-radius: 7px;
     }
+    #table-detail-transaksi th,td{
+        font-size:12px;
+    }
 </style>

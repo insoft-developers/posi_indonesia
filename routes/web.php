@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
+use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
@@ -84,6 +85,13 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/list_kabupaten', [UserController::class, 'list_kabupaten']);
     Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan']);
     Route::post('/list_sekolah', [UserController::class, 'list_sekolah']);
+
+
+    Route::resource('/pesanan', PesananController::class);
+    Route::get('/pesanan-table', [PesananController::class, 'pesanan_table'])->name('pesanan.table');
+    Route::post('/transaction_list', [PesananController::class, 'transaction_list']);
+    Route::post('/transaction_approve', [PesananController::class, 'transaction_approve']);
+    Route::post('/transaction_reset', [PesananController::class, 'transaction_reset']);
 
 });
 

@@ -342,9 +342,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Follow Instagram @posi</label>
+                            <label>Follow Instagram @posi.idn</label>
                             <div style="margin-top:10px;"></div>
-                            <input type="file" id="file1" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                            <input type="file" id="file1" name="file1" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">
                             <img id="image-syarat1" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
                                 class="upload-syarat">
@@ -353,7 +353,7 @@
                         <div class="form-group">
                             <label>Unduh aplikasi Posi di Playstore</label>
                             <div style="margin-top:10px;"></div>
-                            <input type="file" id="file2" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                            <input type="file" id="file2" name="file2" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">
                             <img id="image-syarat2" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
                                 class="upload-syarat">
@@ -363,7 +363,7 @@
                             <label>Komen pendapat posiitf kamu tentang POSI kemudian tag 5 teman kamu di positingan
                                 ini.</label>
                             <div style="margin-top:10px;"></div>
-                            <input type="file" id="file3" name="files[]" accept="*.jpg, *.jpeg, *.png" required
+                            <input type="file" id="file3" name="file3" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">
                             <img id="image-syarat3" src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"
                                 class="upload-syarat">
