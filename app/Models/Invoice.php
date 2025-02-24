@@ -22,4 +22,10 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class, 'userid','id');
     }
+
+
+    public function pemesan(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer','id');
+    }
 }

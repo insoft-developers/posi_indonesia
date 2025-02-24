@@ -31,31 +31,30 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        
+
         $trans = Cart::where('buyer', Auth::user()->id)->where('is_fisik', 1);
-        if($trans->count() > 0) {
+        if ($trans->count() > 0) {
             $rules = [
-                "province_id" => "required",
-                "city_id" => "required",
-                "district_id" => "required",
-                "kurir" => "required",
-                "layanan" => "required",
-                "alamat" => "required"
+                'province_id' => 'required',
+                'city_id' => 'required',
+                'district_id' => 'required',
+                'kurir' => 'required',
+                'layanan' => 'required',
+                'alamat' => 'required',
             ];
 
             $validator = Validator::make($input, $rules);
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 return response()->json([
-                    "success" => false,
-                    "message" => "Silahkan Lengkapi data pengiriman anda!"
+                    'success' => false,
+                    'message' => 'Silahkan Lengkapi data pengiriman anda!',
                 ]);
             }
         }
-        
+
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
         try {
-            $transaction = Cart::where('buyer', Auth::user()->id)
-                ->get();
+            $transaction = Cart::where('buyer', Auth::user()->id)->get();
 
             $data_invoice = [
                 'invoice' => $invoice,
@@ -69,7 +68,7 @@ class TransactionController extends Controller
                 'expired_time' => $this->tambah_jam(24, date('Y-m-d H:i:s')),
             ];
 
-            if($trans->count() > 0) {
+            if ($trans->count() > 0) {
                 $data_invoice['berat'] = $trans->sum('berat');
                 $data_invoice['province_id'] = $input['province_id'];
                 $data_invoice['city_id'] = $input['city_id'];
@@ -80,8 +79,8 @@ class TransactionController extends Controller
                 $data_invoice['kurir'] = $input['kurir'];
                 $data_invoice['service'] = $input['layanan'];
                 $data_invoice['delivery_cost'] = $input['delivery_cost'];
-                $data_invoice['address'] = $input['alamat'];  
-            } 
+                $data_invoice['address'] = $input['alamat'];
+            }
             $id = Invoice::insertGetId($data_invoice);
 
             $total_value = 0;
@@ -107,7 +106,7 @@ class TransactionController extends Controller
 
             Invoice::where('id', $id)->update([
                 'total_amount' => $total_value,
-                'grand_total' => $request->delivery_cost == null ? $total_value : ($total_value + (int)$input['delivery_cost'])
+                'grand_total' => $request->delivery_cost == null ? $total_value : $total_value + (int) $input['delivery_cost'],
             ]);
 
             Cart::where('buyer', Auth::user()->id)->delete();
@@ -124,10 +123,10 @@ class TransactionController extends Controller
         }
     }
 
-    public function add_free_invoice(Request $request) {
-        
-
+    public function add_free_invoice(Request $request)
+    {
         $input = $request->all();
+
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
 
         try {
@@ -143,9 +142,48 @@ class TransactionController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
                 'expired_time' => date('Y-m-d H:i:s'),
             ];
+
+            $input['file1'] = null;
+            $unik = uniqid();
+            if ($request->hasFile('file1')) {
+                $input['file1'] = Str::slug($unik, '-') . '.' . $request->file1->getClientOriginalExtension();
+                $request->file1->move(public_path('/storage/image_files/pendaftaran'), $input['file1']);
+            }
+
+            $input['file2'] = null;
+            $unik = uniqid();
+            if ($request->hasFile('file2')) {
+                $input['file2'] = Str::slug($unik, '-') . '.' . $request->file2->getClientOriginalExtension();
+                $request->file2->move(public_path('/storage/image_files/pendaftaran'), $input['file2']);
+            }
+
+
+            $input['file3'] = null;
+            $unik = uniqid();
+            if ($request->hasFile('file3')) {
+                $input['file3'] = Str::slug($unik, '-') . '.' . $request->file3->getClientOriginalExtension();
+                $request->file3->move(public_path('/storage/image_files/pendaftaran'), $input['file3']);
+            }
+
+            $data_invoice = [
+                'invoice' => $invoice,
+                'userid' => Auth::user()->id,
+                'total_amount' => 0,
+                'payment_status' => 0,
+                'transaction_status' => 0,
+                'buyer' => Auth::user()->id,
+                'grand_total' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'expired_time' => date('Y-m-d H:i:s'),
+                'file1' => $input['file1'],
+                'file2' => $input['file2'],
+                'file3' => $input['file3'],
+            ];
+
             $id = Invoice::insertGetId($data_invoice);
 
-            $idss = explode(",", $input['id']);
+            $idss = explode(',', $input['id']);
             foreach ($idss as $index => $ids) {
                 $item = new Transaction();
                 $item->invoice = $invoice;
@@ -157,13 +195,12 @@ class TransactionController extends Controller
                 $item->is_fisik = 0;
                 $item->type = 0;
                 $item->unit_price = 0;
-                $item->quantity= 1;
+                $item->quantity = 1;
                 $item->buyer = Auth::user()->id;
                 $item->created_at = date('Y-m-d H:i:s');
                 $item->updated_at = date('Y-m-d H:i:s');
                 $item->save();
             }
-
 
             return response()->json([
                 'success' => true,
@@ -181,10 +218,7 @@ class TransactionController extends Controller
     {
         $input = $request->all();
 
-        $transaction = Invoice::with('transaction.competition')
-            ->where('id', $input['id'])
-            ->where('payment_status', '!=', 1)
-            ->first();
+        $transaction = Invoice::with('transaction.competition')->where('id', $input['id'])->where('payment_status', '!=', 1)->first();
 
         if ($transaction->first()) {
             $invoice = $transaction->invoice;
@@ -326,7 +360,7 @@ class TransactionController extends Controller
     {
         $view = 'invoice';
         $setting = Setting::findorFail(1);
-        $data = Invoice::with('user', 'transaction.competition.levels', 'transaction.study.pelajaran','transaction.tuser')->where('invoice', $invoice)->first();
+        $data = Invoice::with('user', 'transaction.competition.levels', 'transaction.study.pelajaran', 'transaction.tuser')->where('invoice', $invoice)->first();
         return view('frontend.invoice', compact('view', 'data', 'setting'));
     }
 }

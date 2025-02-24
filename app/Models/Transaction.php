@@ -39,6 +39,11 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'userid','id');
     }
 
+    public function muser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer','id');
+    }
+
    
 }
 
