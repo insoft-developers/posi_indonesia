@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SoalController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
@@ -92,6 +93,13 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/transaction_list', [PesananController::class, 'transaction_list']);
     Route::post('/transaction_approve', [PesananController::class, 'transaction_approve']);
     Route::post('/transaction_reset', [PesananController::class, 'transaction_reset']);
+    Route::post('/bulk_approve', [PesananController::class, 'bulk_approve']);
+
+
+    Route::resource('/soal', SoalController::class);
+    Route::get('/soal-table', [SoalController::class, 'soal_table'])->name('soal.table');
+
+
 
 });
 

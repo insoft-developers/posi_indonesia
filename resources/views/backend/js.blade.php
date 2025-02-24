@@ -7,3 +7,4 @@
 @include('backend.custom_js.product_js')
 @include('backend.custom_js.user_js')
 @include('backend.custom_js.pesanan_js')
+@include('backend.custom_js.soal_js')

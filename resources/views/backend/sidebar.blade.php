@@ -103,7 +103,7 @@
                 </a>
                 <ul class="sidebar-submenu">
                   <li>
-                    <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Soal</a>
+                    <a href="{{ url('posiadmin/soal') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Soal</a>
                   </li>
                   <li>
                     <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Pembahasan</a>
