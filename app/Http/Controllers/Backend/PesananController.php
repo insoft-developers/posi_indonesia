@@ -121,7 +121,8 @@ class PesananCOntroller extends Controller
      */
     public function destroy(string $id)
     {
-        return Level::destroy($id);
+        Transaction::where('invoice_id', $id)->delete();
+        return Invoice::destroy($id);
     }
 
     public function transaction_list(Request $request)
