@@ -98,72 +98,72 @@
         });
 
 
-        $("#form-tambah").submit(function(e) {
-            loading("#btn-simpan-data");
+        // $("#form-tambah").submit(function(e) {
+        //     loading("#btn-simpan-data");
 
-            e.preventDefault();
-            var id = $('#id').val();
-            if (save_method == "add") url = "{{ url('/posiadmin/user') }}";
-            else url = "{{ url('/posiadmin/user') . '/' }}" + id;
-            var form = new FormData($('#modal-tambah form')[0]);
+        //     e.preventDefault();
+        //     var id = $('#id').val();
+        //     if (save_method == "add") url = "{{ url('/posiadmin/user') }}";
+        //     else url = "{{ url('/posiadmin/user') . '/' }}" + id;
+        //     var form = new FormData($('#modal-tambah form')[0]);
 
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: form,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    unloading("#btn-simpan-data");
-                    if (data.success) {
-                        $('#modal-tambah').modal('hide');
-                        table.ajax.reload(null, false);
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed',
-                            html: data.message,
-                            showConfirmButton: false,
-                            scrollbarPadding: false,
-                        });
-                    }
-                }
+        //     $.ajax({
+        //         url: url,
+        //         type: "POST",
+        //         data: form,
+        //         contentType: false,
+        //         processData: false,
+        //         success: function(data) {
+        //             unloading("#btn-simpan-data");
+        //             if (data.success) {
+        //                 $('#modal-tambah').modal('hide');
+        //                 table.ajax.reload(null, false);
+        //             } else {
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Failed',
+        //                     html: data.message,
+        //                     showConfirmButton: false,
+        //                     scrollbarPadding: false,
+        //                 });
+        //             }
+        //         }
 
-            });
-        });
+        //     });
+        // });
 
-        function editData(id) {
-            save_method = "edit";
-            $('input[name=_method]').val('PATCH');
-            $.ajax({
-                url: "{{ url('/posiadmin/user') }}" + "/" + id + "/edit",
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    $('#modal-tambah').modal("show");
-                    $('.modal-title').text("Edit Peserta");
-                    $('#id').val(data.id);
-                    $("#name").val(data.name);
-                    $("#username").val(data.username);
-                    $("#password").val("");
-                    $("#user_image").val(null);
-                    $("#email").val(data.email);
-                    $("#whatsapp").val(data.whatsapp);
-                    $("#level_id").val(data.level_id);
-                    list_kelas(data.level_id, data.kelas_id);
-                    $("#tanggal_lahir").val(data.tanggal_lahir);
-                    $("#agama").val(data.agama);
-                    $("#jenis_kelamin").val(data.jenis_kelamin);
-                    $("#provinsi").val(data.provinsi);
-                    list_kabupaten(data.provinsi, data.kabupaten);
-                    list_kecamatan(data.kabupaten, data.kecamatan);
-                    list_sekolah(data.kecamatan, data.level_id, data.nama_sekolah);
-                    $("#email_status").val(data.email_status);
+        // function editData(id) {
+        //     save_method = "edit";
+        //     $('input[name=_method]').val('PATCH');
+        //     $.ajax({
+        //         url: "{{ url('/posiadmin/user') }}" + "/" + id + "/edit",
+        //         type: "GET",
+        //         dataType: "JSON",
+        //         success: function(data) {
+        //             $('#modal-tambah').modal("show");
+        //             $('.modal-title').text("Edit Peserta");
+        //             $('#id').val(data.id);
+        //             $("#name").val(data.name);
+        //             $("#username").val(data.username);
+        //             $("#password").val("");
+        //             $("#user_image").val(null);
+        //             $("#email").val(data.email);
+        //             $("#whatsapp").val(data.whatsapp);
+        //             $("#level_id").val(data.level_id);
+        //             list_kelas(data.level_id, data.kelas_id);
+        //             $("#tanggal_lahir").val(data.tanggal_lahir);
+        //             $("#agama").val(data.agama);
+        //             $("#jenis_kelamin").val(data.jenis_kelamin);
+        //             $("#provinsi").val(data.provinsi);
+        //             list_kabupaten(data.provinsi, data.kabupaten);
+        //             list_kecamatan(data.kabupaten, data.kecamatan);
+        //             list_sekolah(data.kecamatan, data.level_id, data.nama_sekolah);
+        //             $("#email_status").val(data.email_status);
 
                     
-                }
-            });
-        }
+        //         }
+        //     });
+        // }
 
 
         function deleteData(id) {
@@ -172,7 +172,7 @@
 
             if (pop === true) {
                 $.ajax({
-                    url: "{{ url('posiadmin/user') }}" + "/" + id,
+                    url: "{{ url('posiadmin/pesanan') }}" + "/" + id,
                     type: "DELETE",
                     dataType: "JSON",
                     data: {
