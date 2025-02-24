@@ -9,6 +9,11 @@
         $(iselector).removeAttr("disabled");
     }
 
+    function unloading2(iselector) {
+        $(iselector).text("Bulk Approve");
+        $(iselector).removeAttr("disabled");
+    }
+
     function explode(data) {
         var myarr = data.split(",");
         return myarr;

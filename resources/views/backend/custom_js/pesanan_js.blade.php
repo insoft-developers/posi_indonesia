@@ -32,6 +32,7 @@
             columns: [{
                     data: 'id',
                     name: 'id',
+                    orderable: false,
                     searchable: false
                 },
                 {
@@ -72,29 +73,68 @@
                     data: 'transaction_status',
                     name: 'transaction_status',
                 },
-                {
-                    data: 'image',
-                    name: 'image',
-                },
-                {
-                    data: 'payment_with',
-                    name: 'payment_with',
-                },
-                {
-                    data: 'payment_amount',
-                    name: 'payment_amount',
-                },
-                {
-                    data: 'payment_date',
-                    name: 'payment_date',
-                },
+                
                 {
                     data: 'buyer',
                     name: 'buyer',
                 },
-                
+
 
             ]
+        });
+
+        table.on('click', 'input:checkbox', function() {
+            var chkboxarray = [];
+            $("#id:checked").each(function() {
+                var nilai = $(this).attr("data-id");
+                chkboxarray.push(nilai);
+            });
+
+            if (chkboxarray.length > 0) {
+                $("#btn-bulk-approve").removeAttr("disabled");
+            } else {
+                $("#btn-bulk-approve").attr("disabled", true);
+            }
+
+            console.log(chkboxarray);
+        });
+
+
+        $("#btn-bulk-approve").click(function() {
+            var pop = confirm('Proses Bulk Approve ...?');
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+            if (pop === true) {
+                loading("#btn-bulk-approve");
+                var id_array = [];
+                $("#id:checked").each(function() {
+                    id_array.push($(this).data("id"));
+                });
+
+                if (id_array.length > 0) {
+                    var idstring = JSON.stringify(id_array);
+                    $.ajax({
+                        url: "{{ url('posiadmin/bulk_approve') }}",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            "id": idstring,
+                            "_token": csrf_token
+                        },
+                        success: function(data) {
+                            table.ajax.reload(null, false);
+                            unloading2("#btn-bulk-approve");
+                            $('#check-all').prop('checked', false);
+                            $("#btn-bulk-approve").attr("disabled", true); 
+                        }
+                    })
+                }
+            }
+        });
+
+
+        $("#check-all").click(function() {
+            $('input:checkbox').not(this).prop('checked', this.checked);
         });
 
 
@@ -160,7 +200,7 @@
         //             list_sekolah(data.kecamatan, data.level_id, data.nama_sekolah);
         //             $("#email_status").val(data.email_status);
 
-                    
+
         //         }
         //     });
         // }
@@ -192,29 +232,32 @@
             $.ajax({
                 url: "{{ url('posiadmin/transaction_list') }}",
                 type: "POST",
-                data: {"id":id, "_token":csrf_token},
+                data: {
+                    "id": id,
+                    "_token": csrf_token
+                },
                 success: function(data) {
-                    
+
                     $("#modal-detail-content").html(data.data);
                     $(".modal-title").text('Data Transaksi');
                     $("#modal-detail").modal('show');
-                    if(data.invoice.payment_status === 1) {
+                    if (data.invoice.payment_status === 1) {
                         $("#btn-save-data").hide();
                         $("#btn-reject-data").show();
                     } else {
                         $("#btn-save-data").show();
                         $("#btn-reject-data").hide();
                     }
-                    
+
                 }
             })
         }
 
-        $("#btn-save-data").click(function(){
+        $("#btn-save-data").click(function() {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var op = confirm('Approve data ini...?');
             var id = $("#invoice_id").val();
-            if(op === true) {
+            if (op === true) {
                 $.ajax({
                     url: "{{ url('posiadmin/transaction_approve') }}",
                     type: "POST",
@@ -233,11 +276,11 @@
 
 
 
-        $("#btn-reject-data").click(function(){
+        $("#btn-reject-data").click(function() {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var op = confirm('Reset data ini...?');
             var id = $("#invoice_id").val();
-            if(op === true) {
+            if (op === true) {
                 $.ajax({
                     url: "{{ url('posiadmin/transaction_reset') }}",
                     type: "POST",
@@ -253,6 +296,5 @@
                 })
             }
         });
-        
     </script>
 @endif

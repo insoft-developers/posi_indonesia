@@ -35,35 +35,7 @@ class PesananCOntroller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $input = $request->all();
-        $rules = [
-            'level_name' => 'required',
-            'jenjang' => 'required',
-        ];
-
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $pesan = $validator->errors();
-            $pesanarr = explode(',', $pesan);
-            $find = ['[', ']', '{', '}'];
-            $html = '';
-            foreach ($pesanarr as $p) {
-                $html .= str_replace($find, '', $p) . '<br>';
-            }
-            return response()->json([
-                'success' => false,
-                'message' => $html,
-            ]);
-        }
-
-        Level::create($input);
-        return response()->json([
-            'success' => true,
-            'message' => 'success',
-        ]);
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -76,45 +48,12 @@ class PesananCOntroller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        $data = Level::findorFail($id);
-        return $data;
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $input = $request->all();
-        $rules = [
-            'level_name' => 'required',
-            'jenjang' => 'required',
-        ];
-
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $pesan = $validator->errors();
-            $pesanarr = explode(',', $pesan);
-            $find = ['[', ']', '{', '}'];
-            $html = '';
-            foreach ($pesanarr as $p) {
-                $html .= str_replace($find, '', $p) . '<br>';
-            }
-            return response()->json([
-                'success' => false,
-                'message' => $html,
-            ]);
-        }
-
-        $level = Level::findorFail($id);
-        $level->update($input);
-        return response()->json([
-            'success' => true,
-            'message' => 'success',
-        ]);
-    }
+    public function update(Request $request, string $id) {}
 
     /**
      * Remove the specified resource from storage.
@@ -241,7 +180,7 @@ class PesananCOntroller extends Controller
         $html .= '<tbody>';
 
         $total_harga = 0;
-        $is_fisik=0;
+        $is_fisik = 0;
         foreach ($trans as $t) {
             $total_harga = $total_harga + $t->amount;
             $is_fisik = $is_fisik + $t->is_fisik;
@@ -271,7 +210,7 @@ class PesananCOntroller extends Controller
         }
 
         $html .= '</tbody>';
-        $html .= '<tr><th colspan="4" rowspan="3">'.$invoice->province_name.'<br>'.$invoice->city_name.'<br>'.$invoice->district_name.'<br>'.$invoice->kurir.'<br>'.$invoice->service.'<th colspan="4" style="text-align:right;">SUBTOTAL</th><th>' . number_format($total_harga) . '</th><th></th></tr>';
+        $html .= '<tr><th colspan="4" rowspan="3">' . $invoice->province_name . '<br>' . $invoice->city_name . '<br>' . $invoice->district_name . '<br>' . $invoice->kurir . '<br>' . $invoice->service . '<th colspan="4" style="text-align:right;">SUBTOTAL</th><th>' . number_format($total_harga) . '</th><th></th></tr>';
         $html .= '<th colspan="4" style="text-align:right;">DELIVERY COST</th><th>' . number_format($invoice->delivery_cost) . '</th><th></th></tr>';
         $html .= '<th colspan="4" style="text-align:right;">GRAND TOTAL</th><th>' . number_format($total_harga + $invoice->delivery_cost) . '</th><th></th></tr>';
 
@@ -283,53 +222,77 @@ class PesananCOntroller extends Controller
         return $data;
     }
 
-
-    public function transaction_approve(Request $request) {
+    public function transaction_approve(Request $request)
+    {
         $input = $request->all();
         $invoice = Invoice::findorFail($input['id']);
 
-        $data = Invoice::where('id', $input['id'])
-        ->update([
-            "payment_status" => 1,
-            "transaction_status" => 1,
-            "payment_with" => "admin-payment",
-            "payment_date" => date('Y-m-d H:i:s'),
-            "payment_amount" => $invoice->total_amount
+        $data = Invoice::where('id', $input['id'])->update([
+            'payment_status' => 1,
+            'transaction_status' => 1,
+            'payment_with' => 'admin-payment',
+            'payment_date' => date('Y-m-d H:i:s'),
+            'payment_amount' => $invoice->total_amount,
         ]);
 
         return $data;
     }
 
-
-    public function transaction_reset(Request $request) {
+    public function transaction_reset(Request $request)
+    {
         $input = $request->all();
         $invoice = Invoice::findorFail($input['id']);
 
-        $data = Invoice::where('id', $input['id'])
-        ->update([
-            "payment_status" => 0,
-            "transaction_status" => 0,
-            "payment_with" => null,
-            "payment_date" => null,
-            "payment_amount" => 0
+        $data = Invoice::where('id', $input['id'])->update([
+            'payment_status' => 0,
+            'transaction_status' => 0,
+            'payment_with' => null,
+            'payment_date' => null,
+            'payment_amount' => 0,
         ]);
 
         return $data;
     }
 
+    public function bulk_approve(Request $request)
+    {
+        $input = $request->all();
+        $ids = json_decode(stripslashes($input['id']));
 
+        foreach ($ids as $id) {
+            $invoice = Invoice::findorFail($id);
+
+            $data = Invoice::where('id', $id)->update([
+                'payment_status' => 1,
+                'transaction_status' => 1,
+                'payment_with' => 'admin-payment',
+                'payment_date' => date('Y-m-d H:i:s'),
+                'payment_amount' => $invoice->total_amount,
+            ]);
+        }
+
+        return $data;
+    }
 
     public function pesanan_table()
     {
         $data = Invoice::with('user')->get();
 
         return DataTables::of($data)
+            ->addColumn('invoice', function($data){
+                if($data->total_amount > 0) {
+                    return $data->invoice.'<br>(Berbayar)';
+                } else {
+                    return $data->invoice.'<br>(Gratis)';
+                }
+            })
+            ->addColumn('id', function ($data) {
+                return '<div class="form-check"><input class="form-check-input" type="checkbox" id="id" data-id="' . $data->id . '" ></div>';
+            })
             ->addColumn('created_at', function ($data) {
                 return date('d-m-Y', strtotime($data->created_at));
             })
-            ->addColumn('payment_date', function ($data) {
-                return date('d-m-Y', strtotime($data->payment_date));
-            })
+          
             ->addColumn('userid', function ($data) {
                 return $data->user->name ?? null;
             })
@@ -345,9 +308,7 @@ class PesananCOntroller extends Controller
             ->addColumn('grand_total', function ($data) {
                 return number_format($data->grand_total);
             })
-            ->addColumn('payment_amount', function ($data) {
-                return number_format($data->payment_amount);
-            })
+           
             ->addColumn('payment_status', function ($data) {
                 if ($data->payment_status == 1) {
                     return '<span class="badge text-sm fw-semibold bg-dark-success-gradient px-20 py-9 radius-4 text-white">PAID</span>';
@@ -376,7 +337,7 @@ class PesananCOntroller extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id','invoice'])
             ->addIndexColumn()
             ->make(true);
     }
