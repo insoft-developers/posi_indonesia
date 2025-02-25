@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Sekolah;
 use App\Models\Soal;
 use App\Models\User;
+use App\Models\Study;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,7 +25,8 @@ class SoalController extends Controller
     public function index()
     {
         $view = 'soal';
-        return view('backend.transaction.soal', compact('view'));
+        $com = Competition::where('is_active', 1)->get();
+        return view('backend.transaction.soal', compact('view','com'));
     }
 
     /**
@@ -42,27 +44,11 @@ class SoalController extends Controller
     {
         $input = $request->all();
         $rules = [
-            'name' => 'required',
-            'username' => 'required|unique:users',
-            'password' => 'required|min:8',
-            'user_image' => 'required',
-            'email' => 'required|unique:users',
-            'whatsapp' => 'required|min:12|max:13|unique:users',
+            'competition_id' => 'required',
             'level_id' => 'required',
-            'kelas_id' => 'required',
-            'tanggal_lahir' => 'required',
-            'agama' => 'required',
-            'jenis_kelamin' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
-            'kecamatan' => 'required',
-            'nama_sekolah' => 'required',
-            'email_status' => 'required',
+            'study_id' => 'required',
+            
         ];
-
-        if ($input['nama_sekolah'] == 'lainnya') {
-            $rules['sekolah_lain'] = 'required';
-        }
 
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -79,30 +65,8 @@ class SoalController extends Controller
             ]);
         }
 
-        $input['user_image'] = null;
-        $unik = uniqid();
-        if ($request->hasFile('user_image')) {
-            $input['user_image'] = Str::slug($unik, '-') . '.' . $request->user_image->getClientOriginalExtension();
-            $request->user_image->move(public_path('/storage/image_files/profile'), $input['user_image']);
-        }
-
-        if ($input['nama_sekolah'] == 'lainnya') {
-            $input['nama_sekolah'] = $input['sekolah_lain'];
-
-            $level = Level::findorFail($input['level_id']);
-
-            Sekolah::create([
-                'name' => $input['sekolah_lain'],
-                'province_code' => $input['provinsi'],
-                'city_code' => $input['kabupaten'],
-                'district_code' => $input['kecamatan'],
-                'jenjang' => $level->jenjang,
-            ]);
-        }
-
-        $input['password'] = bcrypt($input['password']);
-
-        User::create($input);
+        $input['admin_id'] = session('id');
+        Soal::create($input);
         return response()->json([
             'success' => true,
             'message' => 'success',
@@ -122,7 +86,7 @@ class SoalController extends Controller
      */
     public function edit(string $id)
     {
-        $data = User::findorFail($id);
+        $data = Soal::findorFail($id);
         return $data;
     }
 
@@ -132,33 +96,16 @@ class SoalController extends Controller
     public function update(Request $request, string $id)
     {
         $input = $request->all();
-
-        $user = User::findorFail($id);
-
         $rules = [
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'whatsapp' => 'required|min:12|max:13',
+            'competition_id' => 'required',
             'level_id' => 'required',
-            'kelas_id' => 'required',
-            'tanggal_lahir' => 'required',
-            'agama' => 'required',
-            'jenis_kelamin' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
-            'kecamatan' => 'required',
-            'nama_sekolah' => 'required',
-            'email_status' => 'required',
+            'study_id' => 'required',
+            
         ];
-
-        if ($input['nama_sekolah'] == 'lainnya') {
-            $rules['sekolah_lain'] = 'required';
-        }
 
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
-            $pesan = $validator->errors();
+            $pesan = $validator->errors();  
             $pesanarr = explode(',', $pesan);
             $find = ['[', ']', '{', '}'];
             $html = '';
@@ -171,34 +118,9 @@ class SoalController extends Controller
             ]);
         }
 
-        $input['user_image'] = $user->user_image;
-        $unik = uniqid();
-        if ($request->hasFile('user_image')) {
-            $input['user_image'] = Str::slug($unik, '-') . '.' . $request->user_image->getClientOriginalExtension();
-            $request->user_image->move(public_path('/storage/image_files/profile'), $input['user_image']);
-        }
-
-        if ($input['nama_sekolah'] == 'lainnya') {
-            $input['nama_sekolah'] = $input['sekolah_lain'];
-
-            $level = Level::findorFail($input['level_id']);
-
-            Sekolah::create([
-                'name' => $input['sekolah_lain'],
-                'province_code' => $input['provinsi'],
-                'city_code' => $input['kabupaten'],
-                'district_code' => $input['kecamatan'],
-                'jenjang' => $level->jenjang,
-            ]);
-        }
-
-        if (!empty($input['password'])) {
-            $input['password'] = bcrypt($input['password']);
-        } else {
-            $input['password'] = $user->password;
-        }
-
-        $user->update($input);
+        $input['admin_id'] = session('id');
+        $soal = Soal::findorFail($id);
+        $soal->update($input);
         return response()->json([
             'success' => true,
             'message' => 'success',
@@ -210,90 +132,51 @@ class SoalController extends Controller
      */
     public function destroy(string $id)
     {
-        return User::destroy($id);
+        return Soal::destroy($id);
     }
 
-    public function list_kelas(Request $request)
-    {
+    
+    public function get_level(Request $request) {
         $input = $request->all();
-        $level = Level::findorFail($input['jenjang']);
-        $jenjang = $level->jenjang;
-        $kelas = Kelas::where('jenjang', $jenjang)->get();
-        return response()->json([
-            'success' => true,
-            'data' => $kelas,
-        ]);
+        $com = Competition::findorFail($input['id']);
+        $level_ids = explode(",", $com->level);
+
+        $level = Level::whereIn("id", $level_ids)->get();
+
+        return $level;
     }
 
-    public function list_kabupaten(Request $request)
-    {
+    public function get_study(Request $request) {
         $input = $request->all();
-        $kabupaten = Province::where('province_code', $input['provinsi'])->groupBy('regency_code')->get();
-        return response()->json([
-            'success' => true,
-            'data' => $kabupaten,
-        ]);
+        $data = Study::with('pelajaran')->where('competition_id', $input['com'])
+            ->where('level_id', $input['id'])
+            ->get();
+        return $data;
     }
 
-    public function list_kecamatan(Request $request)
-    {
-        $input = $request->all();
-        $kecamatan = Province::where('regency_code', $input['kabupaten'])->groupBy('district_code')->get();
-        return response()->json([
-            'success' => true,
-            'data' => $kecamatan,
-        ]);
-    }
-
-    public function list_sekolah(Request $request)
-    {
-        $input = $request->all();
-
-        $level = Level::findorFail($input['level']);
-        $jenjang = $level->jenjang;
-        $kecamatan = $input['kecamatan'];
-
-        $headers = ['Content-Type: application/json'];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api-sekolah-indonesia.vercel.app/sekolah/' . $jenjang . '?kec=' . $kecamatan . '&page=1&perPage=100000');
-        curl_setopt($ch, CURLOPT_POST, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        $response = curl_exec($ch);
-        $err = curl_error($ch);
-        curl_close($ch);
-
-        if ($err) {
-            return response()->json(
-                [
-                    'message' => 'Curl Error ' . $err,
-                ],
-                500,
-            );
-        } else {
-            $data = json_decode($response);
-            $sekolah = $data->dataSekolah;
-
-            $lain = Sekolah::where('district_code', $kecamatan)->where('jenjang', $jenjang)->select('name as sekolah')->get();
-            $school = array_merge($sekolah, $lain->toArray());
-            return response()->json([
-                'success' => true,
-                'data' => $school,
-            ]);
-        }
-    }
 
     public function soal_table()
     {
         $data = Soal::all();
 
         return DataTables::of($data)
-           
+            ->addColumn('competition_id', function($data){
+                return $data->competition->title;
+            })
+            ->addColumn('study_id', function($data){
+                return $data->study->pelajaran->name;
+            })
+            ->addColumn('level_id', function($data){
+                return $data->level->level_name;
+            })
+            ->addColumn('admin_id', function($data){
+                return $data->user->name;
+            })
             ->addColumn('action', function ($data) {
                 return '
+                <a href="'.url('posiadmin/ujian/'.$data->id).'" class="w-32-px h-32-px bg-info-focus text-primary-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:checked-bag-question-outline"></iconify-icon>
+                </a>
                 <a onclick="editData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
@@ -305,7 +188,7 @@ class SoalController extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','competition_id','level_id','study_id'])
             ->addIndexColumn()
             ->make(true);
     }

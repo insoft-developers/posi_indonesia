@@ -1,4 +1,7 @@
 <style>
+    .cke_notifications_area {
+        display: none !important;
+    }
     .select2-selection__rendered {
         font-size: 16px;
         padding-top: 3px !important;

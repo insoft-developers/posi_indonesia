@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\SoalController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
@@ -98,6 +99,13 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/soal', SoalController::class);
     Route::get('/soal-table', [SoalController::class, 'soal_table'])->name('soal.table');
+    Route::post('/get_level', [SoalController::class, 'get_level']);
+    Route::post('/get_study', [SoalController::class, 'get_study']);
+
+
+    Route::resource('/ujian', QuestionController::class);
+    Route::get('/question-table/{link}', [QuestionController::class, 'question_table']);
+    
 
 
 
