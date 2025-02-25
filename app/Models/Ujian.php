@@ -26,8 +26,19 @@ class Ujian extends Model
     }
 
 
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(Level::class, 'level_id', 'id');
+    }
+
+
     public function competition(): BelongsTo
     {
         return $this->belongsTo(Competition::class, 'competition_id', 'id');
+    }
+
+    public function admin():BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'admin_id', 'id');
     }
 }

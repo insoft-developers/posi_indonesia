@@ -1,4 +1,19 @@
 <style>
+    .image-soal {
+        background: beige;
+        padding: 4px;
+        border-radius: 9px;
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+
+    .cke_notifications_area {
+        display: none !important;
+    }
+
     .select2-selection__rendered {
         font-size: 16px;
         padding-top: 3px !important;
@@ -22,7 +37,7 @@
         min-width: 466px !important;
     }
 
-   
+
 
 
     .select2-container .select2-selection {
@@ -71,7 +86,7 @@
 
     #table-list th,
     td {
-        max-width: 380px !important;
+        max-width: 300px !important;
     }
 
     .product-image-table {
@@ -82,7 +97,9 @@
         padding: 4px;
         border-radius: 7px;
     }
-    #table-detail-transaksi th,td{
-        font-size:12px;
+
+    #table-detail-transaksi th,
+    td {
+        font-size: 12px;
     }
 </style>

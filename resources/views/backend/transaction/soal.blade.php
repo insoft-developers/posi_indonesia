@@ -57,33 +57,13 @@
 
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Nama Lengkap</label>
-                                <input type="text" id="name" name="name" class="form-control">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Username</label>
-                                <input type="text" id="username" name="username" class="form-control">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Foto</label>
-                                <input type="file" id="user_image" name="user_image" class="form-control" accept="*.jpg, *.jpeg, *.png">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-control">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Whatsapp</label>
-                                <input type="text" id="whatsapp" name="whatsapp" class="form-control">
+                                <label class="form-label">Kompetisi</label>
+                                <select id="competition_id" name="competition_id" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                    @foreach($com as $c)
+                                    <option value="{{ $c->id }}">{{ $c->title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
@@ -91,99 +71,16 @@
                                 <select id="level_id" name="level_id" class="form-control">
                                     <option value=""> - Pilih - </option>
                                    
-                                   
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
-                                <label class="form-label">Kelas</label>
-                                <select id="kelas_id" name="kelas_id" class="form-control">
+                                <label class="form-label">Bidang Pelajaran</label>
+                                <select id="study_id" name="study_id" class="form-control">
                                     <option value=""> - Pilih - </option>
                                    
                                 </select>
                             </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control">
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Agama</label>
-                                <select id="agama" name="agama" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Protestan">Protestan</option>
-                                    <option value="Katholik">Katholik</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Budha">Budha</option>
-                                    <option value="Kong Hu Cu">Kong Hu Cu</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                   
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Jenis Kelamin</label>
-                                <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                    <option value="Laki Laki">Laki Laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                   
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Provinsi</label>
-                                <select id="provinsi" name="provinsi" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                   
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Kabupaten/Kota</label>
-                                <select id="kabupaten" name="kabupaten" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                   
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Kecamatan</label>
-                                <select id="kecamatan" name="kecamatan" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                   
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Nama Sekolah</label>
-                                <select id="nama_sekolah" name="nama_sekolah" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                   
-                                </select>
-                            </div>
-                            <div class="lainnya-container" style="display: none;">
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Nama Sekolah</label>
-                                <input type="text" id="sekolah_lain" name="sekolah_lain" class="form-control">
-                            </div>
-                            </div>
-
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Email Status</label>
-                                <select id="email_status" name="email_status" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Tidak Aktif</option>
-                                </select>
-                            </div>
-                            
-                            
-
                         </div>
                     </div>
                     <div class="modal-footer">
