@@ -29,7 +29,11 @@
             serverSide: true,
             dom: 'Blfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'print', {
+                    extend: 'pdf',
+                    orientation: 'landscape'
+                },
+                'excel'
             ],
             lengthMenu: [
                 [10, 25, 50, -1],

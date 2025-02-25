@@ -67,7 +67,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-
+                            <input type="hidden" id="soal_id" name="soal_id" value="{{ Request::segment(3) }}">
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
                                 <label class="form-label">Nomor Soal</label>
@@ -162,7 +162,7 @@
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
                                 <label class="form-label">Kunci Jawaban</label>
-                                <select id="kunci_jawaban" name="kunci_jawaban" class="form-control">
+                                <select id="answer_key" name="answer_key" class="form-control">
                                     <option value=""> - Pilih - </option>
                                     <option value="a">A</option>
                                     <option value="b">B</option>

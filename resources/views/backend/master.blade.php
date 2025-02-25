@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/apexcharts.css">
     <!-- Data Table css -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
     <!-- Text Editor css -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/editor-katex.min.css">
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/editor.atom-one-dark.min.css">
@@ -37,7 +38,7 @@
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/file-upload.css">
 
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/lib/audioplayer.css">
-    
+
     <!-- main css -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -136,7 +137,7 @@
                             </div>
                         </div><!-- Notification dropdown end -->
                         @php
-                        $admin = \App\Models\Admin::findorFail(session('id'));
+                            $admin = \App\Models\Admin::findorFail(session('id'));
                         @endphp
                         <div class="dropdown">
                             <button class="d-flex justify-content-center align-items-center rounded-circle"
@@ -208,11 +209,17 @@
     <!-- Bootstrap js -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/bootstrap.bundle.min.js"></script>
     <!-- Apex Chart js -->
-    @if($view == 'dashboard')
-    <script src="{{ asset('template/backend') }}/assets/js/lib/apexcharts.min.js"></script>
+    @if ($view == 'dashboard')
+        <script src="{{ asset('template/backend') }}/assets/js/lib/apexcharts.min.js"></script>
     @endif
     <!-- Data Table js -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
     <!-- Iconify Font js -->
     <script src="{{ asset('template/backend') }}/assets/js/lib/iconify-icon.min.js"></script>
     <!-- jQuery UI js -->
@@ -238,8 +245,8 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
-    @if($view == 'dashboard')
-    <script src="{{ asset('template/backend') }}/assets/js/homeOneChart.js"></script>
+    @if ($view == 'dashboard')
+        <script src="{{ asset('template/backend') }}/assets/js/homeOneChart.js"></script>
     @endif
     @include('backend.js')
 
