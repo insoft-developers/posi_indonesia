@@ -306,10 +306,8 @@ class QuestionController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '
-                <a href="' .
-                    url('posiadmin/ujian/' . $data->id) .
-                    '" class="w-32-px h-32-px bg-info-focus text-primary-main rounded-circle d-inline-flex align-items-center justify-content-center">
-                  <iconify-icon icon="material-symbols:checked-bag-question-outline"></iconify-icon>
+                <a onclick="preview('.$data->id.')" title="Preview Soal" href="javascript:void(0);" class="w-32-px h-32-px bg-info-focus text-primary-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:preview-sharp"></iconify-icon>
                 </a>
                 <a onclick="editData(' .
                     $data->id .

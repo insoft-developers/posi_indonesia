@@ -30,16 +30,14 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Nama Produk </th>
+                                <th scope="col">Jenis Document</th>
                                 <th scope="col">Harga</th>
                                 <th scope="col">Foto</th>
                                 <th scope="col">Link</th>
-                                <th scope="col">Kompetisi</th>
-                                <th scope="col">Study</th>
                                 <th scope="col">Bentuk</th>
                                 <th scope="col">Target</th>
                                 <th scope="col">Jenis</th>
                                 <th scope="col">Berat(gr)</th>
-                                <th scope="col">Document</th>
                                 <th scope="col">Status</th>
 
                             </tr>
@@ -71,6 +69,15 @@
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
+                                <label class="form-label">Jenis Dokumen</label>
+                                <select id="document_type" name="document_type" class="form-control">
+                                    <option value=""> - Tidak ada - </option>
+                                    <option value="sertifikat">Sertifikat</option>
+                                    <option value="piagam">Piagam</option>
+                                </select>
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
                                 <label class="form-label">Harga</label>
                                 <input type="number" id="product_price" name="product_price" class="form-control">
                             </div>
@@ -84,25 +91,6 @@
                             <div class="col-12">
                                 <label class="form-label">Link Produk</label>
                                 <input type="text" id="product_link" name="product_link" class="form-control">
-                            </div>
-
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Kompetisi</label>
-                                <select id="competition_id" name="competition_id" class="form-control">
-                                    <option value=""> - Pilih - </option>
-                                    @foreach ($competition as $c)
-                                        <option value="{{ $c->id }}">{{ $c->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <label class="form-label">Bidang Pelajaran</label>
-                                <select id="study_id" name="study_id" class="form-control">
-                                    <option value=""> - Pilih - </option>
-
-                                </select>
                             </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
@@ -153,31 +141,7 @@
                                 <input type="text" id="berat" name="berat" class="form-control">
 
                             </div>
-                            <div style="margin-top:15px;"></div>
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="col-12">
-                                            <label class="form-label">Jenis Dokumen</label>
-                                            <select id="document_type" name="document_type" class="form-control">
-                                                <option value=""> - Tidak ada - </option>
-                                                <option value="sertifikat">Sertifikat</option>
-                                                <option value="piagam">Piagam</option>
-                                                <option value="pembahasan">Pembahasan</option>
-                                            </select>
-                                        </div>
-                                        <div class="document-container" style="display: none;">
-                                            <div style="margin-top:5px;"></div>
-                                            <div class="col-12">
-                                                <input type="file" id="document" name="document"
-                                                    accept="*.jpg, *.jpeg, *.png" class="form-control">
 
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
                             <div style="margin-top:15px;"></div>
                             <div class="col-12">
                                 <label class="form-label">Status</label>
@@ -196,6 +160,61 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="modal-document">
+        <div class="modal-dialog modal-lg">
+
+            
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-document" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="hidden" id="document_id" name="document_id">
+                                    <input type="hidden" id="send_method" name="send_method">
+                                    <input type="hidden" id="product_id" name="product_id">
+                                    
+                                    <label class="form-label">Kompetisi</label>
+                                    <select id="competition_id" name="competition_id" class="form-control" required>
+                                        <option value=""> - Pilih Kompetisi - </option>
+                                        @foreach($competition as $c)
+                                            <option value="{{ $c->id }}">{{ $c->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">File Dokumen</label>
+                                    <input type="file" id="document" name="document" class="form-control" accept="*.jpg, *.jpeg, *.png">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button id="btn-simpan-document" type="submit"
+                                    class="btn btn-success-600 radius-8 px-20 py-11 btn-position">Simpan</button>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;"></div>
+                        <div class="row">
+                            <div id="modal-document-content"></div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

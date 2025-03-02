@@ -1,4 +1,11 @@
 <style>
+    .doc-images{
+        width: 100px;
+    height: auto;
+    border: 3px solid beige;
+    border-radius: 6px;
+    cursor: pointer;
+    }
     .image-soal {
         background: beige;
         padding: 4px;
