@@ -75,9 +75,10 @@
                             <div class="col-12">
                                 <label class="form-label">Premium Registration Bonus Product</label>
                                 <br>
-                                <select id="premium_bonus_product" name="premium_bonus_product[]" multiple="multiple" class="form-control cust-control">
-                                    @foreach($product as $p)
-                                    <option value="{{ $p->id }}">{{ $p->product_name }}</option>
+                                <select id="premium_bonus_product" name="premium_bonus_product[]" multiple="multiple"
+                                    class="form-control cust-control">
+                                    @foreach ($product as $p)
+                                        <option value="{{ $p->id }}">{{ $p->product_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -85,9 +86,10 @@
                             <div class="col-12">
                                 <label class="form-label">Free Registration Bonus Product</label>
                                 <br>
-                                <select id="free_bonus_product" name="free_bonus_product[]" multiple="multiple" class="form-control cust-control">
-                                    @foreach($product as $p)
-                                    <option value="{{ $p->id }}">{{ $p->product_name }}</option>
+                                <select id="free_bonus_product" name="free_bonus_product[]" multiple="multiple"
+                                    class="form-control cust-control">
+                                    @foreach ($product as $p)
+                                        <option value="{{ $p->id }}">{{ $p->product_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -96,7 +98,7 @@
                                 <label class="form-label">Tanggal Kompetisi</label>
                                 <input type="date" id="date" name="date" class="form-control">
                             </div>
-                            
+
                             <div style="margin-top:15px;"></div>
                             <div class="col-6">
                                 <label class="form-label">Tanggal Buka Pendaftaran</label>
@@ -190,8 +192,9 @@
                             <div class="col-12">
                                 <label class="form-label">Level Kompetisi</label>
                                 <br>
-                                <select id="level" name="level[]" multiple="multiple" class="form-control cust-control">
-                                   
+                                <select id="level" name="level[]" multiple="multiple"
+                                    class="form-control cust-control">
+
                                     @foreach ($level as $l)
                                         <option value="{{ $l->id }}_{{ $l->jenjang }}">{{ $l->level_name }}
                                         </option>
@@ -318,58 +321,61 @@
                                 <div class="card-body">
                                     <form id="form-tambahan" method="POST">
                                         @csrf
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <input type="hidden" id="competition_id" name="competition_id">
-                                            <input type="hidden" id="method-type" name="method-type">
-                                            <input type="hidden" id="study-id" name="study-id">
-                                            <div class="form-group">
-                                                <label class="form-label">Nama Pelajaran</label>
-                                                <select id="s-pelajaran" name="s-pelajaran" class="form-control" required>
-                                                    <option value=""> - Pilih pelajaran - </option>
-                                                    @foreach ($pelajaran as $p)
-                                                        <option value="{{ $p->id }}">{{ $p->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input type="hidden" id="competition_id" name="competition_id">
+                                                <input type="hidden" id="method-type" name="method-type">
+                                                <input type="hidden" id="study-id" name="study-id">
+                                                <div class="form-group">
+                                                    <label class="form-label">Nama Pelajaran</label>
+                                                    <select id="s-pelajaran" name="s-pelajaran" class="form-control"
+                                                        required>
+                                                        <option value=""> - Pilih pelajaran - </option>
+                                                        @foreach ($pelajaran as $p)
+                                                            <option value="{{ $p->id }}">{{ $p->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            
-                                            <div class="form-group">
-                                                <label class="form-label">Jenjang</label>
-                                                <select id="s-jenjang" name="s-jenjang" class="form-control" required>
-                                                    <option value=""> - Pilih jenjang - </option>
-                                                    
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label class="form-label">Start Time</label>
-                                                <input type="time" id="s-start-time" name="s-start-time" 
-                                                    class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label class="form-label">Finish Time</label>
-                                                <input type="time" id="s-finish-time" name="s-finish-time"
-                                                    class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label class="form-label">Forum Link</label>
-                                                <input type="text" id="s-forum-link" name="s-forum-link"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="submit"
-                                                class="btn btn-success-600 radius-8 px-20 py-11 btn-position">Simpan</button>
-                                        </div>
+                                            <div class="col-md-2">
 
-                                    </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Jenjang</label>
+                                                    <select id="s-jenjang" name="s-jenjang" class="form-control"
+                                                        required>
+                                                        <option value=""> - Pilih jenjang - </option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">Start Time</label>
+                                                    <input type="time" id="s-start-time" name="s-start-time"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">Finish Time</label>
+                                                    <input type="time" id="s-finish-time" name="s-finish-time"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">Forum Link</label>
+                                                    <input type="text" id="s-forum-link" name="s-forum-link"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button type="submit"
+                                                    class="btn btn-success-600 radius-8 px-20 py-11 btn-position">Simpan</button>
+                                            </div>
+
+                                        </div>
                                     </form>
                                 </div>
                             </div>

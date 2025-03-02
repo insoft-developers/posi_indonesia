@@ -173,10 +173,16 @@
 
                                 </select>
                             </div>
-
-
-
-
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Orientasi Soal</label>
+                                <select id="orientation" name="orientation" class="form-control">
+                                    <option value=""> - Pilih - </option>
+                                    <option value="0">Rata Kiri</option>
+                                    <option value="2">Rata Tengah</option>
+                                    <option value="1">Rata Kanan</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

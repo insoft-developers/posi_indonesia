@@ -59,6 +59,10 @@
                     name: 'product_name',
                 },
                 {
+                    data: 'document_type',
+                    name: 'document_type',
+                },
+                {
                     data: 'product_price',
                     name: 'product_price',
                 },
@@ -70,14 +74,7 @@
                     data: 'product_link',
                     name: 'product_link',
                 },
-                {
-                    data: 'competition_id',
-                    name: 'competition_id',
-                },
-                {
-                    data: 'study_id',
-                    name: 'study_id',
-                },
+
                 {
                     data: 'is_fisik',
                     name: 'is_fisik',
@@ -94,10 +91,7 @@
                     data: 'berat',
                     name: 'berat',
                 },
-                {
-                    data: 'document',
-                    name: 'document',
-                },
+
                 {
                     data: 'is_active',
                     name: 'is_active',
@@ -157,13 +151,12 @@
                     $("#product_price").val(data.product_price);
                     $("#image").val(null);
                     $("#product_link").val(data.product_link);
-                    $("#competition_id").val(data.competition_id);
-                    change_competition(data.competition_id, data.study_id);
+                    $("#document_type").val(data.document_type);
                     $("#is_fisik").val(data.is_fisik);
                     var product_for = explode(data.product_for);
                     $("#product_for").val(product_for).trigger('change');
                     $("#is_combo").val(data.is_combo);
-                    if(data.is_combo == 1) {
+                    if (data.is_combo == 1) {
                         $(".composition-container").slideDown(10);
                         var komposisi = explode(data.composition);
                         $("#composition").val(komposisi).trigger('change');
@@ -172,14 +165,7 @@
                         $("#composition").val(null).trigger('change');
                     }
                     $("#berat").val(data.berat);
-                    $("#document_type").val(data.document_type);
-                    if(data.document_type == 'sertifikat' || data.document_type == 'piagam') {
-                        $(".document-container").slideDown(10);
-                        $("#document").val(null);
-                    } else {
-                        $(".document-container").slideUp(10);
-                        $("#document").val(null);
-                    }
+
                     $("#is_active").val(data.is_active);
 
                 }
@@ -207,10 +193,10 @@
             }
         }
 
-        $("#is_combo").change(function(){
+        $("#is_combo").change(function() {
             var nilai = $(this).val();
             console.log(nilai);
-            if(nilai == 1) {
+            if (nilai == 1) {
                 $(".composition-container").slideDown(100);
             } else {
                 $(".composition-container").slideUp(100);
@@ -219,45 +205,97 @@
         });
 
 
-        $("#document_type").change(function(){
-            var nilai = $(this).val();
-            console.log(nilai);
-            if(nilai == 'piagam' || nilai == 'sertifikat' ) {
-                $(".document-container").slideDown(100);
-            } else {
-                $(".document-container").slideUp(100);
-                $("#document").val(null);
-            }
-        });
-
-        $("#competition_id").change(function(){
-            var id = $(this).val();
-            change_competition(id, null);
-        });
-
-        function change_competition(id, nilai) {
+        function documentData(id) {
+            
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "{{ url('posiadmin/product_study') }}",
+                url: "{{ url('posiadmin/document-list') }}",
                 type: "POST",
-                dataType: "JSON",
-                data: {"id":id, "_token":csrf_token},
+                data: {
+                    "id": id,
+                    "_token": csrf_token
+                },
                 success: function(data) {
                     console.log(data);
-                    if(data.success) {
-                        var html = '';
-                        html += '<option value=""> - Pilih Bidang Pelajaran - </option>';
-                        for(var i = 0; i<data.data.length; i++) {
-                            html += '<option value="'+data.data[i].id+'">'+data.data[i].pelajaran.name+' - '+data.data[i].level.level_name+'</option>';
-                        }
-                        $("#study_id").html(html);
+                    $("#product_id").val(id);
+                    $("#send_method").val('add');
+                    $("#modal-document").modal("show");
+                    $(".modal-title").text("Daftar Dokumen Produk");
+                    $("#modal-document-content").html(data);
+                    reset_document_form();
+                }
+            })
 
-                        if(nilai !== null) {
-                            $("#study_id").val(nilai);
-                        }
+
+
+        }
+
+        function reset_document_form() {
+            $("#competition_id").val("");
+            $("#document").val(null);
+        }
+
+
+
+        $("#form-document").submit(function(e) {
+            e.preventDefault();
+            loading("#btn-simpan-document");
+            var product_id = $("#product_id").val();
+            var method = $("#send_method").val();
+            var form = new FormData($('#modal-document form')[0]);
+            var url = '';
+            if (method == 'add') {
+                url = "{{ url('posiadmin/simpan_document') }}";
+            } else {
+                url = "{{ url('posiadmin/update_document') }}";
+            }
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: form,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    unloading("#btn-simpan-document");
+                    if (data.success) {
+                        documentData(product_id);
                     }
                 }
             });
+        })
+
+
+        function editDocument(id) {
+            $("#send_method").val('edit');
+            $.ajax({
+                url:"{{ url('posiadmin/document-edit') }}"+"/"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    console.log(data);
+                    $("#document_id").val(data.id);
+                    $("#competition_id").val(data.competition_id);
+                    $("#product_id").val(data.product_id);
+                }
+            });
+            
+        }
+
+        function deleteDocument(id, product_id) {
+            var pop = confirm('apakah anda yakin ingin menghapus data ini...?');
+            if(pop === true) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ url('posiadmin/document-delete') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {"id":id, "product_id":product_id, "_token":csrf_token},
+                    success: function(data) {
+                        documentData(product_id);
+                    }
+                });
+            }
         }
 
 

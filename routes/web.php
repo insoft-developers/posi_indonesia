@@ -79,7 +79,11 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::resource('/product', ProductController::class);
     Route::get('/product-table', [ProductController::class, 'product_table'])->name('product.table');
     Route::post('/product_study', [ProductController::class, 'product_study']);
-
+    Route::post('/simpan_document', [ProductController::class, 'simpan_document']);
+    Route::post('/update_document', [ProductController::class, 'update_document']);
+    Route::post('/document-list', [ProductController::class, 'document_list']);
+    Route::post('/document-delete', [ProductController::class, 'document_delete']);
+    Route::get('/document-edit/{id}', [ProductController::class, 'document_edit']);
 
     Route::resource('/user', UserController::class);
     Route::get('/user-table', [UserController::class, 'user_table'])->name('user.table');

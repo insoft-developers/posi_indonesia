@@ -190,6 +190,13 @@
                     $("#score_lewat").val(data.score_lewat);
                     $("#answer_key").val(data.answer_key);
 
+                    if(data.orientation == null) {
+                        $("#orientation").val(0);
+                    } else {
+                        $("#orientation").val(data.orientation);
+                    }
+                    
+
 
                 }
             });
