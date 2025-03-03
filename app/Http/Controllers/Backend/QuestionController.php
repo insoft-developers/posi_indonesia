@@ -237,6 +237,122 @@ class QuestionController extends Controller
         return Ujian::destroy($id);
     }
 
+
+    public function preview($id) {
+        $ujian = Ujian::with('competition','study.pelajaran','level')->findorFail($id);
+        $orientation = $ujian->orientation;
+        if($orientation == 1) {
+            $style = 'text-align:right';
+        } else if($orientation == 2) {
+            $style = 'text-align:center';
+        } else {
+            $style = 'text-align:left';
+        }
+
+
+        $html = '';
+        $html .= '<table class="table table-bordered table-striped">';
+        $html .= '<tr>';
+        $html .= '<td>No Soal: </td>';
+        $html .= '<td>:</td>';
+        $html .= '<td>'.$ujian->question_number.'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td>Pertanyaan: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->question_image === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->question_title.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->question_image).'">'.$ujian->question_title.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+        $html .= '<tr>';
+        $html .= '<td>Option A: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->option_image_a === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->option_a.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->option_image_a).'">'.$ujian->option_a.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+
+        $html .= '<tr>';
+        $html .= '<td>Option B: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->option_image_b === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->option_b.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->option_image_b).'">'.$ujian->option_b.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+
+        $html .= '<tr>';
+        $html .= '<td>Option C: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->option_image_c === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->option_c.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->option_image_c).'">'.$ujian->option_c.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+
+        $html .= '<tr>';
+        $html .= '<td>Option D: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->option_image_d === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->option_d.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->option_image_d).'">'.$ujian->option_d.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+
+        $html .= '<tr>';
+        $html .= '<td>Option E: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->option_image_e === null) {
+            $html .= '<td style="'.$style.'">'.$ujian->option_e.'</td>';
+        } else {
+            $html .= '<td style="'.$style.'"><img style="margin-bottom:20px;" class="img-responsive" src="'.asset('storage/image_files/soal/'.$ujian->option_image_e).'">'.$ujian->option_e.'</td>';
+        }
+        
+        $html .= '</tr>';
+
+        $html .= '<tr>';
+        $html .= '<td>Kunci Jawaban: </td>';
+        $html .= '<td>:</td>';
+        $html .= '<td>'.strtoupper($ujian->answer_key).'</td>';
+        $html .= '</tr>';
+
+        $html .= '<tr>';
+        $html .= '<td>Orientasi: </td>';
+        $html .= '<td>:</td>';
+        if($ujian->orientation == 1) {
+            $html .= '<td>Rata Kanan</td>';
+        } else if($ujian->orientation == 2) {
+            $html .= '<td>Rata Tengah</td>';
+        } else {
+            $html .= '<td>Rata Kiri</td>';
+        }
+        $html .= '</tr>';        
+
+        $html .= '</table>';
+
+        $data['html'] = $html;
+        $data['data'] = $ujian;
+
+        return $data;
+    }
+
     public function question_table($id)
     {
         $data = Ujian::with('competition', 'study', 'level')->where('soal_id', $id)->get();

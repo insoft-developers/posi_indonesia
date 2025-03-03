@@ -1,11 +1,12 @@
 <style>
-    .doc-images{
+    .doc-images {
         width: 100px;
-    height: auto;
-    border: 3px solid beige;
-    border-radius: 6px;
-    cursor: pointer;
+        height: auto;
+        border: 3px solid beige;
+        border-radius: 6px;
+        cursor: pointer;
     }
+
     .image-soal {
         background: beige;
         padding: 4px;
@@ -70,11 +71,15 @@
         margin-bottom: 12px;
     }
 
-    #table-list {
+    #table-list,
+    #table-transaction-approve,
+    #table-transaction-not-approve {
         font-size: 13px;
     }
 
-    #table-list th {
+    #table-list th,
+    #table-transaction-approve th,
+    #table-transaction-not-approve th {
         font-size: 14px;
     }
 
@@ -96,6 +101,19 @@
         max-width: 300px !important;
     }
 
+    #table-transaction-not-approve th,
+    td {
+        max-width: 300px !important;
+        min-width: 120px !important;
+
+    }
+
+    #table-transaction-approve th,
+    td {
+        max-width: 300px !important;
+        min-width: 120px !important;
+    }
+
     .product-image-table {
         width: 58px;
         height: 47px;
@@ -108,5 +126,25 @@
     #table-detail-transaksi th,
     td {
         font-size: 12px;
+    }
+
+    #btn-bulk-approve {
+        position: relative;
+        top: 75px;
+        border-radius: 5px;
+        left: 482px !important;
+        float: left;
+        /* z-index: 2; */
+        padding: 10px 9px !important;
+    }
+
+    #filter {
+        width: 14%;
+        position: relative;
+        top: 73px;
+        left: 495px;
+        /* z-index: 2; */
+        font-size: 14px;
+        padding: 10px 12px;
     }
 </style>

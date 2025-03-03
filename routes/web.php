@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\JuaraController;
+use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\KelasController;
@@ -94,7 +95,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
 
     Route::resource('/pesanan', PesananController::class);
-    Route::get('/pesanan-table', [PesananController::class, 'pesanan_table'])->name('pesanan.table');
+    Route::post('/pesanan-table', [PesananController::class, 'pesanan_table'])->name('pesanan.table');
+    Route::post('/pesanan-table-not-approve', [PesananController::class, 'pesanan_table_not_approve'])->name('pesanan.table.not.approve');
+    Route::post('/pesanan-table-approve', [PesananController::class, 'pesanan_table_approve'])->name('pesanan.table.approve');
     Route::post('/transaction_list', [PesananController::class, 'transaction_list']);
     Route::post('/transaction_approve', [PesananController::class, 'transaction_approve']);
     Route::post('/transaction_reset', [PesananController::class, 'transaction_reset']);
@@ -109,6 +112,10 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/ujian', QuestionController::class);
     Route::get('/question-table/{link}', [QuestionController::class, 'question_table']);
+    Route::get('/preview/{id}', [QuestionController::class, 'preview']);
+
+    Route::resource('/cart', CartController::class);
+    Route::get('/cart_table', [CartController::class, 'cart_table'])->name('cart.table');
     
 
 

@@ -222,5 +222,20 @@
                 })
             }
         }
+
+
+        function preview(id) {
+            $.ajax({
+                url: "{{ url('posiadmin/preview') }}"+"/"+id,
+                type: "GET",
+                success: function(data) {
+                    console.log(data);
+                    $("#modal-preview").modal('show');
+                    $(".modal-title").text(data.data.competition.title+' - '+data.data.study.pelajaran.name+' - '+data.data.level.level_name);
+                    $("#modal-preview-content").html(data.html);
+                }
+            });
+            
+        }
     </script>
 @endif

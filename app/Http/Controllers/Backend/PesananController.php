@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Level;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -274,16 +275,49 @@ class PesananCOntroller extends Controller
         return $data;
     }
 
-    public function pesanan_table()
+    public function pesanan_table(Request $request)
     {
-        $data = Invoice::with('user')->get();
+        
+        $thismonth = date('m');
+        $thisyear = date('Y');
+        $today = date('Y-m-d');
+
+        
+        $lastmonth = date('m', strtotime($today." -1 month"));
+        $lastyear = date('Y', strtotime($today." -1 year"));
+    
+
+        $input = $request->all();
+        $query = Invoice::with('user');
+        if(! empty($input['filter'])) {
+            $filter = $input['filter'];
+            if($filter == 'today') {
+                $query->whereDate('created_at', Carbon::today()->toDateString());
+            } else if($filter == 'thismonth') {
+                $query->whereMonth('created_at', $thismonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'yesterday') {
+                $query->whereDate('created_at', Carbon::yesterday()->toDateString());
+            } else if($filter == 'lastmonth') {
+                $query->whereMonth('created_at', $lastmonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'thisyear') {
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'lastyear') {
+                $query->whereYear('created_at', $lastyear);
+            } 
+            
+        }
+        
+        $data = $query->get();
+        // $data = Invoice::with('user')->get();
 
         return DataTables::of($data)
-            ->addColumn('invoice', function($data){
-                if($data->total_amount > 0) {
-                    return $data->invoice.'<br>(Berbayar)';
+            ->addColumn('invoice', function ($data) {
+                if ($data->total_amount > 0) {
+                    return $data->invoice . '<br>(Berbayar)';
                 } else {
-                    return $data->invoice.'<br>(Gratis)';
+                    return $data->invoice . '<br>(Gratis)';
                 }
             })
             ->addColumn('id', function ($data) {
@@ -292,7 +326,7 @@ class PesananCOntroller extends Controller
             ->addColumn('created_at', function ($data) {
                 return date('d-m-Y', strtotime($data->created_at));
             })
-          
+
             ->addColumn('userid', function ($data) {
                 return $data->user->name ?? null;
             })
@@ -308,7 +342,7 @@ class PesananCOntroller extends Controller
             ->addColumn('grand_total', function ($data) {
                 return number_format($data->grand_total);
             })
-           
+
             ->addColumn('payment_status', function ($data) {
                 if ($data->payment_status == 1) {
                     return '<span class="badge text-sm fw-semibold bg-dark-success-gradient px-20 py-9 radius-4 text-white">PAID</span>';
@@ -337,7 +371,210 @@ class PesananCOntroller extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id','invoice'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    
+    public function pesanan_table_approve(Request $request)
+    {
+        $thismonth = date('m');
+        $thisyear = date('Y');
+        $today = date('Y-m-d');
+
+        
+        $lastmonth = date('m', strtotime($today." -1 month"));
+        $lastyear = date('Y', strtotime($today." -1 year"));
+    
+
+        $input = $request->all();
+        $query = Invoice::with('user')->where('payment_status', 1);
+        if(! empty($input['filter'])) {
+            $filter = $input['filter'];
+            if($filter == 'today') {
+                $query->whereDate('created_at', Carbon::today()->toDateString());
+            } else if($filter == 'thismonth') {
+                $query->whereMonth('created_at', $thismonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'yesterday') {
+                $query->whereDate('created_at', Carbon::yesterday()->toDateString());
+            } else if($filter == 'lastmonth') {
+                $query->whereMonth('created_at', $lastmonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'thisyear') {
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'lastyear') {
+                $query->whereYear('created_at', $lastyear);
+            } 
+            
+        }
+        
+        $data = $query->get();
+        
+        // $data = Invoice::with('user')->where('payment_status', 1)->get();
+
+        return DataTables::of($data)
+            ->addColumn('invoice', function ($data) {
+                if ($data->total_amount > 0) {
+                    return $data->invoice . '<br>(Berbayar)';
+                } else {
+                    return $data->invoice . '<br>(Gratis)';
+                }
+            })
+            ->addColumn('id', function ($data) {
+                return '<div class="form-check"><input class="form-check-input" type="checkbox" id="id" data-id="' . $data->id . '" ></div>';
+            })
+            ->addColumn('created_at', function ($data) {
+                return date('d-m-Y', strtotime($data->created_at));
+            })
+
+            ->addColumn('userid', function ($data) {
+                return $data->user->name ?? null;
+            })
+            ->addColumn('buyer', function ($data) {
+                return $data->pemesan->name ?? null;
+            })
+            ->addColumn('total_amount', function ($data) {
+                return number_format($data->total_amount);
+            })
+            ->addColumn('delivery_cost', function ($data) {
+                return number_format($data->delivery_cost);
+            })
+            ->addColumn('grand_total', function ($data) {
+                return number_format($data->grand_total);
+            })
+
+            ->addColumn('payment_status', function ($data) {
+                if ($data->payment_status == 1) {
+                    return '<span class="badge text-sm fw-semibold bg-dark-success-gradient px-20 py-9 radius-4 text-white">PAID</span>';
+                } else {
+                    return '<span class="badge text-sm fw-semibold bg-dark-danger-gradient px-20 py-9 radius-4 text-white">UNPAID</span>';
+                }
+            })
+            ->addColumn('transaction_status', function ($data) {
+                if ($data->transaction_status == 1) {
+                    return '<span class="badge text-sm fw-semibold bg-dark-warning-gradient px-20 py-9 radius-4 text-white">PROCESS</span>';
+                } else {
+                    return '<span class="badge text-sm fw-semibold bg-dark-danger-gradient px-20 py-9 radius-4 text-white">UNPAID</span>';
+                }
+            })
+            ->addColumn('action', function ($data) {
+                return '
+                <a onclick="detailData(' .
+                    $data->id .
+                    ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
+                </a>
+                
+                <a onclick="deleteData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+                </a>';
+            })
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
+            ->addIndexColumn()
+            ->make(true);
+    }
+    
+    
+    public function pesanan_table_not_approve(Request $request)
+    {
+        
+        $thismonth = date('m');
+        $thisyear = date('Y');
+        $today = date('Y-m-d');
+
+        
+        $lastmonth = date('m', strtotime($today." -1 month"));
+        $lastyear = date('Y', strtotime($today." -1 year"));
+    
+
+        $input = $request->all();
+        $query = Invoice::with('user')->where('payment_status', '!=', 1);
+        if(! empty($input['filter'])) {
+            $filter = $input['filter'];
+            if($filter == 'today') {
+                $query->whereDate('created_at', Carbon::today()->toDateString());
+            } else if($filter == 'thismonth') {
+                $query->whereMonth('created_at', $thismonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'yesterday') {
+                $query->whereDate('created_at', Carbon::yesterday()->toDateString());
+            } else if($filter == 'lastmonth') {
+                $query->whereMonth('created_at', $lastmonth);
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'thisyear') {
+                $query->whereYear('created_at', $thisyear);
+            } else if($filter == 'lastyear') {
+                $query->whereYear('created_at', $lastyear);
+            } 
+            
+        }
+        
+        $data = $query->get();
+
+        return DataTables::of($data)
+            ->addColumn('invoice', function ($data) {
+                if ($data->total_amount > 0) {
+                    return $data->invoice . '<br>(Berbayar)';
+                } else {
+                    return $data->invoice . '<br>(Gratis)';
+                }
+            })
+            ->addColumn('id', function ($data) {
+                return '<div class="form-check"><input class="form-check-input" type="checkbox" id="id" data-id="' . $data->id . '" ></div>';
+            })
+            ->addColumn('created_at', function ($data) {
+                return date('d-m-Y', strtotime($data->created_at));
+            })
+
+            ->addColumn('userid', function ($data) {
+                return $data->user->name ?? null;
+            })
+            ->addColumn('buyer', function ($data) {
+                return $data->pemesan->name ?? null;
+            })
+            ->addColumn('total_amount', function ($data) {
+                return number_format($data->total_amount);
+            })
+            ->addColumn('delivery_cost', function ($data) {
+                return number_format($data->delivery_cost);
+            })
+            ->addColumn('grand_total', function ($data) {
+                return number_format($data->grand_total);
+            })
+
+            ->addColumn('payment_status', function ($data) {
+                if ($data->payment_status == 1) {
+                    return '<span class="badge text-sm fw-semibold bg-dark-success-gradient px-20 py-9 radius-4 text-white">PAID</span>';
+                } else {
+                    return '<span class="badge text-sm fw-semibold bg-dark-danger-gradient px-20 py-9 radius-4 text-white">UNPAID</span>';
+                }
+            })
+            ->addColumn('transaction_status', function ($data) {
+                if ($data->transaction_status == 1) {
+                    return '<span class="badge text-sm fw-semibold bg-dark-warning-gradient px-20 py-9 radius-4 text-white">PROCESS</span>';
+                } else {
+                    return '<span class="badge text-sm fw-semibold bg-dark-danger-gradient px-20 py-9 radius-4 text-white">UNPAID</span>';
+                }
+            })
+            ->addColumn('action', function ($data) {
+                return '
+                <a onclick="detailData(' .
+                    $data->id .
+                    ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
+                </a>
+                
+                <a onclick="deleteData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+                </a>';
+            })
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
             ->addIndexColumn()
             ->make(true);
     }
