@@ -1,5 +1,44 @@
 @if ($view == 'pesanan')
     <script>
+
+
+        var table_not_approve = $('#table-transaction-not-approve').DataTable();
+        var table_approve = $('#table-transaction-approve').DataTable();
+        var table = $('#table-list').DataTable();
+
+
+        $("#pills-home-tab").click(function() {
+            $("#data-jenis").val(1);
+        });
+
+        $("#pills-profile-tab").click(function() {
+            $("#data-jenis").val(2);
+        });
+
+        $("#pills-contact-tab").click(function() {
+            $("#data-jenis").val(3);
+        });
+
+
+        $("#filter").change(function() {
+            var filter = $(this).val();
+            var jenis = $("#data-jenis").val();
+            if(jenis == 1) {
+                
+                init_table_not_approve(filter);
+            }
+            else if(jenis == 2) {
+                
+                init_table_approve(filter);
+            }
+            else if(jenis == 3) {
+                
+                init_table(filter);
+            }
+
+        });
+
+
         function tambah() {
             save_method = "add";
             $('input[name=_method]').val('POST');
@@ -14,78 +53,270 @@
             $("#jenjang").val("");
         }
 
-        var table = $('#table-list').DataTable({
-            processing: true,
-            serverSide: true,
-            dom: 'Blfrtip',
-            buttons: [
-                'print', {
-                    extend: 'pdf',
-                    orientation: 'landscape'
+        init_table("");
+        
+        function init_table(filter) {
+            table.destroy();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            table = $('#table-list').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Blfrtip',
+                buttons: [
+                    'print', {
+                        extend: 'pdf',
+                        orientation: 'landscape'
+                    },
+                    'excel'
+                ],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All'],
+                ],
+                // ajax: "{{ route('pesanan.table.not.approve') }}",
+                ajax: {
+                    type: "POST",
+                    url: "{{ route('pesanan.table') }}",
+                    data: {
+                        "filter": filter,
+                        '_token': csrf_token
+                    }
                 },
-                'excel'
-            ],
-            lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All'],
-            ],
-            ajax: "{{ route('pesanan.table') }}",
-            order: [
-                [0, "desc"]
-            ],
-            columns: [{
-                    data: 'id',
-                    name: 'id',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'invoice',
-                    name: 'invoice',
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at',
-                },
-                {
-                    data: 'userid',
-                    name: 'userid',
-                },
-                {
-                    data: 'total_amount',
-                    name: 'total_amount',
-                },
-                {
-                    data: 'delivery_cost',
-                    name: 'delivery_cost',
-                },
-                {
-                    data: 'grand_total',
-                    name: 'grand_total',
-                },
-                {
-                    data: 'payment_status',
-                    name: 'payment_status',
-                },
-                {
-                    data: 'transaction_status',
-                    name: 'transaction_status',
-                },
-                
-                {
-                    data: 'buyer',
-                    name: 'buyer',
-                },
+                order: [
+                    [0, "desc"]
+                ],
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'invoice',
+                        name: 'invoice',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                    },
+                    {
+                        data: 'userid',
+                        name: 'userid',
+                    },
+                    {
+                        data: 'total_amount',
+                        name: 'total_amount',
+                    },
+                    {
+                        data: 'delivery_cost',
+                        name: 'delivery_cost',
+                    },
+                    {
+                        data: 'grand_total',
+                        name: 'grand_total',
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status',
+                    },
+                    {
+                        data: 'transaction_status',
+                        name: 'transaction_status',
+                    },
+
+                    {
+                        data: 'buyer',
+                        name: 'buyer',
+                    },
 
 
-            ]
-        });
+                ]
+            });
+        }
+
+
+        init_table_not_approve("");
+        
+        function init_table_not_approve(filter) {
+            table_not_approve.destroy();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            table_not_approve = $('#table-transaction-not-approve').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Blfrtip',
+                buttons: [
+                    'print', {
+                        extend: 'pdf',
+                        orientation: 'landscape'
+                    },
+                    'excel'
+                ],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All'],
+                ],
+                // ajax: "{{ route('pesanan.table.not.approve') }}",
+                ajax: {
+                    type: "POST",
+                    url: "{{ route('pesanan.table.not.approve') }}",
+                    data: {
+                        "filter": filter,
+                        '_token': csrf_token
+                    }
+                },
+                order: [
+                    [0, "desc"]
+                ],
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'invoice',
+                        name: 'invoice',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                    },
+                    {
+                        data: 'userid',
+                        name: 'userid',
+                    },
+                    {
+                        data: 'total_amount',
+                        name: 'total_amount',
+                    },
+                    {
+                        data: 'delivery_cost',
+                        name: 'delivery_cost',
+                    },
+                    {
+                        data: 'grand_total',
+                        name: 'grand_total',
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status',
+                    },
+                    {
+                        data: 'transaction_status',
+                        name: 'transaction_status',
+                    },
+
+                    {
+                        data: 'buyer',
+                        name: 'buyer',
+                    },
+
+
+                ]
+            });
+        }
+
+
+
+
+        init_table_approve("");
+        
+        function init_table_approve(filter) {
+            table_approve.destroy();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            table_approve = $('#table-transaction-approve').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Blfrtip',
+                buttons: [
+                    'print', {
+                        extend: 'pdf',
+                        orientation: 'landscape'
+                    },
+                    'excel'
+                ],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All'],
+                ],
+                // ajax: "{{ route('pesanan.table.not.approve') }}",
+                ajax: {
+                    type: "POST",
+                    url: "{{ route('pesanan.table.approve') }}",
+                    data: {
+                        "filter": filter,
+                        '_token': csrf_token
+                    }
+                },
+                order: [
+                    [0, "desc"]
+                ],
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'invoice',
+                        name: 'invoice',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                    },
+                    {
+                        data: 'userid',
+                        name: 'userid',
+                    },
+                    {
+                        data: 'total_amount',
+                        name: 'total_amount',
+                    },
+                    {
+                        data: 'delivery_cost',
+                        name: 'delivery_cost',
+                    },
+                    {
+                        data: 'grand_total',
+                        name: 'grand_total',
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status',
+                    },
+                    {
+                        data: 'transaction_status',
+                        name: 'transaction_status',
+                    },
+
+                    {
+                        data: 'buyer',
+                        name: 'buyer',
+                    },
+
+
+                ]
+            });
+        }
 
         table.on('click', 'input:checkbox', function() {
             var chkboxarray = [];
@@ -102,6 +333,41 @@
 
             console.log(chkboxarray);
         });
+
+        table_approve.on('click', 'input:checkbox', function() {
+            var chkboxarray2 = [];
+            $("#id:checked").each(function() {
+                var nilai = $(this).attr("data-id");
+                chkboxarray2.push(nilai);
+            });
+
+            if (chkboxarray2.length > 0) {
+                $("#btn-bulk-approve").removeAttr("disabled");
+            } else {
+                $("#btn-bulk-approve").attr("disabled", true);
+            }
+
+            console.log(chkboxarray2);
+        });
+
+
+        table_not_approve.on('click', 'input:checkbox', function() {
+            var chkboxarray3 = [];
+            $("#id:checked").each(function() {
+                var nilai = $(this).attr("data-id");
+                chkboxarray3.push(nilai);
+            });
+
+            if (chkboxarray3.length > 0) {
+                $("#btn-bulk-approve").removeAttr("disabled");
+            } else {
+                $("#btn-bulk-approve").attr("disabled", true);
+            }
+
+            console.log(chkboxarray3);
+        });
+
+
 
 
         $("#btn-bulk-approve").click(function() {
@@ -127,9 +393,13 @@
                         },
                         success: function(data) {
                             table.ajax.reload(null, false);
+                            table_approve.ajax.reload(null, false);
+                            table_not_approve.ajax.reload(null, false);
                             unloading2("#btn-bulk-approve");
                             $('#check-all').prop('checked', false);
-                            $("#btn-bulk-approve").attr("disabled", true); 
+                            $('#check-all-approve').prop('checked', false);
+                            $('#check-all-not-approve').prop('checked', false);
+                            $("#btn-bulk-approve").attr("disabled", true);
                         }
                     })
                 }
@@ -138,8 +408,29 @@
 
 
         $("#check-all").click(function() {
-            $('input:checkbox').not(this).prop('checked', this.checked);
+            $('#table-list input:checkbox').not(this).prop('checked', this.checked);
         });
+
+        $("#check-all-not-approve").click(function() {
+            $('#table-transaction-not-approve input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $("#check-all-approve").click(function() {
+            $('#table-transaction-approve input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+
+        // $("#check-all").click(function() {
+        //     $('#table-list input:checkbox').not(this).prop('checked', this.checked);
+        // });
+
+        // table_approve.on("click", "#check-all-approve", function(){
+        //     $('input:checkbox').not(this).prop('checked', this.checked);
+        // });
+
+        // table_not_approve.on("click", "#check-all-not-approve", function(){
+        //     $('input:checkbox').not(this).prop('checked', this.checked);
+        // });
 
 
         // $("#form-tambah").submit(function(e) {
