@@ -418,7 +418,41 @@ class QuestionController extends Controller
                 return $data->admin->name;
             })
             ->addColumn('competition_id', function ($data) {
-                return $data->competition->title ?? null . '<br>' . $data->study->pelajaran->name ?? null . '<br>' . $data->level->level_name ?? null;
+                $html = '';
+
+                if($data->competition == null) {
+                    $html .= null;
+                } else {
+                    $html .= $data->competition->title;
+
+                    if($data->study == null) {
+                        $html .= null;
+                    } else {
+                        if($data->study->pelajaran == null) {
+                            $html .= null;
+                        } else {
+                            $html .= '<br>'.$data->study->pelajaran->name;
+
+                            if($data->level == null) {
+                                $html .= null;
+
+                            } else {
+                                $html .= '<br>'.$data->level->level_name;
+                            }
+                        }
+                    }
+                }
+
+                // $html .= $data->competition == null ? null : $data->competition->title;
+                // $html .= '<br>';
+
+                // $html .= $data->study->pelajaran == null ? null : $data->study->pelajaran->name;
+                // $html .= '<br>';
+                // $html .= $data->level == null ? null : $data->level->level_name;
+
+
+
+                return $html;
             })
             ->addColumn('action', function ($data) {
                 return '
