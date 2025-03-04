@@ -25,7 +25,7 @@ class SoalController extends Controller
     public function index()
     {
         $view = 'soal';
-        $com = Competition::where('is_active', 1)->get();
+        $com = Competition::all();
         return view('backend.transaction.soal', compact('view','com'));
     }
 
