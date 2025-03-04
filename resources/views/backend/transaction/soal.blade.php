@@ -117,8 +117,8 @@
                                 <label class="form-label">Nomor Soal</label>
                                 <select id="nomor_soal" name="nomor_soal" class="form-control" required>
                                     <option value=""> - Pilih - </option>
-                                    <option value="1">Lanjut sesuai urutan yang sudah ada</option>
-                                    <option value="2">Sama seperti aslinya</option>
+                                    <option value="1">Lanjut sesuai urutan soal yang ada</option>
+                                    <option value="2">Dimulai dari no 1</option>
                                     
                                 </select>
                             </div>
