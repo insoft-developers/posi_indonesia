@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="single-form">
                                     <div class="courses-select">
-                                        <select class="register-input" name="level_id">
+                                        <select class="register-input" name="level_id" id="level_id">
                                             <option value="">Pilih akun sebagai</option>
                                             @foreach ($level as $l)
                                                 <option value="{{ $l->id }}">{{ $l->level_name }}</option>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="single-form">
                                     <div class="courses-select">
-                                        <select class="register-input" name="kelas_id">
+                                        <select class="register-input" name="kelas_id" id="kelas_id">
                                             <option value="">Pilih Kelas</option>
                                             @foreach ($kelas as $k)
                                                 <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>

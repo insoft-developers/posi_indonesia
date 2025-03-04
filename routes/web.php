@@ -198,9 +198,13 @@ Route::middleware('auth')->group(function () {
     Route::post('bonus_claim', [RiwayatController::class, 'bonus_claim'])->name('bonus.claim');
     Route::post('facility_show', [RiwayatController::class, 'facility_show'])->name('facility.show');
     Route::get('facility_file/{transactionid}/{token}', [RiwayatController::class, 'facility_file']);
+
+    
+
 });
 
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
+Route::get('get_kelas_register/{level}', [ProfileController::class, 'get_kelas']);
 
 // Route::get('raja', function () {
 //     $curl = curl_init();
