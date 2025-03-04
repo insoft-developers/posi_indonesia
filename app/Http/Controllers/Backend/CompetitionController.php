@@ -329,11 +329,14 @@ class CompetitionController extends Controller
         return DataTables::of($data)
 
             ->addColumn('level', function ($data) {
-                $level = explode(',', $data->level);
+                $levels = explode(',', $data->level);
                 $html = '<ul>';
-                foreach ($level as $l) {
-                    $level = Level::findorFail($l) ?? null;
-                    $html .= '<li>' . $level->level_name ?? null . '</li>';
+                foreach ($levels as $l) {
+                    $level = Level::find($l);
+                    if($level !== null) {
+                        $html .= '<li>' . $level->level_name . '</li>';
+                    }
+                    
                 }
                 $html .= '</ul>';
                 return $html;

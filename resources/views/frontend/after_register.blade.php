@@ -128,11 +128,18 @@
                                         </div>
                                         @php
                                         if($user->level_id != 0) {
-                                            $vel = \App\Models\Level::findorFail($user->level_id);
-                                            $kelas = \App\Models\Kelas::where('jenjang',$vel->jenjang)->get();
-                                            $jenjang = $vel->jenjang;
+                                            $vel = \App\Models\Level::find($user->level_id);
+                                            if($vel !== null) {
+                                                $kelas = \App\Models\Kelas::where('jenjang',$vel->jenjang)->get();
+                                                $jenjang = $vel->jenjang;
+                                            } else {
+                                                $jenjang = "";
+                                                $kelas = [];
+                                            }
+                                            
                                         } else {
                                             $jenjang = "";
+                                            $kelas = [];
                                         }
                                         
                                         @endphp
