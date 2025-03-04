@@ -22,18 +22,37 @@
 
         $("#filter").change(function() {
             var filter = $(this).val();
+            var filter2 = $("#filter2").val();
             var jenis = $("#data-jenis").val();
             if(jenis == 1) {
-                
-                init_table_not_approve(filter);
+                init_table_not_approve(filter, filter2);
             }
             else if(jenis == 2) {
                 
-                init_table_approve(filter);
+                init_table_approve(filter, filter2);
             }
             else if(jenis == 3) {
                 
-                init_table(filter);
+                init_table(filter, filter2);
+            }
+
+        });
+
+
+        $("#filter2").change(function() {
+            var filter2 = $(this).val();
+            var filter = $("#filter").val();
+            var jenis = $("#data-jenis").val();
+            if(jenis == 1) {
+                init_table_not_approve(filter, filter2);
+            }
+            else if(jenis == 2) {
+                
+                init_table_approve(filter, filter2);
+            }
+            else if(jenis == 3) {
+                
+                init_table(filter, filter2);
             }
 
         });
@@ -53,9 +72,9 @@
             $("#jenjang").val("");
         }
 
-        init_table("");
+        init_table("","");
         
-        function init_table(filter) {
+        function init_table(filter, filter2) {
             table.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             table = $('#table-list').DataTable({
@@ -79,6 +98,7 @@
                     url: "{{ route('pesanan.table') }}",
                     data: {
                         "filter": filter,
+                        "filter2":filter2,
                         '_token': csrf_token
                     }
                 },
@@ -141,9 +161,9 @@
         }
 
 
-        init_table_not_approve("");
+        init_table_not_approve("","");
         
-        function init_table_not_approve(filter) {
+        function init_table_not_approve(filter,filter2) {
             table_not_approve.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             table_not_approve = $('#table-transaction-not-approve').DataTable({
@@ -167,6 +187,7 @@
                     url: "{{ route('pesanan.table.not.approve') }}",
                     data: {
                         "filter": filter,
+                        "filter2":filter2,
                         '_token': csrf_token
                     }
                 },
@@ -231,9 +252,9 @@
 
 
 
-        init_table_approve("");
+        init_table_approve("","");
         
-        function init_table_approve(filter) {
+        function init_table_approve(filter,filter2) {
             table_approve.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             table_approve = $('#table-transaction-approve').DataTable({
@@ -257,6 +278,7 @@
                     url: "{{ route('pesanan.table.approve') }}",
                     data: {
                         "filter": filter,
+                        "filter2":filter2,
                         '_token': csrf_token
                     }
                 },

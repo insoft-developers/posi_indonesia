@@ -130,10 +130,9 @@
 
     #btn-bulk-approve {
         position: relative;
-        top: 75px;
+        top: 123px;
         border-radius: 5px;
-        left: 482px !important;
-        float: left;
+        float: right;
         /* z-index: 2; */
         padding: 10px 9px !important;
     }
@@ -141,8 +140,18 @@
     #filter {
         width: 14%;
         position: relative;
-        top: 73px;
+        top: 121px;
         left: 495px;
+        /* z-index: 2; */
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    #filter2 {
+        width: 14%;
+        position: relative;
+        top: 77px;
+        left: 650px;
         /* z-index: 2; */
         font-size: 14px;
         padding: 10px 12px;

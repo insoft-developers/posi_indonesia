@@ -308,6 +308,15 @@ class PesananCOntroller extends Controller
             } 
             
         }
+
+        if(! empty($input['filter2'])) {
+            $filter2 = $input['filter2'];
+            if($filter2 == 'premium') {
+                $query->where('grand_total', '>', 0);
+            } else if($filter2 == 'free') {
+                $query->where('grand_total', 0);
+            } 
+        }
         
         $data = $query->get();
         // $data = Invoice::with('user')->get();
@@ -408,6 +417,15 @@ class PesananCOntroller extends Controller
                 $query->whereYear('created_at', $lastyear);
             } 
             
+        }
+
+        if(! empty($input['filter2'])) {
+            $filter2 = $input['filter2'];
+            if($filter2 == 'premium') {
+                $query->where('grand_total', '>', 0);
+            } else if($filter2 == 'free') {
+                $query->where('grand_total', 0);
+            } 
         }
         
         $data = $query->get();
@@ -511,6 +529,15 @@ class PesananCOntroller extends Controller
                 $query->whereYear('created_at', $lastyear);
             } 
             
+        }
+
+        if(! empty($input['filter2'])) {
+            $filter2 = $input['filter2'];
+            if($filter2 == 'premium') {
+                $query->where('grand_total', '>', 0);
+            } else if($filter2 == 'free') {
+                $query->where('grand_total', 0);
+            } 
         }
         
         $data = $query->get();

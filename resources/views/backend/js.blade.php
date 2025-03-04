@@ -9,3 +9,4 @@
 @include('backend.custom_js.pesanan_js')
 @include('backend.custom_js.soal_js')
 @include('backend.custom_js.question_js')
+@include('backend.custom_js.cart_js')
