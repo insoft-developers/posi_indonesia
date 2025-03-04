@@ -20,7 +20,7 @@ class HomeController extends Controller
         $view = 'home';
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
-        
+
         return view('frontend.dashboard', compact('view', 'kompetisi'));
     }
 
@@ -57,43 +57,12 @@ class HomeController extends Controller
     public function main()
     {
         $view = 'main';
-        $kompetisi = Competition::where('is_active', 1)->get();
-        // $kompetisi = [];
-        // foreach($kom as $key) {
-        //     $level_array = explode(",", $key->level);
-        //     $level_user = Auth::user()->level_id;
-        //     $cek = array_search((String)$level_user, $level_array, true);
-        //     if($cek != false) {
-        //         $row['id'] = $key->id;
-        //         $row['title'] = $key->title;
-        //         $row['date'] = $key->date;
-        //         $row['start_registration_date'] = $key->start_registration_date;
-        //         $row['finish_registration_date'] = $key->finish_registration_date;
-        //         $row['start_registration_time'] = $key->start_registration_time;
-        //         $row['finish_registration_time'] = $key->finish_registration_time;
-        //         $row['type'] = $key->type;
-        //         $row['price'] = $key->price;
-        //         $row['image'] = $key->image;
-        //         $row['is_active'] = $key->is_active;
-        //         $row['level'] = $key->level;
-        //         $row['created_at'] = $key->created_at;
-        //         $row['updated_at'] = $key->updated_at;
-        //         $row['province_code'] = $key->province_code;
-        //         $row['city_code'] = $key->city_code;
-        //         $row['district_code'] = $key->district_code;
-        //         $row['province_name'] = $key->province_name;
-        //         $row['city_name'] = $key->city_name;
-        //         $row['district_name'] = $key->district_name;
-        //         $row['agama'] = $key->agama;
-        //         $row['sekolah'] = $key->sekolah;
+        $sekarang = date('Y-m-d');
+        $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->orderBy('date', 'asc')->get();
 
-        //         array_push($kompetisi, $row);
-        //     }
-            
-        // }
+        $kompetisi2 = Competition::where('is_active', 1)->where('date', '<', $sekarang)->orderBy('date', 'desc')->get();
 
-
-        return view('frontend.main', compact('kompetisi', 'view'));
+        return view('frontend.main', compact('kompetisi', 'kompetisi2', 'view'));
     }
 
     public function get_competition_data(Request $request)
@@ -228,7 +197,7 @@ class HomeController extends Controller
         $cart = Cart::findorFail($input['id']);
 
         $product = Product::findorFail($cart->product_id);
-        
+
         $price = $cart->unit_price;
 
         $cart->quantity = $input['quantity'];
@@ -249,7 +218,7 @@ class HomeController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => 'https://pro.rajaongkir.com/api/city?id=&province='.$input['prov'],
+            CURLOPT_URL => 'https://pro.rajaongkir.com/api/city?id=&province=' . $input['prov'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -272,22 +241,20 @@ class HomeController extends Controller
         $data = $ro->rajaongkir->results;
 
         return response()->json([
-            "success" => true,
-            "data" => $data
+            'success' => true,
+            'data' => $data,
         ]);
     }
-
 
     public function ro_district(Request $request)
     {
         $input = $request->all();
         $kota = $input['kota'];
-      
 
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city='.$kota.'',
+            CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city=' . $kota . '',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -310,11 +277,10 @@ class HomeController extends Controller
         $data = $ro->rajaongkir->results;
 
         return response()->json([
-            "success" => true,
-            "data" => $data
+            'success' => true,
+            'data' => $data,
         ]);
     }
-
 
     public function ro_cost(Request $request)
     {
@@ -325,16 +291,16 @@ class HomeController extends Controller
         $kurir = $input['kurir'];
 
         $berat = Cart::where('buyer', Auth::user()->id)
-            ->where('is_fisik', 1)->sum('berat');
-        
-        
+            ->where('is_fisik', 1)
+            ->sum('berat');
+
         $field = [
-            "origin" => $asal,
-            "originType" => 'subdistrict',
-            "destination" => $kecamatan,
-            "destinationType" => "subdistrict",
-            "weight" => $berat == null ? 0 : (int) $berat,
-            "courier" => $kurir
+            'origin' => $asal,
+            'originType' => 'subdistrict',
+            'destination' => $kecamatan,
+            'destinationType' => 'subdistrict',
+            'weight' => $berat == null ? 0 : (int) $berat,
+            'courier' => $kurir,
         ];
 
         $curl = curl_init();
@@ -342,16 +308,14 @@ class HomeController extends Controller
         curl_setopt_array($curl, [
             CURLOPT_URL => 'https://pro.rajaongkir.com/api/cost',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '', 
+            CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
-            CURLOPT_POSTFIELDS =>  http_build_query($field)
+            CURLOPT_POSTFIELDS => http_build_query($field),
         ]);
-
-      
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
@@ -366,8 +330,8 @@ class HomeController extends Controller
         $data = $ro->rajaongkir->results;
 
         return response()->json([
-            "success" => true,
-            "data" => $data
+            'success' => true,
+            'data' => $data,
         ]);
     }
 }

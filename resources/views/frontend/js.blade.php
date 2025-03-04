@@ -432,6 +432,8 @@
                 form.append("id", selected_studies);
                 form.append("compete_id", selected_competition);
                 form.append("premium", 0);
+                $("#btn-daftar-free").text("Processing....");
+                $("#btn-daftar-free").attr("disabled", true);
                 $.ajax({
                     url: "{{ url('add_free_invoice') }}",
                     type: "POST",
@@ -439,6 +441,8 @@
                     processData: false,
                     data: form,
                     success: function(data) {
+                        $("#btn-daftar-free").text("Daftar");
+                        $("#btn-daftar-free").removeAttr("disabled");
                         window.location = "{{ url('transaction') }}";
                     }
                 });
@@ -2411,4 +2415,25 @@
             }
         }
     </script>
+@endif
+
+@if($view == 'register')
+<script>
+    $("#level_id").change(function(){
+        var level = $(this).val();
+        $.ajax({
+            url: "{{ url('get_kelas_register') }}"+"/"+level,
+            type: "GET",
+            success: function(data) {
+                console.log(data);
+                var html = '';
+                html += '<option value=""> - Silahkan Pilih Kelas - </option>';
+                for(var i=0; i<data.length; i++) {
+                    html += '<option value="'+data[i].id+'">'+data[i].nama_kelas+'</option>';
+                }
+                $("#kelas_id").html(html);
+            }
+        });
+    });
+</script>
 @endif
