@@ -29,11 +29,16 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
-                                <th scope="col">User</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Pemesan</th>
                                 <th scope="col">Kompetisi</th>
                                 <th scope="col">Bidang</th>
                                 <th scope="col">Produk</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">User</th>
+                               
                             </tr>
                         </thead>
                         <tbody></tbody>

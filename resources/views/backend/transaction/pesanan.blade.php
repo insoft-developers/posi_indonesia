@@ -38,6 +38,14 @@
                            
                         </select>
                     </div>
+                    <div class="col-12">
+                        
+                        <select id="filter2" name="filter2" class="form-control">
+                            <option value="">Semua Invoice</option>
+                            <option value="premium">Berbayar</option>
+                            <option value="free">Gratis</option>
+                        </select>
+                    </div>
            
         
             </div>

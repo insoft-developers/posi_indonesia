@@ -32,4 +32,9 @@ class Cart extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    public function pemesan(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer', 'id');
+    }
 }
