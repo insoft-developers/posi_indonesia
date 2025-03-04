@@ -134,10 +134,15 @@ class CompetitionController extends Controller
             $levels = explode(",", $com->level);
             $rows = [];
             foreach($levels as $level) {
-                $lvl = Level::findorFail($level);
-                $row['id'] = $lvl->id;
-                $row['level_name'] = $lvl->level_name;
-                array_push($rows, $row);
+                $lvl = Level::find($level);
+                if($lvl === null) {
+                   
+                } else {
+                    $row['id'] = $lvl->id;
+                    $row['level_name'] = $lvl->level_name;
+                    array_push($rows, $row);
+                }
+                
             }
     
             $data['html'] = $html;
@@ -176,8 +181,20 @@ class CompetitionController extends Controller
                 ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a></td>';
-            $html .= '<td>' . $d->competition->title . '</td>';
-            $html .= '<td>' . $d->level->level_name . '</td>';
+            if($d->competition == null) {
+                $html .= '<td></td>';
+            } else {
+                $html .= '<td>' . $d->competition->title . '</td>';
+            }
+
+            if($d->level == null) {
+                $html .= '<td></td>';
+            } else {
+                $html .= '<td></td>';
+            }
+
+            
+            
             $html .= '<td>' . $d->pelajaran->name . '</td>';
             $html .= '<td class="text-center">' . date('d-m-Y', strtotime($d->start_date)) . '</td>';
             $html .= '<td class="text-center">' . $d->start_time . '</td>';
@@ -196,10 +213,15 @@ class CompetitionController extends Controller
         $levels = explode(",", $com->level);
         $rows = [];
         foreach($levels as $level) {
-            $lvl = Level::findorFail($level);
-            $row['id'] = $lvl->id;
+            $lvl = Level::find($level);
+            if($lvl === null) {
+
+            } else {
+                $row['id'] = $lvl->id;
             $row['level_name'] = $lvl->level_name;
             array_push($rows, $row);
+            }
+            
         }
 
         $data['html'] = $html;
