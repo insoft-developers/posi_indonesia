@@ -58,6 +58,10 @@
                     name: 'level_id',
                 },
                 {
+                    data: 'jumlah_soal',
+                    name: 'jumlah_soal',
+                },
+                {
                     data: 'admin_id',
                     name: 'admin_id',
                 },
@@ -201,6 +205,52 @@
 
         }
 
+
+        function copyData(id) {
+            $(".modal-title").text("Copy Soal");
+            $.ajax({
+                url: "{{ url('posiadmin/copydata') }}"+"/"+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    $("#modal-copy").modal("show");
+                    var html = '';
+                    html +='<option value=""> - Pilih Tujuan Copy Soal - </option>';
+                    for(var i=0; i<data.length; i++) {
+                        html +='<option value="'+data[i].id+'">'+data[i].competition.title+'</option>';
+                    }
+                    $("#destination").html(html);
+                    $("#soal_id").val(id);
+
+                }
+            });
+        }
+
+        $("#btn-copy-data").click(function(){
+            var dest_id = $("#destination").val();
+            var from_id = $("#soal_id").val();
+            var nomor_soal = $("#nomor_soal").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $(this).text("Processing....");
+            $(this).attr("disabled", true);
+            $.ajax({
+                url: "{{ url('posiadmin/copynow') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "nomor_soal":nomor_soal,
+                    "from":from_id,
+                    "dest":dest_id,
+                    "_token":csrf_token
+                },
+                success: function(data) {
+                    $("#btn-copy-data").text("Copy Data Now");
+                    $("#btn-copy-data").removeAttr("disabled");
+                    table.ajax.reload(null, false);
+                    $("#modal-copy").modal("hide");
+                }
+            })
+        });
         
     </script>
 @endif
