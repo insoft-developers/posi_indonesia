@@ -67,6 +67,7 @@
                                 <option value="SMP">SMP</option>
                                 <option value="SMA">SMA</option>
                                 <option value="MHS">MHS</option>
+                                <option value="GURU">GURU</option>
                             </select>
                         </div>
                     </div>
