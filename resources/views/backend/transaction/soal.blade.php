@@ -32,6 +32,7 @@
                                 <th scope="col">Kompetisi</th>
                                 <th scope="col">Bidang Studi</th>
                                 <th scope="col">Jenjang</th>
+                                <th scope="col">Jumlah Soal</th>
                                 <th scope="col">Admin</th>
                             </tr>
                         </thead>
@@ -86,6 +87,47 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button id="btn-simpan-data" type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-copy">
+        <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="hidden" id="soal_id" name="soal_id">
+                            
+                            <div class="col-12">
+                                <label class="form-label">Copy Soal Ke</label>
+                                <select id="destination" name="destination" class="form-control" required>
+                                    <option value=""> - Pilih - </option>
+                                    
+                                </select>
+                            </div>
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Nomor Soal</label>
+                                <select id="nomor_soal" name="nomor_soal" class="form-control" required>
+                                    <option value=""> - Pilih - </option>
+                                    <option value="1">Lanjut sesuai urutan yang sudah ada</option>
+                                    <option value="2">Sama seperti aslinya</option>
+                                    
+                                </select>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="btn-copy-data" type="button" class="btn btn-success">Copy Data Now</button>
                     </div>
                 </div>
             </form>

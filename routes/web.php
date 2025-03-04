@@ -108,6 +108,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/soal-table', [SoalController::class, 'soal_table'])->name('soal.table');
     Route::post('/get_level', [SoalController::class, 'get_level']);
     Route::post('/get_study', [SoalController::class, 'get_study']);
+    Route::get('/copydata/{id}', [SoalController::class, 'copy_data']);
+    Route::post('/copynow', [SoalController::class, 'copynow']);
 
 
     Route::resource('/ujian', QuestionController::class);
@@ -206,99 +208,5 @@ Route::middleware('auth')->group(function () {
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
 Route::get('get_kelas_register/{level}', [ProfileController::class, 'get_kelas']);
 
-// Route::get('raja', function () {
-//     $curl = curl_init();
-
-//     curl_setopt_array($curl, [
-//         CURLOPT_URL => 'https://pro.rajaongkir.com/api/subdistrict?city=112',
-//         CURLOPT_RETURNTRANSFER => true,
-//         CURLOPT_ENCODING => '',
-//         CURLOPT_MAXREDIRS => 10,
-//         CURLOPT_TIMEOUT => 30,
-//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//         CURLOPT_CUSTOMREQUEST => 'GET',
-//         CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
-//     ]);
-
-//     $response = curl_exec($curl);
-//     $err = curl_error($curl);
-
-//     curl_close($curl);
-
-//     if ($err) {
-//         echo 'cURL Error #:' . $err;
-//     } else {
-//         echo $response;
-//     }
-// });
-
-// Route::get('hitung_juara/{com}/{study}', [JuaraController::class, 'hitung']);
-
-// Route::get('clear_number', function(){
-//     session(['nomor'=> 0]);
-// });
-
-// Route::get('send_mail', function(){
-//     $email = "irdn.software@gmail.com";
-//     $user = User::where('email', $email)->first();
-
-//     $details = [
-//         'nama' => $user->name,
-//         'email' => $email,
-//         'passcode' => '123345'
-//     ];
-
-//     Mail::to($email)->send(new RegisMail($details));
-// });
-
-// Route::get('data_sekolah/{page}', function () {
-//     // $payload = json_encode($data);
-
-//     $page = Request::segment(2);
-
-//     $headers = ['Content-Type: application/json'];
-
-//     $ch = curl_init();
-//     curl_setopt($ch, CURLOPT_URL, 'https://api-sekolah-indonesia.vercel.app/sekolah?kab_kota=070100&page=1&perPage=1387');
-//     curl_setopt($ch, CURLOPT_POST, false);
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//     // curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-//     curl_setopt($ch, CURLOPT_VERBOSE, true);
-//     $response = curl_exec($ch);
-//     $err = curl_error($ch);
-//     curl_close($ch);
-
-//     if ($err) {
-//         return response()->json(
-//             [
-//                 'message' => 'Curl Error ' . $err,
-//             ],
-//             500,
-//         );
-//     } else {
-//         $data = json_decode($response);
-//         $sekolah = $data->dataSekolah;
-//         // return $sekolah[0]->kode_prop;
-
-//         foreach ($sekolah as $index => $s) {
-//             $adm = new Administrasi();
-//             $adm->province_code = $s->kode_prop;
-//             $adm->province_name = $s->propinsi;
-//             $adm->regency_code = $s->kode_kab_kota;
-//             $adm->regency_name = $s->kabupaten_kota;
-//             $adm->district_code = $s->kode_kec;
-//             $adm->district_name = $s->kecamatan;
-//             $adm->nspn = $s->npsn;
-//             $adm->school_name = $s->sekolah;
-//             $adm->bentuk = $s->bentuk;
-//             $adm->page = $index;
-//             $adm->save();
-
-//             echo $index . '/';
-//         }
-//     }
-// });
 
 require __DIR__ . '/auth.php';

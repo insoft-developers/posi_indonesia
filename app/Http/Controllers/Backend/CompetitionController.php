@@ -28,7 +28,7 @@ class CompetitionController extends Controller
         $province = Province::groupBy('province_code')->get();
         $pelajaran = Pelajaran::all();
         $product = Product::where('is_active', 1)->get();
-        return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran','product'));
+        return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran', 'product'));
     }
 
     /**
@@ -94,14 +94,13 @@ class CompetitionController extends Controller
         $input['level'] = implode(',', $level);
 
         $com = Competition::create($input);
-        if($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
+        if ($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
             CompetitionBonusProduct::create([
-                "competition_id" => $com->id,
-                "free_register_product" => $request->free_bonus_product == null ? null : implode(",", $input['free_bonus_product']),
-                "premium_register_product" => $request->premium_bonus_product == null ? null : implode(",", $input['premium_bonus_product']),
-            ]);   
+                'competition_id' => $com->id,
+                'free_register_product' => $request->free_bonus_product == null ? null : implode(',', $input['free_bonus_product']),
+                'premium_register_product' => $request->premium_bonus_product == null ? null : implode(',', $input['premium_bonus_product']),
+            ]);
         }
-
 
         if ($sekolah == 'lainnya') {
             Sekolah::create([
@@ -129,22 +128,20 @@ class CompetitionController extends Controller
         if ($data->count() <= 0) {
             $html = '';
             $html .= '<div style="text-align:center;">Belum ada data bidang studi</div>';
-            
+
             $com = Competition::findorFail($id);
-            $levels = explode(",", $com->level);
+            $levels = explode(',', $com->level);
             $rows = [];
-            foreach($levels as $level) {
+            foreach ($levels as $level) {
                 $lvl = Level::find($level);
-                if($lvl === null) {
-                   
+                if ($lvl === null) {
                 } else {
                     $row['id'] = $lvl->id;
                     $row['level_name'] = $lvl->level_name;
                     array_push($rows, $row);
                 }
-                
             }
-    
+
             $data['html'] = $html;
             $data['level'] = $rows;
             return $data;
@@ -181,20 +178,18 @@ class CompetitionController extends Controller
                 ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a></td>';
-            if($d->competition == null) {
+            if ($d->competition == null) {
                 $html .= '<td></td>';
             } else {
                 $html .= '<td>' . $d->competition->title . '</td>';
             }
 
-            if($d->level == null) {
+            if ($d->level == null) {
                 $html .= '<td></td>';
             } else {
                 $html .= '<td></td>';
             }
 
-            
-            
             $html .= '<td>' . $d->pelajaran->name . '</td>';
             $html .= '<td class="text-center">' . date('d-m-Y', strtotime($d->start_date)) . '</td>';
             $html .= '<td class="text-center">' . $d->start_time . '</td>';
@@ -205,23 +200,18 @@ class CompetitionController extends Controller
         $html .= '</tbody>';
         $html .= '</table>';
 
-
         $com = Competition::findorFail($id);
 
-
-        
-        $levels = explode(",", $com->level);
+        $levels = explode(',', $com->level);
         $rows = [];
-        foreach($levels as $level) {
+        foreach ($levels as $level) {
             $lvl = Level::find($level);
-            if($lvl === null) {
-
+            if ($lvl === null) {
             } else {
                 $row['id'] = $lvl->id;
-            $row['level_name'] = $lvl->level_name;
-            array_push($rows, $row);
+                $row['level_name'] = $lvl->level_name;
+                array_push($rows, $row);
             }
-            
         }
 
         $data['html'] = $html;
@@ -305,18 +295,19 @@ class CompetitionController extends Controller
         $input['level'] = implode(',', $level);
         $com->update($input);
 
-
-        if($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
-            CompetitionBonusProduct::updateOrCreate(["competition_id" => $id],[
-                "free_register_product" => $request->free_bonus_product == null ? null : implode(",", $input['free_bonus_product']),
-                "premium_register_product" => $request->premium_bonus_product == null ? null : implode(",", $input['premium_bonus_product']),
-            ]);   
+        if ($request->premium_bonus_product !== null || $request->free_bonus_product !== null) {
+            CompetitionBonusProduct::updateOrCreate(
+                ['competition_id' => $id],
+                [
+                    'free_register_product' => $request->free_bonus_product == null ? null : implode(',', $input['free_bonus_product']),
+                    'premium_register_product' => $request->premium_bonus_product == null ? null : implode(',', $input['premium_bonus_product']),
+                ],
+            );
         }
 
-        Study::where('competition_id', $id)
-            ->update([
-                "start_date" => $input['date']
-            ]);
+        Study::where('competition_id', $id)->update([
+            'start_date' => $input['date'],
+        ]);
 
         if ($sekolah == 'lainnya') {
             foreach ($jenjang as $vel) {
@@ -355,10 +346,9 @@ class CompetitionController extends Controller
                 $html = '<ul>';
                 foreach ($levels as $l) {
                     $level = Level::find($l);
-                    if($level !== null) {
+                    if ($level !== null) {
                         $html .= '<li>' . $level->level_name . '</li>';
                     }
-                    
                 }
                 $html .= '</ul>';
                 return $html;
@@ -463,7 +453,7 @@ class CompetitionController extends Controller
             'start_time' => $input['s-start-time'],
             'finish_time' => $input['s-finish-time'],
             'forum_link' => $input['s-forum-link'],
-            'status' => 1
+            'status' => 1,
         ]);
 
         return response()->json([
@@ -488,7 +478,6 @@ class CompetitionController extends Controller
             'start_time' => $input['s-start-time'],
             'finish_time' => $input['s-finish-time'],
             'forum_link' => $input['s-forum-link'],
-            
         ]);
 
         return response()->json([
