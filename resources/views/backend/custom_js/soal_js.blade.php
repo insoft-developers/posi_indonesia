@@ -217,7 +217,7 @@
                     var html = '';
                     html +='<option value=""> - Pilih Tujuan Copy Soal - </option>';
                     for(var i=0; i<data.length; i++) {
-                        html +='<option value="'+data[i].id+'">'+data[i].competition.title+'</option>';
+                        html +='<option value="'+data[i].id+'">'+data[i].competition.title+' - '+data[i].study.pelajaran.name+' - '+data[i].level.level_name+'</option>';
                     }
                     $("#destination").html(html);
                     $("#soal_id").val(id);
