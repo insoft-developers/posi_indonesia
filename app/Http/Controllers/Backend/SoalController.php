@@ -161,7 +161,7 @@ class SoalController extends Controller
 
         return DataTables::of($data)
             ->addColumn('competition_id', function($data){
-                return $data->competition->title;
+                return $data->competition == null ? null : $data->competition->title;
             })
             ->addColumn('study_id', function($data){
                 return $data->study->pelajaran->name;
