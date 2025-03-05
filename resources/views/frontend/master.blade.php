@@ -70,19 +70,22 @@
 
                     <!-- Header Top Wrapper Start -->
                     <div class="header-top-wrapper">
-
+                        @php
+                        $setting = \App\Models\Setting::find(1);
+                        @endphp
                         <!-- Header Top Left Start -->
                         <div class="header-top-left">
-                            <p>Discount Selama <a href="#">Bulan Ramadhan</a></p>
+                            <p>{{ $setting->header_note }}</p>
                         </div>
                         <!-- Header Top Left End -->
 
                         <!-- Header Top Medal Start -->
+                       
                         <div class="header-top-medal">
                             <div class="top-info">
-                                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">(+62) 852-7622-2453</a>
+                                <p><i class="flaticon-phone-call"></i> <a href="tel:{{ $setting->admin_wa }}">{{ $setting->admin_wa }}</a>
                                 </p>
-                                <p><i class="flaticon-email"></i> <a href="mailto:address@gmail.com">info@posi.id</a>
+                                <p><i class="flaticon-email"></i> <a href="mailto:{{ $setting->email }}">{{ $setting->email }}</a>
                                 </p>
                             </div>
                         </div>
