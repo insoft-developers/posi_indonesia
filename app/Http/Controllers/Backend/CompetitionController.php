@@ -187,7 +187,7 @@ class CompetitionController extends Controller
             if ($d->level == null) {
                 $html .= '<td></td>';
             } else {
-                $html .= '<td></td>';
+                $html .= '<td>'.$d->level->level_name.'</td>';
             }
 
             $html .= '<td>' . $d->pelajaran->name . '</td>';
