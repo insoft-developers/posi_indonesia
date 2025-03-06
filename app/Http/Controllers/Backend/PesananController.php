@@ -337,10 +337,18 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                return $data->user->name ?? null;
+                if($data->user !== null) {
+                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('buyer', function ($data) {
-                return $data->pemesan->name ?? null;
+                if($data->pemesan !== null) {
+                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
@@ -380,7 +388,7 @@ class PesananCOntroller extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
             ->make(true);
     }
@@ -433,6 +441,7 @@ class PesananCOntroller extends Controller
         // $data = Invoice::with('user')->where('payment_status', 1)->get();
 
         return DataTables::of($data)
+            
             ->addColumn('invoice', function ($data) {
                 if ($data->total_amount > 0) {
                     return $data->invoice . '<br>(Berbayar)';
@@ -448,10 +457,18 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                return $data->user->name ?? null;
+                if($data->user !== null) {
+                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('buyer', function ($data) {
-                return $data->pemesan->name ?? null;
+                if($data->pemesan !== null) {
+                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
@@ -491,7 +508,7 @@ class PesananCOntroller extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
             ->make(true);
     }
@@ -558,10 +575,18 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                return $data->user->name ?? null;
+                if($data->user !== null) {
+                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('buyer', function ($data) {
-                return $data->pemesan->name ?? null;
+                if($data->pemesan !== null) {
+                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
+                } else {
+                    return '';
+                }
             })
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
@@ -601,7 +626,7 @@ class PesananCOntroller extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
             ->make(true);
     }

@@ -15,7 +15,7 @@
 
         $nomor = session('nomor') ?? 0;
     @endphp
-    <div class="section">
+    <div class="section ujian-sekarang">
         <input type="hidden" id="tanggal-ujian" value="{{ $session->competition->date }}">
         <input type="hidden" id="jam-selesai" value="{{ $session->study->finish_time }}">
         <input type="hidden" id="study-id" value="{{ $session->study_id }}">
@@ -29,7 +29,7 @@
 
 
                 </div>
-                <div class="row" id="soal-container">
+                <div class="row" id="soal-container"  onmousedown='return false;' onselectstart='return false;'>
                     <div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">
                         <div id="content-number" class="content-number">
                             <div class="row" id="isi-nomor">
@@ -38,8 +38,18 @@
                         </div>
                        
                     </div>
-                    <div class="col-md-10 col-sm-10 col-lg-10 ">
-                        <div class="soal-wrapper">
+                    <div class="col-md-10 col-sm-10 col-lg-10">
+                        @php
+                            if($soal[$nomor]->orientation == 2) {
+                                $style = "text-align:center;";
+                            } else if($soal[$nomor]->orientation == 1) {
+                                $style = "text-align:right;";
+                            } else {
+                                $style = "text-align:left;";
+                            }
+
+                        @endphp
+                        <div class="soal-wrapper" style="{{ $style }}">
                             {{-- <a class="lihat-soal" onclick="lihat_soal()" href="javascript:void(0)"><i class="icofont-listing-box"></i> lihat nomor
                                 soal</a> --}}
                             <p class="no-soal">Soal No. <?= $soal[$nomor]->question_number ?> dari <?= $soal->count() ?></p>

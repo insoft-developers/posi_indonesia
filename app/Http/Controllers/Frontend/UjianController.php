@@ -16,6 +16,7 @@ class UjianController extends Controller
     {
         $view = 'ujian';
         $session = ExamSession::with('competition', 'study.pelajaran')->where('token', $token)->first();
+        
 
         if($session->is_finish == 1) {
             return redirect()->to('jadwal');
@@ -165,10 +166,18 @@ class UjianController extends Controller
             'session_id' => $session->id,
             'id_soal' => $input['id_soal'],
             'nomor_soal' => $input['no_soal'],
-            'jawaban_soal' => $pilihan,
-            'hasil_jawaban' => $hasil,
-            'score' => $score,
+            // 'jawaban_soal' => $pilihan,
+            // 'hasil_jawaban' => $hasil,
+            // 'score' => $score,
         ];
+
+        if($pilihan !== 'f') {
+            $data_insert['jawaban_soal'] = $pilihan;
+            $data_insert['hasil_jawaban'] = $hasil;
+            $data_insert['score'] = $score;
+        }
+
+
 
         UserAnswer::updateOrCreate(['session_id' => $session->id, 'id_soal' => $input['id_soal']], $data_insert);
 

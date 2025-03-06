@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $view = 'product';
         $competition = Competition::where('is_active', 1)->get();
-        $composition = Product::where('is_active', 1)->where('is_combo', '!=', 1)->get();
+        $composition = Product::where('is_combo', '!=', 1)->get();
         return view('backend.masterdata.product', compact('view', 'competition', 'composition'));
     }
 

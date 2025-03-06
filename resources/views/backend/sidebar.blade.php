@@ -81,6 +81,9 @@
                   <li>
                     <a href="{{ url('posiadmin/user') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Peserta</a>
                   </li>
+                  <li>
+                    <a href="{{ url('posiadmin/collective') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pendaftaran</a>
+                  </li>
                  
                 </ul>
               </li>

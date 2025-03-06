@@ -356,5 +356,23 @@
                 $('.lainnya-container').slideUp(50);
             }
         });
+
+        function reset(id) {
+            
+            var p = confirm('Yakin reset password..?');
+            if(p === true) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ url('posiadmin/reset_password') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {"id":id, "_token":csrf_token},
+                    success: function(data) {
+                        table.ajax.reload(null, false);
+                        alert('Sukses reset password');
+                    }
+                });
+            }
+        }
     </script>
 @endif

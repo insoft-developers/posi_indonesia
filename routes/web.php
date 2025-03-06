@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\JuaraController;
 use App\Http\Controllers\Backend\CartController;
+use App\Http\Controllers\Backend\CollectiveController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\KelasController;
@@ -92,6 +93,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/list_kabupaten', [UserController::class, 'list_kabupaten']);
     Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan']);
     Route::post('/list_sekolah', [UserController::class, 'list_sekolah']);
+    Route::post('/reset_password', [UserController::class, 'reset_password']);
 
 
     Route::resource('/pesanan', PesananController::class);
@@ -118,6 +120,16 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/cart', CartController::class);
     Route::get('/cart_table', [CartController::class, 'cart_table'])->name('cart.table');
+
+    Route::resource('/collective', CollectiveController::class);
+    Route::get('/collective_table', [CollectiveController::class, 'collective_table'])->name('collective.table');
+    Route::get('/collective_study_table/{id}', [CollectiveController::class, 'collective_study_table']);
+    Route::get('/collective_list_table/{id}', [CollectiveController::class, 'collective_list_table']);
+    Route::post('/get_daftar', [CollectiveController::class, 'get_daftar']);
+    Route::get('/download_template_pendaftaran', [CollectiveController::class, 'download_template_pendaftaran']);
+    Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload');
+    Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list']);
+   
     
 
 
