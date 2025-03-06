@@ -1380,6 +1380,7 @@
 
 @if ($view == 'ujian')
     <script>
+
         let active = "<?= $nomor ?>";
         let selected_answer = "<?= $selected ?>";
         console.log(active);
@@ -1511,6 +1512,19 @@
 
                     if (data.success) {
                         var av = data.active;
+
+                        var ori = '';
+                        if(data.data[av].orientation == 1) {
+                            ori = 'text-align:right;';
+                        }
+                        else if(data.data[av].orientation == 2) {
+                            ori = 'text-align:center;';
+                        }
+
+                        else {
+                            ori = 'text-align:left;';
+                        }
+
                         var HTML = '';
                         HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
                         HTML += '<div id="content-number" class="content-number">';
@@ -1521,7 +1535,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper">';
+                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
@@ -1718,6 +1732,17 @@
 
                     if (data.success) {
                         var av = data.active;
+                        var ori = '';
+                        if(data.data[av].orientation == 1) {
+                            ori = 'text-align:right;';
+                        }
+                        else if(data.data[av].orientation == 2) {
+                            ori = 'text-align:center;';
+                        }
+
+                        else {
+                            ori = 'text-align:left;';
+                        }
                         var HTML = '';
                         HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
                         HTML += '<div id="content-number" class="content-number">';
@@ -1728,7 +1753,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper">';
+                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
@@ -1917,6 +1942,18 @@
 
                     if (data.success) {
                         var av = data.active;
+                        var ori = '';
+                        if(data.data[av].orientation == 1) {
+                            ori = 'text-align:right;';
+                        }
+                        else if(data.data[av].orientation == 2) {
+                            ori = 'text-align:center;';
+                        }
+
+                        else {
+                            ori = 'text-align:left;';
+                        }
+
                         var HTML = '';
                         HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
                         HTML += '<div id="content-number" class="content-number">';
@@ -1927,7 +1964,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper">';
+                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
@@ -2156,6 +2193,19 @@
                     if (data.success) {
                         $("#modal-soal").modal("hide");
                         var av = data.active;
+
+                        var ori = '';
+                        if(data.data[av].orientation == 1) {
+                            ori = 'text-align:right;';
+                        }
+                        else if(data.data[av].orientation == 2) {
+                            ori = 'text-align:center;';
+                        }
+
+                        else {
+                            ori = 'text-align:left;';
+                        }
+
                         var HTML = '';
                         HTML += '<div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">';
                         HTML += '<div id="content-number" class="content-number">';
@@ -2166,7 +2216,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper">';
+                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';

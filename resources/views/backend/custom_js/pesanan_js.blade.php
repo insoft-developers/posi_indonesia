@@ -538,6 +538,8 @@
                     },
                     success: function(data) {
                         table.ajax.reload(null, false);
+                        table_approve.ajax.reload(null, false);
+                        table_not_approve.ajax.reload(null, false);
                     }
                 })
             }
@@ -585,6 +587,8 @@
                     },
                     success: function(data) {
                         table.ajax.reload(null, false);
+                        table_approve.ajax.reload(null, false);
+                        table_not_approve.ajax.reload(null, false);
                         $("#modal-detail").modal("hide");
                     }
                 })

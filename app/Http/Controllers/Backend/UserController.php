@@ -118,6 +118,18 @@ class UserController extends Controller
         //
     }
 
+    public function reset_password(Request $request) {
+        $input = $request->all();
+        $data = User::where('id', $input['id'])->update([
+            "password" => bcrypt("posijuara"),
+            "google_id" => null
+        ]);
+
+        return $data;
+
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -324,6 +336,11 @@ class UserController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '
+                <a title="Reset Password" onclick="reset(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:lock-reset-sharp"></iconify-icon>
+                </a>
                 <a onclick="editData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">

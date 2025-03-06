@@ -38,4 +38,9 @@ class Study extends Model
     {
         return $this->hasOne(Transaction::class, 'study_id','id');
     }
+
+    public function trans(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'study_id','id');
+    }
 }

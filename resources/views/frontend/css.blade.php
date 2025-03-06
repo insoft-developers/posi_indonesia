@@ -1,8 +1,15 @@
 <style>
-    .gambar-kompetisi{
-        height: 280px;
-    object-fit: cover;
+    @media print {
+        .ujian-sekarang {
+            display: none !important;
+        }
     }
+
+    .gambar-kompetisi {
+        height: 280px;
+        object-fit: cover;
+    }
+
     .item-item {
         background-color: white !important;
         opacity: 0.98;
@@ -704,7 +711,7 @@
         margin-left: -14px;
         margin-top: -15px;
         width: 210px;
-    object-fit: cover;
+        object-fit: cover;
     }
 
     .jadwal-title {
