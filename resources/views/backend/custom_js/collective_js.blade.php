@@ -35,6 +35,10 @@
                     name: 'title',
                 },
                 {
+                    data: 'userid',
+                    name: 'userid',
+                },
+                {
                     data: 'study_id',
                     name: 'study_id',
                     orderable: false,

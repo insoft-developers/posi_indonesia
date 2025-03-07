@@ -313,7 +313,7 @@
                                     '<td width="15%"><img class="image-pendaftaran" src="{{ asset('template/frontend/assets/umum/study.png') }}"></td>';
                                 html +=
                                     '<td width="*" style="vertical-align:middle;"><span class="detail-name">' +
-                                    details[i].pelajaran.name +'</span><br><span class="detail-date">' +
+                                    details[i].pelajaran.name + '</span><br><span class="detail-date">' +
                                     formatDate(new Date(details[i].start_date), 'EEEE, dd MMMM yyyy') +
                                     '</span><br><span class="detail-time">' + details[i].start_time.substring(0,
                                         5) +
@@ -336,15 +336,13 @@
                     $("#modal-daftar-list-content").html(html);
 
                     $("#modal-daftar-list").modal("show");
-                    if(data.data.type == 1) {
+                    if (data.data.type == 1) {
                         $("#btn_simpan_gratis").show();
                         $("#btn_simpan_premium").show();
-                    }
-                    else if(data.data.type == 2) {
+                    } else if (data.data.type == 2) {
                         $("#btn_simpan_gratis").hide();
                         $("#btn_simpan_premium").show();
-                    }
-                    else if(data.data.type == 3) {
+                    } else if (data.data.type == 3) {
                         $("#btn_simpan_gratis").show();
                         $("#btn_simpan_premium").hide();
                     }
@@ -860,7 +858,7 @@
             var p = $(this).val();
             var tingkat = $("#tingkat").val();
             var level = $("#level_id").val();
-            var kirim = level+'_'+tingkat;
+            var kirim = level + '_' + tingkat;
             var level_array = [kirim];
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
@@ -868,7 +866,11 @@
                 url: "{{ url('get_sekolah_by_kecamatan_id') }}",
                 type: "POST",
                 dataType: "JSON",
-                data: {"level":level_array, "kecamatan":p, "_token":csrf_token},
+                data: {
+                    "level": level_array,
+                    "kecamatan": p,
+                    "_token": csrf_token
+                },
                 success: function(data) {
                     var html = '';
                     html += '<option value=""> - Pilih Sekolah - </option>';
@@ -883,9 +885,9 @@
             })
         });
 
-        $("#level_id").change(function(){
+        $("#level_id").change(function() {
             var level_id = $(this).val();
-            
+
             $.ajax({
                 url: "{{ url('get_kelas_by_jenjang') }}" + "/" + level_id,
                 type: "GET",
@@ -899,7 +901,7 @@
                     }
                     $("#kelas_id").html(html);
                     $("#tingkat").val(data[0].jenjang);
-                   
+
                 }
             })
         });
@@ -1379,8 +1381,30 @@
 @endif
 
 @if ($view == 'ujian')
-    <script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(window).keyup(function(e) {
+                if (e.keyCode == 44) {
+                    $("body").hide();
+                }
 
+            });
+
+
+            document.addEventListener('visibilitychange', function(event) {
+                if (document.hidden) {
+                    alert('Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                } else {
+                    alert('Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                }
+            });
+
+        });
+    </script>
+@endif
+
+@if ($view == 'ujian')
+    <script>
         let active = "<?= $nomor ?>";
         let selected_answer = "<?= $selected ?>";
         console.log(active);
@@ -1514,14 +1538,11 @@
                         var av = data.active;
 
                         var ori = '';
-                        if(data.data[av].orientation == 1) {
+                        if (data.data[av].orientation == 1) {
                             ori = 'text-align:right;';
-                        }
-                        else if(data.data[av].orientation == 2) {
+                        } else if (data.data[av].orientation == 2) {
                             ori = 'text-align:center;';
-                        }
-
-                        else {
+                        } else {
                             ori = 'text-align:left;';
                         }
 
@@ -1535,7 +1556,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
+                        HTML += '<div class="soal-wrapper" style="' + ori + '">';
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
                         HTML += '<input type="hidden" id="no-soal" value="' + data.data[av].question_number +
@@ -1733,14 +1754,11 @@
                     if (data.success) {
                         var av = data.active;
                         var ori = '';
-                        if(data.data[av].orientation == 1) {
+                        if (data.data[av].orientation == 1) {
                             ori = 'text-align:right;';
-                        }
-                        else if(data.data[av].orientation == 2) {
+                        } else if (data.data[av].orientation == 2) {
                             ori = 'text-align:center;';
-                        }
-
-                        else {
+                        } else {
                             ori = 'text-align:left;';
                         }
                         var HTML = '';
@@ -1753,7 +1771,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
+                        HTML += '<div class="soal-wrapper" style="' + ori + '">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
@@ -1943,14 +1961,11 @@
                     if (data.success) {
                         var av = data.active;
                         var ori = '';
-                        if(data.data[av].orientation == 1) {
+                        if (data.data[av].orientation == 1) {
                             ori = 'text-align:right;';
-                        }
-                        else if(data.data[av].orientation == 2) {
+                        } else if (data.data[av].orientation == 2) {
                             ori = 'text-align:center;';
-                        }
-
-                        else {
+                        } else {
                             ori = 'text-align:left;';
                         }
 
@@ -1964,7 +1979,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
+                        HTML += '<div class="soal-wrapper" style="' + ori + '">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
@@ -2195,14 +2210,11 @@
                         var av = data.active;
 
                         var ori = '';
-                        if(data.data[av].orientation == 1) {
+                        if (data.data[av].orientation == 1) {
                             ori = 'text-align:right;';
-                        }
-                        else if(data.data[av].orientation == 2) {
+                        } else if (data.data[av].orientation == 2) {
                             ori = 'text-align:center;';
-                        }
-
-                        else {
+                        } else {
                             ori = 'text-align:left;';
                         }
 
@@ -2216,7 +2228,7 @@
 
                         HTML += '</div>';
                         HTML += '<div class="col-lg-10 col-md-10 col-sm-10">';
-                        HTML += '<div class="soal-wrapper" style="'+ori+'">';
+                        HTML += '<div class="soal-wrapper" style="' + ori + '">';
 
                         HTML += '<p class="no-soal">Soal No. ' + data.data[av].question_number + ' dari ' +
                             jumlah_soal + '</p>';
@@ -2306,7 +2318,8 @@
                             HTML +=
                                 '<div onclick="selected(2)" id="jawaban-b" class="jawaban-item selected-jawaban">';
                             if (data.data[av].option_image_b != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_b + '" class="gambar-soal img-responsive">';
                             }
                             HTML += 'B. ' +
@@ -2426,12 +2439,12 @@
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    "transaction_id":id,
+                    "transaction_id": id,
                     "_token": csrf_token
                 },
                 success: function(data) {
                     if (data.success) {
-                       window.open("{{ url('facility_file') }}"+"/"+id+"/"+productid);
+                        window.open("{{ url('facility_file') }}" + "/" + id + "/" + productid);
                     } else {
                         alert(data.message);
                     }
@@ -2467,23 +2480,24 @@
     </script>
 @endif
 
-@if($view == 'register')
-<script>
-    $("#level_id").change(function(){
-        var level = $(this).val();
-        $.ajax({
-            url: "{{ url('get_kelas_register') }}"+"/"+level,
-            type: "GET",
-            success: function(data) {
-                console.log(data);
-                var html = '';
-                html += '<option value=""> - Silahkan Pilih Kelas - </option>';
-                for(var i=0; i<data.length; i++) {
-                    html += '<option value="'+data[i].id+'">'+data[i].nama_kelas+'</option>';
+@if ($view == 'register')
+    <script>
+        $("#level_id").change(function() {
+            var level = $(this).val();
+            $.ajax({
+                url: "{{ url('get_kelas_register') }}" + "/" + level,
+                type: "GET",
+                success: function(data) {
+                    console.log(data);
+                    var html = '';
+                    html += '<option value=""> - Silahkan Pilih Kelas - </option>';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].id + '">' + data[i].nama_kelas +
+                            '</option>';
+                    }
+                    $("#kelas_id").html(html);
                 }
-                $("#kelas_id").html(html);
-            }
+            });
         });
-    });
-</script>
+    </script>
 @endif

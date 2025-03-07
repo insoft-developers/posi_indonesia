@@ -162,7 +162,7 @@
                             @foreach ($kompetisi as $index => $k)
                                 @php
                                     $query = \App\Models\Transaction::where('competition_id', $k->id)
-                                        ->distinct('userid')
+                                        // ->distinct('userid')
                                         ->count('id');
 
                                     $transaction = $query;

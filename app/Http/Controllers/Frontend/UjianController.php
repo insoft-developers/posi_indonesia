@@ -175,11 +175,12 @@ class UjianController extends Controller
             $data_insert['jawaban_soal'] = $pilihan;
             $data_insert['hasil_jawaban'] = $hasil;
             $data_insert['score'] = $score;
+            UserAnswer::updateOrCreate(['session_id' => $session->id, 'id_soal' => $input['id_soal']], $data_insert);
         }
 
 
 
-        UserAnswer::updateOrCreate(['session_id' => $session->id, 'id_soal' => $input['id_soal']], $data_insert);
+       
 
         if ((int) $input['active'] < (int) $variabel) {
             $active = $input['active'] + 1;

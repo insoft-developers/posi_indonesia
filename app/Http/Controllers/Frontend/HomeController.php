@@ -60,9 +60,8 @@ class HomeController extends Controller
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->orderBy('date', 'asc')->get();
 
-        $kompetisi2 = Competition::where('is_active', 1)->where('date', '<', $sekarang)->orderBy('date', 'desc')->get();
-
-        return view('frontend.main', compact('kompetisi', 'kompetisi2', 'view'));
+       
+        return view('frontend.main', compact('kompetisi', 'view'));
     }
 
     public function get_competition_data(Request $request)
