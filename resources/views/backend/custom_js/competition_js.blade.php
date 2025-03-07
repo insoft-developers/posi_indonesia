@@ -119,7 +119,8 @@
 
 
         $("#form-tambah").submit(function(e) {
-            // loading("btn-save-data");
+            $("#btn-submit-data").text("Processing...");
+            $("#btn-submit-data").attr("disabled", true);
 
             e.preventDefault();
             var id = $('#id').val();
@@ -142,7 +143,8 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // unloading("btn-save-data", "Save");
+                    $("#btn-submit-data").text("Simpan");
+                    $("#btn-submit-data").removeAttr("disabled");
                     if (data.success) {
                         $('#modal-tambah').modal('hide');
                         table.ajax.reload(null, false);

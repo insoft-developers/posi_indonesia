@@ -29,9 +29,9 @@ class Competition extends Model
         return $this->hasMany(Study::class, 'competition_id', 'id');
     }
 
-    public function sessions() : HasONe
+    public function sessions() : HasOne
     {
-        return $this->HasONe(ExamSession::class, 'competition_id', 'id');
+        return $this->hasOne(ExamSession::class, 'competition_id', 'id');
     }
 
     public function bonus(): HasOne
