@@ -463,7 +463,7 @@
                                         <form action="#">
                                             <input type="text" placeholder="Masukkan No. Whatsapp">
                                             <div style="margin-top: 10px"></div>
-                                            <input type="text" placeholder="Masukkan emal anda">
+                                            <input type="text" placeholder="Masukkan email anda">
                                             <button class="btn btn-primary btn-hover-dark">Kirim</button>
                                         </form>
                                     </div>

@@ -80,13 +80,13 @@
                                         <div class="single-form">
                                             <label class="label-form">Nama Lengkap</label>
                                             <input type="text" id="name" name="name" placeholder="Masukkan nama sesuai KTP (nama ini yang tampil di sertifikat)"
-                                                value="{{ $user->name }}">
+                                                value="{{old('name') ?? $user->name }}">
                                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                         </div>
                                         <div class="single-form">
                                             <label class="label-form">Username</label>
                                             <input type="text" id="username" name="username" placeholder="Username"
-                                                value="{{ $user->username }}">
+                                                value="{{ old('username') ??  $user->username }}">
                                             <x-input-error :messages="$errors->get('username')" class="mt-2" />
                                         </div>
                                         <!-- Single Form End -->
@@ -94,7 +94,7 @@
                                         <div class="single-form">
                                             <label class="label-form">Email Anda</label>
                                             <input id="email" name="email" readonly type="email" placeholder="Email"
-                                                value="{{ $user->email }}">
+                                                value="{{ old('email') ?? $user->email }}">
                                             @if ($user->email_status == 1)
                                                 <small style="font-weight: bold; color:green;"><i class="fa fa-check"></i>
                                                     verified</small>

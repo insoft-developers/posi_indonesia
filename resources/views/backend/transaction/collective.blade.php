@@ -30,6 +30,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Kompetisi</th>
+                                <th scope="col">Akun Terdaftar</th>
                                 <th scope="col">Bidang Studi</th>
                             </tr>
                         </thead>

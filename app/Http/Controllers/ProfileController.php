@@ -166,7 +166,7 @@ class ProfileController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Update data berhasil...');
+        return redirect()->to('main')->with('success', 'Update data berhasil...');
     }
 
     protected function sendMail($name, $email, $passcode)

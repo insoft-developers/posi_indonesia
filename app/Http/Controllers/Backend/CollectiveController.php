@@ -138,6 +138,10 @@ class CollectiveController extends Controller
         $data = Competition::with('study', 'transaction')->get();
 
         return DataTables::of($data)
+            ->addColumn('userid', function($data){
+                
+                return $data->transaction()->distinct()->count('userid');
+            })
             ->addColumn('title', function ($data) {
                 return $data->title . '  (' . $data->transaction->count('userid') . ')';
             })
@@ -163,7 +167,7 @@ class CollectiveController extends Controller
                   <iconify-icon icon="material-symbols:check-circle-outline-rounded"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'study_id'])
+            ->rawColumns(['action', 'study_id','userid'])
             ->addIndexColumn()
             ->make(true);
     }
