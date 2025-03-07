@@ -80,17 +80,26 @@
                         @php
                             $nomor = -1;
                             $sekarang = date('Y-m-d');
+                            $waktu = date('H:i:s');
                         @endphp
                         @foreach ($data as $d)
-                           
-                           
                             @php
+
+                            $cek = DB::table('transactions as t')->where('t.competition_id', $d->id)->where('t.userid', Auth::user()->id)
+                            ->where('i.payment_status', 1)
+                            ->join('invoices as i', 'i.id', '=', 't.invoice_id', 'left')->get();
+
+
+                            $cek2 = \App\Models\Study::where('competition_id', $d->id)
+                                ->where('start_date', '>=', $sekarang)
+                                ->where('finish_time', '>=', $waktu)->get();
+
                             $ada++;
                             @endphp
+
+                            @if($cek->count() > 0 && $cek2->count() > 0)
                             <div class="col-lg-6 col-md-6">
-
-                                <!-- Single Blog Start -->
-
+                                
                                 <div class="single-blog">
 
                                     <div class="row">
@@ -107,7 +116,7 @@
                                                 </div>
                                                 <div class="author-name">
                                                     @php
-                                                        $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                                        $lavel = \App\Models\Level::find(Auth::user()->level_id);
                                                     @endphp
                                                     <a class="name" href="#">{{ $lavel->level_name }},
                                                     </a>
@@ -116,10 +125,15 @@
                                         </div>
                                         <div class="col-md-7 col-md-7">
                                             <div class="blog-content">
+                                                @php    
+                                                    $tanggal_sekarang = date('Y-m-d');
+                                                    $jam_selesai = date('H:i:s');     
+                                                @endphp
 
                                                 @foreach ($d->transaction as $index => $t)
+                                                   
                                                
-                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id)
+                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id && $t->study->start_date >= $tanggal_sekarang && $t->study->finish_time >= $jam_selesai)
                                                         @php
 
                                                             $session = \App\Models\ExamSession::where(
@@ -127,6 +141,7 @@
                                                                 $t->competition_id,
                                                             )
                                                                 ->where('study_id', $t->study_id)
+                                                                ->where('is_finish', '!==', 1)
                                                                 ->where('userid', Auth::user()->id);
                                                             if ($session->count() > 0) {
                                                                 $sess = $session->first();
@@ -187,11 +202,6 @@
                                                         <hr />
                                                     @endif
                                                 @endforeach
-
-
-                                                {{-- <a href="#"
-                                                class="btn btn-secondary btn-hover-primary">Read
-                                                More</a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -200,7 +210,7 @@
                                 <!-- Single Blog End -->
 
                             </div>
-                            
+                            @endif
                         @endforeach
                     </div>
                 @endif
@@ -243,7 +253,7 @@
                                             <div class="col-md-12">
                                                 <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
                                                 @php
-                                                $lavel = \App\Models\Level::findorFail($li);
+                                                $lavel = \App\Models\Level::find($li);
                                             @endphp
                                                 <div class="subtitle-pengumuman">{{ $lavel->level_name }}</div>
                                             </div>

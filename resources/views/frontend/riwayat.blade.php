@@ -31,7 +31,7 @@
                                     <h5 class="card-title">{{ $c->title }}</h5>
                                     <div style="margin-top:-10px;"></div>
                                     @php
-                                        $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                        $lavel = \App\Models\Level::find(Auth::user()->level_id);
                                     @endphp
                                     <p>{{ $lavel->level_name }}</p>
                                     <div style="margin-top:-13px;"></div>
@@ -74,7 +74,7 @@
                                                                 @foreach ($transaction as $tt)
                                                                    
                                                                     @php
-                                                                        $product = \App\Models\Product::findorFail(
+                                                                        $product = \App\Models\Product::find(
                                                                             $tt->product_id,
                                                                         );
                                                                     @endphp
@@ -88,7 +88,7 @@
                                                                         @endphp
                                                                         @foreach ($products as $pid)
                                                                             @php
-                                                                                $barang = \App\Models\Product::findorFail(
+                                                                                $barang = \App\Models\Product::find(
                                                                                     $pid,
                                                                                 );
                                                                             @endphp

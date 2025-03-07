@@ -89,7 +89,7 @@
                         </div>
                         <div class="header-menu d-none d-lg-block">
                            
-                            <h2>{{ $session->competition->title }} - {{ $session->study->pelajaran->name }}</h2>
+                            <p class="ujian-header">{{ $session->competition->title }} - {{ $session->study->pelajaran->name }}</p>
                         </div>
                       
 

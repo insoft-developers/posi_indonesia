@@ -1,4 +1,12 @@
+
+@if($view == 'ujian')
 <style>
+    
+</style>
+@endif
+
+<style>
+
     @media print {
         .ujian-sekarang {
             display: none !important;
@@ -756,12 +764,19 @@
 
     .waktu-ujian {
         font-weight: bold;
-        font-size: 30px;
+        font-size: 19px;
         color: red;
-        /* background: red; */
+        background: white;
         padding: 0px 46px;
-        border-radius: 42px;
+        border-radius: 8px;
         border: 2px solid red;
+        font-family: monospace;
+    }
+
+    .ujian-header {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2b324e;
     }
 
     .no-soal {

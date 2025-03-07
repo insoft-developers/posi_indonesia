@@ -204,6 +204,7 @@ Route::middleware('auth')->group(function () {
     Route::post('jawaban-sebelumnya', [UjianController::class, 'jawaban_sebelumnya'])->name('jawaban.sebelumnya');
 
     Route::get('ujian-selesai', [UjianController::class, 'ujian_selesai']);
+    Route::post('ujian-habis-waktu', [UjianController::class, 'ujian_habis_waktu']);
     Route::post('list-soal', [UjianController::class, 'list_soal'])->name('list.soal');
     Route::post('goto', [UjianController::class, 'goto'])->name('go.to');
     Route::post('selesai_ujian', [UjianController::class, 'selesai_ujian']);

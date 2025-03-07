@@ -249,6 +249,20 @@ class UjianController extends Controller
         return view('frontend.ujian_selesai', compact('view'));
     }
 
+
+    public function ujian_habis_waktu(Request $request)
+    {
+        $input = $request->all();
+        
+        $data = ExamSession::where('competition_id', $input['comid'])
+            ->where('study_id', $input['studyid'])
+            ->update(['is_finish' => 1, 'updated_at' => date('Y-m-d H:i:s')]);
+        return $data;
+        
+    }
+
+
+
     public function list_soal(Request $request)
     {
         $input = $request->all();

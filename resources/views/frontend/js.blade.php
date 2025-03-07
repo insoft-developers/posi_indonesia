@@ -1399,6 +1399,8 @@
                 }
             });
 
+            
+
         });
     </script>
 @endif
@@ -1418,6 +1420,11 @@
 
             var tanggal = $("#tanggal-ujian").val();
             var jam = $("#jam-selesai").val();
+            var comid = $("#competition-id").val();
+            var study = $("#study-id").val();
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            
+
             var waktu = tanggal + ' ' + jam;
             var countDownDate = moment(waktu);
 
@@ -1445,7 +1452,16 @@
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("waktu-ujian").innerHTML = 'WAKTU HABIS';
-                    window.location = "{{ url('ujian-selesai') }}";
+                    $.ajax({
+                        url: "{{ url('ujian-habis-waktu') }}",
+                        type: "POST",
+                        dataType: "JSON",
+                        data:{"comid":comid, "studyid":study, "_token":csrf_token},
+                        success: function() {
+                            window.location = "{{ url('ujian-selesai') }}";
+                        }
+                    });
+                    
 
                 }
             }, 1000);
