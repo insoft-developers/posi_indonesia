@@ -89,15 +89,23 @@
                             ->where('i.payment_status', 1)
                             ->join('invoices as i', 'i.id', '=', 't.invoice_id', 'left')->get();
 
-
-                            $cek2 = \App\Models\Study::where('competition_id', $d->id)
+                            
+                            $userid = Auth::user()->id;
+                            $cek2 = \App\Models\Study::with('transaction')->where('competition_id', $d->id)
                                 ->where('start_date', '>=', $sekarang)
-                                ->where('finish_time', '>=', $waktu)->get();
+                                ->where('finish_time', '>=', $waktu)
+                                ->whereHas('transaction', function($q) use ($userid){
+                                    $q->where('userid', $userid);
+                                })
+                                ->get();
+                                
+                        
 
-                           
+                            
                             @endphp
 
                             @if($cek->count() > 0 && $cek2->count() > 0)
+
                             @php  $ada++;  @endphp
                             <div class="col-lg-6 col-md-6">
                                 

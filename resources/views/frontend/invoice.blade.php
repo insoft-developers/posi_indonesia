@@ -8,7 +8,29 @@
     <title>Invoice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
+    <style>
+        @media only screen and (max-width: 768px) {
+            .sheet-outer {
+                zoom: 0.46;
+                margin-top: 50px !important;
+            }
+
+            #btn-tutup {
+                position: relative;
+                top: 12px !important;
+                left: 20px !important;
+            }
+
+            #btn-print {
+                position: relative;
+                top: 12px !important;
+                left: 10px !important;
+            }
+
+        }
+    </style>
+
     <style>
         body {
             margin: 0;
@@ -172,35 +194,37 @@
                         <tbody>
 
                             @foreach ($data->transaction as $key)
-                            @php    
-                              
-                            @endphp
+                                @php
+
+                                @endphp
                                 <tr>
                                     <td width="50%">
-                                        @if($key->type == 1)
-                                        @php
-                                              $sesi = \App\Models\ExamSession::where('userid', $key->userid)
-                                                ->where('competition_id', $key->competition_id)
-                                                ->where('study_id', $key->study_id)
-                                                ->first();              
-                                        @endphp
-                                        <strong>{{ $key->product->product_name }}</strong><br><span
-                                            class="font-kecil">{{ $key->tuser->name }} -
-                                            {{ $key->tuser->nama_sekolah }}</span><br><span
-                                            class="font-kecil">{{ $key->competition->title }} - {{ $key->study->pelajaran->name }} -
-                                            {{ $sesi->medali ?? null }}</span>
-                                            <br><span style="color:green;font-size:13px;">({{ $key->product->description }})</span>
+                                        @if ($key->type == 1)
+                                            @php
+                                                $sesi = \App\Models\ExamSession::where('userid', $key->userid)
+                                                    ->where('competition_id', $key->competition_id)
+                                                    ->where('study_id', $key->study_id)
+                                                    ->first();
+                                            @endphp
+                                            <strong>{{ $key->product->product_name }}</strong><br><span
+                                                class="font-kecil">{{ $key->tuser->name }} -
+                                                {{ $key->tuser->nama_sekolah }}</span><br><span
+                                                class="font-kecil">{{ $key->competition->title }} -
+                                                {{ $key->study->pelajaran->name }} -
+                                                {{ $sesi->medali ?? null }}</span>
+                                            <br><span
+                                                style="color:green;font-size:13px;">({{ $key->product->description }})</span>
                                         @else
-                                        @php
-                                            $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
-                                        @endphp
-                                        <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
-                                            class="font-kecil">{{ $data->user->name }} -
-                                            {{ $data->user->nama_sekolah }}</span><br><span
-                                            class="font-kecil">{{ $key->study->pelajaran->name }} -
-                                            {{ $lavel->level_name }}</span>
+                                            @php
+                                                $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
+                                            @endphp
+                                            <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
+                                                class="font-kecil">{{ $data->user->name }} -
+                                                {{ $data->user->nama_sekolah }}</span><br><span
+                                                class="font-kecil">{{ $key->study->pelajaran->name }} -
+                                                {{ $lavel->level_name }}</span>
                                         @endif
-                                        
+
                                     </td>
                                     <td><strong>Rp. {{ number_format($key->unit_price) }}</strong></td>
                                     <td>{{ $key->quantity }}</td>
@@ -217,17 +241,19 @@
 
                             <tr>
                                 <th></th>
-                              
+
                                 <th colspan="2">Discount</th>
                                 <th>Rp. 0</th>
                             </tr>
-                            @if($data->delivery_cost !== null)
-                            <tr>
-                                <th><span style="font-weight: normal; font-size:12px;">[ {{ $data->service }}<br>{{ $data->province_name }} - {{ $data->city_name }} - {{ $data->district_name }} ]</span></th>
-                                
-                                <th colspan="2">Ongkos Kirim </th>
-                                <th>Rp. {{ number_format($data->delivery_cost) }}</th>
-                            </tr>
+                            @if ($data->delivery_cost !== null)
+                                <tr>
+                                    <th><span style="font-weight: normal; font-size:12px;">[
+                                            {{ $data->service }}<br>{{ $data->province_name }} -
+                                            {{ $data->city_name }} - {{ $data->district_name }} ]</span></th>
+
+                                    <th colspan="2">Ongkos Kirim </th>
+                                    <th>Rp. {{ number_format($data->delivery_cost) }}</th>
+                                </tr>
                             @endif
                             <tr>
                                 <th style="color: green;">Net Amount</th>

@@ -115,7 +115,7 @@
                     <a href="{{ url('posiadmin/hasil') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Hasil</a>
                   </li>
                   <li>
-                    <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pembahasan</a>
+                    <a href="{{ url('posiadmin/pemberitahuan') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pengumuman</a>
                   </li>
                  
                 </ul>

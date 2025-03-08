@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @if ($cart->count() > 0)
-                            <table class="table table-striped table-bordered" style="font-size: 14px;">
+                            <table class="table table-striped" style="font-size: 14px;">
                                 @php
                                     $total_harga = 0;
                                 @endphp
@@ -49,18 +49,19 @@
                                                     ->where('study_id', $c->study->id)
                                                     ->first();
                                             @endphp
-                                            <td width="35%"><strong>{{ strtoupper($c->product->product_name) }}</strong>
+                                            <td width="35%"><strong><span class="m-title">{{ strtoupper($c->product->product_name) }}</strong>
                                                 <br>{{ $c->user->name }} - {{ $c->user->nama_sekolah }}
                                                 <br>{{ $c->competition->title }} - {{ $c->study->pelajaran->name }} -
                                                 {{ $session->medali ?? null }}
                                                 <br><span
                                                     style="font-size:13px;color:blue;">{{ $c->product->description }}</span>
+                                            </span>
                                             </td>
                                         @else
                                             <td width="8%"><img class="image-cart"
                                                     src="{{ asset('template/frontend/assets/kompetisi/' . $c->competition->image) }}">
                                             </td>
-                                            <td width="35%">Pendaftaran {{ $c->competition->title }}
+                                            <td width="35%"><span class="m-title">Pendaftaran {{ $c->competition->title }}
                                                 {{ $c->premium == 1 ? 'Berbayar' : 'Gratis' }}<br>{{ $c->user->name }} -
                                                 {{ $c->user->nama_sekolah }}
                                                 <br>
@@ -68,7 +69,7 @@
                                                     $lvl = \App\Models\Level::findorfail(Auth::user()->level_id);   
                                                 @endphp
                                                 <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }}
-                                                    - {{ $lvl->level_name }}</span>
+                                                    - {{ $lvl->level_name }}</span></span>
                                             </td>
                                         @endif
 

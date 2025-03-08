@@ -8,7 +8,16 @@
         <title>POSI - Indonesia</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
+        <style>
+             @media only screen and (max-width: 768px) {
+                body{
+                    padding:30px;
+                }
+             }
+        </style>
+    
     </head>
+
 
     <body>
         <div class="vh-100 d-flex justify-content-center align-items-center">

@@ -1393,13 +1393,15 @@
 
             document.addEventListener('visibilitychange', function(event) {
                 if (document.hidden) {
-                    alert('Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                    alert(
+                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
                 } else {
-                    alert('Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                    alert(
+                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
                 }
             });
 
-            
+
 
         });
     </script>
@@ -1423,7 +1425,7 @@
             var comid = $("#competition-id").val();
             var study = $("#study-id").val();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
-            
+
 
             var waktu = tanggal + ' ' + jam;
             var countDownDate = moment(waktu);
@@ -1456,12 +1458,16 @@
                         url: "{{ url('ujian-habis-waktu') }}",
                         type: "POST",
                         dataType: "JSON",
-                        data:{"comid":comid, "studyid":study, "_token":csrf_token},
+                        data: {
+                            "comid": comid,
+                            "studyid": study,
+                            "_token": csrf_token
+                        },
                         success: function() {
                             window.location = "{{ url('ujian-selesai') }}";
                         }
                     });
-                    
+
 
                 }
             }, 1000);
@@ -2193,6 +2199,7 @@
                     }
 
                     $("#isi-nomor").html(HTML);
+                    $("#isi-nomor-mobile").html(HTML);
                     // $("#modal-soal").modal("show");
                 }
             });
@@ -2319,7 +2326,8 @@
                             HTML +=
                                 '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
                             if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_e + '" class="gambar-soal img-responsive">';
                             }
                             HTML += 'E. ' + data.data[av].option_e + '</div>';
@@ -2406,6 +2414,8 @@
 
                         $("#soal-container").html(HTML);
                         active = av;
+                        $('.mobile-menu').removeClass('open')
+                        $('.overlay').removeClass('open')
                         lihat_soal();
                     }
 
