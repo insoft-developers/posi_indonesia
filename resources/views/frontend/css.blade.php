@@ -1472,6 +1472,17 @@
             top: -132px;
         }
 
+        .wa-chat {
+            position: fixed;
+            right: 21%;
+            bottom: 127px !important;
+            width: 67px;
+            height: 67px;
+            z-index: 999999;
+            cursor: pointer;
+        }
+
+
         #isi-nomor-mobile {
             margin-left: 20px;
         }
@@ -1483,6 +1494,8 @@
             top: -85px;
             font-weight: bold;
         }
-
+        #table-transaction_wrapper {
+            margin-top:80px;
+        }
     }
 </style>
