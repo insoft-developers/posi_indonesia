@@ -1261,6 +1261,18 @@
     </style>
 @endif
 
+@if($view !== 'home')
+
+<style>
+    @media only screen and (max-width: 768px) {
+        .wa-chat {
+    display: none;
+ }
+    }
+    </style>
+
+@endif
+
 <style>
     @media only screen and (max-width: 768px) {
         .item-number {
@@ -1428,28 +1440,7 @@
             background: #e9e9e9;
         }
 
-        @-moz-document {
-            .m-name {
-                position: relative;
-                left: 86px;
-                top: -52px;
-                font-weight: bold;
-            }
-
-            .m-level {
-                position: relative;
-                left: 86px;
-                top: -56px;
-                font-size: 11px;
-            }
-
-            .m-sekolah {
-                font-size: 10px;
-                left: 86px;
-                position: relative;
-                top: -59px;
-            }
-        }
+     
 
         .m-name {
             position: relative;
@@ -1471,17 +1462,6 @@
             position: relative;
             top: -132px;
         }
-
-        .wa-chat {
-            position: fixed;
-            right: 21%;
-            bottom: 127px !important;
-            width: 67px;
-            height: 67px;
-            z-index: 999999;
-            cursor: pointer;
-        }
-
 
         #isi-nomor-mobile {
             margin-left: 20px;
