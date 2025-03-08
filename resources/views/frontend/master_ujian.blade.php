@@ -58,7 +58,7 @@
 
 </head>
 
-<body>
+<body onmousedown='return false;' onselectstart='return false;'>
 
 
     <div class="main-wrapper">
