@@ -294,43 +294,99 @@
             </a>
             <!-- Menu Close End -->
 
-            <!-- Mobile Top Medal Start -->
+           
+            @if (Auth::check()) 
+            <li>
+                @if ($user->user_image == null)
+                    @if ($user->jenis_kelamin == 'Laki Laki')
+                        <img class="profile-image"
+                            src="{{ asset('template/frontend/assets/umum/profile2.png') }}"
+                            alt="Author">
+                    @else
+                        <img class="profile-image"
+                            src="{{ asset('template/frontend/assets/umum/profile1.png') }}"
+                            alt="Author">
+                    @endif
+                @else
+                    @if ($user->google_id == null)
+                        <img class="profile-image"
+                            src="{{ asset('storage/image_files/profile/' . $user->user_image) }}"
+                            alt="Author">
+                    @else
+                        <img class="profile-image" src="{{ $user->user_image }}"
+                            alt="Author">
+                    @endif
+                @endif
+
+            </li>
+            <li><p class="m-name">{{ $user->name }}</p></li>
+            <li><p class="m-level">{{ $user->level->level_name }}</p></li>
+            <li><p class="m-sekolah">{{ $user->nama_sekolah }}</p></li>
+            @else
             <div class="mobile-top">
-                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">(970) 262-1413</a></p>
-                <p><i class="flaticon-email"></i> <a href="mailto:address@gmail.com">address@gmail.com</a></p>
+                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">{{ $setting->admin_wa }}</a></p>
+                <p><i class="flaticon-email"></i> <a href="mailto:address@gmail.com">{{ $setting->email }}</a></p>
             </div>
             <!-- Mobile Top Medal End -->
 
             <!-- Mobile Sing In & Up Start -->
             <div class="mobile-sign-in-up">
                 <ul>
-                    <li><a class="sign-in" href="login.html">Masuk</a></li>
-                    <li><a class="sign-up" href="register.html">Daftar</a></li>
+                    <li><a class="sign-in" href="{{ url('/login') }}">Masuk</a></li>
+                    <li><a class="sign-up" href="{{ url('/register') }}">Daftar</a></li>
                 </ul>
             </div>
+            @endif
             <!-- Mobile Sing In & Up End -->
 
             <!-- Mobile Menu Start -->
             <div class="mobile-menu-items">
                 <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
+                    @if (Auth::check())
+                    <li><a href="{{ url('/main') }}">Kompetisi</a></li> 
+                    <li><a href="{{ url('/cart') }}">Cart</a></li>
+                    <li><a href="{{ url('/jadwal') }}">Jadwal</a></li>
+                    <li><a href="{{ url('/riwayat') }}">Riwayat</a></li>
+                    <li><a href="{{ url('/transaction') }}">Transaksi</a></li>
                     <li>
-                        <a href="#">Tentang</a>
+                        <a href="#">Akun </a>
+                        <ul class="sub-menu">
+                            <li><a href="{{ url('after_register/' . Auth::user()->id) }}">Profil</a></li>
+                            <li><a href="{{ url('/main') }}">Kompetisi</a></li>
+                            <li><a href="#">Pengaturan</a></li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <li
+                                    onclick="event.preventDefault();
+                        this.closest('form').submit();">
+                                    <a class="" href="{{ route('logout') }}"><i
+                                            class="icofont-logout"></i> Keluar</a>
+                                </li>
+                            </form>
+
+                        </ul>
+                    </li>
+                    @else
+                    
+                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li>
+                        <a href="{{ url('/about') }}">Tentang</a>
 
                     </li>
                     <li>
                         <a href="#">Info </a>
                         <ul class="sub-menu">
-                            <li><a href="about.html">Berita</a></li>
-                            <li><a href="register.html">Event</a></li>
+                            <li><a href="#">Berita</a></li>
+                            <li><a href="#">Event</a></li>
 
                         </ul>
                     </li>
                     <li>
-                        <a href="#">Kontak</a>
+                        <a href="{{ url('/contact') }}">Kontak</a>
 
                     </li>
-                    <li><a href="contact.html">Pengumuman</a></li>
+                    <li><a href="#">Pengumuman</a></li>
+                    @endif
                 </ul>
 
             </div>
@@ -339,12 +395,14 @@
             <!-- Mobile Menu End -->
             <div class="mobile-social">
                 <ul class="social">
-                    <li><a href="#"><i class="flaticon-facebook"></i></a></li>
-                    <li><a href="#"><i class="flaticon-twitter"></i></a></li>
-                    <li><a href="#"><i class="flaticon-skype"></i></a></li>
-                    <li><a href="#"><i class="flaticon-instagram"></i></a></li>
+                    <li><a target="_blank" href="https://www.facebook.com/@posipelatihanolimpiade/?locale=id_ID"><i class="flaticon-facebook"></i></a></li>
+                    <li><a target="_blank" href="https://x.com/posi_idn?mx=2"><i class="flaticon-twitter"></i></a></li>
+                    <li><a target="_blank" href="https://www.instagram.com/posi.idn"><i class="flaticon-instagram"></i></a></li>
                 </ul>
             </div>
+
+
+           
             <!-- Mobile Menu End -->
 
         </div>

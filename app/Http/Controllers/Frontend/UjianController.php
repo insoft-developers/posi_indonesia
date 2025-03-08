@@ -270,7 +270,9 @@ class UjianController extends Controller
         $session = ExamSession::with('competition', 'study.pelajaran')
             ->where('token', $input['token_id'])
             ->first();
-        $soal = Ujian::where('competition_id', $session->competition_id)->get();
+        $soal = Ujian::where('competition_id', $session->competition_id)
+        ->where('study_id', $session->study_id)
+        ->get();
 
         $rows = [];
 

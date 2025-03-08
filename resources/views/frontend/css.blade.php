@@ -1,12 +1,10 @@
+@if ($view == 'ujian')
+    <style>
 
-@if($view == 'ujian')
-<style>
-    
-</style>
+    </style>
 @endif
 
 <style>
-
     @media print {
         .ujian-sekarang {
             display: none !important;
@@ -771,6 +769,10 @@
         border-radius: 8px;
         border: 2px solid red;
         font-family: monospace;
+        position: relative;
+        top: -44px;
+        left: 456px;
+        margin-bottom: -32px !important;
     }
 
     .ujian-header {
@@ -1258,3 +1260,198 @@
         }
     </style>
 @endif
+
+<style>
+    @media only screen and (max-width: 768px) {
+        .item-number {
+            background: white;
+            margin: 2px;
+            padding: 2px 0px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: 2px solid #151824;
+            width: 40px;
+        }
+
+        .item-number-active {
+            background: #151824;
+            color: white;
+            margin: 2px;
+            padding: 2px 0px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: 2px solid whitesmoke;
+            width: 40px;
+        }
+
+        .btn-simpan-insoft {
+            border: 3px solid orange;
+            font-size: 12px;
+            background: darkred;
+            padding: 7px 20px;
+            border-radius: 29px 29px;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            left: -39px;
+            top: 13px;
+
+        }
+
+        .btn-sebelumnya-insoft {
+            border: 3px solid mediumslateblue;
+            font-size: 12px;
+            background: lightskyblue;
+            padding: 7px 20px;
+            border-radius: 17px 17px;
+            font-weight: bold;
+        }
+
+        .btn-selanjutnya-insoft {
+            border: 3px solid #68eedb;
+            font-size: 12px;
+            background: #87fa95;
+            padding: 7px 20px;
+            border-radius: 17px 17px;
+            font-weight: bold;
+            margin-left: 15px !important;
+            float: right;
+        }
+
+        .btn-selesai-insoft {
+            border: 3px solid green;
+            font-size: 12px;
+            background: greenyellow;
+            padding: 7px 20px;
+            border-radius: 17px 17px;
+            font-weight: bold;
+            float: right;
+            margin-top: 12px;
+        }
+
+        .ujian-sekarang {
+            margin-top: 40px;
+        }
+
+        .waktu-ujian {
+
+
+            font-weight: bold;
+            font-size: 19px;
+            color: red;
+            background: white;
+            padding: 0px 46px;
+            padding-right: 46px;
+            padding-left: 46px;
+            border-radius: 8px;
+            border: 2px solid red;
+            font-family: monospace;
+            position: relative;
+            top: -36px;
+            left: 127px;
+            margin-bottom: -32px !important;
+            padding-right: 11px;
+            padding-left: 8px;
+        }
+
+        .content-number {
+            display: none;
+        }
+
+        .cart-total-price {
+            position: relative;
+            top: 87px;
+            left: -2px;
+            font-size: 14px;
+            display: block;
+            width: 165% !important;
+        }
+
+        .btn-tambah-unit {
+            background: white;
+            padding: 3px 7px;
+            border-radius: 5px;
+            cursor: pointer;
+            background: green;
+            color: white;
+            font-weight: bold;
+            margin-left: 26px;
+            top: 7px;
+            position: relative;
+        }
+
+        .btn-kurang-unit {
+            background: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            background: green;
+            background-color: green;
+            color: white;
+            font-weight: bold;
+            margin-right: 11px;
+            position: relative;
+            top: 49px;
+        }
+
+        #grand-total {
+            width: 200%;
+            display: block;
+        }
+
+        .image-cart {
+            display: none;
+        }
+
+        .image-pendaftaran {
+            width: 40px;
+            height: 28px;
+            background: beige;
+            margin-top: 17px;
+            padding: 4px;
+            border-radius: 25px;
+        }
+
+        .profile-image {
+            height: 58px;
+            border-radius: 29px;
+            border: 4px solid whitesmoke;
+            cursor: pointer;
+            position: relative;
+            left: 18px;
+            background: #e9e9e9;
+        }
+
+        .m-name {
+            position: relative;
+            left: 86px;
+            top: -52px;
+            font-weight: bold;
+        }
+
+        .m-level {
+            position: relative;
+            left: 86px;
+            top: -56px;
+            font-size: 11px;
+        }
+
+        .m-sekolah {
+            font-size: 10px;
+            left: 86px;
+            position: relative;
+            top: -59px;
+        }
+
+        #isi-nomor-mobile{
+            margin-left: 20px;
+        }
+
+    }
+</style>

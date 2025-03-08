@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\PelajaranController;
+use App\Http\Controllers\Backend\PengumumanController;
 use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\QuestionController;
@@ -137,7 +138,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table']);
     Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete']);
 
-   
+    Route::resource('/pemberitahuan', PengumumanController::class);
+    Route::get('/pemberitahuan_table', [PengumumanController::class, 'pemberitahuan_table'])->name('pemberitahuan.table');
     
 
 

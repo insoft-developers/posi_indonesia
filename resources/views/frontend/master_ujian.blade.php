@@ -79,12 +79,14 @@
                         <div class="header-logo">
                             <a href="{{ url('/') }}"><img
                                     src="{{ asset('template/frontend') }}/assets/images/logo.png" alt="Logo"></a>
+
+                                    <center><p class="waktu-ujian"><i class="icofont-clock-time"></i> <span id="waktu-ujian"></span></p></center>
                         </div>
                         <!-- Header Logo End -->
 
                         <!-- Header Menu Start -->
                         <div class="header-menu d-none d-lg-block">
-                            <center><p class="waktu-ujian"><i class="icofont-clock-time"></i> <span id="waktu-ujian"></span></p></center>
+                            {{-- <center><p class="waktu-ujian"><i class="icofont-clock-time"></i> <span id="waktu-ujian"></span></p></center> --}}
                             
                         </div>
                         <div class="header-menu d-none d-lg-block">
@@ -94,13 +96,13 @@
                       
 
                         <!-- Header Mobile Toggle Start -->
-                        {{-- <div class="header-toggle d-lg-none">
+                        <div class="header-toggle d-lg-none">
                             <a class="menu-toggle" href="javascript:void(0)">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </a>
-                        </div> --}}
+                        </div> 
                         <!-- Header Mobile Toggle End -->
 
                     </div>
@@ -114,68 +116,42 @@
         <!-- Header Section End -->
 
         <!-- Mobile Menu Start -->
-        {{-- <div class="mobile-menu">
+            <div class="mobile-menu">
 
-            <!-- Menu Close Start -->
-            <a class="menu-close" href="javascript:void(0)">
-                <i class="icofont-close-line"></i>
-            </a>
-            <!-- Menu Close End -->
+                <!-- Menu Close Start -->
+                <a class="menu-close" href="javascript:void(0)">
+                    <i class="icofont-close-line"></i>
+                </a>
+                <!-- Menu Close End -->
 
-            <!-- Mobile Top Medal Start -->
-            <div class="mobile-top">
-                <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">(970) 262-1413</a></p>
-                <p><i class="flaticon-email"></i> <a href="mailto:address@gmail.com">address@gmail.com</a></p>
-            </div>
-            <!-- Mobile Top Medal End -->
+                <!-- Mobile Top Medal Start -->
+                <div class="mobile-top">
+                   
+                </div>
+                <!-- Mobile Top Medal End -->
 
-            <!-- Mobile Sing In & Up Start -->
-            <div class="mobile-sign-in-up">
-                <ul>
-                    <li><a class="sign-in" href="login.html">Masuk</a></li>
-                    <li><a class="sign-up" href="register.html">Daftar</a></li>
-                </ul>
-            </div>
-            <!-- Mobile Sing In & Up End -->
+                <!-- Mobile Sing In & Up Start -->
+                <div class="mobile-sign-in-up">
+                    <ul>
+                       
+                    </ul>
+                </div>
+                <!-- Mobile Sing In & Up End -->
 
-            <!-- Mobile Menu Start -->
-            <div class="mobile-menu-items">
-                <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li>
-                        <a href="#">Tentang</a>
+                <!-- Mobile Menu Start -->
+                <div class="mobile-menu-items">
+                    <div class="row" id="isi-nomor-mobile">
+                                
+                    </div>
 
-                    </li>
-                    <li>
-                        <a href="#">Info </a>
-                        <ul class="sub-menu">
-                            <li><a href="about.html">Berita</a></li>
-                            <li><a href="register.html">Event</a></li>
+                </div>
+                <!-- Mobile Menu End -->
 
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Kontak</a>
-
-                    </li>
-                    <li><a href="contact.html">Pengumuman</a></li>
-                </ul>
+                <!-- Mobile Menu End -->
+               
+                <!-- Mobile Menu End -->
 
             </div>
-            <!-- Mobile Menu End -->
-
-            <!-- Mobile Menu End -->
-            <div class="mobile-social">
-                <ul class="social">
-                    <li><a href="#"><i class="flaticon-facebook"></i></a></li>
-                    <li><a href="#"><i class="flaticon-twitter"></i></a></li>
-                    <li><a href="#"><i class="flaticon-skype"></i></a></li>
-                    <li><a href="#"><i class="flaticon-instagram"></i></a></li>
-                </ul>
-            </div>
-            <!-- Mobile Menu End -->
-
-        </div> --}}
         <!-- Mobile Menu End -->
 
         <!-- Overlay Start -->

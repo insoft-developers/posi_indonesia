@@ -26,8 +26,6 @@ class JuaraController extends Controller
         $awal_perunggu = (int)$jumlah_emas + (int)$jumlah_perak;
         $akhir_perunggu = (int)$jumlah_emas + (int)$jumlah_perak + (int)$jumlah_perunggu;
 
-
-
         foreach ($data as $index => $p) {
             if ($index >= $awal_emas && $index < $akhir_emas && $p->total_score >=0) {
                 $medali = 'emas';
