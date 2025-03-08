@@ -320,8 +320,7 @@
 
             </li>
             <li><p class="m-name">{{ $user->name }}</p></li>
-            <li><p class="m-level">{{ $user->level->level_name }}</p></li>
-            <li><p class="m-sekolah">{{ $user->nama_sekolah }}</p></li>
+           
             @else
             <div class="mobile-top">
                 <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">{{ $setting->admin_wa }}</a></p>
