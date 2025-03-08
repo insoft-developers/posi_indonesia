@@ -1428,29 +1428,60 @@
             background: #e9e9e9;
         }
 
+        @-moz-document {
+            .m-name {
+                position: relative;
+                left: 86px;
+                top: -52px;
+                font-weight: bold;
+            }
+
+            .m-level {
+                position: relative;
+                left: 86px;
+                top: -56px;
+                font-size: 11px;
+            }
+
+            .m-sekolah {
+                font-size: 10px;
+                left: 86px;
+                position: relative;
+                top: -59px;
+            }
+        }
+
         .m-name {
             position: relative;
-            left: 86px;
-            top: -52px;
+            left: 109px;
+            top: -68px;
             font-weight: bold;
         }
 
         .m-level {
             position: relative;
-            left: 86px;
-            top: -56px;
+            left: 110px;
+            top: -105px;
             font-size: 11px;
         }
 
         .m-sekolah {
             font-size: 10px;
-            left: 86px;
+            left: 109px;
             position: relative;
-            top: -59px;
+            top: -132px;
         }
 
-        #isi-nomor-mobile{
+        #isi-nomor-mobile {
             margin-left: 20px;
+        }
+
+        .user-name-display {
+            font-size: 18px !important;
+            position: relative;
+            left: 127px;
+            top: -85px;
+            font-weight: bold;
         }
 
     }
