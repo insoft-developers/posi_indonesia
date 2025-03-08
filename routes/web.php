@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CollectiveController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\HasilController;
 use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
@@ -112,6 +113,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/get_study', [SoalController::class, 'get_study']);
     Route::get('/copydata/{id}', [SoalController::class, 'copy_data']);
     Route::post('/copynow', [SoalController::class, 'copynow']);
+    Route::post('/soal_clean', [SoalController::class, 'soal_clean']);
 
 
     Route::resource('/ujian', QuestionController::class);
@@ -129,6 +131,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/download_template_pendaftaran', [CollectiveController::class, 'download_template_pendaftaran']);
     Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload');
     Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list']);
+
+    Route::resource('/hasil', HasilController::class);
+    Route::get('/hasil_table', [HasilController::class, 'hasil_table'])->name('hasil.table');
+    Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table']);
+    Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete']);
+
    
     
 

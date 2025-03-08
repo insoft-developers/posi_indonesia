@@ -144,7 +144,25 @@
             }
         }
 
+        function cleanData(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var pop = confirm('Bersihkan semua soal pada daftar ini ?');
 
+            if (pop === true) {
+                $.ajax({
+                    url: "{{ url('posiadmin/soal_clean') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
+                    success: function(data) {
+                        table.ajax.reload(null, false);
+                    }
+                })
+            }
+        }
         
 
         $("#competition_id").change(function(){

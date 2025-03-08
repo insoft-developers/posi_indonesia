@@ -29,7 +29,7 @@
 
 
                 </div>
-                <div class="row" id="soal-container"  onmousedown='return false;' onselectstart='return false;'>
+                <div class="row" id="soal-container">
                     <div class="col-md-2 col-sm-2 col-lg-2 nomor-soal-container">
                         <div id="content-number" class="content-number">
                             <div class="row" id="isi-nomor">

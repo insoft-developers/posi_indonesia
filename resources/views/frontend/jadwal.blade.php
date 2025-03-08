@@ -94,10 +94,11 @@
                                 ->where('start_date', '>=', $sekarang)
                                 ->where('finish_time', '>=', $waktu)->get();
 
-                            $ada++;
+                           
                             @endphp
 
                             @if($cek->count() > 0 && $cek2->count() > 0)
+                            @php  $ada++;  @endphp
                             <div class="col-lg-6 col-md-6">
                                 
                                 <div class="single-blog">
@@ -141,7 +142,7 @@
                                                                 $t->competition_id,
                                                             )
                                                                 ->where('study_id', $t->study_id)
-                                                                ->where('is_finish', '!==', 1)
+                                                                // ->where('is_finish', '!==', 1)
                                                                 ->where('userid', Auth::user()->id);
                                                             if ($session->count() > 0) {
                                                                 $sess = $session->first();

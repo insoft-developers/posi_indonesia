@@ -20,8 +20,25 @@
 
         function reset_form() {
             $('#id').val("");
-            $("#level_name").val("");
-            $("#jenjang").val("");
+            $("#question_number").val("");
+            $("#question_image").val(null);
+            CKEDITOR.instances.question_title.setData("");
+            $("#option_image_a").val(null);
+            $("#option_image_b").val(null);
+            $("#option_image_c").val(null);
+            $("#option_image_d").val(null);
+            $("#option_image_e").val(null);
+            CKEDITOR.instances.option_a.setData("");
+            CKEDITOR.instances.option_b.setData("");
+            CKEDITOR.instances.option_c.setData("");
+            CKEDITOR.instances.option_d.setData("");
+            CKEDITOR.instances.option_e.setData("");
+            $("#score_benar").val("");
+            $("#score_salah").val("");
+            $("#score_lewat").val("");
+            $("#answer_key").val("");
+            $("#orientation").val("");
+
         }
 
         var table = $('#table-list').DataTable({
@@ -106,7 +123,8 @@
 
 
         $("#form-tambah").submit(function(e) {
-            // loading("btn-save-data");
+            $("#btn-simpan-data").text("Processing...");
+            $("#btn-simpan-data").attr("disabled", true);
 
             e.preventDefault();
             var id = $('#id').val();
@@ -135,7 +153,8 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // unloading("btn-save-data", "Save");
+                    $("#btn-simpan-data").text("Simpan");
+                    $("#btn-simpan-data").removeAttr("disabled");
                     if (data.success) {
                         $('#modal-tambah').modal('hide');
                         table.ajax.reload(null, false);

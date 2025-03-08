@@ -163,6 +163,13 @@ class SoalController extends Controller
 
     }
 
+    public function soal_clean(Request $request) {
+        $input = $request->all();
+
+        $data = Ujian::where('soal_id', $input['id'])->delete();
+        return $data;
+    }
+
 
     public function copynow(Request $request) {
         $input = $request->all();
@@ -282,15 +289,20 @@ class SoalController extends Controller
                 <a title="Manajemen Soal" href="'.url('posiadmin/ujian/'.$data->id).'" class="w-32-px h-32-px bg-info-focus text-primary-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:checked-bag-question-outline"></iconify-icon>
                 </a>
-                <a onclick="editData(' .
+                <a title="Edit Data" onclick="editData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
                 </a>
-                <a onclick="deleteData(' .
+                <a title="Hapus Data" onclick="deleteData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+                </a>
+                <a title="Bersihkan Soal" onclick="cleanData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:cleaning-bucket-outline-rounded"></iconify-icon>
                 </a>';
             })
             ->rawColumns(['action','competition_id','level_id','study_id','jumlah_soal'])

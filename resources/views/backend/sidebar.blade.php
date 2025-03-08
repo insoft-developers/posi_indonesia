@@ -105,14 +105,17 @@
               <li class="dropdown">
                 <a href="javascript:void(0)">
                  <i class="ri-id-card-line text-xl me-14 d-flex w-auto"></i>
-                  <span>Data Soal</span> 
+                  <span>Data Ujian</span> 
                 </a>
                 <ul class="sidebar-submenu">
                   <li>
                     <a href="{{ url('posiadmin/soal') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Soal</a>
                   </li>
                   <li>
-                    <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Pembahasan</a>
+                    <a href="{{ url('posiadmin/hasil') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Daftar Hasil</a>
+                  </li>
+                  <li>
+                    <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pembahasan</a>
                   </li>
                  
                 </ul>
