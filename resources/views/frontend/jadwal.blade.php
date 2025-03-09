@@ -104,7 +104,11 @@
                             
                             @endphp
 
-                            @if($cek->count() > 0 && $cek2->count() > 0)
+                            {{-- @if($cek->count() > 0 && $cek2->count() > 0) --}}
+
+                            @if($cek->count() > 0)
+
+                            
 
                             @php  $ada++;  @endphp
                             <div class="col-lg-6 col-md-6">

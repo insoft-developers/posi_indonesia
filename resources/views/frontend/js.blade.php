@@ -1632,49 +1632,6 @@
                             HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
-                            selected_answer = 3;
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        }
-
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
-                            selected_answer = 5;
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        }
-
-
-                        HTML += '</div>';
-                        HTML += '<div class="col-md-6">';
-
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
@@ -1697,6 +1654,36 @@
                         }
 
 
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        }
+
+
+
+                        
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        
+
+
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
@@ -1716,6 +1703,26 @@
                             }
                             HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -1847,49 +1854,6 @@
                             HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
-                            selected_answer = 3;
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        }
-
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
-                            selected_answer = 5;
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        }
-
-
-                        HTML += '</div>';
-                        HTML += '<div class="col-md-6">';
-
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
                             HTML +=
@@ -1912,6 +1876,36 @@
                         }
 
 
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        }
+
+
+
+                        
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
+                        
+
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
                             HTML +=
@@ -1931,6 +1925,26 @@
                             }
                             HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
@@ -2055,48 +2069,6 @@
                             HTML += 'A. ' + data.data[av].option_a + '</div>';
                         }
 
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
-                            selected_answer = 3;
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
-                            if (data.data[av].option_image_c != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_c + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'C. ' + data.data[av].option_c + '</div>';
-                        }
-
-                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
-                            selected_answer = 5;
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        } else {
-                            HTML +=
-                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
-                            if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
-                                    .option_image_e + '" class="gambar-soal img-responsive">';
-                            }
-                            HTML += 'E. ' + data.data[av].option_e + '</div>';
-                        }
-
-
-                        HTML += '</div>';
-                        HTML += '<div class="col-md-6">';
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'b') {
                             selected_answer = 2;
@@ -2119,6 +2091,31 @@
                                 .data[av].option_b + '</div>';
                         }
 
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'c') {
+                            selected_answer = 3;
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(3)" id="jawaban-c" class="jawaban-item">';
+                            if (data.data[av].option_image_c != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_c + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'C. ' + data.data[av].option_c + '</div>';
+                        }
+
+                       
+
+
+                        HTML += '</div>';
+                        HTML += '<div class="col-md-6">';
+
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
@@ -2139,6 +2136,26 @@
                             }
                             HTML += 'D. ' + data
                                 .data[av].option_d + '</div>';
+                        }
+
+                        if (data.ada == 1 && data.exist.jawaban_soal == 'e') {
+                            selected_answer = 5;
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
+                        } else {
+                            HTML +=
+                                '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item">';
+                            if (data.data[av].option_image_e != null) {
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                    .option_image_e + '" class="gambar-soal img-responsive">';
+                            }
+                            HTML += 'E. ' + data.data[av].option_e + '</div>';
                         }
 
 
