@@ -140,6 +140,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/pemberitahuan', PengumumanController::class);
     Route::get('/pemberitahuan_table', [PengumumanController::class, 'pemberitahuan_table'])->name('pemberitahuan.table');
+    Route::get('/get_pengumuman_study/{id}', [PengumumanController::class, 'get_pengumuman_study']);
+    Route::get('/get_pengumuman_level/{id}', [PengumumanController::class, 'get_pengumuman_level']);
     
 
 

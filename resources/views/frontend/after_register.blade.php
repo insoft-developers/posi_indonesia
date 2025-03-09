@@ -72,7 +72,7 @@
                             <p class="user-name-display">{{ $user->name }}</p>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="form-wrapper">
 
 
@@ -201,7 +201,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="form-wrapper">
 
                                         <div class="single-form">
