@@ -244,7 +244,7 @@
             </div>
             <div style="margin-top:100px;"></div>
             <!-- Blog Wrapper End -->
-            {{-- <div class="section-title shape-03">
+            <div class="section-title shape-03">
                 <h2 class="main-judul">Pengumuman Hasil Kompetisi</h2>
             </div>
             <div class="blog-wrapper">
@@ -252,11 +252,7 @@
 
                 <div class="row">
                     @foreach ($umum as $um)
-                        @php
-                        $levels_id = explode(",", $um->level);
-                        
-                        @endphp
-                        @foreach($levels_id as $li)
+                       
                         <div class="col-lg-12 col-md-12 col-sm-12">
 
                             <!-- Single Blog Start -->
@@ -268,23 +264,21 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
-                                                @php
-                                                $lavel = \App\Models\Level::find($li);
-                                            @endphp
-                                                <div class="subtitle-pengumuman">{{ $lavel->level_name }}</div>
+                                               
+                                                <div class="subtitle-pengumuman"></div>
                                             </div>
                                         </div>
                                         <div style="margin-top:-25px"></div>
                                         <hr />
                                         <div class="row">
-                                            @foreach ($um->study as $s)
+                                            {{-- @foreach ($um->study as $s)
                                                 @if($s->level_id == $li)
                                                 <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})"
                                                     class="col-md-4 study-item"><img class="icon-n"
                                                         src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
                                                     {{ $s->pelajaran->name }}</div>
                                                 @endif
-                                            @endforeach
+                                            @endforeach --}}
                                         </div>
                                     </div>
                                 </div>
@@ -293,10 +287,10 @@
                             <!-- Single Blog End -->
 
                         </div>
-                        @endforeach
+                      
                     @endforeach
                 </div>
-            </div> --}}
+            </div>
             <div style="margin-top:50px;"></div>
         </div>
     </div>

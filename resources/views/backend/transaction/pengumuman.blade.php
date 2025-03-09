@@ -32,7 +32,7 @@
                                 <th scope="col">Deskripsi</th>
                                 <th scope="col">Kompetisi</th>
                                 <th scope="col">Bidang Studi</th>
-                                <th scope="col">Jenjang</th>
+                               
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -74,25 +74,18 @@
                         <div style="margin-top:15px;"></div>
                         <div class="col-12">
                             <label class="form-label">Bidang Studi</label>
-                            <select id="study_id" name="study_id" class="form-control">
+                            <select id="study_id" name="study_id[]" class="form-control" multiple="multiple">
                                 <option value=""> - Pilih - </option>
                                
                             </select>
                         </div>
 
-                        <div style="margin-top:15px;"></div>
-                        <div class="col-12">
-                            <label class="form-label">Jenjang/Level</label>
-                            <select id="level_id" name="level_id" class="form-control">
-                                <option value=""> - Pilih - </option>
-                               
-                            </select>
-                        </div>
+                       
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button id="btn-simpan-data" type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
             </form>

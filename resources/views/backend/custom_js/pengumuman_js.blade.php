@@ -1,42 +1,37 @@
 @if ($view == 'pengumuman')
     <script>
+        $("#study_id").select2({
+            dropdownParent: $("#modal-tambah .modal-content"),
+            placeholder: 'Pilih'
+        });
 
-        $("#competition_id").change(function(){
+        $("#competition_id").change(function() {
             var competisi = $(this).val();
+            change_competition(competisi, null);
+        });
+
+
+        function change_competition(competisi, selected) {
             $.ajax({
-                url: "{{ url('posiadmin/get_pengumuman_study') }}"+"/"+competisi,
+                url: "{{ url('posiadmin/get_pengumuman_study') }}" + "/" + competisi,
                 type: "GET",
                 success: function(data) {
                     console.log(data);
                     var html = '';
                     html += '<option value=""> - Pilih Bidang Studi - </option>';
-                    for(var i=0; i<data.length; i++) {
-                        html += '<option value="'+data[i].id+'">'+data[i].pelajaran.name+'</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].id + '">' + data[i].pelajaran.name +
+                            ' - ' + data[i].level.level_name + '</option>';
                     }
 
                     $("#study_id").html(html);
-                }
-            });
-        });
-
-
-        $("#study_id").change(function(){
-            var study_id = $(this).val();
-            $.ajax({
-                url: "{{ url('posiadmin/get_pengumuman_level') }}"+"/"+study_id,
-                type: "GET",
-                success: function(data) {
-                    console.log(data);
-                    var html = '';
-                    html += '<option value=""> - Pilih Jenjang - </option>';
-                    for(var i=0; i<data.length; i++) {
-                        html += '<option value="'+data[i].id+'">'+data[i].level_name+'</option>';
+                    if (selected !== null) {
+                        $("#study_id").val(selected).trigger('change');
                     }
-
-                    $("#level_id").html(html);
                 }
             });
-        });
+        }
+
 
         function tambah() {
             save_method = "add";
@@ -48,10 +43,12 @@
 
         function reset_form() {
             $('#id').val("");
-            $("#level_name").val("");
-            $("#jenjang").val("");
+            $("#competition_id").val("");
+            $("#study_id").val(null).trigger('change');
+            $("#description").val("");
+
         }
-        
+
         var table = $('#table-list').DataTable({
             processing: true,
             serverSide: true,
@@ -83,40 +80,38 @@
                     searchable: false
                 },
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: 'description',
+                    name: 'description',
                 },
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: 'competition_id',
+                    name: 'competition_id',
                 },
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: 'study_id',
+                    name: 'study_id',
                 },
+
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: 'is_status',
+                    name: 'is_status',
                 },
-                {
-                    data: 'id',
-                    name: 'id',
-                },
-                
+
 
             ]
         });
 
 
         $("#form-tambah").submit(function(e) {
-            // loading("btn-save-data");
+            $("#btn-simpan-data").text("Processing...");
+            $("#btn-simpan-data").attr("disabled", true);
 
             e.preventDefault();
             var id = $('#id').val();
-            if (save_method == "add") url = "{{ url('/posiadmin/level') }}";
-            else url = "{{ url('/posiadmin/level') . '/' }}" + id;
+            if (save_method == "add") url = "{{ url('/posiadmin/pemberitahuan') }}";
+            else url = "{{ url('/posiadmin/pemberitahuan') . '/' }}" + id;
             var form = new FormData($('#modal-tambah form')[0]);
-            
+
             $.ajax({
                 url: url,
                 type: "POST",
@@ -124,7 +119,8 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // unloading("btn-save-data", "Save");
+                    $("#btn-simpan-data").text("Simpan");
+                    $("#btn-simpan-data").removeAttr("disabled");
                     if (data.success) {
                         $('#modal-tambah').modal('hide');
                         table.ajax.reload(null, false);
@@ -146,32 +142,71 @@
             save_method = "edit";
             $('input[name=_method]').val('PATCH');
             $.ajax({
-                url: "{{ url('/posiadmin/level') }}" + "/" + id + "/edit",
+                url: "{{ url('/posiadmin/pemberitahuan') }}" + "/" + id + "/edit",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
                     $('#modal-tambah').modal("show");
-                    $('.modal-title').text("Edit Level");
+                    $('.modal-title').text("Edit Pengumuman");
                     $('#id').val(data.id);
-                    $("#level_name").val(data.level_name);
-                    $("#jenjang").val(data.jenjang);
+                    $("#description").val(data.description);
+                    $("#competition_id").val(data.competition_id);
+                    var study = data.study_id;
+                    var study_string = study.split(",");
+
+                    change_competition(data.competition_id, study_string);
                 }
             });
         }
 
-       
+
         function deleteData(id) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             var pop = confirm('Hapus Data ?');
 
             if (pop === true) {
                 $.ajax({
-                    url: "{{ url('posiadmin/level') }}" + "/" + id,
+                    url: "{{ url('posiadmin/pemberitahuan') }}" + "/" + id,
                     type: "DELETE",
                     dataType: "JSON",
-                    data: {"id":id, '_token':csrf_token},
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
                     success: function(data) {
                         table.ajax.reload(null, false);
+                    }
+                })
+            }
+        }
+
+
+        function hitungData(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var pop = confirm('Hitung hasil ujian dan buat pengumuman ?');
+
+            if (pop === true) {
+                $.ajax({
+                    url: "{{ url('posiadmin/hitung_hasil_ujian') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
+                    success: function(data) {
+                        
+                        if (data.success) {
+                            table.ajax.reload(null, false);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Failed',
+                                html: data.message,
+                                showConfirmButton: false,
+                                scrollbarPadding: false,
+                            });
+                        }
                     }
                 })
             }
