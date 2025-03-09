@@ -295,7 +295,8 @@
             <!-- Menu Close End -->
 
            
-            @if (Auth::check()) 
+            @if (Auth::check())
+            <ul> 
             <li>
                 @if ($user->user_image == null)
                     @if ($user->jenis_kelamin == 'Laki Laki')
@@ -320,7 +321,7 @@
 
             </li>
             <li><p class="m-name">{{ $user->name }}</p></li>
-           
+            </ul>
             @else
             <div class="mobile-top">
                 <p><i class="flaticon-phone-call"></i> <a href="tel:9702621413">{{ $setting->admin_wa }}</a></p>

@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @if ($transaction->count() > 0)
-                            <table id="table-transaction" class="table table-bordered" style="font-size: 14px;">
+                            <table id="table-transaction" class="table table-bordered table-desktop" style="font-size: 14px;">
                                 <thead>
                                     <tr>
                                         <th>No Invoice</th>
@@ -116,6 +116,95 @@
                                     </tr>
                                 </tfoot>
                             </table>
+
+
+                           
+                                
+
+                                @foreach ($transaction as $t)
+                                <table id="table-transaction-mobile" class="table table-bordered table-mobile" style="font-size: 14px;">
+                                  
+                                    <tr style="vertical-align: middle">
+                                        <td width="20%"><a href="{{ url('show-invoice/' . $t->invoice) }}"><span
+                                                    style="color:blue;text-decoration:underline">{{ $t->invoice }}</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">
+                                            @if ($t->total_amount > 0)
+                                                @if ($t->payment_status == 1)
+                                                    <span style="color: green"><strong><i class="fa fa-check"></i>
+                                                            PAID</strong></span>
+                                                @else
+                                                    <span style="color: orange">UNPAID</span>
+                                                @endif
+                                            @else
+                                                @if ($t->payment_status == 1)
+                                                    <span style="color: green"><strong><i class="fa fa-check"></i>
+                                                            APPROVED</strong></span>
+                                                @else
+                                                    <span style="color: orange">NOT APPROVED</span>
+                                                @endif
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">
+                                            <center>
+                                                @if ($t->total_amount > 0)
+                                                    @if ($t->image == null && $t->payment_status != 1)
+                                                        <span><a onclick="bayar({{ $t->id }})"
+                                                                href="javascript:void(0);"><img class="small-upload"
+                                                                    src="{{ asset('template/frontend/assets/umum/upload_icon.png') }}"><span
+                                                                    class="upload-click">Upload</span></a></span>
+                                                    @elseif($t->image == null && $t->payment_status == 1)
+                                                        <span>Online Payment</span>
+                                                    @else
+                                                        <a href="{{ asset('template/frontend/assets/bukti_transfer/' . $t->image) }}"
+                                                            target="_blank"><img class="image-bukti"
+                                                                src="{{ asset('template/frontend/assets/bukti_transfer/' . $t->image) }}"></a>
+                                                    @endif
+                                                @else
+                                                    <span style="color: green"><strong><i class="fa fa-check"></i>
+                                                            Gratis</strong></span>
+                                                @endif
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">
+                                            <strong>
+                                              
+                                                    Rp. {{ number_format($t->grand_total) }}
+                                              
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">{{ $t->payment_with == null ? 'no-payment' : $t->payment_with }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%">{{ date('d F Y H:i', strtotime($t->expired_time)) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if ($t->total_amount > 0)
+                                                @if ($t->payment_status == 1)
+                                                @else
+                                                    <center><button onclick="payment({{ $t->id }})"
+                                                            class="btn-insoft bg-success">Bayar</button></center>
+                                                @endif
+                                            @else
+                                                
+                                            @endif
+
+                                        </td>
+                                    </tr>
+                                </table>
+                                @endforeach
+                                
+                            
                         @else
                             <center><img src="{{ asset('template/frontend/assets/umum/empty_transaction.png') }}"
                                     class="empty-image"></center>

@@ -237,7 +237,7 @@
             </div>
             <div style="margin-top:100px;"></div>
             <!-- Blog Wrapper End -->
-            <div class="section-title shape-03">
+            {{-- <div class="section-title shape-03">
                 <h2 class="main-judul">Pengumuman Hasil Kompetisi</h2>
             </div>
             <div class="blog-wrapper">
@@ -289,7 +289,7 @@
                         @endforeach
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
             <div style="margin-top:50px;"></div>
         </div>
     </div>

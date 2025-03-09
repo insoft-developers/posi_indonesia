@@ -5,6 +5,15 @@
 @endif
 
 <style>
+    .table-mobile {
+        display: none;
+    }
+
+    .table-desktop {
+        width: 100% !important;
+        display: inline-table;
+    }
+
     @media print {
         .ujian-sekarang {
             display: none !important;
@@ -1261,20 +1270,26 @@
     </style>
 @endif
 
-@if($view !== 'home')
-
-<style>
-    @media only screen and (max-width: 768px) {
-        .wa-chat {
-    display: none;
- }
-    }
+@if ($view !== 'home')
+    <style>
+        @media only screen and (max-width: 768px) {
+            .wa-chat {
+                display: none;
+            }
+        }
     </style>
-
 @endif
 
 <style>
     @media only screen and (max-width: 768px) {
+        .table-desktop {
+            display: none;
+        }
+
+        .table-mobile {
+            display: inherit;
+        }
+
         .item-number {
             background: white;
             margin: 2px;
@@ -1385,6 +1400,15 @@
             width: 165% !important;
         }
 
+        .unit-cart {
+            background: white;
+            padding: 4px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            border: 1px solid grey;
+        }
+
         .btn-tambah-unit {
             background: white;
             padding: 3px 7px;
@@ -1394,8 +1418,9 @@
             color: white;
             font-weight: bold;
             margin-left: 26px;
-            top: 7px;
+            top: -21px;
             position: relative;
+            left: 10px;
         }
 
         .btn-kurang-unit {
@@ -1409,7 +1434,8 @@
             font-weight: bold;
             margin-right: 11px;
             position: relative;
-            top: 49px;
+            top: 21px;
+            left: -20px;
         }
 
         #grand-total {
@@ -1440,12 +1466,12 @@
             background: #e9e9e9;
         }
 
-     
+
 
         .m-name {
             position: relative;
-            left: 109px;
-            top: -68px;
+            left: 30%;
+            margin-top: -14%;
             font-weight: bold;
         }
 
@@ -1474,8 +1500,52 @@
             top: -85px;
             font-weight: bold;
         }
+
         #table-transaction_wrapper {
-            margin-top:80px;
+            margin-top: 80px;
+        }
+
+        .detail-name {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .detail-date {
+            font-weight: normal;
+            font-size: 11px;
+        }
+
+        .detail-time {
+            font-weight: bold;
+            font-size: 11px;
+
+        }
+
+        #btn_simpan_gratis {
+            position: relative;
+            left: -46%;
+        }
+
+        #btn_simpan_premium {
+            position: relative;
+            left: -45%;
+        }
+
+        #btn-daftar-free {
+            position: relative;
+            left: -75%;
+        }
+
+        .main-judul {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 22px;
+            color: #2a3049;
+            text-decoration: underline;
+            margin-bottom: 30px;
+        }
+        #table-transaction_wrapper{
+            display: none;
         }
     }
 </style>
