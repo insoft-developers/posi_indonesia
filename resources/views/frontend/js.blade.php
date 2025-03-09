@@ -115,6 +115,16 @@
 
 @if ($view == 'login')
     <script>
+        function show_password() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
         $(document).ready(function() {
             $("input[name='flexRadioDefault']").change(function() {
                 var nilai = $(this).val();
@@ -1394,10 +1404,12 @@
             document.addEventListener('visibilitychange', function(event) {
                 if (document.hidden) {
                     alert(
-                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung'
+                        );
                 } else {
                     alert(
-                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung');
+                        'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung'
+                        );
                 }
             });
 
