@@ -146,7 +146,10 @@
                                                 @foreach ($d->transaction as $index => $t)
                                                    
                                                
-                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id && $t->study->start_date >= $tanggal_sekarang && $t->study->finish_time >= $jam_selesai)
+                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id)
+
+
+                                                    {{-- @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id && $t->study->start_date >= $tanggal_sekarang && $t->study->finish_time >= $jam_selesai) --}}
                                                         @php
 
                                                             $session = \App\Models\ExamSession::where(
