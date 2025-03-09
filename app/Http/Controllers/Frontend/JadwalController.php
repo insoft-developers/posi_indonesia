@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\ExamSession;
 use App\Models\Invoice;
+use App\Models\Pengumuman;
 use App\Models\Product;
 use App\Models\Study;
 use App\Models\Transaction;
@@ -33,7 +34,8 @@ class JadwalController extends Controller
         $data = $query->get();
 
         $sekarang = date('Y-m-d');
-        $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
+        // $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
+        $umum = Pengumuman::where('is_status', 1)->get();
 
         return view('frontend.jadwal', compact('view', 'data', 'umum'));
     }
@@ -96,7 +98,9 @@ class JadwalController extends Controller
         }
 
         $rows = [];
-        $products = Product::where('competition_id', $session->competition_id)->where('study_id', $session->study_id)->get();
+        // $products = Product::where('competition_id', $session->competition_id)->where('study_id', $session->study_id)->get();
+
+         $products = Product::where('is_active', 1)->get();
 
         foreach ($products as $product) {
             $product_for = explode(',', $product->product_for);
