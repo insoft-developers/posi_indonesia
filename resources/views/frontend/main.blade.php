@@ -87,8 +87,10 @@
                         @if($k->agama == null || $k->agama == $user->agama)
                         @php
                             $query = \App\Models\Transaction::where('competition_id', $k->id)
-                                ->distinct('userid')
+                                // ->distinct('userid')
                                 ->count('id');
+
+                                
 
                             $transaction = $query;
 
@@ -221,7 +223,7 @@
                                     </div>
 
                                     @php
-                                        $transaction = \App\Models\Transaction::where('userid', Auth::user()->id)
+                                        $tr = \App\Models\Transaction::where('userid', Auth::user()->id)
                                             ->where('competition_id', $k->id)
                                             ->whereHas('invoices', function($q){
                                                 $q->where('payment_status', 1);
@@ -230,7 +232,7 @@
                                      
 
                                     @endphp
-                                    @if($transaction > 0)
+                                    @if($tr > 0)
                                     <div class="blog-note">
                                         <a target="_blank" href="{{ $k->link_zoom }}">Link Zoom</a>
                                         <a target="_blank" style="margin-left:15px;" href="{{ $k->link_wa }}">Link Whatsapp</a>
