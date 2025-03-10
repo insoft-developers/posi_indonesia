@@ -29,13 +29,15 @@ class RiwayatController extends Controller
         });
 
         $query->whereHas('transaction.invoices', function ($q) use ($userid) {
-            $q->where('userid', $userid);
+          
             $q->where('payment_status', 1);
             $q->where('transaction_status', 1);
         });
         // $query->where('date', '<', $tanggal_sekarang);
        
         $com = $query->get();
+
+        
 
         return view('frontend.riwayat', compact('view', 'com'));
     }

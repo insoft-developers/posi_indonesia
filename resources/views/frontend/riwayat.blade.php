@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Banner Start -->
     <div class="section page-banner">
-
+    
 
     </div>
     <!-- Page Banner End -->
@@ -17,7 +17,6 @@
                 <h2 class="main-judul">Riwayat</h2>
             </div>
             <div class="blog-wrapper">
-
                 <div style="margin-top:30px;"></div>
                 <div class="row">
 
@@ -28,11 +27,17 @@
                     @foreach ($com as $c)
                         @php
 
+
                             $cek = \App\Models\ExamSession::where('competition_id', $c->id)
                                 ->where('userid', Auth::user()->id)
                                 ->where('is_finish', 1)
                                 ->count();
+
+                            
+                           
                         @endphp
+
+                        
                         @if ($cek > 0)
                             <div class="col-md-4">
                                 <div class="main-card mb-3 card">
