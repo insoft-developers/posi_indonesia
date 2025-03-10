@@ -9,6 +9,7 @@ use App\Models\Competition;
 use App\Models\CompetitionBonusProduct;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\ProductDocument;
 use App\Models\Transaction;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
@@ -144,6 +145,8 @@ class RiwayatController extends Controller
         }
 
         $product = Product::findorFail($productid);
+        $document = ProductDocument::where('competition_id', $transaction->competition_id)->where('product_id', $productid)->first();
+        $file = $document->document;
 
         if($product->document_type == 'pembahasan') {
             $view = 'pembahasan';
@@ -155,7 +158,7 @@ class RiwayatController extends Controller
 
             return view('frontend.pembahasan', compact('product','transaction', 'view', 'ujian'));
         } else {
-            return view('frontend.cert', compact('product','transaction'));
+            return view('frontend.cert', compact('product','transaction', 'file'));
         }
 
 

@@ -61,7 +61,7 @@
                                                     ->where('userid', Auth::user()->id)
                                                     ->count();
                                             @endphp
-                                            @if ($s->userid == Auth::user()->id && $s->invoices->payment_status == 1 && $s->invoices->transaction_status == 1)
+                                            @if ($s->userid == Auth::user()->id && $s->invoices->payment_status == 1 && $s->invoices->transaction_status == 1 && $s->product_id == null)
                                                 @if ($session > 0)
                                                     @php $ada++;  @endphp
                                                     <div
@@ -81,12 +81,27 @@
                                                                     <p class="timeline-subtitle">Sebagai Peserta Aktif</p>
                                                                     <div class="list-tools" style="margin-left: -8px;">
 
-                                                                        <div onclick="show_pengumuman({{ $c->id }},{{ $s->study->id }})"
+                                                                        @php
+                                                                        $nounce = \App\Models\Pengumuman::where('competition_id', $s->competition_id)->get();
+                                                                        @endphp
+                                                                       
+                                                                        @foreach($nounce as $noun)
+                                                                        @php
+                                                                            $studies = explode(",", $noun->study_id);            
+                                                                        @endphp
+                                                                        @foreach($studies as $stu)                        
+                                                                        @if($stu == $s->study_id)
+                                                                        <div onclick="show_pengumuman({{ $noun->id }})"
                                                                             class="riwayat-tools">
                                                                             <img class="riwayat-tools-image"
                                                                                 src="{{ asset('template/frontend/assets/umum/pengumuman.png') }}"><span
                                                                                 class="riwayat-text">Pengumuman</span>
                                                                         </div>
+                                                                        @endif
+                                                                        @endforeach
+                                                                        
+                                                                        @endforeach
+                                                                       
                                                                         @php
                                                                             $transaction = \App\Models\Transaction::where(
                                                                                 'competition_id',

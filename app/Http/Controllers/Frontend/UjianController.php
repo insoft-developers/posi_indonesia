@@ -334,6 +334,7 @@ class UjianController extends Controller
         $session = ExamSession::where('token', $input['token_id'])->first();
         $session->is_finish = 1;
         $session->token = $new_token;
+        $session->updated_at = date('Y-m-d H:i:s');
         $session->save();
 
         return response()->json([

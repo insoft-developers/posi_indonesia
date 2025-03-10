@@ -56,7 +56,10 @@ class PengumumanController extends Controller
 
     protected function set_juara($id) {
        
-        $data = ExamSession::where('hitung_id', $id)->orderBy('total_score','desc')->get();
+        $data = ExamSession::where('hitung_id', $id)
+            ->orderBy('total_score','desc')
+            ->orderBy('updated_at','asc')
+            ->get();
         $jumlah_pendaftar = $data->count();
         $hitung_emas = 0.05 * $jumlah_pendaftar;
         $jumlah_emas = round($hitung_emas);

@@ -87,26 +87,30 @@
 
                             $cek = DB::table('transactions as t')->where('t.competition_id', $d->id)->where('t.userid', Auth::user()->id)
                             ->where('i.payment_status', 1)
-                            ->join('invoices as i', 'i.id', '=', 't.invoice_id', 'left')->get();
+                            ->whereNull('t.product_id')
+                            ->join('invoices as i', 'i.id', '=', 't.invoice_id', 'left')
+                            ->get();
 
                             
                             $userid = Auth::user()->id;
-                            $cek2 = \App\Models\Study::with('transaction')->where('competition_id', $d->id)
-                                ->where('start_date', '>=', $sekarang)
-                                ->where('finish_time', '>=', $waktu)
-                                ->whereHas('transaction', function($q) use ($userid){
-                                    $q->where('userid', $userid);
-                                })
-                                ->get();
+                            // $cek2 = \App\Models\Study::with('transaction')->where('competition_id', $d->id)
+                            //     ->where('start_date', '>=', $sekarang)
+                            //     ->where('finish_time', '>=', $waktu)
+                            //     ->whereHas('transaction', function($q) use ($userid){
+                            //         $q->where('userid', $userid);
+                            //     })
+                            //     ->get();
                                 
-                        
+                            $cek3 = \App\Models\ExamSession::where('competition_id', $d->id)
+                                ->where('is_finish', 1)
+                                ->where('userid', $userid)->get();
 
                             
                             @endphp
 
                             {{-- @if($cek->count() > 0 && $cek2->count() > 0) --}}
 
-                            @if($cek->count() > 0)
+                            @if($cek->count() > 0 && $cek3->count() <= 0 )
 
                             
 
@@ -146,7 +150,7 @@
                                                 @foreach ($d->transaction as $index => $t)
                                                    
                                                
-                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id)
+                                                    @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id && $t->product_id == null)
 
 
                                                     {{-- @if ($t->invoices->payment_status == 1 && $t->invoices->transaction_status == 1 && $t->study->level_id == Auth::user()->level_id && $t->study->start_date >= $tanggal_sekarang && $t->study->finish_time >= $jam_selesai) --}}
@@ -259,11 +263,11 @@
                             <div class="single-blog box-pengumuman">
                                 <div class="row">
                                     <div class="col-md-4"><img class="img-pengumuman"
-                                            src="{{ asset('template/frontend/assets/kompetisi/' . $um->image) }}"></div>
+                                            src="{{ asset('template/frontend/assets/kompetisi/' . $um->competition->image) }}"></div>
                                     <div class="col-md-8 bagian-dua">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="title-pengumuman">Pengumuman {{ $um->title }}</div>
+                                                <div class="title-pengumuman">Pengumuman {{ $um->competition->title }}</div>
                                                
                                                 <div class="subtitle-pengumuman"></div>
                                             </div>
@@ -271,14 +275,17 @@
                                         <div style="margin-top:-25px"></div>
                                         <hr />
                                         <div class="row">
-                                            {{-- @foreach ($um->study as $s)
-                                                @if($s->level_id == $li)
-                                                <div onclick="show_pengumuman({{ $s->competition_id }} , {{ $s->id }})"
+                                            @php
+                                            $nounce = \App\Models\Pengumuman::where('competition_id', $um->competition_id)->get();
+                                            @endphp
+                                            @foreach ($nounce as $s)
+                                                {{-- @if($s->level_id == $li) --}}
+                                                <div onclick="show_pengumuman({{ $s->id }})"
                                                     class="col-md-4 study-item"><img class="icon-n"
                                                         src="{{ asset('template/frontend/assets/umum/mega_phone.png') }}">
-                                                    {{ $s->pelajaran->name }}</div>
-                                                @endif
-                                            @endforeach --}}
+                                                    {{ $s->description }}</div>
+                                                {{-- @endif --}}
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
