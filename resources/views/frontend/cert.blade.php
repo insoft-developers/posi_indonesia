@@ -15,12 +15,9 @@
 
         }
 
-
-
-
         .sheet.padding-5mm {
             padding: 5mm;
-            background: url('{{ asset('storage/image_files/product/document/' . $product->document) }}');
+            background: url('{{ asset('storage/image_files/product/document/' . $file) }}');
             background-size: cover;
             display: block;
         }

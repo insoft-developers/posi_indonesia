@@ -35,7 +35,7 @@ class JadwalController extends Controller
 
         $sekarang = date('Y-m-d');
         // $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
-        $umum = Pengumuman::where('is_status', 1)->get();
+        $umum = Pengumuman::where('is_status', 1)->groupBy('competition_id')->orderBy('id','desc')->get();
 
         return view('frontend.jadwal', compact('view', 'data', 'umum'));
     }
@@ -43,11 +43,14 @@ class JadwalController extends Controller
     public function show_pengumuman(Request $request)
     {
         $input = $request->all();
+        
+        $pengumuman = Pengumuman::find($input['hasilid']);
 
-        $com = Competition::findorFail($input['comid']);
-        $study = Study::with('pelajaran', 'level')->where('id', $input['study'])->first();
+        $com = Competition::find($pengumuman->competition_id);
+        // $study = Study::with('pelajaran', 'level')->where('id', $input['study'])->first();
+        $study = [];
 
-        $data = ExamSession::with('user.wilayah')->where('competition_id', $input['comid'])->where('study_id', $input['study'])->orderBy('total_score', 'desc')->get();
+        $data = ExamSession::with('user.wilayah')->where('hitung_id', $input['hasilid'])->orderBy('total_score', 'desc')->get();
 
         return response()->json([
             'data' => $data,
@@ -60,10 +63,13 @@ class JadwalController extends Controller
     {
         $input = $request->all();
         $keyword = $input['search'];
-        $com = Competition::findorFail($input['comid']);
-        $study = Study::with('pelajaran', 'level')->where('id', $input['study'])->first();
+        $pengumuman = Pengumuman::find($input['hasilid']);
 
-        $query = ExamSession::with('user.wilayah')->where('competition_id', $input['comid'])->where('study_id', $input['study'])->orderBy('total_score', 'desc');
+        $com = Competition::find($pengumuman->competition_id);
+        // $study = Study::with('pelajaran', 'level')->where('id', $input['study'])->first();
+        $study = [];
+
+        $query = ExamSession::with('user.wilayah')->where('hitung_id', $input['hasilid'])->orderBy('total_score', 'desc');
 
         if (!empty($keyword)) {
             $query->whereHas('user', function ($q) use ($keyword) {

@@ -1098,8 +1098,7 @@
                 url: "{{ route('search.pengumuman') }}",
                 type: "POST",
                 data: {
-                    "comid": comid,
-                    "study": study,
+                    "hasilid":comid,
                     "search": nilai,
                     "_token": csrf_token
                 },
@@ -1172,25 +1171,25 @@
             });
         });
 
-        function show_pengumuman(comid, study) {
+        function show_pengumuman(hasilid) {
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
-            $("#pengumuman-competition-id").val(comid);
-            $("#pengumuman-study-id").val(study);
+            $("#pengumuman-competition-id").val(hasilid);
+            $("#pengumuman-study-id").val(hasilid);
             $.ajax({
                 url: "{{ route('show.pengumuman') }}",
                 type: "POST",
                 data: {
-                    "comid": comid,
-                    "study": study,
+                    
+                    "hasilid": hasilid,
                     "_token": csrf_token
                 },
                 success: function(data) {
 
                     $("#modal-pengumuman").modal("show");
                     $(".modal-head-title").text(data.com.title);
-                    $("#modal-subtitle").text(data.study.pelajaran.name + ' ' + data.study.level.level_name);
+                    // $("#modal-subtitle").text(data.study.pelajaran.name + ' ' + data.study.level.level_name);
 
-
+                    console.log(data.data);
 
                     var html = '';
                     if (data.data.length > 0) {
@@ -1221,10 +1220,19 @@
 
                             html += '</div>';
                             html += '<div class="col-md-9">';
-                            html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
+
+                            if(data.data[i].user.wilayah == null) {
+                                html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
+                                .name
+                                .toUpperCase() + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                            } else {
+                                html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
                                 .name
                                 .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
                                 .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                            }
+
+                           
                             if (data.data[i].medali == 'emas') {
                                 html += '<span class="ann-school">Peraih Medali Emas</span>';
                             } else if (data.data[i].medali == 'perak') {
