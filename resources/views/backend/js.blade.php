@@ -13,3 +13,4 @@
 @include('backend.custom_js.collective_js')
 @include('backend.custom_js.hasil_js')
 @include('backend.custom_js.pengumuman_js')
+@include('backend.custom_js.winner_js')

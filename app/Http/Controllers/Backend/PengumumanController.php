@@ -17,49 +17,44 @@ class PengumumanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function hitung_hasil_ujian(Request $request) {
+    public function hitung_hasil_ujian(Request $request)
+    {
         $input = $request->all();
         DB::beginTransaction();
         $id = $input['id'];
         $pengumuman = Pengumuman::find($id);
         $competition_id = $pengumuman->competition_id;
-        $study_id = explode(",", $pengumuman->study_id);
-        
-        if(count($study_id) > 0) {
+        $study_id = explode(',', $pengumuman->study_id);
 
-            foreach($study_id as $s) {
+        if (count($study_id) > 0) {
+            foreach ($study_id as $s) {
                 $session = ExamSession::where('competition_id', $competition_id)
                     ->where('study_id', $s)
                     ->where('is_finish', 1)
                     ->update([
-                        "hitung_id" => $id
+                        'hitung_id' => $id,
                     ]);
             }
             $this->set_juara($id);
-            Pengumuman::where('id', $id)->update(["is_status"=> 1]);
+            Pengumuman::where('id', $id)->update(['is_status' => 1]);
 
             DB::commit();
             return response()->json([
-                "success" => true,
-                "message" => 'Success'
+                'success' => true,
+                'message' => 'Success',
             ]);
         } else {
             DB::rollBack();
             return response()->json([
-                "success" => false,
-                "message" => 'Bidang Studi tidak terdaftar'
+                'success' => false,
+                'message' => 'Bidang Studi tidak terdaftar',
             ]);
         }
-
     }
 
-
-    protected function set_juara($id) {
-       
-        $data = ExamSession::where('hitung_id', $id)
-            ->orderBy('total_score','desc')
-            ->orderBy('updated_at','asc')
-            ->get();
+    protected function set_juara($id)
+    {
+        $data = ExamSession::where('hitung_id', $id)->orderBy('total_score', 'desc')->orderBy('updated_at', 'asc')->get();
         $jumlah_pendaftar = $data->count();
         $hitung_emas = 0.05 * $jumlah_pendaftar;
         $jumlah_emas = round($hitung_emas);
@@ -71,18 +66,18 @@ class PengumumanController extends Controller
         $awal_emas = 0;
         $akhir_emas = $jumlah_emas;
         $awal_perak = $jumlah_emas;
-        $akhir_perak = (int)$jumlah_emas + (int)$jumlah_perak;
-        $awal_perunggu = (int)$jumlah_emas + (int)$jumlah_perak;
-        $akhir_perunggu = (int)$jumlah_emas + (int)$jumlah_perak + (int)$jumlah_perunggu;
+        $akhir_perak = (int) $jumlah_emas + (int) $jumlah_perak;
+        $awal_perunggu = (int) $jumlah_emas + (int) $jumlah_perak;
+        $akhir_perunggu = (int) $jumlah_emas + (int) $jumlah_perak + (int) $jumlah_perunggu;
 
         foreach ($data as $index => $p) {
-            if ($index >= $awal_emas && $index < $akhir_emas && $p->total_score >=0) {
+            if ($index >= $awal_emas && $index < $akhir_emas && $p->total_score >= 0) {
                 $medali = 'emas';
                 $nilai = 'A+';
-            } elseif ($index >= $awal_perak && $index < $akhir_perak && $p->total_score >=0) {
+            } elseif ($index >= $awal_perak && $index < $akhir_perak && $p->total_score >= 0) {
                 $medali = 'perak';
                 $nilai = 'A';
-            } elseif ($index >= $awal_perunggu && $index < $akhir_perunggu && $p->total_score >=0) {
+            } elseif ($index >= $awal_perunggu && $index < $akhir_perunggu && $p->total_score >= 0) {
                 $medali = 'perunggu';
                 $nilai = 'B+';
             } else {
@@ -90,31 +85,27 @@ class PengumumanController extends Controller
                 $nilai = 'B';
             }
 
-            ExamSession::where('id', $p->id)->update(['medali' => $medali, 'nilai'=> $nilai]);
+            ExamSession::where('id', $p->id)->update(['medali' => $medali, 'nilai' => $nilai]);
         }
     }
 
-
-    public function get_pengumuman_study($id) {
-        $data = Study::with('pelajaran','level')->where('competition_id', $id)->get();
+    public function get_pengumuman_study($id)
+    {
+        $data = Study::with('pelajaran', 'level')->where('competition_id', $id)->get();
         return $data;
     }
 
-
-    public function get_pengumuman_level($pelajaran, $competition) {
-       
-        $data = Study::with('level')->where('competition_id', (int)$competition)
-            ->where('pelajaran_id', (int)$pelajaran)
-            ->get();
+    public function get_pengumuman_level($pelajaran, $competition)
+    {
+        $data = Study::with('level')->where('competition_id', (int) $competition)->where('pelajaran_id', (int) $pelajaran)->get();
         return $data;
     }
-
 
     public function index()
     {
         $view = 'pengumuman';
         $competition = Competition::all();
-        return view('backend.transaction.pengumuman', compact('view','competition'));
+        return view('backend.transaction.pengumuman', compact('view', 'competition'));
     }
 
     /**
@@ -132,33 +123,32 @@ class PengumumanController extends Controller
     {
         $input = $request->all();
         $rules = [
-            "description" => "required",
-            "competition_id" => "required",
-            "study_id" => "required",
+            'description' => 'required',
+            'competition_id' => 'required',
+            'study_id' => 'required',
         ];
 
         $validator = Validator::make($input, $rules);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $pesan = $validator->errors();
-            $pesanarr = explode(",", $pesan);
-            $find = array("[","]","{","}");
+            $pesanarr = explode(',', $pesan);
+            $find = ['[', ']', '{', '}'];
             $html = '';
-            foreach($pesanarr as $p ) {
-                $html .= str_replace($find,"",$p).'<br>';
+            foreach ($pesanarr as $p) {
+                $html .= str_replace($find, '', $p) . '<br>';
             }
             return response()->json([
-                "success" => false,
-                "message" => $html
+                'success' => false,
+                'message' => $html,
             ]);
         }
 
-
-        $input['study_id'] = implode(",", $input['study_id']);
+        $input['study_id'] = implode(',', $input['study_id']);
 
         Pengumuman::create($input);
         return response()->json([
-            "success" => true,
-            "message" => 'success'
+            'success' => true,
+            'message' => 'success',
         ]);
     }
 
@@ -186,35 +176,34 @@ class PengumumanController extends Controller
     {
         $input = $request->all();
         $rules = [
-            "description" => "required",
-            "competition_id" => "required",
-            "study_id" => "required",
+            'description' => 'required',
+            'competition_id' => 'required',
+            'study_id' => 'required',
         ];
 
         $validator = Validator::make($input, $rules);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $pesan = $validator->errors();
-            $pesanarr = explode(",", $pesan);
-            $find = array("[","]","{","}");
+            $pesanarr = explode(',', $pesan);
+            $find = ['[', ']', '{', '}'];
             $html = '';
-            foreach($pesanarr as $p ) {
-                $html .= str_replace($find,"",$p).'<br>';
+            foreach ($pesanarr as $p) {
+                $html .= str_replace($find, '', $p) . '<br>';
             }
             return response()->json([
-                "success" => false,
-                "message" => $html
+                'success' => false,
+                'message' => $html,
             ]);
         }
 
-
-        $input['study_id'] = implode(",", $input['study_id']);
+        $input['study_id'] = implode(',', $input['study_id']);
 
         $data = Pengumuman::find($id);
         $data->update($input);
-        
+
         return response()->json([
-            "success" => true,
-            "message" => 'success'
+            'success' => true,
+            'message' => 'success',
         ]);
     }
 
@@ -223,48 +212,80 @@ class PengumumanController extends Controller
      */
     public function destroy(string $id)
     {
+        ExamSession::where('hitung_id', $id)->update([
+            'medali' => null,
+            'nilai' => null,
+            'hitung_id' => null,
+        ]);
+
         $data = Pengumuman::destroy($id);
         return $data;
     }
-
 
     public function pemberitahuan_table()
     {
         $data = Pengumuman::with('competition')->get();
 
         return DataTables::of($data)
-            ->addColumn('competition_id', function($data){
+            ->addColumn('is_status', function ($data) {
+                if ($data->is_status == 1) {
+                    return 'PUBLISHED';
+                } else {
+                    return '';
+                }
+            })
+            ->addColumn('competition_id', function ($data) {
                 return $data->competition == null ? '' : $data->competition->title;
             })
 
-            ->addColumn('study_id', function($data){
-                $h = "";
+            ->addColumn('study_id', function ($data) {
+                $h = '';
                 $h .= '<ul>';
-                $study = explode(",", $data->study_id);
-                foreach($study as $s) {
-                    $dy = Study::with('pelajaran','level')->find($s);
+                $study = explode(',', $data->study_id);
+                foreach ($study as $s) {
+                    $dy = Study::with('pelajaran', 'level')->find($s);
 
-                    $h .= '<li>'.$dy->pelajaran->name .' - '.$dy->level->level_name .'</li>';
+                    $h .= '<li>' . $dy->pelajaran->name . ' - ' . $dy->level->level_name . '</li>';
                 }
-                $h.= '</ul>';
+                $h .= '</ul>';
 
                 return $h;
-
             })
-          
+
             ->addColumn('action', function ($data) {
-                return '
-                <a title="Hitung Hasil Pengumuman" onclick="hitungData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                $btn = '';
+
+                if ($data->is_status !== 1) {
+                    $btn .=
+                        '<a title="Hitung Hasil Pengumuman" onclick="hitungData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:account-tree-outline"></iconify-icon>
-                </a>
-                <a onclick="editData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                </a>';
+                    $btn .=
+                        '<a style="margin-left:5px;" onclick="editData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="lucide:edit"></iconify-icon>
-                </a>
-                <a onclick="deleteData('.$data->id.')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                </a>';
+                }
+
+                if ($data->is_status == 1) {
+                    $btn .=
+                        '<a  title="Daftar Pemenang" style="margin-left:5px;" href="'.url('posiadmin/winner/'.$data->id).'" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+              <iconify-icon icon="material-symbols:trophy-outline-sharp"></iconify-icon>
+            </a>';
+                }
+
+                $btn .=
+                    '<a style="margin-left:5px;" onclick="deleteData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
+                return $btn;
             })
-            ->rawColumns(['action','study_id'])
+            ->rawColumns(['action', 'study_id'])
             ->addIndexColumn()
             ->make(true);
     }
