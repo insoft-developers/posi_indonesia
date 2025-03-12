@@ -24,6 +24,7 @@ use App\Http\Controllers\Frontend\RiwayatController;
 use App\Http\Controllers\Frontend\TransactionController;
 use App\Http\Controllers\Frontend\UjianController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WinnerListController;
 use App\Mail\RegisMail;
 use App\Models\Administrasi;
 use App\Models\ExamSession;
@@ -143,6 +144,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/get_pengumuman_study/{id}', [PengumumanController::class, 'get_pengumuman_study']);
     Route::get('/get_pengumuman_level/{pelajaran}/{competition}', [PengumumanController::class, 'get_pengumuman_level']);
     Route::post('/hitung_hasil_ujian', [PengumumanController::class, 'hitung_hasil_ujian']);
+
+    Route::resource('winner', WinnerListController::class);
+    Route::get('/winner_table/{id}', [WinnerListController::class, 'winner_table']);
     
 
 
@@ -226,6 +230,8 @@ Route::middleware('auth')->group(function () {
     Route::post('bonus_claim', [RiwayatController::class, 'bonus_claim'])->name('bonus.claim');
     Route::post('facility_show', [RiwayatController::class, 'facility_show'])->name('facility.show');
     Route::get('facility_file/{transactionid}/{token}', [RiwayatController::class, 'facility_file']);
+
+    
 
     
 
