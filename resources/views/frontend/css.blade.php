@@ -5,6 +5,11 @@
 @endif
 
 <style>
+
+    .event-image{
+        height: 221px;
+        object-fit: cover;
+    }
     .table-mobile {
         display: none;
     }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use App\Models\Cart;
 use App\Models\Competition;
+use App\Models\Event;
 use App\Models\Invoice;
+use App\Models\NewsCategory;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Study;
@@ -21,7 +24,9 @@ class HomeController extends Controller
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
 
-        return view('frontend.dashboard', compact('view', 'kompetisi'));
+        $event = Event::where('is_status', 1)->orderBy('id','desc')->limit(3)->get();
+
+        return view('frontend.dashboard', compact('view', 'kompetisi','event'));
     }
 
     public function about()
@@ -33,7 +38,52 @@ class HomeController extends Controller
     public function berita()
     {
         $view = 'berita';
-        return view('frontend.berita', compact('view'));
+        $data = Berita::where('is_status', 1)->orderBy('id','desc')->simplePaginate(10);
+        $terbaru = Berita::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
+        $cat = NewsCategory::all();
+        return view('frontend.berita', compact('view','data','terbaru','cat'));
+    }
+
+
+    public function events()
+    {
+        $view = 'events';
+        $data = Event::where('is_status', 1)->orderBy('id','desc')->simplePaginate(10);
+        $terbaru = Berita::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
+        return view('frontend.event', compact('view','data','terbaru'));
+    }
+
+
+    public function berita_category($category)
+    {
+        $view = 'berita-category';
+        $data = Berita::where('is_status', 1)->where('category', $category)->orderBy('id','desc')->simplePaginate(10);
+        $terbaru = Berita::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
+        $cat = NewsCategory::all();
+        return view('frontend.berita', compact('view','data','terbaru','cat'));
+    }
+
+    public function berita_detail($slug)
+    {
+       
+        $view = 'berita-detail';
+        $cat = NewsCategory::all();
+        $terbaru = Berita::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
+        $data = Berita::where('slug', $slug)->first();
+       
+        return view('frontend.berita_detail', compact('view','data','cat','terbaru'));
+    }
+
+
+    public function event_detail($slug)
+    {
+       
+        $view = 'event-detail';
+        
+        $terbaru = Event::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
+        $data = Event::where('slug', $slug)->first();
+       
+        return view('frontend.event_detail', compact('view','data','terbaru'));
     }
 
     public function event()

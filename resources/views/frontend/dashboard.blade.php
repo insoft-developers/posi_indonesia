@@ -708,80 +708,31 @@
             <!-- Blog Wrapper Start -->
             <div class="blog-wrapper">
                 <div class="row">
+                    @foreach($event as $e)
                     <div class="col-lg-4 col-md-6">
 
                         <!-- Single Blog Start -->
                         <div class="single-blog">
                             <div class="blog-image">
-                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/1.webp"
+                                <a href="{{ url('event-detail/'.$e->slug) }}"><img class="event-image" src="{{ asset('storage/image_files/event/'.$e->image) }}"
                                         alt="Blog"></a>
                             </div>
                             <div class="blog-content">
 
-                                <h4 class="title"><a href="#">Penyerahan Piagam dan Trofi
-                                        Kepada Juara 1 Kompetisi Olimpiade Sains Nasional</a></h4>
+                                <h4 class="title"><a href="{{ url('event-detail/'.$e->slug) }}">{{ $e->title }}</a></h4>
 
                                 <div class="blog-meta">
-                                    <span> <i class="icofont-calendar"></i> 21 November, 2024</span>
-                                    <span> <i class="icofont-heart"></i> 2,568+ </span>
+                                    <span> <i class="icofont-calendar"></i> {{ date('d F Y', strtotime($e->created_at)) }}</span>
+                                    <span> <i class="icofont-heart"></i></span>
                                 </div>
 
-                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
+                                <a href="{{ url('event-detail/'.$e->slug) }}" class="btn btn-secondary btn-hover-primary">Selengkapnya</a>
                             </div>
                         </div>
                         <!-- Single Blog End -->
 
                     </div>
-                    <div class="col-lg-4 col-md-6">
-
-                        <!-- Single Blog Start -->
-                        <div class="single-blog">
-                            <div class="blog-image">
-                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/2.webp"
-                                        alt="Blog"></a>
-                            </div>
-                            <div class="blog-content">
-
-
-                                <h4 class="title"><a href="#">Penyerahan Piagam dan Trofi
-                                        Kepada Juara 1 Kompetisi Olimpiade Sains Nasional</a></h4>
-
-                                <div class="blog-meta">
-                                    <span> <i class="icofont-calendar"></i> 21 November, 2021</span>
-                                    <span> <i class="icofont-heart"></i> 2,568+ </span>
-                                </div>
-
-                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
-                            </div>
-                        </div>
-                        <!-- Single Blog End -->
-
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-
-                        <!-- Single Blog Start -->
-                        <div class="single-blog">
-                            <div class="blog-image">
-                                <a href="#"><img src="{{ asset('template/frontend') }}/assets/event/3.webp"
-                                        alt="Blog"></a>
-                            </div>
-                            <div class="blog-content">
-
-
-                                <h4 class="title"><a href="#">Penyerahan Piagam dan Trofi
-                                        Kepada Juara 1 Kompetisi Olimpiade Sains Nasional</a></h4>
-
-                                <div class="blog-meta">
-                                    <span> <i class="icofont-calendar"></i> 21 November, 2021</span>
-                                    <span> <i class="icofont-heart"></i> 2,568+ </span>
-                                </div>
-
-                                <a href="#" class="btn btn-secondary btn-hover-primary">Selanjutnya</a>
-                            </div>
-                        </div>
-                        <!-- Single Blog End -->
-
-                    </div>
+                   @endforeach
                 </div>
             </div>
             <!-- Blog Wrapper End -->

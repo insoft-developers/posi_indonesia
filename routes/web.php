@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\JuaraController;
+use App\Http\Controllers\Backend\BeritaController;
 use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CollectiveController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\HasilController;
 use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
@@ -147,7 +149,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('winner', WinnerListController::class);
     Route::get('/winner_table/{id}', [WinnerListController::class, 'winner_table']);
+
+    Route::resource('beritas', BeritaController::class);
+    Route::get('/berita_table', [BeritaController::class, 'berita_table'])->name('berita.table');
     
+    Route::resource('/event', EventController::class);
+    Route::get('/event_table', [EventController::class, 'event_table'])->name('event.table');
 
 
 
@@ -163,6 +170,12 @@ Route::get('/berita', [HomeController::class, 'berita']);
 Route::get('/event', [HomeController::class, 'event']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/pengumuman', [HomeController::class, 'pengumuman']);
+Route::get('/events', [HomeController::class, 'events']);
+Route::get('/event-detail/{slug}', [HomeController::class, 'event_detail']);
+// Route::get('/berita-detail/{id}', [HomeController::class, 'berita_detail']);
+
+Route::get('/berita-detail/{id}', [HomeController::class, 'berita_detail']);
+Route::get('/berita-category/{category}', [HomeController::class, 'berita_category']);
 
 Route::get('auth/google', [GoogleController::class, 'redirect'])->name('google-auth');
 Route::get('auth/google/call-back', [GoogleController::class, 'callbackGoogle']);
