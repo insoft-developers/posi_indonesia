@@ -14,3 +14,5 @@
 @include('backend.custom_js.hasil_js')
 @include('backend.custom_js.pengumuman_js')
 @include('backend.custom_js.winner_js')
+@include('backend.custom_js.berita_js')
+@include('backend.custom_js.event_js')
