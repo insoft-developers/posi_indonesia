@@ -195,7 +195,7 @@
         <footer class="d-footer">
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
-                    <p class="mb-0">© <?= date('Y');?> POSI. All Rights Reserved.</p>
+                    <p class="mb-0">© <?= date('Y') ?> POSI. All Rights Reserved.</p>
                 </div>
                 <div class="col-auto">
                     <p class="mb-0">Made by <span class="text-primary-600">POSI Team</span></p>
@@ -249,7 +249,13 @@
         <script src="{{ asset('template/backend') }}/assets/js/homeOneChart.js"></script>
     @endif
     @include('backend.js')
-
+    <script>
+        
+            $('.remove-button').on('click', function() {
+                $(this).closest('.alert').addClass('d-none')
+            });
+   
+    </script>
 </body>
 
 </html>

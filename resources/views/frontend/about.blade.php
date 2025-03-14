@@ -139,41 +139,13 @@
                             <br>
 
                             <ul>
-                                <li>PENYELENGGARA KOMPETISI SAINS TERPERCAYA
+                                <li>{{ $homepage->visi }}
                                 </li>
                             </ul>
                             <br>
                             <h2 class="main-title">MI<span>SI</span></h2>
                             <br>
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>
-                                        <li>MEWUJUDKAN SDM YANG PEMBELAJAR</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENEBARKAN ILMU PENGETAHUAN DAN MELAKSANAKAN KEGIATAN YANG BERMANFAAT</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENYEDIAKAN SISTEM DAN FASILITAS MODERN YANG RAMAH PENGGUNA SERTA MENDUKUNG
-                                            SUSTAINABILITY</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>SALING BELAJAR, MELINDUNGI, DAN MENGAPRESIASI UNTUK KEBAHAGIAAN DAN KEMAJUAN
-                                            BERSAMA</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENJALIN SINERGI UNTUK KEBERMANFAATAN JANGKA PANJANG</li>
-                                    </td>
-                                </tr>
-                            </table>
+                            <?= $homepage->misi ;?>
 
                         </div>
                         <!-- Section Title End -->

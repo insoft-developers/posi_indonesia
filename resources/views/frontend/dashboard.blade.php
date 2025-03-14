@@ -356,41 +356,13 @@
                             <br>
 
                             <ul>
-                                <li>PENYELENGGARA KOMPETISI SAINS TERPERCAYA
+                                <li>{{ $homepage->visi }}
                                 </li>
                             </ul>
                             <br>
                             <h2 class="main-title">MI<span>SI</span></h2>
                             <br>
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>
-                                        <li>MEWUJUDKAN SDM YANG PEMBELAJAR</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENEBARKAN ILMU PENGETAHUAN DAN MELAKSANAKAN KEGIATAN YANG BERMANFAAT</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENYEDIAKAN SISTEM DAN FASILITAS MODERN YANG RAMAH PENGGUNA SERTA MENDUKUNG
-                                            SUSTAINABILITY</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>SALING BELAJAR, MELINDUNGI, DAN MENGAPRESIASI UNTUK KEBAHAGIAAN DAN KEMAJUAN
-                                            BERSAMA</li>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <li>MENJALIN SINERGI UNTUK KEBERMANFAATAN JANGKA PANJANG</li>
-                                    </td>
-                                </tr>
-                            </table>
+                             <?= $homepage->misi ;?>
 
                         </div>
                         <!-- Section Title End -->
@@ -434,7 +406,7 @@
                     </div>
                     <div class="work-content">
                         <h3 class="title">Daftar</h3>
-                        <p>Lakukan pendaftaran dan cari kompetisi yang ingin anda ikuti.</p>
+                        <p>{{ $homepage->flow1 }}.</p>
                     </div>
                 </div>
                 <!-- Single Work End -->
@@ -456,7 +428,7 @@
                     </div>
                     <div class="work-content">
                         <h3 class="title">Pilih Kompetisi</h3>
-                        <p>Pilih kompetisi yang ingin anda ikuti dan ikuti petunjuk-petunjuk nya</p>
+                        <p>{{ $homepage->flow2 }}.</p>
                     </div>
                 </div>
                 <!-- Single Work End -->
@@ -478,7 +450,7 @@
                     </div>
                     <div class="work-content">
                         <h3 class="title">Sertifikat</h3>
-                        <p>Dapatkan sertifikat sesuai dengan kompetisi online yang anda ikuti.</p>
+                        <p>{{ $homepage->flow3 }}.</p>
                     </div>
                 </div>
                 <!-- Single Work End -->

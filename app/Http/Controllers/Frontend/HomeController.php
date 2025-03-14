@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\Event;
+use App\Models\Hompage;
 use App\Models\Invoice;
 use App\Models\NewsCategory;
 use App\Models\Product;
@@ -25,14 +26,16 @@ class HomeController extends Controller
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
 
         $event = Event::where('is_status', 1)->orderBy('id','desc')->limit(3)->get();
+        $homepage = Hompage::find(1);
 
-        return view('frontend.dashboard', compact('view', 'kompetisi','event'));
+        return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage'));
     }
 
     public function about()
     {
         $view = 'about';
-        return view('frontend.about', compact('view'));
+        $homepage = Hompage::find(1);
+        return view('frontend.about', compact('view','homepage'));
     }
 
     public function berita()
@@ -382,5 +385,23 @@ class HomeController extends Controller
             'success' => true,
             'data' => $data,
         ]);
+    }
+
+    public function privacy_policy() {
+        $view = 'privacy';
+        $data = Hompage::find(1);
+        return view('frontend.privacy', compact('view','data'));
+    }
+
+    public function term_condition() {
+        $view = 'term';
+        $data = Hompage::find(1);
+        return view('frontend.term', compact('view','data'));
+    }
+
+    public function refund_policy() {
+        $view = 'refund';
+        $data = Hompage::find(1);
+        return view('frontend.refund', compact('view','data'));
     }
 }

@@ -16,3 +16,4 @@
 @include('backend.custom_js.winner_js')
 @include('backend.custom_js.berita_js')
 @include('backend.custom_js.event_js')
+@include('backend.custom_js.homepage_js')
