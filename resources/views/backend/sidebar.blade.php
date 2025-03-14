@@ -27,11 +27,11 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/visi-misi') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Visi & Misi</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/flow') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Process Flow Text</a>
                     </li>
                     <li>
@@ -51,15 +51,15 @@
                             Kami</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/privacy') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Kebijakan Privasi</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/term') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Syarat Ketentuan</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/refund') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Kebijakan Refund</a>
                     </li>
 

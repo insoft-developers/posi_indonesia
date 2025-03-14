@@ -479,11 +479,11 @@
                                     <h4 class="footer-widget-title">Menu Utama</h4>
 
                                     <ul class="widget-link">
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">Tentang</a></li>
-                                        <li><a href="#">Info</a></li>
-                                        <li><a href="#">Kontak</a></li>
-                                        <li><a href="#">Pengumuman</a></li>
+                                        <li><a href="{{ url('/') }}">Home</a></li>
+                                        <li><a href="{{ url('/about') }}">Tentang</a></li>
+                                        <li><a href="{{ url('/berita') }}">Berita</a></li>
+                                        <li><a href="{{ url('/contact') }}">Kontak</a></li>
+                                        <li><a href="#">Store</a></li>
 
                                     </ul>
 
@@ -495,9 +495,9 @@
                                     <h4 class="footer-widget-title">Kebijakan</h4>
 
                                     <ul class="widget-link">
-                                        <li><a href="#">Kebijakan Privasi</a></li>
-                                        <li><a href="#">Syarat & Ketentuan</a></li>
-                                        <li><a href="#">Kebijakan Refund</a></li>
+                                        <li><a href="{{ url('privacy_policy') }}">Kebijakan Privasi</a></li>
+                                        <li><a href="{{ url('term_condition') }}">Syarat & Ketentuan</a></li>
+                                        <li><a href="{{ url('refund_policy') }}">Kebijakan Refund</a></li>
 
                                     </ul>
 
@@ -546,9 +546,9 @@
                     <!-- Footer Copyright Start -->
                     <div class="copyright-wrapper">
                         <div class="copyright-link">
-                            <a href="#">Syarat & Ketentuan</a>
-                            <a href="#">Kebijakan Privasi</a>
-                            <a href="#">Kebijakan Refund</a>
+                            <a href="{{ url('term_condition') }}">Syarat & Ketentuan</a>
+                            <a href="{{ url('privacy_policy') }}">Kebijakan Privasi</a>
+                            <a href="{{ url('refund_policy') }}">Kebijakan Refund</a>
                         </div>
                         <div class="copyright-text">
                             <p>&copy; {{ date('Y') }} <span> Pusat Olimpiade Sains Indonesia </span> ( POSI )</p>

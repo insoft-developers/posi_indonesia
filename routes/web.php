@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\HasilController;
+use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
@@ -157,6 +158,25 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/event_table', [EventController::class, 'event_table'])->name('event.table');
 
 
+    Route::get('/visi-misi', [HomepageController::class, 'visi_misi']);
+    Route::post('/visi_update', [HomepageController::class, 'visi_update'])->name('visi.update');
+
+
+    Route::get('/flow', [HomepageController::class, 'flow']);
+    Route::post('/flow_update', [HomepageController::class, 'flow_update'])->name('flow.update');
+
+    Route::get('/privacy', [HomepageController::class, 'privacy']);
+    Route::post('/privacy_update', [HomepageController::class, 'privacy_update'])->name('privacy.update');
+
+    Route::get('/term', [HomepageController::class, 'term']);
+    Route::post('/term_update', [HomepageController::class, 'term_update'])->name('term.update');
+
+
+    Route::get('/refund', [HomepageController::class, 'refund']);
+    Route::post('/refund_update', [HomepageController::class, 'refund_update'])->name('refund.update');
+
+
+
 
 });
 
@@ -172,6 +192,9 @@ Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/pengumuman', [HomeController::class, 'pengumuman']);
 Route::get('/events', [HomeController::class, 'events']);
 Route::get('/event-detail/{slug}', [HomeController::class, 'event_detail']);
+Route::get('/privacy_policy', [HomeController::class, 'privacy_policy']);
+Route::get('/term_condition', [HomeController::class, 'term_condition']);
+Route::get('/refund_policy', [HomeController::class, 'refund_policy']);
 // Route::get('/berita-detail/{id}', [HomeController::class, 'berita_detail']);
 
 Route::get('/berita-detail/{id}', [HomeController::class, 'berita_detail']);
