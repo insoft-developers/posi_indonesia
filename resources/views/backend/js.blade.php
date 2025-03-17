@@ -19,3 +19,14 @@
 @include('backend.custom_js.homepage_js')
 @include('backend.custom_js.team_js')
 @include('backend.custom_js.partner_js')
+@include('backend.custom_js.testimony_js')
+
+
+@if ($view == 'about')
+<script>
+    CKEDITOR.replace('about_text');
+    CKEDITOR.replace('content1');
+    CKEDITOR.replace('content2');
+    CKEDITOR.replace('content3');
+</script>
+@endif

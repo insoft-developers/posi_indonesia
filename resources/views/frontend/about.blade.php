@@ -20,7 +20,7 @@
                         <!-- About Images Start -->
                         <div class="about-images">
                             <div class="images">
-                                <img src="{{ asset('template/frontend') }}/assets/umum/1.webp" alt="About">
+                                <img src="{{ asset('storage/image_files/about/'.$about->image) }}" alt="About">
                             </div>
 
                             <div class="about-years">
@@ -38,10 +38,8 @@
                         <!-- About Content Start -->
                         <div class="about-content">
                            
-                            <h2 class="main-title">Pusat Olimpiade Sains Indonesia <span>(POSI).</span></h2>
-                            <p>POSI merupakan perusahaan rintisan (startup) platform pendidikan berskala nasional.
-                                POSI hadir sebagai wadah bagi para calon juara masa depan dengan menyelenggarakan berbagai kompetisi dan pelatihan olimpiade sains, persiapan UTBK dan AKM, baik secara daring maupun luring.
-                                POSI merupakan wadah bagi para profesional muda yang memiliki jiwa kompetitif dan cinta pendidikan. Tim POSI merupakan tim yang berpegang teguh pada nilai-nilai JUARA yang berarti (A)dillah untuk Allah dan Bangsa, (B)erkreativitas Tanpa Batas, (A)daptif, (R)ealisasi Hasil Maksimal serta (A)ktivitas dan Pembelajaran yang Berkesinambungan. Dengan visi “Mewujudkan Sejuta Manusia Berprestasi”, POSI optimis dapat menjadi media pengembangan dan peningkatan mutu pendidikan bagi masyarakat Indonesia, baik bagi guru maupun peserta didik.</p>
+                            <h2 class="main-title">{{ $about->title }}</h2>
+                            <?= $about->about_text ;?>
                             
                         </div>
                         <!-- About Content End -->
@@ -65,11 +63,10 @@
                                         <i class="flaticon-tutor"></i>
                                     </div>
                                     <div class="item-title">
-                                        <h3 class="title">Aksesibilitas yang Luas</h3>
+                                        <h3 class="title">{{ $about->sub1 }}</h3>
                                     </div>
                                 </div>
-                                <p>Peserta dari seluruh dunia bisa ikut serta dalam kompetisi tanpa terkendala oleh lokasi fisik. Ini membuka peluang bagi siapa saja untuk berpartisipasi.</p>
-                                <p>Banyak kompetisi online yang memungkinkan peserta mengerjakan tugas atau mengikuti tahapan lomba sesuai waktu yang mereka miliki.</p>
+                                <?= $about->content1 ;?>
                             </div>
                             <!-- About Item End -->
                         </div>
@@ -81,11 +78,10 @@
                                         <i class="flaticon-coding"></i>
                                     </div>
                                     <div class="item-title">
-                                        <h3 class="title">Biaya Lebih Terjangkau</h3>
+                                        <h3 class="title">{{ $about->sub2 }}</h3>
                                     </div>
                                 </div>
-                                <p>Peserta tidak perlu mengeluarkan biaya untuk perjalanan atau akomodasi, yang sering kali menjadi hambatan dalam kompetisi tatap muka.</p>
-                                <p>Banyak kompetisi online yang menawarkan biaya pendaftaran lebih murah dibandingkan dengan kompetisi fisik.</p>
+                                <?= $about->content2 ;?>
                             </div>
                             <!-- About Item End -->
                         </div>
@@ -97,11 +93,10 @@
                                         <i class="flaticon-increase"></i>
                                     </div>
                                     <div class="item-title">
-                                        <h3 class="title">Persaingan Lebih Kompetitif</h3>
+                                        <h3 class="title">{{ $about->sub3 }}</h3>
                                     </div>
                                 </div>
-                                <p>Karena dapat diikuti oleh peserta dari seluruh dunia, kompetisi online sering kali menciptakan persaingan yang lebih ketat dan beragam  untuk meningkatkan kualitas diri dan inovasi.</p>
-                                <p>Bagi penyelenggara, kompetisi online memungkinkan mereka untuk menjangkau audiens yang lebih besar.</p>
+                                <?= $about->content3 ;?>
                             </div>
                             <!-- About Item End -->
                         </div>
@@ -262,11 +257,11 @@
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <!-- Single Testimonial Start -->
+                        @foreach($testimony as $t)
                         <div class="single-testimonial swiper-slide">
                             <div class="testimonial-author">
                                 <div class="author-thumb">
-                                    <img src="{{ asset('template/frontend') }}/assets/testi/st1.png"
-                                        alt="Author">
+                                    <img src="{{ asset('storage/image_files/testimony/'.$t->image) }}" alt="Testi">
 
                                     <i class="icofont-quote-left"></i>
                                 </div>
@@ -276,64 +271,12 @@
                                 </span>
                             </div>
                             <div class="testimonial-content">
-                                <p>Sebelumnya sudah pernah ikut POSI untuk mewakili sekolah. POSI menurut saya sangat
-                                    mendukung anak-anak yang berminat dengan sains. Kedepannya semoga POSI terus berkembang
-                                    dan kualitas kompetisinya makin baik untuk menyalurkan bakat dan minat anak di bidang
-                                    sains dan membantu siswa untuk berprestasi</p>
-                                <h4 class="name">Sarah Ayu Lestari</h4>
-                                <span class="designation">Juara 1 Kompetisi Online</span>
+                                <p>{{ $t->message }}</p>
+                                <h4 class="name">{{ $t->name }}</h4>
+                                <span class="designation">{{ $t->title }}</span>
                             </div>
                         </div>
-                        <!-- Single Testimonial End -->
-
-                        <!-- Single Testimonial Start -->
-                        <div class="single-testimonial swiper-slide">
-                            <div class="testimonial-author">
-                                <div class="author-thumb">
-                                   <img src="{{ asset('template/frontend') }}/assets/testi/st2.png"
-                                        alt="Author">
-
-                                    <i class="icofont-quote-left"></i>
-                                </div>
-
-                                <span class="rating-star">
-                                    <span class="rating-bar" style="width: 80%;"></span>
-                                </span>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Saya ikut kompetisi POSI udah dari kelas 10 (3 tahun yang lalu). Soal-soalnya menantang
-                                    banget, membantu mengasah High Order Think Skill, bagus banget untuk persiapan OSN.</p>
-                                <h4 class="name">Andika Putra </h4>
-                                <span class="designation">Juara II Kompetisi Online</span>
-                            </div>
-                        </div>
-                        <!-- Single Testimonial End -->
-
-                        <!-- Single Testimonial Start -->
-                        <div class="single-testimonial swiper-slide">
-                            <div class="testimonial-author">
-                                <div class="author-thumb">
-                                   <img src="{{ asset('template/frontend') }}/assets/testi/st3.png"
-                                        alt="Author">
-
-                                    <i class="icofont-quote-left"></i>
-                                </div>
-
-                                <span class="rating-star">
-                                    <span class="rating-bar" style="width: 80%;"></span>
-                                </span>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Terima kasih kepada Kakak MC yang sangat humble, para pengawas yang baik dan sabar, serta
-                                    seluruh panitia yang telah bekerja keras sehingga seluruh rangkaian acara dapat
-                                    berlangsung dengan sukses. Saya juga ingin mengucapkan terima kasih kepada POSI,
-                                    khususnya Bapak Fahruroji Panjaitan, yang telah berkenan memberikan kesempatan kepada
-                                    anak-anak Nias untuk berkompetisi. Semua kesan yang kami terima sangat positif.
-                                </p>
-                                <h4 class="name">Sari Mega Putri</h4>
-                                <span class="designation">Juara III Kompetisi Online</span>
-                            </div>
-                        </div>
+                        @endforeach
                         <!-- Single Testimonial End -->
                     </div>
 
