@@ -12,12 +12,14 @@ use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
+use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\PengumumanController;
 use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\SoalController;
+use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
@@ -174,6 +176,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::get('/refund', [HomepageController::class, 'refund']);
     Route::post('/refund_update', [HomepageController::class, 'refund_update'])->name('refund.update');
+
+    Route::resource('/team', TeamController::class);
+    Route::get('/team_table', [TeamController::class, 'team_table'])->name('team.table');
+
+    Route::resource('/partner', PartnerController::class);
+    Route::get('/partner_table', [PartnerController::class, 'partner_table'])->name('partner.table');
 
 
 

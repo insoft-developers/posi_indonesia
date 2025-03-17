@@ -626,33 +626,11 @@
                         <div class="swiper-wrapper">
 
 
+                            @foreach($partners as $partner)
                             <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra1.png" alt="Brand">
+                                <img src="{{ asset('storage/image_files/partners/'.$partner->image) }}" alt="">
                             </div>
-                            <!-- Single Brand End -->
-
-                            <!-- Single Brand Start -->
-                            <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra2.png" alt="Brand">
-                            </div>
-                            <!-- Single Brand End -->
-
-                            <!-- Single Brand Start -->
-                            <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra3.png" alt="Brand">
-                            </div>
-                            <!-- Single Brand End -->
-
-                            <!-- Single Brand Start -->
-                            <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra4.png" alt="Brand">
-                            </div>
-                            <!-- Single Brand End -->
-
-                            <!-- Single Brand Start -->
-                            <div class="single-brand swiper-slide">
-                                <img src="{{ asset('template/frontend') }}/assets/mitra/mitra5.png" alt="Brand">
-                            </div>
+                            @endforeach
 
                         </div>
                     </div>
