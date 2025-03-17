@@ -35,7 +35,7 @@
                             Process Flow Text</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/testimony') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Testimoni</a>
                     </li>
                     <li>
@@ -43,7 +43,7 @@
                             Partner Kami</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/abouts') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Tentang Kami</a>
                     </li>
                     <li>

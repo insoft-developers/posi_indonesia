@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\Berita;
 use App\Models\Cart;
 use App\Models\Competition;
@@ -15,6 +16,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Study;
 use App\Models\Team;
+use App\Models\Testimony;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,10 +30,11 @@ class HomeController extends Controller
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
 
         $event = Event::where('is_status', 1)->orderBy('id','desc')->limit(3)->get();
+        $testimony = Testimony::orderBy('id','desc')->get();
         $homepage = Hompage::find(1);
         $partners = Partner::orderBy('id', 'asc')->get();
 
-        return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage','partners'));
+        return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage','partners','testimony'));
     }
 
     public function about()
@@ -40,7 +43,9 @@ class HomeController extends Controller
         $homepage = Hompage::find(1);
         $teams = Team::orderBy('urutan', 'asc')->get();
         $partners = Partner::orderBy('id', 'asc')->get();
-        return view('frontend.about', compact('view','homepage','teams','partners'));
+        $testimony = Testimony::orderBy('id','desc')->get();
+        $about = About::find(1);
+        return view('frontend.about', compact('view','homepage','teams','partners','testimony','about'));
     }
 
     public function berita()

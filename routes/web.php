@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\JuaraController;
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\BeritaController;
 use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CollectiveController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\SoalController;
 use App\Http\Controllers\Backend\TeamController;
+use App\Http\Controllers\Backend\TestimonyController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\AdministrativeController;
 use App\Http\Controllers\Frontend\GoogleController;
@@ -182,6 +184,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/partner', PartnerController::class);
     Route::get('/partner_table', [PartnerController::class, 'partner_table'])->name('partner.table');
+
+    Route::resource('/testimony', TestimonyController::class);
+    Route::get('/testimony_table', [TestimonyController::class, 'testimony_table'])->name('testimony.table');
+
+
+    Route::resource('/abouts', AboutController::class);
 
 
 

@@ -518,11 +518,11 @@
             <div class="testimonial-wrapper testimonial-active">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <!-- Single Testimonial Start -->
+                        @foreach($testimony as $t)
                         <div class="single-testimonial swiper-slide">
                             <div class="testimonial-author">
                                 <div class="author-thumb">
-                                    <img src="{{ asset('template/frontend') }}/assets/testi/st1.png" alt="Author">
+                                    <img src="{{ asset('storage/image_files/testimony/'.$t->image) }}" alt="Testi">
 
                                     <i class="icofont-quote-left"></i>
                                 </div>
@@ -532,63 +532,15 @@
                                 </span>
                             </div>
                             <div class="testimonial-content">
-                                <p>Sebelumnya sudah pernah ikut POSI untuk mewakili sekolah. POSI menurut saya sangat
-                                    mendukung anak-anak yang berminat dengan sains. Kedepannya semoga POSI terus berkembang
-                                    dan kualitas kompetisinya makin baik untuk menyalurkan bakat dan minat anak di bidang
-                                    sains dan membantu siswa untuk berprestasi</p>
-                                <h4 class="name">Sarah Ayu Lestari</h4>
-                                <span class="designation">Juara 1 Kompetisi Online</span>
+                                <p>{{ $t->message }}</p>
+                                <h4 class="name">{{ $t->name }}</h4>
+                                <span class="designation">{{ $t->title }}</span>
                             </div>
                         </div>
+                        @endforeach
                         <!-- Single Testimonial End -->
 
-                        <!-- Single Testimonial Start -->
-                        <div class="single-testimonial swiper-slide">
-                            <div class="testimonial-author">
-                                <div class="author-thumb">
-                                    <img src="{{ asset('template/frontend') }}/assets/testi/st2.png" alt="Author">
-
-                                    <i class="icofont-quote-left"></i>
-                                </div>
-
-                                <span class="rating-star">
-                                    <span class="rating-bar" style="width: 80%;"></span>
-                                </span>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Saya ikut kompetisi POSI udah dari kelas 10 (3 tahun yang lalu). Soal-soalnya menantang
-                                    banget, membantu mengasah High Order Think Skill, bagus banget untuk persiapan OSN.</p>
-                                <h4 class="name">Andika Putra </h4>
-                                <span class="designation">Juara II Kompetisi Online</span>
-                            </div>
-                        </div>
-                        <!-- Single Testimonial End -->
-
-                        <!-- Single Testimonial Start -->
-                        <div class="single-testimonial swiper-slide">
-                            <div class="testimonial-author">
-                                <div class="author-thumb">
-                                    <img src="{{ asset('template/frontend') }}/assets/testi/st3.png" alt="Author">
-
-                                    <i class="icofont-quote-left"></i>
-                                </div>
-
-                                <span class="rating-star">
-                                    <span class="rating-bar" style="width: 80%;"></span>
-                                </span>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Terima kasih kepada Kakak MC yang sangat humble, para pengawas yang baik dan sabar, serta
-                                    seluruh panitia yang telah bekerja keras sehingga seluruh rangkaian acara dapat
-                                    berlangsung dengan sukses. Saya juga ingin mengucapkan terima kasih kepada POSI,
-                                    khususnya Bapak Fahruroji Panjaitan, yang telah berkenan memberikan kesempatan kepada
-                                    anak-anak Nias untuk berkompetisi. Semua kesan yang kami terima sangat positif.
-                                </p>
-                                <h4 class="name">Sari Mega Putri</h4>
-                                <span class="designation">Juara III Kompetisi Online</span>
-                            </div>
-                        </div>
-                        <!-- Single Testimonial End -->
+                        
                     </div>
 
                     <!-- Add Pagination -->
@@ -684,6 +636,10 @@
                     </div>
                    @endforeach
                 </div>
+                
+            </div>
+            <div class="courses-btn text-center">
+                <a href="{{ url('events') }}" class="btn btn-secondary btn-hover-primary">Event Kami Lainnya</a>
             </div>
             <!-- Blog Wrapper End -->
 
