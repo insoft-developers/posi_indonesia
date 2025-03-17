@@ -39,7 +39,7 @@
                             Testimoni</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/partner') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Partner Kami</a>
                     </li>
                     <li>
@@ -47,7 +47,7 @@
                             Tentang Kami</a>
                     </li>
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tim
+                        <a href="{{ url('/posiadmin/team') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tim
                             Kami</a>
                     </li>
                     <li>

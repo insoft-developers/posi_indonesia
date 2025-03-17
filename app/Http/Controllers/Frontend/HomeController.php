@@ -10,9 +10,11 @@ use App\Models\Event;
 use App\Models\Hompage;
 use App\Models\Invoice;
 use App\Models\NewsCategory;
+use App\Models\Partner;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Study;
+use App\Models\Team;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,15 +29,18 @@ class HomeController extends Controller
 
         $event = Event::where('is_status', 1)->orderBy('id','desc')->limit(3)->get();
         $homepage = Hompage::find(1);
+        $partners = Partner::orderBy('id', 'asc')->get();
 
-        return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage'));
+        return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage','partners'));
     }
 
     public function about()
     {
         $view = 'about';
         $homepage = Hompage::find(1);
-        return view('frontend.about', compact('view','homepage'));
+        $teams = Team::orderBy('urutan', 'asc')->get();
+        $partners = Partner::orderBy('id', 'asc')->get();
+        return view('frontend.about', compact('view','homepage','teams','partners'));
     }
 
     public function berita()

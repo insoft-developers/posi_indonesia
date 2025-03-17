@@ -17,3 +17,5 @@
 @include('backend.custom_js.berita_js')
 @include('backend.custom_js.event_js')
 @include('backend.custom_js.homepage_js')
+@include('backend.custom_js.team_js')
+@include('backend.custom_js.partner_js')
