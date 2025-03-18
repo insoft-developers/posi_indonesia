@@ -92,6 +92,7 @@ class JadwalController extends Controller
 
         $session = ExamSession::findorFail($input['id']);
         $medali = $session->medali;
+        $competition_id = $session->competition_id;
 
         if ($medali == 'emas') {
             $juara = '1';
@@ -106,7 +107,11 @@ class JadwalController extends Controller
         $rows = [];
         // $products = Product::where('competition_id', $session->competition_id)->where('study_id', $session->study_id)->get();
 
-         $products = Product::where('is_active', 1)->get();
+         $products = Product::where('is_active', 1)
+         ->whereHas('product_competition', function($q)use($competition_id){
+            $q->where('competition_id', $competition_id);
+         })
+         ->get();
 
         foreach ($products as $product) {
             $product_for = explode(',', $product->product_for);

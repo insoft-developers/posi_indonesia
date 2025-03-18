@@ -5,6 +5,11 @@
             placeholder: 'Pilih'
         });
 
+        $("#competition_id").select2({
+            dropdownParent: $("#modal-tambah .modal-content"),
+            placeholder: 'Pilih Kompetisi'
+        });
+
         $("#composition").select2({
             dropdownParent: $("#modal-tambah .modal-content"),
             placeholder: 'Pilih Komposisi Produk'
@@ -57,6 +62,10 @@
                 {
                     data: 'product_name',
                     name: 'product_name',
+                },
+                {
+                    data: 'competition_id',
+                    name: 'competition_id',
                 },
                 {
                     data: 'document_type',
@@ -166,6 +175,12 @@
                     }
                     $("#berat").val(data.berat);
 
+                    var competition_ids = [];
+                    for(var i=0; i<data.product_competition.length; i++) {
+                        competition_ids.push(data.product_competition[i].competition_id);
+                    }
+
+                    $("#competition_id").val(competition_ids).trigger('change');
                     $("#is_active").val(data.is_active);
 
                 }

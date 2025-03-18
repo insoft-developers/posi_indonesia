@@ -5,11 +5,11 @@
 @endif
 
 <style>
-
-    .event-image{
+    .event-image {
         height: 221px;
         object-fit: cover;
     }
+
     .table-mobile {
         display: none;
     }
@@ -1287,6 +1287,21 @@
 
 <style>
     @media only screen and (max-width: 768px) {
+
+        .img-pengumuman {
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-top-right-radius: 128px;
+            border-bottom-right-radius: 128px;
+            height: 51px;
+            position: relative;
+            margin: -15px !important;
+            width: 153px;
+            top: -26px;
+            border: 4px solid whitesmoke;
+        }
+
         .table-desktop {
             display: none;
         }
@@ -1428,6 +1443,25 @@
             left: 10px;
         }
 
+        .row-pengumuman {
+            border: 2px solid whitesmoke;
+            margin: 10px 64px 10px 10px;
+            padding: 9px 0px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 94%;
+        }
+
+        .search-text {
+            border: 2px solid #2e303b;
+            left: 11px;
+            width: 94%;
+            position: relative;
+            font-size: 14px;
+            text-align: center;
+            /* margin-right: 27px !important; */
+        }
+
         .btn-kurang-unit {
             background: white;
             padding: 3px 8px;
@@ -1549,8 +1583,41 @@
             text-decoration: underline;
             margin-bottom: 30px;
         }
-        #table-transaction_wrapper{
+
+        #table-transaction_wrapper {
             display: none;
+        }
+
+        .img-medali {
+            height: 37px;
+            object-fit: cover;
+            position: relative;
+            left: -14px;
+        }
+
+        .img-rippon {
+            position: relative;
+            right: 0;
+            height: 72px;
+            top: 5px;
+            width: 57px;
+            object-fit: cover;
+        }
+
+        .nilai-medali {
+            position: relative;
+            right: 38px;
+            color: white;
+            font-weight: bold;
+            font-size: 21px;
+            top: 5px;
+        }
+
+        .img-product-pengumuman {
+            object-fit: cover;
+            height: 36px;
+            margin-top: 2%;
+            right: 7px;
         }
     }
 </style>
