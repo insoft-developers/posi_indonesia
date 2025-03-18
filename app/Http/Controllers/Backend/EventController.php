@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class EventController extends Controller
 {
@@ -30,7 +32,8 @@ class EventController extends Controller
         //
     }
 
-    protected function make_slug($text) {
+    protected function make_slug($text)
+    {
         $slug = str_replace(' ', '-', $text);
         $slug = str_replace(',', '-', $slug);
         $slug = str_replace('?', '-', $slug);
@@ -50,7 +53,6 @@ class EventController extends Controller
     {
         $input = $request->all();
 
-        
         $input['slug'] = $this->make_slug($input['title']);
 
         $rules = [
@@ -77,9 +79,15 @@ class EventController extends Controller
 
         $input['image'] = null;
         $unik = uniqid();
+       
+        $path = public_path('/storage/image_files/event');
         if ($request->hasFile('image')) {
-            $input['image'] = Str::slug($unik, '-') . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('/storage/image_files/event'), $input['image']);
+            $manager = new ImageManager(new Driver());
+            $file = $request->image;
+            $filename = $unik . date('YmdHis') .'.'. $file->getClientOriginalExtension();
+            $input['image'] = $filename;
+            $img = $manager->read($file->path());
+            $img->cover(1200, 628)->save($path . '/' . $filename);
         }
 
         $input['admin_id'] = session('id');
@@ -139,16 +147,21 @@ class EventController extends Controller
 
         $data = Event::find($id);
 
-
         $input['image'] = $data->image;
         $unik = uniqid();
+       
+        $path = public_path('/storage/image_files/event');
         if ($request->hasFile('image')) {
-            $input['image'] = Str::slug($unik, '-') . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('/storage/image_files/event'), $input['image']);
+            $manager = new ImageManager(new Driver());
+            $file = $request->image;
+            $filename = $unik . date('YmdHis') .'.'. $file->getClientOriginalExtension();
+            $input['image'] = $filename;
+            $img = $manager->read($file->path());
+            $img->cover(1200, 628)->save($path . '/' . $filename);
         }
 
-       $input['admin_id'] = session('id');
-       $data->update($input);
+        $input['admin_id'] = session('id');
+        $data->update($input);
         return response()->json([
             'success' => true,
             'message' => 'success',
