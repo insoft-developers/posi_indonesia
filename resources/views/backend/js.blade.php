@@ -20,6 +20,7 @@
 @include('backend.custom_js.team_js')
 @include('backend.custom_js.partner_js')
 @include('backend.custom_js.testimony_js')
+@include('backend.custom_js.admins_js')
 
 
 @if ($view == 'about')

@@ -375,18 +375,23 @@ class PesananCOntroller extends Controller
                 }
             })
             ->addColumn('action', function ($data) {
-                return '
-                <a onclick="detailData(' .
+                $btn = '';
+                
+                $btn .= '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
-                </a>
-                
-                <a onclick="deleteData(' .
+                </a>';
+                if(session('level') == 1) {
+                     $btn .= '<a onclick="deleteData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
+                }
+               
+
+                return $btn;
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
@@ -495,18 +500,23 @@ class PesananCOntroller extends Controller
                 }
             })
             ->addColumn('action', function ($data) {
-                return '
-                <a onclick="detailData(' .
+                $btn = '';
+                
+                $btn .= '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
-                </a>
-                
-                <a onclick="deleteData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
-                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
+                
+                if(session('level') == 1) {
+                    $btn .= '<a onclick="deleteData(' .
+                   $data->id .
+                   ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                 <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+               </a>';
+               }
+
+                return $btn;
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
@@ -613,18 +623,23 @@ class PesananCOntroller extends Controller
                 }
             })
             ->addColumn('action', function ($data) {
-                return '
-                <a onclick="detailData(' .
+                $btn = '';
+                
+                $btn .= '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
-                </a>
-                
-                <a onclick="deleteData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
-                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
+                
+                if(session('level') == 1) {
+                    $btn .= '<a onclick="deleteData(' .
+                   $data->id .
+                   ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                 <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
+               </a>';
+               }
+
+                return $btn;
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()

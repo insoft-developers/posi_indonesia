@@ -18,7 +18,7 @@
                 </a>
 
             </li>
-           
+           @if(session('level') !== 3)
             <li class="sidebar-menu-group-title">Website</li>
             <li class="dropdown">
                 <a href="javascript:void(0)">
@@ -163,10 +163,11 @@
 
                 </ul>
             </li>
+            @endif
             <li class="dropdown">
                 <a href="javascript:void(0)">
                     <i class="ri-id-card-line text-xl me-14 d-flex w-auto"></i>
-                    <span>Data Ujian</span>
+                    <span>Data Soal & Ujian</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -184,7 +185,7 @@
 
                 </ul>
             </li>
-
+            @if(session('level') == 1)
             <li class="dropdown">
                 <a href="javascript:void(0)">
                     <i class="ri-group-2-line text-xl me-14 d-flex w-auto"></i>
@@ -192,26 +193,14 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <a href="{{ url('posiadmin/admins') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                             Admin</a>
                     </li>
 
                 </ul>
             </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <i class="ri-settings-5-line text-xl me-14 d-flex w-auto"></i>
-                    <span>Pengaturan</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                            General Setting</a>
-                    </li>
-
-                </ul>
-            </li>
-            <div style="margin-top:30px"></div>
+            @endif
+            <div style="margin-top:60px"></div>
 
         </ul>
     </div>
