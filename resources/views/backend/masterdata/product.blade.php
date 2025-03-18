@@ -30,6 +30,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Nama Produk </th>
+                                <th scope="col">Kompetisi </th>
                                 <th scope="col">Jenis Document</th>
                                 <th scope="col">Harga</th>
                                 <th scope="col">Foto</th>
@@ -140,6 +141,16 @@
                                 <label class="form-label">Berat Produk (in Gram)</label>
                                 <input type="text" id="berat" name="berat" class="form-control">
 
+                            </div>
+
+                            <div style="margin-top:5px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Competition</label>
+                                <select id="competition_id" name="competition_id[]" multiple class="form-control">
+                                        @foreach($competition as $c)
+                                        <option value="{{ $c->id }}">{{ $c->title }}</option>
+                                        @endforeach
+                                </select>
                             </div>
 
                             <div style="margin-top:15px;"></div>

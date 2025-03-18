@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Kelas;
 use App\Models\Level;
 use App\Models\Product;
+use App\Models\ProductCompetition;
 use App\Models\ProductDocument;
 use App\Models\Study;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ProductController extends Controller
     public function index()
     {
         $view = 'product';
-        $competition = Competition::where('is_active', 1)->get();
+        $competition = Competition::all();
         $composition = Product::where('is_combo', '!=', 1)->get();
         return view('backend.masterdata.product', compact('view', 'competition', 'composition'));
     }
@@ -50,6 +51,7 @@ class ProductController extends Controller
             'is_combo' => 'required',
             'berat' => 'required',
             'is_active' => 'required',
+            'competition_id' => 'required'
         ];
 
         if ($input['is_combo'] == 1) {
@@ -83,7 +85,23 @@ class ProductController extends Controller
         }
 
         $input['product_for'] = implode(',', $input['product_for']);
-        Product::create($input);
+
+        $product = Product::create($input);
+
+        $product_id = $product->id; 
+        
+        if(! empty($input['competition_id'])) {
+            ProductCompetition::where('product_id', $product_id)->delete();
+            $competition_ids = $input['competition_id'];
+            foreach($competition_ids as $comid) {
+                ProductCompetition::create([
+                    "product_id" => $product_id,
+                    "competition_id" => $comid
+                ]);
+            } 
+        }
+
+        
         return response()->json([
             'success' => true,
             'message' => 'success',
@@ -103,7 +121,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Product::findorFail($id);
+        $data = Product::with('product_competition')->find($id);
         return $data;
     }
 
@@ -121,6 +139,7 @@ class ProductController extends Controller
             'is_combo' => 'required',
             'berat' => 'required',
             'is_active' => 'required',
+            'competition_id' => 'required'
         ];
 
         if ($input['is_combo'] == 1) {
@@ -157,6 +176,18 @@ class ProductController extends Controller
 
         $input['product_for'] = implode(',', $input['product_for']);
         $product->update($input);
+
+        if(! empty($input['competition_id'])) {
+            ProductCompetition::where('product_id', $id)->delete();
+            $competition_ids = $input['competition_id'];
+            foreach($competition_ids as $comid) {
+                ProductCompetition::create([
+                    "product_id" => $id,
+                    "competition_id" => $comid
+                ]);
+            } 
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'success',
@@ -168,6 +199,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        
+        ProductCompetition::where('product_id', $id)->delete();
         return Product::destroy($id);
     }
 
@@ -331,6 +364,21 @@ class ProductController extends Controller
         $data = Product::all();
 
         return DataTables::of($data)
+            ->addColumn('competition_id', function($data){
+               
+                if($data->product_competition == null) {
+                    return '';
+                } else {
+                    $html = '';
+                    $html .= '<ul>';
+                    foreach($data->product_competition as $pd) {
+                        $html .= '<li> - '.$pd->competition->title.'</li>';
+                    }
+                    $html .= '</ul>';
+                    return $html;
+                }
+               
+            })
             ->addColumn('document_type', function ($data) {
                 return strtoupper($data->document_type);
             })
@@ -427,7 +475,7 @@ class ProductController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['action', 'product_name', 'image', 'product_for', 'is_combo'])
+            ->rawColumns(['action', 'product_name', 'image', 'product_for', 'is_combo','competition_id'])
             ->addIndexColumn()
             ->make(true);
     }
