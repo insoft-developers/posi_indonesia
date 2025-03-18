@@ -142,8 +142,13 @@
                         <div class="dropdown">
                             <button class="d-flex justify-content-center align-items-center rounded-circle"
                                 type="button" data-bs-toggle="dropdown">
+                                @if($admin->image == null)
                                 <img src="{{ asset('template/backend/umum') }}/avatar.png" alt="image"
                                     class="w-40-px h-40-px object-fit-cover rounded-circle">
+                                @else
+                                <img src="{{ asset('storage/image_files/profile/'.$admin->image) }}" alt="image"
+                                class="w-40-px h-40-px object-fit-cover rounded-circle">
+                                @endif
                             </button>
                             <div class="dropdown-menu to-top dropdown-menu-sm">
                                 <div
@@ -151,7 +156,13 @@
                                     <div>
                                         <h6 class="text-lg text-primary-light fw-semibold mb-2">{{ session('name') }}
                                         </h6>
+                                        @if(session('level') == 1)
+                                        <span class="text-secondary-light fw-medium text-sm">Super Admin</span>
+                                        @elseif(session('level') == 2)
                                         <span class="text-secondary-light fw-medium text-sm">Admin</span>
+                                        @elseif(session('level') == 3)
+                                        <span class="text-secondary-light fw-medium text-sm">Tutor</span>
+                                        @endif
                                     </div>
                                     <button type="button" class="hover-text-danger">
                                         <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>

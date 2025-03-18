@@ -52,7 +52,7 @@ class LoginController extends Controller
 
             if (Hash::check($input['password'], $account->password)) {
                 $generate_token = Str::random(36);
-                session(['id' => $account->id, 'name' => $account->name, 'email' => $account->email, 'token' => $generate_token, 'adminid' => $account->id]);
+                session(['id' => $account->id, 'name' => $account->name, 'email' => $account->email, 'token' => $generate_token, 'adminid' => $account->id, 'level' => $account->level]);
 
                 Admin::where('id', $account->id)->update(['token' => $generate_token]);
                 return redirect('/posiadmin');

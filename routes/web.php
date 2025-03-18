@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\JuaraController;
 use App\Http\Controllers\Backend\AboutController;
+use App\Http\Controllers\Backend\AdminsController;
 use App\Http\Controllers\Backend\BeritaController;
 use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CollectiveController;
@@ -67,53 +68,53 @@ Route::prefix('posiadmin')->group(function () {
 
 Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function () {
     Route::get('/', [DashboardController::class, 'index']);
+    
+    Route::resource('/competition', CompetitionController::class)->middleware('notutor');
+    Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table')->middleware('notutor');
+    Route::post('/simpan_study', [CompetitionController::class, 'simpan_study'])->middleware('notutor');
+    Route::post('/update_study', [CompetitionController::class, 'update_study'])->middleware('notutor');
+    Route::get('/edit_study/{id}', [CompetitionController::class, 'edit_study'])->middleware('notutor');
+    Route::post('/delete_study', [CompetitionController::class, 'delete_study'])->middleware('notutor');
 
-    Route::resource('/competition', CompetitionController::class);
-    Route::get('/competition-table', [CompetitionController::class, 'competition_table'])->name('competition.table');
-    Route::post('/simpan_study', [CompetitionController::class, 'simpan_study']);
-    Route::post('/update_study', [CompetitionController::class, 'update_study']);
-    Route::get('/edit_study/{id}', [CompetitionController::class, 'edit_study']);
-    Route::post('/delete_study', [CompetitionController::class, 'delete_study']);
+    Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten'])->middleware('notutor');
+    Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan'])->middleware('notutor');
+    Route::post('/get_sekolah_by_kecamatan_id', [AdministrativeController::class, 'get_sekolah_by_jenjang'])->middleware('notutor');
 
-    Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten']);
-    Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan']);
-    Route::post('/get_sekolah_by_kecamatan_id', [AdministrativeController::class, 'get_sekolah_by_jenjang']);
+    Route::resource('/pelajaran', PelajaranController::class)->middleware('notutor');
+    Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table')->middleware('notutor');
 
-    Route::resource('/pelajaran', PelajaranController::class);
-    Route::get('/pelajaran-table', [PelajaranController::class, 'pelajaran_table'])->name('pelajaran.table');
+    Route::resource('/kelas', KelasController::class)->middleware('notutor');
+    Route::get('/kelas-table', [KelasController::class, 'kelas_table'])->name('kelas.table')->middleware('notutor');
 
-    Route::resource('/kelas', KelasController::class);
-    Route::get('/kelas-table', [KelasController::class, 'kelas_table'])->name('kelas.table');
+    Route::resource('/level', LevelController::class)->middleware('notutor');
+    Route::get('/level-table', [LevelController::class, 'level_table'])->name('level.table')->middleware('notutor');
 
-    Route::resource('/level', LevelController::class);
-    Route::get('/level-table', [LevelController::class, 'level_table'])->name('level.table');
+    Route::resource('/product', ProductController::class)->middleware('notutor');
+    Route::get('/product-table', [ProductController::class, 'product_table'])->name('product.table')->middleware('notutor');
+    Route::post('/product_study', [ProductController::class, 'product_study'])->middleware('notutor');
+    Route::post('/simpan_document', [ProductController::class, 'simpan_document'])->middleware('notutor');
+    Route::post('/update_document', [ProductController::class, 'update_document'])->middleware('notutor');
+    Route::post('/document-list', [ProductController::class, 'document_list'])->middleware('notutor');
+    Route::post('/document-delete', [ProductController::class, 'document_delete'])->middleware('notutor');
+    Route::get('/document-edit/{id}', [ProductController::class, 'document_edit'])->middleware('notutor');
 
-    Route::resource('/product', ProductController::class);
-    Route::get('/product-table', [ProductController::class, 'product_table'])->name('product.table');
-    Route::post('/product_study', [ProductController::class, 'product_study']);
-    Route::post('/simpan_document', [ProductController::class, 'simpan_document']);
-    Route::post('/update_document', [ProductController::class, 'update_document']);
-    Route::post('/document-list', [ProductController::class, 'document_list']);
-    Route::post('/document-delete', [ProductController::class, 'document_delete']);
-    Route::get('/document-edit/{id}', [ProductController::class, 'document_edit']);
-
-    Route::resource('/user', UserController::class);
-    Route::get('/user-table', [UserController::class, 'user_table'])->name('user.table');
-    Route::post('/list_kelas', [UserController::class, 'list_kelas']);
-    Route::post('/list_kabupaten', [UserController::class, 'list_kabupaten']);
-    Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan']);
-    Route::post('/list_sekolah', [UserController::class, 'list_sekolah']);
-    Route::post('/reset_password', [UserController::class, 'reset_password']);
+    Route::resource('/user', UserController::class)->middleware('notutor');
+    Route::get('/user-table', [UserController::class, 'user_table'])->name('user.table')->middleware('notutor');
+    Route::post('/list_kelas', [UserController::class, 'list_kelas'])->middleware('notutor');
+    Route::post('/list_kabupaten', [UserController::class, 'list_kabupaten'])->middleware('notutor');
+    Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan'])->middleware('notutor');
+    Route::post('/list_sekolah', [UserController::class, 'list_sekolah'])->middleware('notutor');
+    Route::post('/reset_password', [UserController::class, 'reset_password'])->middleware('notutor');
 
 
-    Route::resource('/pesanan', PesananController::class);
-    Route::post('/pesanan-table', [PesananController::class, 'pesanan_table'])->name('pesanan.table');
-    Route::post('/pesanan-table-not-approve', [PesananController::class, 'pesanan_table_not_approve'])->name('pesanan.table.not.approve');
-    Route::post('/pesanan-table-approve', [PesananController::class, 'pesanan_table_approve'])->name('pesanan.table.approve');
-    Route::post('/transaction_list', [PesananController::class, 'transaction_list']);
-    Route::post('/transaction_approve', [PesananController::class, 'transaction_approve']);
-    Route::post('/transaction_reset', [PesananController::class, 'transaction_reset']);
-    Route::post('/bulk_approve', [PesananController::class, 'bulk_approve']);
+    Route::resource('/pesanan', PesananController::class)->middleware('notutor');
+    Route::post('/pesanan-table', [PesananController::class, 'pesanan_table'])->name('pesanan.table')->middleware('notutor');
+    Route::post('/pesanan-table-not-approve', [PesananController::class, 'pesanan_table_not_approve'])->name('pesanan.table.not.approve')->middleware('notutor');
+    Route::post('/pesanan-table-approve', [PesananController::class, 'pesanan_table_approve'])->name('pesanan.table.approve')->middleware('notutor');
+    Route::post('/transaction_list', [PesananController::class, 'transaction_list'])->middleware('notutor');
+    Route::post('/transaction_approve', [PesananController::class, 'transaction_approve'])->middleware('notutor');
+    Route::post('/transaction_reset', [PesananController::class, 'transaction_reset'])->middleware('notutor');
+    Route::post('/bulk_approve', [PesananController::class, 'bulk_approve'])->middleware('notutor');
 
 
     Route::resource('/soal', SoalController::class);
@@ -125,75 +126,74 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/soal_clean', [SoalController::class, 'soal_clean']);
 
 
-    Route::resource('/ujian', QuestionController::class);
-    Route::get('/question-table/{link}', [QuestionController::class, 'question_table']);
-    Route::get('/preview/{id}', [QuestionController::class, 'preview']);
+    Route::resource('/ujian', QuestionController::class)->middleware('notutor');
+    Route::get('/question-table/{link}', [QuestionController::class, 'question_table'])->middleware('notutor');
+    Route::get('/preview/{id}', [QuestionController::class, 'preview'])->middleware('notutor');
 
-    Route::resource('/cart', CartController::class);
-    Route::get('/cart_table', [CartController::class, 'cart_table'])->name('cart.table');
+    Route::resource('/cart', CartController::class)->middleware('notutor');
+    Route::get('/cart_table', [CartController::class, 'cart_table'])->name('cart.table')->middleware('notutor');
 
-    Route::resource('/collective', CollectiveController::class);
-    Route::get('/collective_table', [CollectiveController::class, 'collective_table'])->name('collective.table');
-    Route::get('/collective_study_table/{id}', [CollectiveController::class, 'collective_study_table']);
-    Route::get('/collective_list_table/{id}', [CollectiveController::class, 'collective_list_table']);
-    Route::post('/get_daftar', [CollectiveController::class, 'get_daftar']);
-    Route::get('/download_template_pendaftaran', [CollectiveController::class, 'download_template_pendaftaran']);
-    Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload');
-    Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list']);
+    Route::resource('/collective', CollectiveController::class)->middleware('notutor');
+    Route::get('/collective_table', [CollectiveController::class, 'collective_table'])->name('collective.table')->middleware('notutor');
+    Route::get('/collective_study_table/{id}', [CollectiveController::class, 'collective_study_table'])->middleware('notutor');
+    Route::get('/collective_list_table/{id}', [CollectiveController::class, 'collective_list_table'])->middleware('notutor');
+    Route::post('/get_daftar', [CollectiveController::class, 'get_daftar'])->middleware('notutor');
+    Route::get('/download_template_pendaftaran', [CollectiveController::class, 'download_template_pendaftaran'])->middleware('notutor');
+    Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload')->middleware('notutor');
+    Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list'])->middleware('notutor');
 
-    Route::resource('/hasil', HasilController::class);
-    Route::get('/hasil_table', [HasilController::class, 'hasil_table'])->name('hasil.table');
-    Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table']);
-    Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete']);
+    Route::resource('/hasil', HasilController::class)->middleware('notutor');
+    Route::get('/hasil_table', [HasilController::class, 'hasil_table'])->name('hasil.table')->middleware('notutor');
+    Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table'])->middleware('notutor');
+    Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete'])->middleware('notutor');
 
-    Route::resource('/pemberitahuan', PengumumanController::class);
-    Route::get('/pemberitahuan_table', [PengumumanController::class, 'pemberitahuan_table'])->name('pemberitahuan.table');
-    Route::get('/get_pengumuman_study/{id}', [PengumumanController::class, 'get_pengumuman_study']);
-    Route::get('/get_pengumuman_level/{pelajaran}/{competition}', [PengumumanController::class, 'get_pengumuman_level']);
-    Route::post('/hitung_hasil_ujian', [PengumumanController::class, 'hitung_hasil_ujian']);
+    Route::resource('/pemberitahuan', PengumumanController::class)->middleware('notutor');
+    Route::get('/pemberitahuan_table', [PengumumanController::class, 'pemberitahuan_table'])->name('pemberitahuan.table')->middleware('notutor');
+    Route::get('/get_pengumuman_study/{id}', [PengumumanController::class, 'get_pengumuman_study'])->middleware('notutor');
+    Route::get('/get_pengumuman_level/{pelajaran}/{competition}', [PengumumanController::class, 'get_pengumuman_level'])->middleware('notutor');
+    Route::post('/hitung_hasil_ujian', [PengumumanController::class, 'hitung_hasil_ujian'])->middleware('notutor');
 
-    Route::resource('winner', WinnerListController::class);
-    Route::get('/winner_table/{id}', [WinnerListController::class, 'winner_table']);
+    Route::resource('winner', WinnerListController::class)->middleware('notutor');
+    Route::get('/winner_table/{id}', [WinnerListController::class, 'winner_table'])->middleware('notutor');
 
-    Route::resource('beritas', BeritaController::class);
-    Route::get('/berita_table', [BeritaController::class, 'berita_table'])->name('berita.table');
+    Route::resource('beritas', BeritaController::class)->middleware('notutor');
+    Route::get('/berita_table', [BeritaController::class, 'berita_table'])->name('berita.table')->middleware('notutor');
     
-    Route::resource('/event', EventController::class);
-    Route::get('/event_table', [EventController::class, 'event_table'])->name('event.table');
+    Route::resource('/event', EventController::class)->middleware('notutor');
+    Route::get('/event_table', [EventController::class, 'event_table'])->name('event.table')->middleware('notutor');
 
 
-    Route::get('/visi-misi', [HomepageController::class, 'visi_misi']);
-    Route::post('/visi_update', [HomepageController::class, 'visi_update'])->name('visi.update');
+    Route::get('/visi-misi', [HomepageController::class, 'visi_misi'])->middleware('notutor');
+    Route::post('/visi_update', [HomepageController::class, 'visi_update'])->name('visi.update')->middleware('notutor');
 
 
-    Route::get('/flow', [HomepageController::class, 'flow']);
-    Route::post('/flow_update', [HomepageController::class, 'flow_update'])->name('flow.update');
+    Route::get('/flow', [HomepageController::class, 'flow'])->middleware('notutor');
+    Route::post('/flow_update', [HomepageController::class, 'flow_update'])->name('flow.update')->middleware('notutor');
 
-    Route::get('/privacy', [HomepageController::class, 'privacy']);
-    Route::post('/privacy_update', [HomepageController::class, 'privacy_update'])->name('privacy.update');
+    Route::get('/privacy', [HomepageController::class, 'privacy'])->middleware('notutor');
+    Route::post('/privacy_update', [HomepageController::class, 'privacy_update'])->name('privacy.update')->middleware('notutor');
 
-    Route::get('/term', [HomepageController::class, 'term']);
-    Route::post('/term_update', [HomepageController::class, 'term_update'])->name('term.update');
-
-
-    Route::get('/refund', [HomepageController::class, 'refund']);
-    Route::post('/refund_update', [HomepageController::class, 'refund_update'])->name('refund.update');
-
-    Route::resource('/team', TeamController::class);
-    Route::get('/team_table', [TeamController::class, 'team_table'])->name('team.table');
-
-    Route::resource('/partner', PartnerController::class);
-    Route::get('/partner_table', [PartnerController::class, 'partner_table'])->name('partner.table');
-
-    Route::resource('/testimony', TestimonyController::class);
-    Route::get('/testimony_table', [TestimonyController::class, 'testimony_table'])->name('testimony.table');
+    Route::get('/term', [HomepageController::class, 'term'])->middleware('notutor');
+    Route::post('/term_update', [HomepageController::class, 'term_update'])->name('term.update')->middleware('notutor');
 
 
-    Route::resource('/abouts', AboutController::class);
+    Route::get('/refund', [HomepageController::class, 'refund'])->middleware('notutor');
+    Route::post('/refund_update', [HomepageController::class, 'refund_update'])->name('refund.update')->middleware('notutor');
+
+    Route::resource('/team', TeamController::class)->middleware('notutor');
+    Route::get('/team_table', [TeamController::class, 'team_table'])->name('team.table')->middleware('notutor');
+
+    Route::resource('/partner', PartnerController::class)->middleware('notutor');
+    Route::get('/partner_table', [PartnerController::class, 'partner_table'])->name('partner.table')->middleware('notutor');
+
+    Route::resource('/testimony', TestimonyController::class)->middleware('notutor');
+    Route::get('/testimony_table', [TestimonyController::class, 'testimony_table'])->name('testimony.table')->middleware('notutor');
 
 
+    Route::resource('/abouts', AboutController::class)->middleware('notutor');
 
-
+    Route::resource('/admins', AdminsController::class)->middleware('sadmin');
+    Route::get('/admins_table', [AdminsController::class, 'admins_table'])->name('admins.table')->middleware('sadmin');
 });
 
 // =====================================================================================

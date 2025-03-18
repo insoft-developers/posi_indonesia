@@ -21,36 +21,38 @@
                 <input type="hidden" id="data-jenis" value="1">
                 {{-- <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
                     Tambah</button> --}}
-                <button id="btn-bulk-approve" disabled="disabled" onclick="bulk_approve()" type="button"
-                    class="btn btn-insoft btn-info-800 radius-8 px-20 py-11">
-                    <i class="fa fa-check"></i> Bulk Approve</button>
+                @if (session('level') == 1)
+                    <button id="btn-bulk-approve" disabled="disabled" onclick="bulk_approve()" type="button"
+                        class="btn btn-insoft btn-info-800 radius-8 px-20 py-11">
+                        <i class="fa fa-check"></i> Bulk Approve</button>
+                @endif
 
-                    <div class="col-12">
-                        
-                        <select id="filter" name="filter" class="form-control">
-                            <option value="">Semua Data</option>
-                            <option value="today">Hari ini</option>
-                            <option value="thismonth">Bulan Ini</option>
-                            <option value="yesterday">Kemarin</option>
-                            <option value="lastmonth">Bulan Lalu</option>
-                            <option value="thisyear">Tahun Ini</option>
-                            <option value="lastyear">Tahun Lalu</option>
-                           
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        
-                        <select id="filter2" name="filter2" class="form-control">
-                            <option value="">Semua Invoice</option>
-                            <option value="premium">Berbayar</option>
-                            <option value="free">Gratis</option>
-                        </select>
-                    </div>
-           
-        
+                <div class="col-12">
+
+                    <select id="filter" name="filter" class="form-control">
+                        <option value="">Semua Data</option>
+                        <option value="today">Hari ini</option>
+                        <option value="thismonth">Bulan Ini</option>
+                        <option value="yesterday">Kemarin</option>
+                        <option value="lastmonth">Bulan Lalu</option>
+                        <option value="thisyear">Tahun Ini</option>
+                        <option value="lastyear">Tahun Lalu</option>
+
+                    </select>
+                </div>
+                <div class="col-12">
+
+                    <select id="filter2" name="filter2" class="form-control">
+                        <option value="">Semua Invoice</option>
+                        <option value="premium">Berbayar</option>
+                        <option value="free">Gratis</option>
+                    </select>
+                </div>
+
+
             </div>
             <div class="card-body">
-                
+
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
@@ -104,8 +106,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <div class="form-check"><input id="check-all-approve" class="form-check-input"
-                                                    type="checkbox">
+                                            <div class="form-check"><input id="check-all-approve"
+                                                    class="form-check-input" type="checkbox">
                                             </div>
                                         </th>
                                         <th scope="col">Action</th>
@@ -326,8 +328,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="btn-save-data" type="button" class="btn btn-success">APPROVED</button>
-                    <button id="btn-reject-data" type="button" class="btn btn-danger">RESET</button>
+                    @if (session('level') == 1)
+                        <button id="btn-save-data" type="button" class="btn btn-success">APPROVED</button>
+
+                        <button id="btn-reject-data" type="button" class="btn btn-danger">RESET</button>
+                    @endif
                 </div>
             </div>
 
