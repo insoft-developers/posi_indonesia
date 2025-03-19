@@ -41,6 +41,7 @@
             $("#is_active").val("");
             $("#premium_bonus_product").val(null).trigger('change');
             $("#free_bonus_product").val(null).trigger('change');
+            $("#expired_order").val("");
         }
 
         var table = $('#table-list').DataTable({
@@ -106,6 +107,10 @@
                 {
                     data: 'target',
                     name: 'target'
+                },
+                {
+                    data: 'expired_order',
+                    name: 'expired_order'
                 },
                 {
                     data: 'is_active',
@@ -193,6 +198,7 @@
                     $("#link_wa").val(data.data.link_wa);
                     $("#link_telegram").val(data.data.link_telegram);
                     $("#is_active").val(data.data.is_active);
+                    $("#expired_order").val(data.data.expired_order);
                     if(data.data.bonus !== null) {
                         var premium_bonus = explode(data.data.bonus.premium_register_product);
                         $("#premium_bonus_product").val(premium_bonus).trigger('change');

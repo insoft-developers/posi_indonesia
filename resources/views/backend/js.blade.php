@@ -21,6 +21,7 @@
 @include('backend.custom_js.partner_js')
 @include('backend.custom_js.testimony_js')
 @include('backend.custom_js.admins_js')
+@include('backend.custom_js.hasil2_js')
 
 
 @if ($view == 'about')

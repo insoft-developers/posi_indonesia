@@ -1,12 +1,17 @@
 <style>
 
-    .team-image{
-        width: 60px;
-    height: 60px;
-    border: 4px solid whitesmoke;
-    padding: 5px;
-    border-radius: 30px;
+    #table-list .item-study-pilih:hover{
+        text-decoration: underline !important;
+        color: blue;
     }
+    .team-image {
+        width: 60px;
+        height: 60px;
+        border: 4px solid whitesmoke;
+        padding: 5px;
+        border-radius: 30px;
+    }
+
     .doc-images {
         width: 100px;
         height: auto;

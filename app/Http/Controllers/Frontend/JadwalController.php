@@ -165,6 +165,14 @@ class JadwalController extends Controller
     {
         $input = $request->all();
 
+        $com = Competition::find($input['competition_id']);
+        if($com->expired_order < date('Y-m-d H:i:s')) {
+            return response()->json([
+                "success" => false,
+                "message" => "Maaf, masa pemesanan telah habis..!"
+            ]);
+        }
+
         try {
             $product_id = $input['selected_product'];
 

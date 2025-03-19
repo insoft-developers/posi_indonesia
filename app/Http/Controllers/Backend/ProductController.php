@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\DocumentSetting;
 use App\Models\Kelas;
 use App\Models\Level;
 use App\Models\Product;
@@ -246,7 +247,7 @@ class ProductController extends Controller
                
                 $html .= '<td>'.$d->competition->title ?? null.'</td>';
                 if($d->document !== null) {
-                    $html .= '<td><a href="'.asset('/storage/image_files/product/document/'.$d->document).'" target="_blank"><img class="doc-images" src="'.asset('/storage/image_files/product/document/'.$d->document).'"></a></td>';
+                    $html .= '<td><a href="'.url('posiadmin/facility_file/'.$d->product_id.'/'.$d->competition->id).'" target="_blank"><img class="doc-images" src="'.asset('/storage/image_files/product/document/'.$d->document).'"></a></td>';
                 } else {
                     $html .= '<td>No Image</td>';
                 }
@@ -478,5 +479,28 @@ class ProductController extends Controller
             ->rawColumns(['action', 'product_name', 'image', 'product_for', 'is_combo','competition_id'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+
+    public function facility_file($productid, $competition_id) {
+
+        $product = Product::findorFail($productid);
+     
+        $document = ProductDocument::where('competition_id', $competition_id)->where('product_id', $productid)->first();
+        $file = $document->document;
+
+        $setting1 = DocumentSetting::where('product_id', $productid)
+            ->where('competition_id', $competition_id)
+            ->where('document_type', 'screen')
+            ->first();
+
+        if($product->document_type == 'pembahasan') {
+            $view = 'pembahasan';
+
+            return view('frontend.pembahasan', compact('product','view',));
+        } else {
+            return view('backend.cert_admin', compact('product','file', 'setting1'));
+        }
+
     }
 }

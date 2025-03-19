@@ -49,9 +49,13 @@
                     width: 102%;
                     /* background: orange; */
                     text-align: center;
-                    top: 225px;
+                    top: {{ $setting1->name_top }}px;
+                    left: {{ $setting1->name_left }}px;
+                    bottom: {{ $setting1->name_bottom }}px;
+                    right: {{ $setting1->name_right }}px;
                     font-weight: bold;
-                    color: #555555;
+                    font-size: {{ $setting1->name_font_size }}px !important;
+                    color: {{ $setting1->name_color }};
 
                     font-size: 20px;
                 }
@@ -409,35 +413,17 @@
     <a href="{{ url('riwayat') }}"><button id="btn-tutup" class="btn btn-warning">Tutup</button></a>
     <div class="sheet-outer A4">
         <div class="sheet padding-5mm" id="document">
-            <div class="doc-name">{{ strtoupper($transaction->tuser->name) }}</div>
-            <div class="school-name">{{ strtoupper($transaction->tuser->nama_sekolah) }}</div>
-            <div class="province-name">{{ strtoupper($transaction->tuser->wilayah->province_name) }}</div>
-            <div class="bidang-name">{{ strtoupper($transaction->study->pelajaran->name) }}</div>
-            <div class="jenjang-name">{{ strtoupper($transaction->study->level->level_name) }}</div>
+            <div class="doc-name">{{ strtoupper('febri andriansyah') }}</div>
+            <div class="school-name">{{ strtoupper('SMA 1 Lubuk Pakam') }}</div>
+            <div class="province-name">{{ strtoupper('Sumatera Utara') }}</div>
+            <div class="bidang-name">{{ strtoupper('Matematika') }}</div>
+            <div class="jenjang-name">{{ strtoupper('SMA/SMK/MAN') }}</div>
 
-
-            @php
-                $session = \App\Models\ExamSession::where('competition_id', $transaction->competition_id)
-                    ->where('study_id', $transaction->study_id)
-                    ->where('userid', Auth::user()->id)
-                    ->first();
-
-                if ($session->medali == 'emas') {
-                    $juara = 'Peraih Medali Emas';
-                } elseif ($session->medali == 'perak') {
-                    $juara = 'Peraih Medali Perak';
-                } elseif ($session->medali == 'perunggu') {
-                    $juara = 'Peraih Medali Perunggu';
-                } else {
-                    $juara = 'Peserta Aktif';
-                }
-
-            @endphp
 
             @if ($product->document_type == 'piagam')
-                <div class="prestasi">{{ strtoupper($juara) }}</div>
+                <div class="prestasi">Peraih Medali Emas</div>
             @else
-                <div class="prestasi">{{ strtoupper($session->total_score) }}</div>
+                <div class="prestasi">A+</div>
             @endif
         </div>
     </div>

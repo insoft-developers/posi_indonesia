@@ -38,6 +38,7 @@
                                 <th scope="col">Harga</th>
                                 <th scope="col">Level</th>
                                 <th scope="col">Target</th>
+                                <th scope="col">Tutup Pemesanan</th>
                                 <th scope="col">Status</th>
 
                             </tr>
@@ -292,6 +293,12 @@
                                     <option value="1">Aktif</option>
                                     <option value="0">Tidak Aktif</option>
                                 </select>
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Batas waktu pemesanan</label>
+                                <input type="datetime-local" id="expired_order" name="expired_order" class="form-control">
                             </div>
                         </div>
                     </div>
