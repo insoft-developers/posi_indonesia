@@ -39,7 +39,9 @@ class Hasil2Controller extends Controller
      */
     public function show(string $id)
     {
-        //
+        $view = 'hasil-detail';
+        $session = ExamSession::find($id);
+        return view('backend.transaction.hasil_detail', compact('view','session','id'));
     }
 
     /**
