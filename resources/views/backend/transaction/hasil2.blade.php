@@ -5,22 +5,21 @@
             <h6 class="fw-semibold mb-0"></h6>
             <ul class="d-flex align-items-center gap-2">
                 <li class="fw-medium">
-                    <a href="{{ url('/posiadmin/hasil') }}" class="d-flex align-items-center gap-1 hover-text-primary">
+                    <a href="#" class="d-flex align-items-center gap-1 hover-text-primary">
 
                         Data Ujian
                     </a>
                 </li>
                 <li>-</li>
-                <li class="fw-medium">Daftar Hasil Ujian - {{ $study->competition->title }} - {{ $study->pelajaran->name }} - {{ $study->level->level_name }}</li>
+                <li class="fw-medium">Daftar Hasil Ujian Per Kompetisi</li>
             </ul>
         </div>
 
         <div class="card basic-data-table">
             <div class="card-header">
-                <h5 class="card-title mb-0">Daftar Hasil Ujian - {{ $study->competition->title }} - {{ $study->pelajaran->name }} - {{ $study->level->level_name }}</h5>
-                <button id="btn-bulk-delete" disabled="disabled" onclick="bulk_delete()" type="button"
-                        class="btn btn-insoft btn-danger-800 radius-8 px-20 py-11">
-                        <i class="fa fa-trash"></i> Bulk Delete</button>
+                <h5 class="card-title mb-0">Daftar Hasil Ujian Per Kompetisi</h5>
+                {{-- <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> + --}}
+                    {{-- Tambah</button> --}}
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -28,24 +27,11 @@
                     <table style="width: 100%;" class="table bordered-table mb-0" id="table-list">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    <div class="form-check"><input id="check-all"
-                                            class="form-check-input" type="checkbox">
-                                    </div>
-                                </th>
-                                <th scope="col">Action</th>
-                                <th scope="col">Tanggal</th>
+                                <th scope="col">ID</th>
+                                {{-- <th scope="col">Action</th> --}}
                                 <th scope="col">Kompetisi</th>
                                 <th scope="col">Bidang Studi</th>
-                                <th scope="col">Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Benar</th>
-                                <th scope="col">Salah</th>
-                                <th scope="col">Lewat</th>
-                                <th scope="col">Score</th>
-                                <th scope="col">Prestasi</th>
-                                <th scope="col">Nilai</th>
+                                
                             </tr>
                         </thead>
                         <tbody></tbody>

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExamSession;
+use App\Models\Study;
 use App\Models\UserAnswer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class HasilController extends Controller
@@ -13,10 +15,11 @@ class HasilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
         $view = 'hasil';
-        return view('backend.transaction.hasil', compact('view'));
+        $study = Study::find($id);
+        return view('backend.transaction.hasil', compact('view','id','study'));
     }
 
     /**
@@ -79,12 +82,16 @@ class HasilController extends Controller
     }
 
 
-    public function hasil_table()
+    public function hasil_table($id)
     {
-        $data = ExamSession::with('competition','study.pelajaran','study.level')->get();
+        $data = ExamSession::with('competition','study.pelajaran','study.level')
+        ->where('study_id', $id)
+        ->get();
 
         return DataTables::of($data)
-            
+        ->addColumn('id', function ($data) {
+            return '<div class="form-check"><input class="form-check-input" type="checkbox" id="id" data-id="' . $data->id . '" ></div>';
+        })
             ->addColumn('created_at', function($data){
                 return date('d-m-Y', strtotime($data->created_at));
             })
@@ -96,6 +103,9 @@ class HasilController extends Controller
             })
             ->addColumn('userid', function($data){
                 return $data->user == null ? '' : $data->user->name;
+            })
+            ->addColumn('email', function($data){
+                return $data->user == null ? '' : $data->user->email;
             })
             ->addColumn('is_finish', function($data){
                 if($data->is_finish == 1) {
@@ -114,9 +124,36 @@ class HasilController extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','id'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function bulk_delete(Request $request)
+    {
+        $input = $request->all();
+        DB::beginTransaction();
+        try {
+            $ids = json_decode(stripslashes($input['id']));
+            foreach ($ids as $id) {
+                ExamSession::where('id', $id)->delete();
+                UserAnswer::where('session_id', $id)->delete();
+                
+            }
+            DB::commit();
+            return response()->json([
+                "success" => true,
+                "message" => "delete successfully"
+            ]);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+        
+        
     }
 
 

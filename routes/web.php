@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\CollectiveController;
 use App\Http\Controllers\Backend\CompetitionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\EventController;
+use App\Http\Controllers\Backend\Hasil2Controller;
 use App\Http\Controllers\Backend\HasilController;
 use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\KelasController;
@@ -126,9 +127,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/soal_clean', [SoalController::class, 'soal_clean']);
 
 
-    Route::resource('/ujian', QuestionController::class)->middleware('notutor');
-    Route::get('/question-table/{link}', [QuestionController::class, 'question_table'])->middleware('notutor');
-    Route::get('/preview/{id}', [QuestionController::class, 'preview'])->middleware('notutor');
+    Route::resource('/ujian', QuestionController::class);
+    Route::get('/question-table/{link}', [QuestionController::class, 'question_table']);
+    Route::get('/preview/{id}', [QuestionController::class, 'preview']);
 
     Route::resource('/cart', CartController::class)->middleware('notutor');
     Route::get('/cart_table', [CartController::class, 'cart_table'])->name('cart.table')->middleware('notutor');
@@ -142,10 +143,20 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload')->middleware('notutor');
     Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list'])->middleware('notutor');
 
-    Route::resource('/hasil', HasilController::class)->middleware('notutor');
-    Route::get('/hasil_table', [HasilController::class, 'hasil_table'])->name('hasil.table')->middleware('notutor');
+    Route::resource('/hasil', Hasil2Controller::class)->middleware('notutor');
+    Route::get('/hasil_table', [Hasil2Controller::class, 'hasil_table'])->name('hasil.table')->middleware('notutor');
+
+
     Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table'])->middleware('notutor');
     Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete'])->middleware('notutor');
+
+    Route::get('/competition_result/{id}', [HasilController::class, 'index'])->middleware('notutor');
+    Route::get('/session_exam_table/{id}', [HasilController::class, 'hasil_table'])->middleware('notutor');
+
+    Route::post('/bulk_delete', [HasilController::class, 'bulk_delete'])->middleware('notutor');
+    
+
+
 
     Route::resource('/pemberitahuan', PengumumanController::class)->middleware('notutor');
     Route::get('/pemberitahuan_table', [PengumumanController::class, 'pemberitahuan_table'])->name('pemberitahuan.table')->middleware('notutor');
@@ -194,6 +205,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/admins', AdminsController::class)->middleware('sadmin');
     Route::get('/admins_table', [AdminsController::class, 'admins_table'])->name('admins.table')->middleware('sadmin');
+
+    Route::get('/facility_file/{product_id}/{competition_id}', [ProductController::class, 'facility_file']);
 });
 
 // =====================================================================================

@@ -57,6 +57,7 @@ class CompetitionController extends Controller
             'type' => 'required',
             'price' => 'required|numeric',
             'level' => 'required',
+            'expired_order' => 'required'
         ];
 
         $validator = Validator::make($input, $rules);
@@ -255,6 +256,7 @@ class CompetitionController extends Controller
             'type' => 'required',
             'price' => 'required|numeric',
             'level' => 'required',
+            'expired_order' => 'required'
         ];
 
         $validator = Validator::make($input, $rules);
@@ -413,6 +415,14 @@ class CompetitionController extends Controller
                 } else {
                     return '';
                 }
+            })
+            ->addColumn('expired_order', function($data){
+                if($data->expired_order == null) {
+                    return 'not-set';
+                } else {
+                    return date('d-m-Y H:i:s', strtotime($data->expired_order));
+                }
+               
             })
             ->addColumn('registration', function ($data) {
                 return date('d-m-Y', strtotime($data->start_registration_date)) . ' - ' . $data->start_registration_time . '<br>' . date('d-m-Y', strtotime($data->finish_registration_date)) . ' - ' . $data->finish_registration_time;

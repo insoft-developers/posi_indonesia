@@ -357,7 +357,7 @@
                         </div>
                         <hr />
                         <div class="form-group">
-                            <label>Unduh aplikasi Posi di Playstore</label>
+                            <label>follow akun IG @posikompetisi</label>
                             <div style="margin-top:10px;"></div>
                             <input type="file" id="file2" name="file2" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">
