@@ -489,18 +489,54 @@ class ProductController extends Controller
         $document = ProductDocument::where('competition_id', $competition_id)->where('product_id', $productid)->first();
         $file = $document->document;
 
-        $setting1 = DocumentSetting::where('product_id', $productid)
-            ->where('competition_id', $competition_id)
-            ->where('document_type', 'screen')
-            ->first();
+        
 
         if($product->document_type == 'pembahasan') {
             $view = 'pembahasan';
 
             return view('frontend.pembahasan', compact('product','view',));
         } else {
-            return view('backend.cert_admin', compact('product','file', 'setting1'));
+            $cek1 = DocumentSetting::where('product_id', $productid)->where('competition_id', $competition_id)->where('document_type', 'screen');
+            if($cek1->count() <= 0) {
+                DocumentSetting::create([
+                    "product_id" => $productid,
+                    "competition_id" => $competition_id,
+                    "document_type" => "screen"
+                ]);
+            }
+    
+    
+            $cek2 = DocumentSetting::where('product_id', $productid)->where('competition_id', $competition_id)->where('document_type', 'print');
+            if($cek2->count() <= 0) {
+                DocumentSetting::create([
+                    "product_id" => $productid,
+                    "competition_id" => $competition_id,
+                    "document_type" => "print"
+                ]);
+            }
+
+            $setting1 = DocumentSetting::where('product_id', $productid)
+            ->where('competition_id', $competition_id)
+            ->where('document_type', 'screen')
+            ->first();
+
+            return view('backend.cert_admin', compact('product','file', 'setting1','productid','competition_id'));
         }
 
+    }
+
+    public function simpan_setting(Request $request) {
+        $input = $request->all();
+        $data = DocumentSetting::find($input['id']);
+        $data->update($input);
+        return $data;
+    }
+
+    public function setting_css($product_id, $competition_id) {
+       
+
+
+        $data = DocumentSetting::where('product_id', $product_id)->where('competition_id', $competition_id)->where('document_type', 'screen');
+        return $data->first();
     }
 }

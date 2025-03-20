@@ -10,6 +10,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template/frontend') }}/assets/images/pav.png">
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,700,900');
+    </style>
+    <style>
         body {
             margin: 0;
 
@@ -36,150 +39,115 @@
 
 
         @page {
-            margin-top: 0.2in;
-            margin-bottom: 0.05in;
+            margin-top: 0in;
+            margin-bottom: 0in;
             margin-left: 0.05in;
             margin-right: 0.05in;
         }
 
         @media screen {
-            @if ($product->document_type == 'piagam')
-                .doc-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 225px;
-                    font-weight: bold;
-                    color: #555555;
 
-                    font-size: 20px;
-                }
+            .doc-name {
+                position: relative;
+                width: 102%;
+                text-align: center;
+                top: {{ $setting1->name_top }}px;
+                left: {{ $setting1->name_left }}px;
+                bottom: {{ $setting1->name_bottom }}px;
+                right: {{ $setting1->name_right }}px;
+                font-weight: {{ $setting1->name_font_weight }};
+                font-size: {{ $setting1->name_font_size }}px;
+                color: {{ $setting1->name_font_color }};
+                font-style: {{ $setting1->name_font_style }};
+                font-family: {{ $setting1->name_font_family }};
+            }
 
-                .school-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 240px;
-                    font-weight: bold;
-                    color: #555555;
+            .school-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->school_top }}px;
+                left: {{ $setting1->school_left }}px;
+                bottom: {{ $setting1->school_bottom }}px;
+                right: {{ $setting1->school_right }}px;
+                font-weight: {{ $setting1->school_font_weight }};
+                font-size: {{ $setting1->scholl_font_size }}px;
+                color: {{ $setting1->school_font_color }};
+                font-style: {{ $setting1->school_font_style }};
+                font-family: {{ $setting1->school_font_family }};
 
-                }
+            }
 
-                .province-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 260px;
-                    font-weight: bold;
-                    color: #555555;
+            .province-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->province_top }}px;
+                left: {{ $setting1->province_left }}px;
+                bottom: {{ $setting1->province_bottom }}px;
+                right: {{ $setting1->province_right }}px;
+                font-weight: {{ $setting1->province_font_weight }};
+                font-size: {{ $setting1->province_font_size }}px;
+                color: {{ $setting1->province_font_color }};
+                font-style: {{ $setting1->province_font_style }};
+                font-family: {{ $setting1->province_font_family }};
 
-                }
+            }
 
-                .bidang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 280px;
-                    font-weight: bold;
-                    color: #555555;
+            .bidang-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->study_top }}px;
+                left: {{ $setting1->study_left }}px;
+                bottom: {{ $setting1->study_bottom }}px;
+                right: {{ $setting1->study_right }}px;
+                font-weight: {{ $setting1->study_font_weight }};
+                font-size: {{ $setting1->study_font_size }}px;
+                color: {{ $setting1->study_font_color }};
+                font-style: {{ $setting1->study_font_style }};
+                font-family: {{ $setting1->study_font_family }};
 
-                }
+            }
 
-                .jenjang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 300px;
-                    font-weight: bold;
-                    color: #555555;
+            .jenjang-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->level_top }}px;
+                left: {{ $setting1->level_left }}px;
+                bottom: {{ $setting1->level_bottom }}px;
+                right: {{ $setting1->level_right }}px;
+                font-weight: {{ $setting1->level_font_weight }};
+                font-size: {{ $setting1->level_font_size }}px;
+                color: {{ $setting1->level_font_color }};
+                font-style: {{ $setting1->level_font_style }};
+                font-family: {{ $setting1->level_font_family }};
 
-                }
+            }
 
-                .prestasi {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 320px;
-                    font-weight: bold;
-                    color: #555555;
+            .prestasi {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->desc_top }}px;
+                left: {{ $setting1->desc_left }}px;
+                bottom: {{ $setting1->desc_bottom }}px;
+                right: {{ $setting1->desc_right }}px;
+                font-weight: {{ $setting1->desc_font_weight }};
+                font-size: {{ $setting1->desc_font_size }}px;
+                color: {{ $setting1->desc_font_color }};
+                font-style: {{ $setting1->desc_font_style }};
+                font-family: {{ $setting1->desc_font_family }};
 
-                }
+            }
 
-            @elseif($product->document_type == 'sertifikat')
-                .doc-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 200px;
-                    font-weight: bold;
-                    color: #555555;
 
-                    font-size: 20px;
-                }
-
-                .school-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 217px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .province-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 235px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .bidang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 254px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .jenjang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 275px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .prestasi {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 292px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-            @endif
             .sheet-outer.A4 .sheet {
                 width: 297mm;
                 height: 210mm;
@@ -197,6 +165,12 @@
                 top: 12px;
             }
 
+            #btn-setting {
+                position: relative;
+                left: 289px;
+                top: 12px;
+            }
+
             body {
                 background: #e0e0e0
             }
@@ -210,174 +184,137 @@
 
 
 
-
         @media print {
 
-            @if ($product->document_type == 'piagam')
-                .doc-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 212px;
-                    font-weight: bold;
-                    color: #555555;
+            .doc-name {
+                position: relative;
+                width: 102%;
+                text-align: center;
+                top: {{ $setting1->name_top }}px;
+                left: {{ $setting1->name_left }}px;
+                bottom: {{ $setting1->name_bottom }}px;
+                right: {{ $setting1->name_right }}px;
+                font-weight: {{ $setting1->name_font_weight }};
+                font-size: {{ $setting1->name_font_size }}px;
+                color: {{ $setting1->name_font_color }};
+                font-style: {{ $setting1->name_font_style }};
+                font-family: {{ $setting1->name_font_family }};
+            }
 
-                    font-size: 20px;
-                }
+            .school-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->school_top }}px;
+                left: {{ $setting1->school_left }}px;
+                bottom: {{ $setting1->school_bottom }}px;
+                right: {{ $setting1->school_right }}px;
+                font-weight: {{ $setting1->school_font_weight }};
+                font-size: {{ $setting1->scholl_font_size }}px;
+                color: {{ $setting1->school_font_color }};
+                font-style: {{ $setting1->school_font_style }};
+                font-family: {{ $setting1->school_font_family }};
 
-                .school-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 225px;
-                    font-weight: bold;
-                    color: #555555;
+            }
 
-                }
+            .province-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->province_top }}px;
+                left: {{ $setting1->province_left }}px;
+                bottom: {{ $setting1->province_bottom }}px;
+                right: {{ $setting1->province_right }}px;
+                font-weight: {{ $setting1->province_font_weight }};
+                font-size: {{ $setting1->province_font_size }}px;
+                color: {{ $setting1->province_font_color }};
+                font-style: {{ $setting1->province_font_style }};
+                font-family: {{ $setting1->province_font_family }};
 
-                .province-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 245px;
-                    font-weight: bold;
-                    color: #555555;
+            }
 
-                }
+            .bidang-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->study_top }}px;
+                left: {{ $setting1->study_left }}px;
+                bottom: {{ $setting1->study_bottom }}px;
+                right: {{ $setting1->study_right }}px;
+                font-weight: {{ $setting1->study_font_weight }};
+                font-size: {{ $setting1->study_font_size }}px;
+                color: {{ $setting1->study_font_color }};
+                font-style: {{ $setting1->study_font_style }};
+                font-family: {{ $setting1->study_font_family }};
 
-                .bidang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 260px;
-                    font-weight: bold;
-                    color: #555555;
+            }
 
-                }
+            .jenjang-name {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->level_top }}px;
+                left: {{ $setting1->level_left }}px;
+                bottom: {{ $setting1->level_bottom }}px;
+                right: {{ $setting1->level_right }}px;
+                font-weight: {{ $setting1->level_font_weight }};
+                font-size: {{ $setting1->level_font_size }}px;
+                color: {{ $setting1->level_font_color }};
+                font-style: {{ $setting1->level_font_style }};
+                font-family: {{ $setting1->level_font_family }};
 
-                .jenjang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 280px;
-                    font-weight: bold;
-                    color: #555555;
+            }
 
-                }
+            .prestasi {
+                position: relative;
+                width: 102%;
+                /* background: orange; */
+                text-align: center;
+                top: {{ $setting1->desc_top }}px;
+                left: {{ $setting1->desc_left }}px;
+                bottom: {{ $setting1->desc_bottom }}px;
+                right: {{ $setting1->desc_right }}px;
+                font-weight: {{ $setting1->desc_font_weight }};
+                font-size: {{ $setting1->desc_font_size }}px;
+                color: {{ $setting1->desc_font_color }};
+                font-style: {{ $setting1->desc_font_style }};
+                font-family: {{ $setting1->desc_font_family }};
 
-                .prestasi {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 300px;
-                    font-weight: bold;
-                    color: #555555;
+            }
 
-                }
-
-            @elseif($product->document_type == 'sertifikat')
-                .doc-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 190px;
-                    font-weight: bold;
-                    color: #555555;
-
-                    font-size: 20px;
-                }
-
-                .school-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 202px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .province-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 220px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .bidang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 240px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .jenjang-name {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 255px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-                .prestasi {
-                    position: relative;
-                    width: 102%;
-                    /* background: orange; */
-                    text-align: center;
-                    top: 272px;
-                    font-weight: bold;
-                    color: #555555;
-
-                }
-
-            @endif
 
             .sheet-outer.A4 .sheet {
                 width: 297mm;
-                height: 200mm;
+                height: 205mm;
             }
 
-            body {
-                margin: 0px !important;
+            #btn-print {
+               display: none;
             }
 
-            #btn-print,
             #btn-tutup {
                 display: none;
             }
 
-            .sheet.padding-5mm {
-                padding: 5mm;
-                
-                background: url('{{ asset('storage/image_files/product/document/' . $file) }}');
-                background-size: contain;
-                visibility: visible;
-                background-repeat: no-repeat;
-                -webkit-print-color-adjust: exact;
-                background-position: center;
+            #btn-setting {
+                display: none;
             }
 
+            body {
+                background: #e0e0e0
+            }
 
+            .sheet {
+                background: white;
+                box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
+                margin: 5mm auto;
+            }
         }
+
 
         .minus {
             margin-top: -20px;

@@ -7,6 +7,7 @@ use App\Models\BonusClaimed;
 use App\Models\Cart;
 use App\Models\Competition;
 use App\Models\CompetitionBonusProduct;
+use App\Models\DocumentSetting;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductDocument;
@@ -148,6 +149,12 @@ class RiwayatController extends Controller
         $document = ProductDocument::where('competition_id', $transaction->competition_id)->where('product_id', $productid)->first();
         $file = $document->document;
 
+
+        $setting1 = DocumentSetting::where('product_id', $productid)
+            ->where('competition_id', $transaction->competition_id)
+            ->where('document_type', 'screen')
+            ->first();
+
         if($product->document_type == 'pembahasan') {
             $view = 'pembahasan';
             $ujian = Ujian::with('pembahasan','competition','study.pelajaran')->where('competition_id', $transaction->competition_id)
@@ -158,7 +165,7 @@ class RiwayatController extends Controller
 
             return view('frontend.pembahasan', compact('product','transaction', 'view', 'ujian'));
         } else {
-            return view('frontend.cert', compact('product','transaction', 'file'));
+            return view('frontend.cert', compact('product','transaction', 'file', 'setting1'));
         }
 
 
