@@ -207,6 +207,11 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/admins_table', [AdminsController::class, 'admins_table'])->name('admins.table')->middleware('sadmin');
 
     Route::get('/facility_file/{product_id}/{competition_id}', [ProductController::class, 'facility_file']);
+
+    Route::post('/simpan_setting', [ProductController::class, 'simpan_setting']);
+
+    Route::get('/setting_css/{product_id}/{competition_id}', [ProductController::class, 'setting_css']);
+
 });
 
 // =====================================================================================
