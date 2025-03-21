@@ -41,6 +41,8 @@ class TransactionController extends Controller
                 'kurir' => 'required',
                 'layanan' => 'required',
                 'alamat' => 'required',
+                'receiver_name' => 'required',
+                'receiver_phone' => 'required'
             ];
 
             $validator = Validator::make($input, $rules);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use App\Models\Level;
+use App\Models\PhoneCode;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -25,7 +26,8 @@ class RegisteredUserController extends Controller
         $view = 'register';
         $level = Level::all();
         $kelas = Kelas::all();
-        return view('auth.register', compact('level','view','kelas'));
+        $code = PhoneCode::all();
+        return view('auth.register', compact('level','view','kelas','code'));
     }
 
     /**

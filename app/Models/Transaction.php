@@ -44,6 +44,15 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'buyer','id');
     }
 
+    public function session($competition_id, $study_id, $userid)
+    {
+      
+        $data =  ExamSession::where('userid', $userid)->where('competition_id', $competition_id)
+        ->where('study_id', $study_id)
+        ->first();
+        return $data;
+    }
+
    
 }
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\KelasController;
 use App\Http\Controllers\Backend\LevelController;
 use App\Http\Controllers\Backend\LoginController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\PengumumanController;
@@ -211,6 +212,9 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/simpan_setting', [ProductController::class, 'simpan_setting']);
 
     Route::get('/setting_css/{product_id}/{competition_id}', [ProductController::class, 'setting_css']);
+
+    Route::resource('/order', OrderController::class);
+    Route::post('/order_table', [OrderController::class, 'order_table'])->name('order.table');
 
 });
 

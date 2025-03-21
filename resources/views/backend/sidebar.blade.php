@@ -157,6 +157,10 @@
                                 class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Transaksi</a>
                     </li>
                     <li>
+                        <a href="{{ url('posiadmin/order') }}"><i
+                                class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Order</a>
+                    </li>
+                    <li>
                         <a href="{{ url('posiadmin/cart') }}"><i
                                 class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Cart (Keranjang)</a>
                     </li>
