@@ -688,6 +688,8 @@
                 var layanan = $("#service option:selected").text();
                 var delivery_cost = $("#service").val();
                 var alamat = $("#alamat").val();
+                var receiver_name = $("#receiver_name").val();
+                var receiver_phone = $("#receiver_phone").val();
             } else {
                 var province_id = '';
                 var city_id = '';
@@ -699,6 +701,8 @@
                 var layanan = '';
                 var delivery_cost = '';
                 var alamat = '';
+                var receiver_name = '';
+                var receiver_phone = '';
             }
 
 
@@ -719,6 +723,8 @@
                         "layanan": layanan,
                         "delivery_cost": delivery_cost,
                         "alamat": alamat,
+                        "receiver_name":receiver_name,
+                        "receiver_phone":receiver_phone,
                         "_token": csrf_token
                     },
                     success: function(data) {
@@ -2545,6 +2551,9 @@
 
 @if ($view == 'register')
     <script>
+
+        $("#phone_code").select2();
+
         $("#level_id").change(function() {
             var level = $(this).val();
             $.ajax({

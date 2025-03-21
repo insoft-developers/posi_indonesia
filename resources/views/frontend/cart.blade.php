@@ -217,7 +217,25 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="single-form">
-                                        <textarea id="alamat" name="alamat" style="height: 120px" placeholder="Masukkan alamat lengkap" value=""></textarea>
+                                        <input type="text" id="receiver_name" name="receiver_name" placeholder="Masukkan Nama Penerima" value="">
+
+                                        <x-input-error :messages="$errors->get('receiver_name')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <input type="text" id="receiver_phone" name="receiver_phone" placeholder="Masukkan No HP Penerima" value="">
+
+                                        <x-input-error :messages="$errors->get('receiver_name')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <textarea id="alamat" name="alamat" style="height: 120px" placeholder="Masukkan alamat lengkap penerima" value=""></textarea>
 
                                         <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
                                     </div>
