@@ -33,12 +33,33 @@
                                 {{-- <th scope="col">Action</th> --}}
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">User</th>
+                                <th scope="col">Email User</th>
+                                <th scope="col">HP User</th>
+                                <th scope="col">Sekolah User</th>
+                                <th scope="col">Jenjang User</th>
+                                <th scope="col">Kelas User</th>
+                                <th scope="col">Provinsi User</th>
+                                <th scope="col">Kota User</th>
+                                <th scope="col">Kecamatan User</th>
+                                <th scope="col">Jenis Kelamin User</th>
+                                <th scope="col">Agama User</th>
                                 <th scope="col">Invoice</th>
                                 <th scope="col">Kompetisi</th>
+                                <th scope="col">Bidang</th>
                                 <th scope="col">Unit Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total Price</th>
                                 <th scope="col">Pemesan</th>
+                                <th scope="col">Email Pemesan</th>
+                                <th scope="col">HP Pemesan</th>
+                                <th scope="col">Sekolah Pemesan</th>
+                                <th scope="col">Jenjang Pemesan</th>
+                                <th scope="col">Kelas Pemesan</th>
+                                <th scope="col">Provinsi Pemesan</th>
+                                <th scope="col">Kota Pemesan</th>
+                                <th scope="col">Kecamatan Pemesan</th>
+                                <th scope="col">Jenis Kelamin Pemesan</th>
+                                <th scope="col">Agama Pemesan</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

@@ -50,12 +50,45 @@
                     name: 'userid',
                 },
                 {
+                    data: 'email',
+                    name: 'email',
+                },
+                {
+                    data: 'hp',
+                    name: 'hp',
+                },
+                {
                     data: 'province_id',
                     name: 'province_id',
                 },
                 {
+                    data: 'city',
+                    name: 'city',
+                },
+                {
+                    data: 'district',
+                    name: 'district',
+                },
+                {
+                    data: 'level',
+                    name: 'level',
+                },
+               
+                {
                     data: 'nama_sekolah',
                     name: 'nama_sekolah',
+                },
+                {
+                    data: 'kelas',
+                    name: 'kelas',
+                },
+                {
+                    data: 'jenis_kelamin',
+                    name: 'jenis_kelamin',
+                },
+                {
+                    data: 'agama',
+                    name: 'agama',
                 },
                 {
                     data: 'jumlah_benar',

@@ -95,10 +95,10 @@ class CollectiveController extends Controller
         return view('backend.transaction.collective_study', compact('view', 'com'));
     }
 
-    public function collective_list(string $id)
+    public function collective_list($comid,$id)
     {
         $view = 'collective-list';
-        return view('backend.transaction.collective_list', compact('view', 'id'));
+        return view('backend.transaction.collective_list', compact('view', 'id','comid'));
     }
 
     /**
@@ -138,8 +138,7 @@ class CollectiveController extends Controller
         $data = Competition::with('study', 'transaction')->get();
 
         return DataTables::of($data)
-            ->addColumn('userid', function($data){
-                
+            ->addColumn('userid', function ($data) {
                 return $data->transaction()->distinct()->count('userid');
             })
             ->addColumn('title', function ($data) {
@@ -165,9 +164,16 @@ class CollectiveController extends Controller
                     url('/posiadmin/collective/' . $data->id) .
                     '" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:check-circle-outline-rounded"></iconify-icon>
-                </a>';
+                </a>
+                 <a title="List Pendaftaran" href="' .
+                    url('posiadmin/collective_list/' . $data->id.'/0'
+                    ) .
+                    '" class="w-32-px h-32-px bg-info-focus text-info-main  d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:format-list-bulleted-rounded"></iconify-icon>
+                </a>
+                ';
             })
-            ->rawColumns(['action', 'study_id','userid'])
+            ->rawColumns(['action', 'study_id', 'userid'])
             ->addIndexColumn()
             ->make(true);
     }
@@ -185,10 +191,10 @@ class CollectiveController extends Controller
             ->addColumn('study_id', function ($data) {
                 return $data->pelajaran == null ? '' : $data->pelajaran->name;
             })
-            ->addColumn('action', function ($data) {
+            ->addColumn('action', function ($data)use($id) {
                 return '
                 <a title="List Pendaftaran" href="' .
-                    url('posiadmin/collective_list/' . $data->id) .
+                    url('posiadmin/collective_list/'.$id.'/' . $data->id) .
                     '" class="w-32-px h-32-px bg-info-focus text-info-main  d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:format-list-bulleted-rounded"></iconify-icon>
                 </a>
@@ -203,41 +209,99 @@ class CollectiveController extends Controller
             ->make(true);
     }
 
-    public function collective_list_table($id)
+    public function collective_list_table($comid,$id)
     {
-        $data = Transaction::with('tuser', 'muser', 'study.pelajaran')->where('study_id', $id)->get();
+        
+        
+        $query = Transaction::with('tuser', 'muser', 'study.pelajaran')->where('competition_id', $comid);
+        if(! empty($id)) {
+            $query->where('study_id', $id);
+        }
+        $data = $query->get();
 
         return DataTables::of($data)
-            ->addColumn('unit_price', function($data){
+            ->addColumn('unit_price', function ($data) {
                 return number_format($data->unit_price);
             })
-            ->addColumn('amount', function($data){
+            ->addColumn('amount', function ($data) {
                 return number_format($data->amount);
             })
             ->addColumn('competition_id', function ($data) {
-                $html = '';
-                if($data->competition == null) {
-
-                } else {
-                    $html .= $data->competition->title;
-                }
-                if($data->study == null) {
-
-                } else {
-                    if($data->study->pelajaran == null) {
-
-                    } else {
-                        $html .= '<br>'.$data->study->pelajaran->name;
-                    }
-                }
-                return $html;
+                return $data->competition->title ?? null;
+            })
+            ->addColumn('study_id', function($data){
+                return $data->study->pelajaran->name ?? null;
             })
             ->addColumn('userid', function ($data) {
                 return $data->tuser == null ? '' : $data->tuser->name;
             })
+            ->addColumn('user_email', function ($data) {
+                return $data->tuser == null ? '' : $data->tuser->email;
+            })
+            ->addColumn('user_hp', function ($data) {
+                return $data->tuser == null ? '' : $data->tuser->whatsapp;
+            })
+            ->addColumn('user_school', function ($data) {
+                return $data->tuser == null ? '' : $data->tuser->nama_sekolah;
+            })
+            ->addColumn('user_level', function ($data) {
+                return $data->tuser->level->level_name ?? null;
+            })
+            ->addColumn('user_kelas', function ($data) {
+                return $data->tuser->kelas->nama_kelas ?? null;
+            })
+            ->addColumn('user_province', function ($data) {
+                return $data->tuser->district->province_name ?? null;
+            })
+            ->addColumn('user_city', function ($data) {
+                return $data->tuser->district->regency_name ?? null;
+            })
+            ->addColumn('user_district', function ($data) {
+                return $data->tuser->district->district_name ?? null;
+            })
+            ->addColumn('user_gender', function ($data) {
+                return $data->tuser->jenis_kelamin ?? null;
+            })
+            ->addColumn('user_agama', function ($data) {
+                return $data->tuser->agama ?? null;
+            })
+          
+
             ->addColumn('buyer', function ($data) {
                 return $data->muser == null ? '' : $data->muser->name;
             })
+
+            ->addColumn('buyer_email', function ($data) {
+                return $data->muser == null ? '' : $data->muser->email;
+            })
+            ->addColumn('buyer_hp', function ($data) {
+                return $data->muser == null ? '' : $data->muser->whatsapp;
+            })
+            ->addColumn('buyer_school', function ($data) {
+                return $data->muser == null ? '' : $data->muser->nama_sekolah;
+            })
+            ->addColumn('buyer_level', function ($data) {
+                return $data->muser->level->level_name ?? null;
+            })
+            ->addColumn('buyer_kelas', function ($data) {
+                return $data->muser->kelas->nama_kelas ?? null;
+            })
+            ->addColumn('buyer_province', function ($data) {
+                return $data->muser->district->province_name ?? null;
+            })
+            ->addColumn('buyer_city', function ($data) {
+                return $data->muser->district->regency_name ?? null;
+            })
+            ->addColumn('buyer_district', function ($data) {
+                return $data->muser->district->district_name ?? null;
+            })
+            ->addColumn('buyer_gender', function ($data) {
+                return $data->muser->jenis_kelamin ?? null;
+            })
+            ->addColumn('buyer_agama', function ($data) {
+                return $data->muser->agama ?? null;
+            })
+           
             ->addColumn('created_at', function ($data) {
                 return date('d-m-Y', strtotime($data->created_at));
             })
@@ -252,7 +316,7 @@ class CollectiveController extends Controller
                 //   <iconify-icon icon="material-symbols:user-attributes-outline"></iconify-icon>
                 // </a>';
             })
-            ->rawColumns(['action','competition_id'])
+            ->rawColumns(['action', 'competition_id'])
             ->addIndexColumn()
             ->make(true);
     }

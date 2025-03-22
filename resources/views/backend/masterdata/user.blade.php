@@ -39,7 +39,9 @@
                                 <th scope="col">Tgl Lahir</th>
                                 <th scope="col">Agama</th>
                                 <th scope="col">J.Kelamin</th>
-                                <th scope="col">Wilayah</th>
+                                <th scope="col">Provinsi</th>
+                                <th scope="col">Kota</th>
+                                <th scope="col">Kecamatan</th>
                                 <th scope="col">Sekolah</th>
                                 
                             </tr>

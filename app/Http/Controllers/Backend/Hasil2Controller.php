@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\ExamSession;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -75,7 +76,7 @@ class Hasil2Controller extends Controller
 
         return DataTables::of($data)
             ->addColumn('competition_id', function($data){
-                return $data->title;
+                return '<a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id).'/0">'.$data->title.'</a>';
             })
             ->addColumn('study_id', function($data){
                 if($data->study == null) {
@@ -85,7 +86,7 @@ class Hasil2Controller extends Controller
                     $html .='<ul>';
                     foreach($data->study as $s) {
                         if($s->pelajaran !== null) {
-                            $html .='<li><a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$s->id).'"> - '.$s->pelajaran->name.' - '.$s->level->level_name.'</a></li>';
+                            $html .='<li><a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id.'/'.$s->id).'"> - '.$s->pelajaran->name.' - '.$s->level->level_name.'</a></li>';
 
                            
                         }
@@ -105,7 +106,7 @@ class Hasil2Controller extends Controller
             //       <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
             //     </a>';
             // })
-            ->rawColumns(['study_id'])
+            ->rawColumns(['study_id','competition_id'])
             ->addIndexColumn()
             ->make(true);
     }

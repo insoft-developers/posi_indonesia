@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\ExamSession;
 use App\Models\Pengumuman;
 use App\Models\Study;
+use App\Models\Ujian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -54,38 +55,95 @@ class PengumumanController extends Controller
 
     protected function set_juara($id)
     {
-        $data = ExamSession::where('hitung_id', $id)->orderBy('total_score', 'desc')->orderBy('updated_at', 'asc')->get();
-        $jumlah_pendaftar = $data->count();
-        $hitung_emas = 0.05 * $jumlah_pendaftar;
-        $jumlah_emas = round($hitung_emas);
-        $hitung_perak = 0.1 * $jumlah_pendaftar;
-        $jumlah_perak = round($hitung_perak);
-        $hitung_perunggu = 0.2 * $jumlah_pendaftar;
-        $jumlah_perunggu = round($hitung_perunggu);
+        
+        
+        try {
+            DB::beginTransaction();
+            $data = ExamSession::where('hitung_id', $id)->orderBy('total_score', 'desc')->orderBy('updated_at', 'asc')->get();
+            $jumlah_pendaftar = $data->count();
+            $hitung_emas = 0.05 * $jumlah_pendaftar;
+            $jumlah_emas = round($hitung_emas);
+            $hitung_perak = 0.1 * $jumlah_pendaftar;
+            $jumlah_perak = round($hitung_perak);
+            $hitung_perunggu = 0.2 * $jumlah_pendaftar;
+            $jumlah_perunggu = round($hitung_perunggu);
 
-        $awal_emas = 0;
-        $akhir_emas = $jumlah_emas;
-        $awal_perak = $jumlah_emas;
-        $akhir_perak = (int) $jumlah_emas + (int) $jumlah_perak;
-        $awal_perunggu = (int) $jumlah_emas + (int) $jumlah_perak;
-        $akhir_perunggu = (int) $jumlah_emas + (int) $jumlah_perak + (int) $jumlah_perunggu;
+            $awal_emas = 0;
+            $akhir_emas = $jumlah_emas;
+            $awal_perak = $jumlah_emas;
+            $akhir_perak = (int) $jumlah_emas + (int) $jumlah_perak;
+            $awal_perunggu = (int) $jumlah_emas + (int) $jumlah_perak;
+            $akhir_perunggu = (int) $jumlah_emas + (int) $jumlah_perak + (int) $jumlah_perunggu;
 
-        foreach ($data as $index => $p) {
-            if ($index >= $awal_emas && $index < $akhir_emas && $p->total_score >= 0) {
-                $medali = 'emas';
-                $nilai = 'A+';
-            } elseif ($index >= $awal_perak && $index < $akhir_perak && $p->total_score >= 0) {
-                $medali = 'perak';
-                $nilai = 'A';
-            } elseif ($index >= $awal_perunggu && $index < $akhir_perunggu && $p->total_score >= 0) {
-                $medali = 'perunggu';
-                $nilai = 'B+';
-            } else {
-                $medali = 'peserta-aktif';
-                $nilai = 'B';
+            $pengumuman = Pengumuman::find($id);
+            $study_id_array = explode(',', $pengumuman->study_id);
+
+            $list_study = [];
+
+            foreach ($study_id_array as $sia) {
+                $jumlah_soal = Ujian::where('study_id', $sia)->count();
+                array_push($list_study, $jumlah_soal);
             }
 
-            ExamSession::where('id', $p->id)->update(['medali' => $medali, 'nilai' => $nilai]);
+            $jumlah_soal = max($list_study);
+            // $jumlah_soal = 75;
+
+            $maksimal = $jumlah_soal * 4;
+            $minimal = $jumlah_soal * -1;
+
+            $rentang = $maksimal - $minimal;
+            $batas_atas_a_plus = 0.75 * $rentang;
+            $batas_bawah_a_plus = $batas_atas_a_plus + $minimal;
+
+            $batas_atas_a = 0.5 * $rentang;
+            $batas_bawah_a = $batas_atas_a + $minimal;
+
+            $batas_atas_b_plus = 0.3 * $rentang;
+            $batas_bawah_b_plus = $batas_atas_b_plus + $minimal;
+
+            $batas_atas_b = 0.2 * $rentang;
+            $batas_bawah_b = $batas_atas_b + $minimal;
+
+            $nilai_atas_a_plus = $maksimal;
+            $nilai_bawah_a_plus = round($batas_bawah_a_plus);
+
+            $nilai_atas_a = $nilai_bawah_a_plus - 1;
+            $nilai_bawah_a = round($batas_bawah_a);
+
+            $nilai_atas_b_plus = $nilai_bawah_a - 1;
+            $nilai_bawah_b_plus = round($batas_bawah_b_plus);
+
+            $nilai_atas_b = $nilai_bawah_b_plus - 1;
+            $nilai_bawah_b = round($batas_bawah_b);
+
+            foreach ($data as $index => $p) {
+                if ($index >= $awal_emas && $index < $akhir_emas && $p->total_score >= 0) {
+                    $medali = 'emas';
+                } elseif ($index >= $awal_perak && $index < $akhir_perak && $p->total_score >= 0) {
+                    $medali = 'perak';
+                } elseif ($index >= $awal_perunggu && $index < $akhir_perunggu && $p->total_score >= 0) {
+                    $medali = 'perunggu';
+                } else {
+                    $medali = 'peserta-aktif';
+                }
+
+                if ($p->total_score >= $nilai_bawah_a_plus && $p->total_score <= $nilai_atas_a_plus) {
+                    $grade = 'A+';
+                } elseif ($p->total_score >= $nilai_bawah_a && $p->total_score <= $nilai_atas_a) {
+                    $grade = 'A';
+                } elseif ($p->total_score >= $nilai_bawah_b_plus && $p->total_score <= $nilai_atas_b_plus) {
+                    $grade = 'B+';
+                } elseif ($p->total_score >= $nilai_bawah_b && $p->total_score <= $nilai_atas_b) {
+                    $grade = 'B';
+                } elseif ($p->total_score < 0) {
+                    $grade = 'C';
+                }
+
+                ExamSession::where('id', $p->id)->update(['medali' => $medali, 'nilai' => $grade]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
         }
     }
 
@@ -254,14 +312,14 @@ class PengumumanController extends Controller
 
             ->addColumn('action', function ($data) {
                 $btn = '';
-
                 if ($data->is_status !== 1) {
-                    $btn .=
-                        '<a title="Hitung Hasil Pengumuman" onclick="hitungData(' .
-                        $data->id .
-                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                $btn .=
+                    '<a title="Hitung Hasil Pengumuman" onclick="hitungData(' .
+                    $data->id .
+                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:account-tree-outline"></iconify-icon>
                 </a>';
+                
                     $btn .=
                         '<a style="margin-left:5px;" onclick="editData(' .
                         $data->id .
@@ -272,7 +330,9 @@ class PengumumanController extends Controller
 
                 if ($data->is_status == 1) {
                     $btn .=
-                        '<a  title="Daftar Pemenang" style="margin-left:5px;" href="'.url('posiadmin/winner/'.$data->id).'" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                        '<a  title="Daftar Pemenang" style="margin-left:5px;" href="' .
+                        url('posiadmin/winner/' . $data->id) .
+                        '" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
               <iconify-icon icon="material-symbols:trophy-outline-sharp"></iconify-icon>
             </a>';
                 }

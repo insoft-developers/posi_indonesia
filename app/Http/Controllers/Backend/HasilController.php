@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competition;
 use App\Models\ExamSession;
 use App\Models\Study;
 use App\Models\UserAnswer;
@@ -15,11 +16,12 @@ class HasilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index($comid, $id)
     {
         $view = 'hasil';
         $study = Study::find($id);
-        return view('backend.transaction.hasil', compact('view','id','study'));
+        $competition = Competition::find($comid);
+        return view('backend.transaction.hasil', compact('view','id','study','comid', 'competition'));
     }
 
     /**
@@ -82,11 +84,16 @@ class HasilController extends Controller
     }
 
 
-    public function hasil_table($id)
+    public function hasil_table($comid, $studyid)
     {
-        $data = ExamSession::with('competition','study.pelajaran','study.level')
-        ->where('study_id', $id)
-        ->get();
+        $query = ExamSession::with('competition','study.pelajaran','study.level')
+        ->where('competition_id', $comid);
+        
+        if(! empty($studyid)) {
+            $query->where('study_id', $studyid);
+        }
+
+        $data = $query->get();
 
         return DataTables::of($data)
         ->addColumn('id', function ($data) {
@@ -106,6 +113,33 @@ class HasilController extends Controller
             })
             ->addColumn('email', function($data){
                 return $data->user == null ? '' : $data->user->email;
+            })
+            ->addColumn('hp', function($data){
+                return $data->user->whatsapp ?? null;
+            })
+            ->addColumn('school', function($data){
+                return $data->user->nama_sekolah ?? null;
+            })
+            ->addColumn('level', function($data){
+                return $data->user->level->level_name ?? null;
+            })
+            ->addColumn('kelas', function($data){
+                return $data->user->kelas->nama_kelas ?? null;
+            })
+            ->addColumn('province', function($data){
+                return $data->user->district->province_name ?? null;
+            })
+            ->addColumn('city', function($data){
+                return $data->user->district->regency_name ?? null;
+            })
+            ->addColumn('district', function($data){
+                return $data->user->district->district_name ?? null;
+            })
+            ->addColumn('gender', function($data){
+                return $data->user->jenis_kelamin ?? null;
+            })
+            ->addColumn('agama', function($data){
+                return $data->user->agama ?? null;
             })
             ->addColumn('is_finish', function($data){
                 if($data->is_finish == 1) {

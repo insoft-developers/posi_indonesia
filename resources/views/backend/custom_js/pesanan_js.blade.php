@@ -1,7 +1,5 @@
 @if ($view == 'pesanan')
     <script>
-
-
         var table_not_approve = $('#table-transaction-not-approve').DataTable();
         var table_approve = $('#table-transaction-approve').DataTable();
         var table = $('#table-list').DataTable();
@@ -24,15 +22,13 @@
             var filter = $(this).val();
             var filter2 = $("#filter2").val();
             var jenis = $("#data-jenis").val();
-            if(jenis == 1) {
+            if (jenis == 1) {
                 init_table_not_approve(filter, filter2);
-            }
-            else if(jenis == 2) {
-                
+            } else if (jenis == 2) {
+
                 init_table_approve(filter, filter2);
-            }
-            else if(jenis == 3) {
-                
+            } else if (jenis == 3) {
+
                 init_table(filter, filter2);
             }
 
@@ -43,15 +39,13 @@
             var filter2 = $(this).val();
             var filter = $("#filter").val();
             var jenis = $("#data-jenis").val();
-            if(jenis == 1) {
+            if (jenis == 1) {
                 init_table_not_approve(filter, filter2);
-            }
-            else if(jenis == 2) {
-                
+            } else if (jenis == 2) {
+
                 init_table_approve(filter, filter2);
-            }
-            else if(jenis == 3) {
-                
+            } else if (jenis == 3) {
+
                 init_table(filter, filter2);
             }
 
@@ -72,8 +66,8 @@
             $("#jenjang").val("");
         }
 
-        init_table("","");
-        
+        init_table("", "");
+
         function init_table(filter, filter2) {
             table.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
@@ -98,7 +92,7 @@
                     url: "{{ route('pesanan.table') }}",
                     data: {
                         "filter": filter,
-                        "filter2":filter2,
+                        "filter2": filter2,
                         '_token': csrf_token
                     }
                 },
@@ -161,9 +155,9 @@
         }
 
 
-        init_table_not_approve("","");
-        
-        function init_table_not_approve(filter,filter2) {
+        init_table_not_approve("", "");
+
+        function init_table_not_approve(filter, filter2) {
             table_not_approve.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             table_not_approve = $('#table-transaction-not-approve').DataTable({
@@ -187,7 +181,7 @@
                     url: "{{ route('pesanan.table.not.approve') }}",
                     data: {
                         "filter": filter,
-                        "filter2":filter2,
+                        "filter2": filter2,
                         '_token': csrf_token
                     }
                 },
@@ -252,9 +246,9 @@
 
 
 
-        init_table_approve("","");
-        
-        function init_table_approve(filter,filter2) {
+        init_table_approve("", "");
+
+        function init_table_approve(filter, filter2) {
             table_approve.destroy();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             table_approve = $('#table-transaction-approve').DataTable({
@@ -278,7 +272,7 @@
                     url: "{{ route('pesanan.table.approve') }}",
                     data: {
                         "filter": filter,
-                        "filter2":filter2,
+                        "filter2": filter2,
                         '_token': csrf_token
                     }
                 },
@@ -558,15 +552,38 @@
                 success: function(data) {
 
                     $("#modal-detail-content").html(data.data);
+
                     $(".modal-title").text('Data Transaksi');
                     $("#modal-detail").modal('show');
-                    if (data.invoice.payment_status === 1) {
-                        $("#btn-save-data").hide();
-                        $("#btn-reject-data").show();
+                    var session = "{{ session('level') }}";
+                    var free_com = data.invoice.grand_total;
+
+                    if (session == 1) {
+                        if (data.invoice.payment_status === 1) {
+                            $("#btn-save-data").hide();
+                            $("#btn-reject-data").show();
+                        } else {
+                            $("#btn-save-data").show();
+                            $("#btn-reject-data").hide();
+                        }
+                    } else if (session == 2) {
+                        if (free_com == 0) {
+                            if (data.invoice.payment_status === 1) {
+                                $("#btn-save-data").hide();
+                                $("#btn-reject-data").show();
+                            } else {
+                                $("#btn-save-data").show();
+                                $("#btn-reject-data").hide();
+                            }
+                        } else {
+                            $("#btn-save-data").hide();
+                            $("#btn-reject-data").hide();
+                        }
                     } else {
-                        $("#btn-save-data").show();
+                        $("#btn-save-data").hide();
                         $("#btn-reject-data").hide();
                     }
+
 
                 }
             })

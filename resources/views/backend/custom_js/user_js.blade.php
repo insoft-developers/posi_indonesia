@@ -89,6 +89,14 @@
                     name: 'provinsi',
                 },
                 {
+                    data: 'kota',
+                    name: 'kota',
+                },
+                {
+                    data: 'kecamatan',
+                    name: 'kecamatan',
+                },
+                {
                     data: 'nama_sekolah',
                     name: 'nama_sekolah',
                 },

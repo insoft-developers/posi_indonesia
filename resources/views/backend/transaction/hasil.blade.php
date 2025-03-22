@@ -11,13 +11,13 @@
                     </a>
                 </li>
                 <li>-</li>
-                <li class="fw-medium">Daftar Hasil Ujian - {{ $study->competition->title }} - {{ $study->pelajaran->name }} - {{ $study->level->level_name }}</li>
+                <li class="fw-medium">Daftar Hasil Ujian - {{ $competition->title }} - {{ $study == null ? null : $study->pelajaran->name }} - {{ $study == null ? null : $study->level->level_name }}</li>
             </ul>
         </div>
 
         <div class="card basic-data-table">
             <div class="card-header">
-                <h5 class="card-title mb-0">Daftar Hasil Ujian - {{ $study->competition->title }} - {{ $study->pelajaran->name }} - {{ $study->level->level_name }}</h5>
+                <h5 class="card-title mb-0">Daftar Hasil Ujian - {{ $competition->title }} - {{ $study == null ? null : $study->pelajaran->name }} - {{ $study == null ? null : $study->level->level_name }}</h5>
                 <button id="btn-bulk-delete" disabled="disabled" onclick="bulk_delete()" type="button"
                         class="btn btn-insoft btn-danger-800 radius-8 px-20 py-11">
                         <i class="fa fa-trash"></i> Bulk Delete</button>
@@ -39,6 +39,15 @@
                                 <th scope="col">Bidang Studi</th>
                                 <th scope="col">Peserta</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">HP</th>
+                                <th scope="col">Sekolah</th>
+                                <th scope="col">Jenjang</th>
+                                <th scope="col">Kelas</th>
+                                <th scope="col">Provinsi</th>
+                                <th scope="col">Kota</th>
+                                <th scope="col">Kecamatan</th>
+                                <th scope="col">Jenis Kelamin</th>
+                                <th scope="col">Agama</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Benar</th>
                                 <th scope="col">Salah</th>

@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\PelajaranController;
 use App\Http\Controllers\Backend\PengumumanController;
 use App\Http\Controllers\Backend\PesananController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProfileSettingController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\SoalController;
 use App\Http\Controllers\Backend\TeamController;
@@ -138,11 +139,11 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::resource('/collective', CollectiveController::class)->middleware('notutor');
     Route::get('/collective_table', [CollectiveController::class, 'collective_table'])->name('collective.table')->middleware('notutor');
     Route::get('/collective_study_table/{id}', [CollectiveController::class, 'collective_study_table'])->middleware('notutor');
-    Route::get('/collective_list_table/{id}', [CollectiveController::class, 'collective_list_table'])->middleware('notutor');
+    Route::get('/collective_list_table/{comid}/{id}', [CollectiveController::class, 'collective_list_table'])->middleware('notutor');
     Route::post('/get_daftar', [CollectiveController::class, 'get_daftar'])->middleware('notutor');
     Route::get('/download_template_pendaftaran', [CollectiveController::class, 'download_template_pendaftaran'])->middleware('notutor');
     Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload')->middleware('notutor');
-    Route::get('/collective_list/{id}',  [CollectiveController::class, 'collective_list'])->middleware('notutor');
+    Route::get('/collective_list/{comid}/{id}',  [CollectiveController::class, 'collective_list'])->middleware('notutor');
 
     Route::resource('/hasil', Hasil2Controller::class)->middleware('notutor');
     Route::get('/hasil_table', [Hasil2Controller::class, 'hasil_table'])->name('hasil.table')->middleware('notutor');
@@ -151,8 +152,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/hasil_detail_table/{id}', [HasilController::class, 'hasil_detail_table'])->middleware('notutor');
     Route::post('/hasil_detail_delete', [HasilController::class, 'hasil_detail_delete'])->middleware('notutor');
 
-    Route::get('/competition_result/{id}', [HasilController::class, 'index'])->middleware('notutor');
-    Route::get('/session_exam_table/{id}', [HasilController::class, 'hasil_table'])->middleware('notutor');
+    Route::get('/competition_result/{comid}/{studyid?}', [HasilController::class, 'index'])->middleware('notutor');
+    Route::get('/session_exam_table/{comid}/{studyid?}', [HasilController::class, 'hasil_table'])->middleware('notutor');
 
     Route::post('/bulk_delete', [HasilController::class, 'bulk_delete'])->middleware('notutor');
     
@@ -215,6 +216,12 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
 
     Route::resource('/order', OrderController::class);
     Route::post('/order_table', [OrderController::class, 'order_table'])->name('order.table');
+
+
+    Route::get('/profile_setting', [ProfileSettingController::class, 'index']);
+    Route::post('/update_admin_profile', [ProfileSettingController::class, 'update'])->name('admin.profile.update');
+    Route::get('/change_password', [ProfileSettingController::class, 'change_password']);
+    Route::post('/password_update', [ProfileSettingController::class, 'password_update'])->name('admin.change.password');
 
 });
 
