@@ -5,9 +5,14 @@
 @endif
 
 <style>
-    .event-image {
-        height: 221px;
-        object-fit: cover;
+    .single-blog .blog-content .title a {
+        font-size: 16px;
+        font-weight: 500;
+        color: #212832;
+        margin-top: 13px;
+        display: inline-block;
+        line-height: 1.55;
+        min-height: 83px !important;
     }
 
     .table-mobile {
