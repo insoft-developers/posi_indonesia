@@ -160,15 +160,14 @@ class OrderController extends Controller
                 return $data->product->product_name ?? null;
             })
             ->addColumn('composition', function ($data) {
-                if($data->product->is_combo == 1) {
-                    $prod_array = explode(",", $data->product->composition);
+                if ($data->product->is_combo == 1) {
+                    $prod_array = explode(',', $data->product->composition);
                     $html = '<ul>';
-                    foreach($prod_array as $parr) {
+                    foreach ($prod_array as $parr) {
                         $p = Product::find($parr);
-                        if($p !== null) {
-                            $html .= '<li> - '.$p->product_name.'</li>';
+                        if ($p !== null) {
+                            $html .= '<li> - ' . $p->product_name . '</li>';
                         }
-                       
                     }
                     $html .= '</ul>';
 
@@ -176,7 +175,6 @@ class OrderController extends Controller
                 } else {
                     return $data->product->product_name ?? null;
                 }
-               
             })
             ->addColumn('quantity', function ($data) {
                 return $data->quantity;
@@ -240,7 +238,7 @@ class OrderController extends Controller
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action', 'status','composition'])
+            ->rawColumns(['action', 'status', 'composition'])
             ->addIndexColumn()
             ->make(true);
     }

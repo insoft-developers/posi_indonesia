@@ -30,8 +30,16 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Nama</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">HP</th>
                                 <th scope="col">Provinsi</th>
+                                <th scope="col">Kota</th>
+                                <th scope="col">Kecamatan</th>
+                                <th scope="col">Jenjang</th>
                                 <th scope="col">Sekolah</th>
+                                <th scope="col">Kelas</th>
+                                <th scope="col">Jenis Kelamin</th>
+                                <th scope="col">Agama</th>
                                 <th scope="col">Benar</th>
                                 <th scope="col">Salah</th>
                                 <th scope="col">Total Score</th>

@@ -111,11 +111,37 @@ class WinnerListController extends Controller
             ->addColumn('userid', function($data){
                 return $data->user->name ?? '';
             })
+            ->addColumn('email', function($data){
+                return $data->user->email ?? '';
+            })
+            ->addColumn('hp', function($data){
+                return $data->user->whatsapp ?? '';
+            })
+           
             ->addColumn('province_id', function($data){
                 return $data->user->wilayah->province_name ?? '';
             })
+            ->addColumn('city', function($data){
+                return $data->user->district->regency_name ?? '';
+            })
+            ->addColumn('district', function($data){
+                return $data->user->district->district_name ?? '';
+            })
+            ->addColumn('level', function($data){
+                return $data->user->level->level_name ?? '';
+            })
+            
             ->addColumn('nama_sekolah', function($data){
                 return $data->user->nama_sekolah ?? '';
+            })
+            ->addColumn('kelas', function($data){
+                return $data->user->kelas->nama_kelas ?? '';
+            })
+            ->addColumn('jenis_kelamin', function($data){
+                return $data->user->jenis_kelamin ?? '';
+            })
+            ->addColumn('agama', function($data){
+                return $data->user->agama ?? '';
             })
             ->addColumn('waktu', function($data){
                 return date('d-m-Y H:i:s', strtotime($data->updated_at));

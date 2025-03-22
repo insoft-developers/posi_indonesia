@@ -328,11 +328,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    @if (session('level') == 1)
-                        <button id="btn-save-data" type="button" class="btn btn-success">APPROVED</button>
 
-                        <button id="btn-reject-data" type="button" class="btn btn-danger">RESET</button>
-                    @endif
+                    <button id="btn-save-data" type="button" class="btn btn-success">APPROVED</button>
+
+                    <button id="btn-reject-data" type="button" class="btn btn-danger">RESET</button>
+
                 </div>
             </div>
 

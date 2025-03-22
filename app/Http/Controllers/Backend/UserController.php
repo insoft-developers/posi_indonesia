@@ -306,17 +306,30 @@ class UserController extends Controller
         return DataTables::of($data)
             ->addColumn('provinsi', function ($data) {
                 if ($data->district !== null) {
-                    $html = '';
-                    $html .= '<ul>';
-                    $html .= '<li>' . $data->district->province_name ?? null . '</li>';
-                    $html .= '<li>' . $data->district->regency_name ?? null . '</li>';
-                    $html .= '<li>' . $data->district->district_name ?? null . '</li>';
-                    $html .= '</ul>';
-                    return $html;
+                   return $data->district->province_name ?? null;
                 } else {
                     return '';
                 }
             })
+
+            ->addColumn('kota', function ($data) {
+                if ($data->district !== null) {
+                   return $data->district->regency_name ?? null;
+                } else {
+                    return '';
+                }
+            })
+
+            ->addColumn('kecamatan', function ($data) {
+                if ($data->district !== null) {
+                   return $data->district->district_name ?? null;
+                } else {
+                    return '';
+                }
+            })
+
+            // $html .= '<li>' . $data->district->regency_name ?? null . '</li>';
+            // $html .= '<li>' . $data->district->district_name ?? null . '</li>';
             ->addColumn('level_id', function ($data) {
                 return $data->level->level_name ?? null;
             })

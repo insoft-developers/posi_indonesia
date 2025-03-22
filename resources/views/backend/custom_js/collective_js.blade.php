@@ -185,7 +185,7 @@
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            ajax: "{{ url('posiadmin/collective_list_table') }}" + "/" + "{{ $id }}",
+            ajax: "{{ url('posiadmin/collective_list_table') }}"+"/"+"{{ $comid }}"+"/"+"{{ $id }}",
             order: [
                 [0, "desc"]
             ],
@@ -209,12 +209,58 @@
                     name: 'userid',
                 },
                 {
+                    data: 'user_email',
+                    name: 'user_email',
+                },
+                {
+                    data: 'user_hp',
+                    name: 'user_hp',
+                },
+                {
+                    data: 'user_school',
+                    name: 'user_school',
+                },
+                {
+                    data: 'user_level',
+                    name: 'user_level',
+                },
+                {
+                    data: 'user_kelas',
+                    name: 'user_kelas',
+                },
+                {
+                    data: 'user_province',
+                    name: 'user_province',
+                },
+                {
+                    data: 'user_city',
+                    name: 'user_city',
+                },
+                {
+                    data: 'user_district',
+                    name: 'user_district',
+                },
+                {
+                    data: 'user_gender',
+                    name: 'user_gender',
+                },
+                {
+                    data: 'user_agama',
+                    name: 'user_agama',
+                },
+               
+                {
                     data: 'invoice',
                     name: 'invoice',
                 },
                 {
                     data: 'competition_id',
                     name: 'competition_id',
+                },
+
+                {
+                    data: 'study_id',
+                    name: 'study_id',
                 },
                 {
                     data: 'unit_price',
@@ -233,6 +279,51 @@
                     name: 'buyer',
                    
                 },
+
+                {
+                    data: 'buyer_email',
+                    name: 'buyer_email',
+                },
+                {
+                    data: 'buyer_hp',
+                    name: 'buyer_hp',
+                },
+                {
+                    data: 'buyer_school',
+                    name: 'buyer_school',
+                },
+                {
+                    data: 'buyer_level',
+                    name: 'buyer_level',
+                },
+                {
+                    data: 'buyer_kelas',
+                    name: 'buyer_kelas',
+                },
+                {
+                    data: 'buyer_province',
+                    name: 'buyer_province',
+                },
+                {
+                    data: 'buyer_city',
+                    name: 'buyer_city',
+                },
+                {
+                    data: 'buyer_district',
+                    name: 'buyer_district',
+                },
+                {
+                    data: 'buyer_gender',
+                    name: 'buyer_gender',
+                },
+                
+                {
+                    data: 'buyer_agama',
+                    name: 'buyer_agama',
+                },
+                
+               
+               
 
 
             ]

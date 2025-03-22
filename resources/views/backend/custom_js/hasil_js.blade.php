@@ -17,7 +17,7 @@
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            ajax: "{{ url('posiadmin/session_exam_table') }}"+"/{{ $id }}",
+            ajax: "{{ url('posiadmin/session_exam_table') }}"+"/{{ $comid }}"+"/"+"{{ $id }}",
             order: [
                 [0, "desc"]
             ],
@@ -53,6 +53,43 @@
                     data: 'email',
                     name: 'email',
                 },
+                {
+                    data: 'hp',
+                    name: 'hp',
+                },
+                {
+                    data: 'school',
+                    name: 'school',
+                },
+                {
+                    data: 'level',
+                    name: 'level',
+                },
+                {
+                    data: 'kelas',
+                    name: 'kelas',
+                },
+                {
+                    data: 'province',
+                    name: 'province',
+                },
+                {
+                    data: 'city',
+                    name: 'city',
+                },
+                {
+                    data: 'district',
+                    name: 'district',
+                },
+                {
+                    data: 'gender',
+                    name: 'gender',
+                },
+                {
+                    data: 'agama',
+                    name: 'agama',
+                },
+              
                 {
                     data: 'is_finish',
                     name: 'is_finish',
