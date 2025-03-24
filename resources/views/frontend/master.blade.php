@@ -240,7 +240,7 @@
                                                             Profile</a></li>
                                                     <li><a class="" href="{{ url('/main') }}"> Kompetisi</a>
                                                     </li>
-                                                    <li><a class="" href="#"> Pengaturan</a></li>
+                                                    <li><a class="" href="{{ url('/password_setting') }}"> Change Password</a></li>
                                                     <form method="POST" action="{{ route('logout') }}">
                                                         @csrf
                                                         <li

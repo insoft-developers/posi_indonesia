@@ -77,12 +77,21 @@
 
 
                                         <!-- Single Form Start -->
+                                       
+                                        
                                         <div class="single-form">
                                             <label class="label-form">Nama Lengkap</label>
-                                            <input type="text" id="name" name="name" placeholder="Masukkan nama sesuai KTP (nama ini yang tampil di sertifikat)"
+                                            @if(! empty($user->name))
+                                            <input readonly type="text" id="name" name="name" placeholder="Masukkan nama sesuai KTP (nama ini yang tampil di sertifikat)"
                                                 value="{{old('name') ?? $user->name }}">
+                                            @else
+                                            <input type="text" id="name" name="name" placeholder="Masukkan nama sesuai KTP (nama ini yang tampil di sertifikat)"
+                                            value="{{old('name') ?? $user->name }}">
+                                            @endif
                                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                         </div>
+                                       
+
                                         <div class="single-form">
                                             <label class="label-form">Username</label>
                                             <input type="text" id="username" name="username" placeholder="Username"
@@ -114,7 +123,7 @@
                                         <div class="single-form">
                                             <label class="label-form">Akun Sebagai</label>
                                             <div class="courses-select">
-                                                <select id="level_id" name="level_id">
+                                                <select id="level_id" name="level_id" disabled>
                                                     <option value=""> - Pilih - </option>
                                                     @foreach ($level as $l)
                                                         <option <?php if ($user->level_id == $l->id) {

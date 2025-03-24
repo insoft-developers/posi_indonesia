@@ -312,7 +312,8 @@ Route::middleware('auth')->group(function () {
     Route::post('facility_show', [RiwayatController::class, 'facility_show'])->name('facility.show');
     Route::get('facility_file/{transactionid}/{token}', [RiwayatController::class, 'facility_file']);
 
-    
+    Route::get('password_setting', [ProfileController::class, 'password_setting']);
+    Route::post('password_frontend_change', [ProfileController::class, 'password_frontend_change'])->name('password.frontend.change');
 
     
 

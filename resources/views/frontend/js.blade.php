@@ -2552,7 +2552,7 @@
 @if ($view == 'register')
     <script>
 
-        $("#phone_code").select2();
+       
 
         $("#level_id").change(function() {
             var level = $(this).val();

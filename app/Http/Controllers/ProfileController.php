@@ -21,6 +21,7 @@ use Illuminate\View\View;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use File;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -226,5 +227,36 @@ class ProfileController extends Controller
         $kelas = Kelas::where('jenjang', $jenjang)->get();
         return response()->json($kelas);
 
+    }
+
+
+    public function password_setting() {
+        $view = 'password-setting';
+        return view('frontend.password_setting', compact('view'));
+    }
+
+
+    public function password_frontend_change(Request $request) {
+       
+
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        $user = User::find(Auth::user()->id);
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return Redirect::back()->with('error', 'Password Lama Masih salah...!');
+
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return Redirect::back()->with('success', 'Sukses Ubah Password');
+
+        
     }
 }
