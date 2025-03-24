@@ -194,6 +194,7 @@
                         <tbody>
 
                             @foreach ($data->transaction as $key)
+                             
                                 @php
 
                                 @endphp
@@ -219,10 +220,10 @@
                                                 $lavel = \App\Models\Level::findorFail(Auth::user()->level_id);
                                             @endphp
                                             <strong>Pendaftaran {{ $key->competition->title }}</strong><br><span
-                                                class="font-kecil">{{ $data->user->name }} -
-                                                {{ $data->user->nama_sekolah }}</span><br><span
+                                                class="font-kecil">{{ $key->tuser->name }} -
+                                                {{ $key->tuser->nama_sekolah }}</span><br><span
                                                 class="font-kecil">{{ $key->study->pelajaran->name }} -
-                                                {{ $lavel->level_name }}</span>
+                                                {{ $key->tuser->level->level_name }}</span>
                                         @endif
 
                                     </td>
