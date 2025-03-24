@@ -13,7 +13,6 @@
         display: inline-block;
         line-height: 1.55;
         min-height: 83px !important;
-
     }
 
         .table-mobile {
