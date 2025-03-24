@@ -39,7 +39,7 @@ jobs:
             SOURCE: "."
             REMOTE_HOST: ${{ secrets.VPS_HOST }}
             REMOTE_USER: ${{ secrets.VPS_USER }}
-            TARGET: "/www/wwwroot/posismart.id/posi_indonesia"
+            TARGET: "/www/wwwroot/posismart.my.id/posi_indonesia"
 
         - name: Run Remote/Artisan Commands
           uses: appleboy/ssh-action@v0.1.6
@@ -49,6 +49,6 @@ jobs:
             username: ${{ secrets.VPS_USER }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
-                cd /www/wwwroot/posismart.id/posi_indonesia
+                cd /www/wwwroot/posismart.my.id/posi_indonesia
                 php artisan migrate --force
                 php artisan optimize
