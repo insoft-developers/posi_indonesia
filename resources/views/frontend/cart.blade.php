@@ -69,7 +69,7 @@
                                                     $lvl = \App\Models\Level::findorfail(Auth::user()->level_id);   
                                                 @endphp
                                                 <span style="font-size: 13px; color:blue;">{{ $c->study->pelajaran->name }}
-                                                    - {{ $lvl->level_name }}</span></span>
+                                                    - {{ $c->user->level->level_name ?? null }}</span></span>
                                             </td>
                                         @endif
 

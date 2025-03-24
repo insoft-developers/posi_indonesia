@@ -1,5 +1,23 @@
 @if ($view == 'user')
     <script>
+
+        function login_to_user(id) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('admin.user.login') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "id":id,
+                    "_token":csrf_token
+                },
+                success: function(data) {
+                    window.open('/','_blank');
+
+                }
+            })
+        }
+
         function tambah() {
             save_method = "add";
             $('input[name=_method]').val('POST');

@@ -189,7 +189,7 @@ class TransactionController extends Controller
             foreach ($idss as $index => $ids) {
                 $item = new Transaction();
                 $item->invoice = $invoice;
-                $item->userid = Auth::user()->id;
+                $item->userid = $input['userid'];
                 $item->invoice_id = $id;
                 $item->competition_id = $input['compete_id'];
                 $item->study_id = $ids;

@@ -153,6 +153,26 @@
 
 @if ($view == 'main')
     <script>
+        $(document).ready(function() {
+            $("#collective_search").select2({
+                dropdownParent: $("#modal-collective"),
+                placeholder: 'Cari nama teman/murid Anda'
+            });
+        });
+
+        function collective_register() {
+            $("#collective_search").val("").trigger('change');
+            $("#modal-collective").modal("show");
+            $("#modal-daftar").modal("hide");
+        }
+
+        $("#collective_search").change(function() {
+            var userid = $(this).val();
+            personal_register(userid);
+            $("#modal-collective").modal("hide");
+        });
+    </script>
+    <script>
         var jumlah_kompetisi = $("#jumlah_kompetisi").val();
 
         for (var i = 0; i < jumlah_kompetisi; i++) {
@@ -247,7 +267,7 @@
         }
 
 
-        function personal_register() {
+        function personal_register(userid) {
             var id = $("#competition_id").val();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
@@ -256,12 +276,15 @@
 
                 data: {
                     "id": id,
+                    "userid": userid,
                     "_token": csrf_token
                 },
                 success: function(data) {
                     jam_bentrok = [];
                     var details = data.detail;
-                    $("#modal-subtitle").text("Pendaftaran Event " + data.data.title);
+                    $("#modal-subtitle").text("PENDAFTARAN Event " + data.data.title);
+                    $(".modal-head-title").text(data.username);
+                    $("#daftar-user-id").val(data.userid);
 
                     var html = '';
                     html += '<table class="table">';
@@ -346,6 +369,8 @@
                     $("#modal-daftar-list-content").html(html);
 
                     $("#modal-daftar-list").modal("show");
+
+
                     if (data.data.type == 1) {
                         $("#btn_simpan_gratis").show();
                         $("#btn_simpan_premium").show();
@@ -356,6 +381,8 @@
                         $("#btn_simpan_gratis").show();
                         $("#btn_simpan_premium").hide();
                     }
+
+
 
                 }
             })
@@ -407,6 +434,7 @@
                 alert("Silahkan pilih bidang terlebih dahulu");
             } else {
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                var userid = $("#daftar-user-id").val();
                 $.ajax({
                     url: "{{ url('add_to_cart') }}",
                     type: "POST",
@@ -414,6 +442,7 @@
                     data: {
                         "id": selected_studies,
                         "compete_id": selected_competition,
+                        "userid": userid,
                         "premium": 1,
                         "_token": csrf_token
                     },
@@ -436,10 +465,12 @@
             if (selected_studies.length <= 0) {
                 alert("Silahkan pilih bidang terlebih dahulu");
             } else {
+                var userid = $("#daftar-user-id").val();
                 var form = new FormData($('#modal-gratis form')[0]);
                 form.append("id", selected_studies);
                 form.append("compete_id", selected_competition);
                 form.append("premium", 0);
+                form.append("userid", userid);
                 $("#btn-daftar-free").text("Processing....");
                 $("#btn-daftar-free").attr("disabled", true);
                 $.ajax({
@@ -723,8 +754,8 @@
                         "layanan": layanan,
                         "delivery_cost": delivery_cost,
                         "alamat": alamat,
-                        "receiver_name":receiver_name,
-                        "receiver_phone":receiver_phone,
+                        "receiver_name": receiver_name,
+                        "receiver_phone": receiver_phone,
                         "_token": csrf_token
                     },
                     success: function(data) {
@@ -1104,7 +1135,7 @@
                 url: "{{ route('search.pengumuman') }}",
                 type: "POST",
                 data: {
-                    "hasilid":comid,
+                    "hasilid": comid,
                     "search": nilai,
                     "_token": csrf_token
                 },
@@ -1185,7 +1216,7 @@
                 url: "{{ route('show.pengumuman') }}",
                 type: "POST",
                 data: {
-                    
+
                     "hasilid": hasilid,
                     "_token": csrf_token
                 },
@@ -1227,18 +1258,20 @@
                             html += '</div>';
                             html += '<div class="col-md-9">';
 
-                            if(data.data[i].user.wilayah == null) {
+                            if (data.data[i].user.wilayah == null) {
                                 html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
-                                .name
-                                .toUpperCase() + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                                    .name
+                                    .toUpperCase() + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
                             } else {
                                 html += '<div class="pemenang-item"><span class="ann-name">' + data.data[i].user
-                                .name
-                                .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i].user
-                                .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah + '</span><br>';
+                                    .name
+                                    .toUpperCase() + '</span><br><span class="ann-province">' + data.data[i]
+                                    .user
+                                    .wilayah.province_name + ' - ' + data.data[i].user.nama_sekolah +
+                                    '</span><br>';
                             }
 
-                           
+
                             if (data.data[i].medali == 'emas') {
                                 html += '<span class="ann-school">Peraih Medali Emas</span>';
                             } else if (data.data[i].medali == 'perak') {
@@ -1419,11 +1452,11 @@
                 if (document.hidden) {
                     alert(
                         'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung'
-                        );
+                    );
                 } else {
                     alert(
                         'Aktivitas Anda di pantau, dilarang copy soal, screen shot atau keluar dari Link Ujian selama Ujian berlangsung'
-                        );
+                    );
                 }
             });
 
@@ -1689,13 +1722,13 @@
 
 
 
-                        
+
 
 
                         HTML += '</div>';
                         HTML += '<div class="col-md-6">';
 
-                        
+
 
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
@@ -1912,13 +1945,13 @@
 
 
 
-                        
+
 
 
                         HTML += '</div>';
                         HTML += '<div class="col-md-6">';
 
-                        
+
 
                         if (data.ada == 1 && data.exist.jawaban_soal == 'd') {
                             selected_answer = 4;
@@ -2124,7 +2157,7 @@
                             HTML += 'C. ' + data.data[av].option_c + '</div>';
                         }
 
-                       
+
 
 
                         HTML += '</div>';
@@ -2360,7 +2393,8 @@
                             HTML +=
                                 '<div onclick="selected(5)" id="jawaban-e" class="jawaban-item selected-jawaban">';
                             if (data.data[av].option_image_e != null) {
-                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[av]
+                                HTML += '<img src="{{ asset('storage/image_files/jawaban') }}/' + data.data[
+                                        av]
                                     .option_image_e + '" class="gambar-soal img-responsive">';
                             }
 
@@ -2551,9 +2585,6 @@
 
 @if ($view == 'register')
     <script>
-
-       
-
         $("#level_id").change(function() {
             var level = $(this).val();
             $.ajax({

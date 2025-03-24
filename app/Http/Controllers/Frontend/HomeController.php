@@ -18,6 +18,7 @@ use App\Models\Study;
 use App\Models\Team;
 use App\Models\Testimony;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -122,55 +123,67 @@ class HomeController extends Controller
         $view = 'main';
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->orderBy('date', 'asc')->get();
-
+        $users = User::all();
        
-        return view('frontend.main', compact('kompetisi', 'view'));
+        return view('frontend.main', compact('kompetisi', 'view','users'));
     }
 
     public function get_competition_data(Request $request)
     {
         $input = $request->all();
+        if($input['userid'] == -1) {
+            $userid = Auth::user()->id;
+            $level_id = Auth::user()->level_id;
+            $username = Auth::user()->name;
+        } else {
+            $userid = $input['userid'];
+            $user = User::find($input['userid']);
+            $level_id = $user->level_id;
+            $username = $user->name;
+        }
 
         $data = Competition::findorFail($input['id']);
 
         $detail = Study::with([
             'competition',
             'pelajaran',
-            'cart' => function ($q) {
-                $q->where('userid', Auth::user()->id);
+            'cart' => function ($q) use($userid) {
+                $q->where('userid', $userid);
             },
-            'transaction' => function ($a) {
-                $a->where('userid', Auth::user()->id);
+            'transaction' => function ($a) use ($userid) {
+                $a->where('userid', $userid);
             },
         ])
             ->where('status', 1)
-            ->where('level_id', Auth::user()->level_id)
+            ->where('level_id', $level_id)
             ->where('competition_id', $input['id'])
             ->get();
 
         // dd($detail);
 
-        $cart = Cart::where('userid', Auth::user()->id)->get();
+        $cart = Cart::where('userid', $userid)->get();
 
         return response()->json([
             'success' => true,
             'data' => $data,
             'detail' => $detail,
             'cart' => $cart,
+            'username' => $username,
+            'userid' => $userid
         ]);
     }
 
     public function add_to_cart(Request $request)
     {
         $input = $request->all();
-
+        
         $compete = Competition::findorFail($input['compete_id']);
         $harga = $compete->price;
 
         $ids = $input['id'];
         foreach ($ids as $id) {
             Cart::updateOrCreate([
-                'userid' => Auth::user()->id,
+                'userid' => $input['userid'],
                 'competition_id' => $input['compete_id'],
                 'premium' => $input['premium'],
                 'study_id' => $id,

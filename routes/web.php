@@ -108,6 +108,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/list_kecamatan', [UserController::class, 'list_kecamatan'])->middleware('notutor');
     Route::post('/list_sekolah', [UserController::class, 'list_sekolah'])->middleware('notutor');
     Route::post('/reset_password', [UserController::class, 'reset_password'])->middleware('notutor');
+    Route::post('/admin_user_login', [UserController::class, 'admin_user_login'])->name('admin.user.login')->middleware('notutor');
 
 
     Route::resource('/pesanan', PesananController::class)->middleware('notutor');

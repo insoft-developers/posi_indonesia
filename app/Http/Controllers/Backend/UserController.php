@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Sekolah;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -299,6 +300,13 @@ class UserController extends Controller
         }
     }
 
+    public function admin_user_login(Request $request) {
+        $input = $request->all();
+        $user = User::find($input['id']);
+        $data = Auth::login($user);
+        return response()->json(true);
+    }
+
     public function user_table()
     {
         $data = User::with('level', 'kelas', 'district')->get();
@@ -349,6 +357,9 @@ class UserController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '
+                <a onclick="login_to_user('.$data->id.')" title="Masuk Ke Akun User" href="javascript:void(0)" class="w-32-px h-32-px bg-info-focus text-info-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                  <iconify-icon icon="material-symbols:supervised-user-circle-outline"></iconify-icon>
+                </a>
                 <a title="Reset Password" onclick="reset(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
