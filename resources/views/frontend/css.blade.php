@@ -7,9 +7,9 @@
 <style>
     .register-label {
         font-size: 12px !important;
-    font-weight: 600;
-    margin-bottom: 7px !important;
-    margin-left: 4px;
+        font-weight: 600;
+        margin-bottom: 7px !important;
+        margin-left: 4px;
     }
 
     .single-blog .blog-content .title a {
@@ -997,7 +997,7 @@
     }
 
     .study-item {
-        margin-bottom: 5px;
+        margin-bottom: 22px;
         margin-left: 0px;
         cursor: pointer;
         font-size: 14px;
