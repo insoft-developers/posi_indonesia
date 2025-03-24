@@ -47,7 +47,8 @@ class RegisteredUserController extends Controller
             'whatsapp'=> ['numeric','required','unique:'.User::class],
             'level_id' => ['required'],
             'tanggal_lahir' => ['required'],
-            'kelas_id' => ['required']
+            'kelas_id' => ['required'],
+            'country_code' => ['required']
         ]);
 
         $user = User::create([
@@ -56,7 +57,8 @@ class RegisteredUserController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'whatsapp' => $request->whatsapp,
+            'country_code' => $request->country_code,
+            'whatsapp' => $request->country_code.$request->whatsapp,
             'level_id' => $request->level_id,
             'kelas_id' => $request->kelas_id
         ]);
