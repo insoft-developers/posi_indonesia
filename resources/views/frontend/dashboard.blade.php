@@ -192,7 +192,7 @@
 
                                                     $html1 = '';
                                                     foreach ($free_products as $index1 => $fp) {
-                                                        $barang = \App\Models\Product::findorFail($fp);
+                                                        $barang = \App\Models\Product::find($fp);
                                                         if ($index1 + 1 == count($free_products)) {
                                                             if ($barang->is_combo == 1) {
                                                                 $html1 .=
@@ -221,7 +221,7 @@
 
                                                     $html2 = '';
                                                     foreach ($premium_products as $index1 => $pp) {
-                                                        $barang = \App\Models\Product::findorFail($pp);
+                                                        $barang = \App\Models\Product::find($pp);
                                                         if ($index1 + 1 == count($premium_products)) {
                                                             if ($barang->is_combo == 1) {
                                                                 $html2 .=
