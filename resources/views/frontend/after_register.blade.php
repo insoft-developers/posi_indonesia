@@ -123,7 +123,7 @@
                                         <div class="single-form">
                                             <label class="label-form">Akun Sebagai</label>
                                             <div class="courses-select">
-                                                <select id="level_id" name="level_id" disabled>
+                                                <select id="level_id" name="level_id">
                                                     <option value=""> - Pilih - </option>
                                                     @foreach ($level as $l)
                                                         <option <?php if ($user->level_id == $l->id) {
