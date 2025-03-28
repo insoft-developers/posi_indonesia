@@ -195,13 +195,15 @@
                 var distance = countDownDate.diff(now);
 
                 // Time calculations for days, hours, minutes and seconds
+                var bulan = moment.duration(distance).months();
                 var days = moment.duration(distance).days();
                 var hours = moment.duration(distance).hours();
                 var minutes = moment.duration(distance).minutes();
                 var seconds = moment.duration(distance).seconds();
 
+
                 // Display the result in the element with id="countdown"
-                document.getElementById("countdown_" + index).innerHTML = days + " Hari " + hours + ":" +
+                document.getElementById("countdown_" + index).innerHTML = bulan + " Bulan " +days + " Hari " + hours + ":" +
                     minutes + ":" + seconds;
 
                 // If the count down is finished, write some text
