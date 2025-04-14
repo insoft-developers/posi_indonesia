@@ -71,12 +71,12 @@ class Hasil2Controller extends Controller
 
     public function hasil_table()
     {
-        $data = Competition::with('study.pelajaran')->get();
+        $data = Competition::with('study.pelajaran','session2')->get();
       
 
         return DataTables::of($data)
             ->addColumn('competition_id', function($data){
-                return '<a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id).'/0">'.$data->title.'</a>';
+                return '<a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id).'/0">'.$data->title.' ( '.$data->session2->count().' )</a>';
             })
             ->addColumn('study_id', function($data){
                 if($data->study == null) {
@@ -86,7 +86,7 @@ class Hasil2Controller extends Controller
                     $html .='<ul>';
                     foreach($data->study as $s) {
                         if($s->pelajaran !== null) {
-                            $html .='<li><a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id.'/'.$s->id).'"> - '.$s->pelajaran->name.' - '.$s->level->level_name.'</a></li>';
+                            $html .='<li><a class="item-study-pilih" href="'.url('/posiadmin/competition_result/'.$data->id.'/'.$s->id).'"> - '.$s->pelajaran->name.' - '.$s->level->level_name.' ('.$s->session3($data->id, $s->id).') </a></li>';
 
                            
                         }
