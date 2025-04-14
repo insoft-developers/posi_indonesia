@@ -43,4 +43,13 @@ class Study extends Model
     {
         return $this->hasMany(Transaction::class, 'study_id','id');
     }
+
+    public function session3($competition_id, $study_id)
+    {
+      
+        $data =  ExamSession::where('competition_id', $competition_id)
+        ->where('study_id', $study_id)
+        ->count();
+        return $data;
+    }
 }

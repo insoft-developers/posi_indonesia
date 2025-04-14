@@ -88,6 +88,8 @@ class ProfileController extends Controller
         $input = $request->all();
         $user = User::findorFail(Auth::user()->id);
 
+        
+
         $rules = [
             'name' => 'required',
             'username' => 'required|'.Rule::unique('users')->ignore($user->id ),
@@ -167,7 +169,14 @@ class ProfileController extends Controller
             ]);
         }
 
-        return redirect()->to('main')->with('success', 'Update data berhasil...');
+        if($user->email_status !== 1) {
+            $pesan = 'Mohon untuk verifikasi email terlebih dahulu..!';
+            return back()->with('error', $pesan);
+        } else {
+            return redirect()->to('main')->with('success', 'Update data berhasil...');
+        }
+
+        
     }
 
     protected function sendMail($name, $email, $passcode)
