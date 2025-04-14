@@ -13,6 +13,7 @@
             $("#competition_id").val("");
             $("#study_id").val("");
             $("#level_id").val("");
+            $("#file_pembahasan").val(null);
         }
 
         var table = $('#table-list').DataTable({
@@ -60,6 +61,10 @@
                 {
                     data: 'jumlah_soal',
                     name: 'jumlah_soal',
+                },
+                {
+                    data: 'file_pembahasan',
+                    name: 'file_pembahasan',
                 },
                 {
                     data: 'admin_id',
@@ -116,6 +121,7 @@
                     $('.modal-title').text("Edit Peserta");
                     $('#id').val(data.id);
                     $("#competition_id").val(data.competition_id);
+                    $("#file_pembahasan").val(null);
                     get_level(data.competition_id, data.level_id);
                     get_study(data.level_id, data.competition_id, data.study_id);
                     

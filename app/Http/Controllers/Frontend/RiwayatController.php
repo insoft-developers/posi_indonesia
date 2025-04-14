@@ -11,6 +11,7 @@ use App\Models\DocumentSetting;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductDocument;
+use App\Models\Soal;
 use App\Models\Transaction;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
@@ -146,8 +147,11 @@ class RiwayatController extends Controller
         }
 
         $product = Product::findorFail($productid);
-        $document = ProductDocument::where('competition_id', $transaction->competition_id)->where('product_id', $productid)->first();
-        $file = $document->document;
+        if($product->document_type !== 'pembahasan') {
+            $document = ProductDocument::where('competition_id', $transaction->competition_id)->where('product_id', $productid)->first();
+            $file = $document->document;
+        }
+        
 
 
         $setting1 = DocumentSetting::where('product_id', $productid)
@@ -157,11 +161,11 @@ class RiwayatController extends Controller
 
         if($product->document_type == 'pembahasan') {
             $view = 'pembahasan';
-            $ujian = Ujian::with('pembahasan','competition','study.pelajaran')->where('competition_id', $transaction->competition_id)
+            $ujian = Soal::where('competition_id', $transaction->competition_id)
                 ->where('study_id', $transaction->study_id)
                 ->orderBy('id', 'asc')
-                ->get();
-
+                ->first();
+            
 
             return view('frontend.pembahasan', compact('product','transaction', 'view', 'ujian'));
         } else {
