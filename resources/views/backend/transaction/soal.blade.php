@@ -33,6 +33,7 @@
                                 <th scope="col">Bidang Studi</th>
                                 <th scope="col">Jenjang</th>
                                 <th scope="col">Jumlah Soal</th>
+                                <th scope="col">Pembahasan</th>
                                 <th scope="col">Admin</th>
                             </tr>
                         </thead>
@@ -81,6 +82,12 @@
                                     <option value=""> - Pilih - </option>
                                    
                                 </select>
+                            </div>
+
+                            <div style="margin-top:15px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">File Pembahasan (PDF)</label>
+                                <input type="file" id="file_pembahasan" name="file_pembahasan" class="form-control" accept=".pdf">
                             </div>
                         </div>
                     </div>

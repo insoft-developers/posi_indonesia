@@ -75,6 +75,7 @@
                                     <option value=""> - Tidak ada - </option>
                                     <option value="sertifikat">Sertifikat</option>
                                     <option value="piagam">Piagam</option>
+                                    <option value="pembahasan">Pembahasan</option>
                                 </select>
                             </div>
                             <div style="margin-top:15px;"></div>

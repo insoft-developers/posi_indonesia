@@ -5,6 +5,16 @@
 @endif
 
 <style>
+    .toolbar-hide {
+        height: 30px;
+        width: 24%;
+        background-color: transparent;
+        position: absolute;
+        right: 97px;
+        top: 220px;
+        z-index: 9999;
+    }
+
     .register-label {
         font-size: 12px !important;
         font-weight: 600;
@@ -1299,6 +1309,15 @@
 
 <style>
     @media only screen and (max-width: 768px) {
+        .toolbar-hide {
+            height: 30px;
+            width: 43%;
+            background-color: transparent;
+            position: absolute;
+            right: -29px;
+            top: 114px;
+            z-index: 9999;
+        }
 
         .img-pengumuman {
             object-fit: cover;

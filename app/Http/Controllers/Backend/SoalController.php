@@ -66,6 +66,13 @@ class SoalController extends Controller
             ]);
         }
 
+        $input['file_pembahasan'] = null;
+        $unik = uniqid();
+        if ($request->hasFile('file_pembahasan')) {
+            $input['file_pembahasan'] = Str::slug($unik, '-') . '.' . $request->file_pembahasan->getClientOriginalExtension();
+            $request->file_pembahasan->move(public_path('/storage/image_files/pembahasan'), $input['file_pembahasan']);
+        }
+
         $input['admin_id'] = session('id');
         Soal::create($input);
         return response()->json([
@@ -121,6 +128,14 @@ class SoalController extends Controller
 
         $input['admin_id'] = session('id');
         $soal = Soal::findorFail($id);
+        $input['file_pembahasan'] = $soal->file_pembahasan;
+        $unik = uniqid();
+        if ($request->hasFile('file_pembahasan')) {
+            $input['file_pembahasan'] = Str::slug($unik, '-') . '.' . $request->file_pembahasan->getClientOriginalExtension();
+            $request->file_pembahasan->move(public_path('/storage/image_files/pembahasan'), $input['file_pembahasan']);
+        }
+
+
         $soal->update($input);
         return response()->json([
             'success' => true,
@@ -255,6 +270,14 @@ class SoalController extends Controller
         $data = Soal::with('ujian')->get();
 
         return DataTables::of($data)
+            ->addColumn('file_pembahasan', function($data){
+                if($data->file_pembahasan !== null) {
+                    return '<a target="_blank" href="'.url('/storage/image_files/pembahasan/'.$data->file_pembahasan).'">File Pembahasan</a>';
+                } else {
+                    return '';
+                }
+                
+            })
             ->addColumn('competition_id', function($data){
                 return $data->competition == null ? null : $data->competition->title;
             })
@@ -305,7 +328,7 @@ class SoalController extends Controller
                   <iconify-icon icon="material-symbols:cleaning-bucket-outline-rounded"></iconify-icon>
                 </a>';
             })
-            ->rawColumns(['action','competition_id','level_id','study_id','jumlah_soal'])
+            ->rawColumns(['action','competition_id','level_id','study_id','jumlah_soal','file_pembahasan'])
             ->addIndexColumn()
             ->make(true);
     }
