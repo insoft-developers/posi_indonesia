@@ -50,13 +50,16 @@ class ProductController extends Controller
             'is_fisik' => 'required',
             'product_for' => 'required',
             'is_combo' => 'required',
-            'berat' => 'required',
             'is_active' => 'required',
-            'competition_id' => 'required'
+            // 'competition_id' => 'required'
         ];
 
         if ($input['is_combo'] == 1) {
             $rules['composition'] = 'required';
+        }
+
+        if ($input['is_fisik'] == 1) {
+            $rules['berat'] = 'required';
         }
 
         $validator = Validator::make($input, $rules);
@@ -138,10 +141,12 @@ class ProductController extends Controller
             'is_fisik' => 'required',
             'product_for' => 'required',
             'is_combo' => 'required',
-            'berat' => 'required',
             'is_active' => 'required',
-            'competition_id' => 'required'
+            // 'competition_id' => 'required'
         ];
+        if ($input['is_fisik'] == 1) {
+            $rules['berat'] = 'required';
+        }
 
         if ($input['is_combo'] == 1) {
             $rules['composition'] = 'required';

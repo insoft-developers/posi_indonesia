@@ -86,13 +86,19 @@
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
-                                        <th scope="col">Peserta</th>
+                                        <th scope="col">Nama Peserta</th>
+                                        <th scope="col">Email Peserta</th>
+                                        <th scope="col">Hp Peserta</th>
+                                        <th scope="col">Jenjang Peserta</th>   
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
                                         <th scope="col">Status Pembayaran</th>
                                         <th scope="col">Status Transaksi</th>
-                                        <th scope="col">Pemesan</th>
+                                        <th scope="col">Nama Pemesan</th>
+                                        <th scope="col">Email Pemesan</th>
+                                        <th scope="col">Hp Pemesan</th>
+                                        <th scope="col">Jenjang Pemesan</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -113,13 +119,19 @@
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
-                                        <th scope="col">Peserta</th>
+                                        <th scope="col">Nama Peserta</th>
+                                        <th scope="col">Email Peserta</th>
+                                        <th scope="col">Hp Peserta</th>
+                                        <th scope="col">Jenjang Peserta</th>   
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
                                         <th scope="col">Status Pembayaran</th>
                                         <th scope="col">Status Transaksi</th>
-                                        <th scope="col">Pemesan</th>
+                                        <th scope="col">Nama Pemesan</th>
+                                        <th scope="col">Email Pemesan</th>
+                                        <th scope="col">Hp Pemesan</th>
+                                        <th scope="col">Jenjang Pemesan</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -140,13 +152,19 @@
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
-                                        <th scope="col">Peserta</th>
+                                        <th scope="col">Nama Peserta</th>
+                                        <th scope="col">Email Peserta</th>
+                                        <th scope="col">Hp Peserta</th>
+                                        <th scope="col">Jenjang Peserta</th>   
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
                                         <th scope="col">Status Pembayaran</th>
                                         <th scope="col">Status Transaksi</th>
-                                        <th scope="col">Pemesan</th>
+                                        <th scope="col">Nama Pemesan</th>
+                                        <th scope="col">Email Pemesan</th>
+                                        <th scope="col">Hp Pemesan</th>
+                                        <th scope="col">Jenjang Pemesan</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

@@ -122,7 +122,7 @@ class PesananCOntroller extends Controller
 
         if (!empty($invoice->file2)) {
             $html .= '<tr>';
-            $html .= '<td>Unduh aplikasi Posi di Playstore</td>';
+            $html .= '<td>follow akun IG @posikompetisi</td>';
             $html .= '<td>:</td>';
             $html .= '<td><img class="img-responsive" src="' . asset('/storage/image_files/pendaftaran/' . $invoice->file2) . '"></td>';
             $html .= '</tr>';
@@ -337,19 +337,31 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                if($data->user !== null) {
-                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->user->name ?? null;
             })
+            ->addColumn('user_email', function ($data) {
+                return $data->user->email ?? null;
+            })
+            ->addColumn('user_hp', function ($data) {
+                return $data->user->whatsapp ?? null;
+            })
+            ->addColumn('user_level', function ($data) {
+                return $data->user->level->level_name ?? null;
+            })
+
             ->addColumn('buyer', function ($data) {
-                if($data->pemesan !== null) {
-                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->pemesan->name ?? null;
             })
+            ->addColumn('buyer_email', function ($data) {
+                return $data->pemesan->email ?? null;
+            })
+            ->addColumn('buyer_hp', function ($data) {
+                return $data->pemesan->whatsapp ?? null;
+            })
+            ->addColumn('buyer_level', function ($data) {
+                return $data->pemesan->level->level_name ?? null;
+            })
+            
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
             })
@@ -462,18 +474,29 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                if($data->user !== null) {
-                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->user->name ?? null;
             })
+            ->addColumn('user_email', function ($data) {
+                return $data->user->email ?? null;
+            })
+            ->addColumn('user_hp', function ($data) {
+                return $data->user->whatsapp ?? null;
+            })
+            ->addColumn('user_level', function ($data) {
+                return $data->user->level->level_name ?? null;
+            })
+
             ->addColumn('buyer', function ($data) {
-                if($data->pemesan !== null) {
-                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->pemesan->name ?? null;
+            })
+            ->addColumn('buyer_email', function ($data) {
+                return $data->pemesan->email ?? null;
+            })
+            ->addColumn('buyer_hp', function ($data) {
+                return $data->pemesan->whatsapp ?? null;
+            })
+            ->addColumn('buyer_level', function ($data) {
+                return $data->pemesan->level->level_name ?? null;
             })
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
@@ -585,18 +608,29 @@ class PesananCOntroller extends Controller
             })
 
             ->addColumn('userid', function ($data) {
-                if($data->user !== null) {
-                    return $data->user->name.'<br>'.$data->user->email.'<br>'.$data->user->whatsapp.'<br>'.$data->user->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->user->name ?? null;
             })
+            ->addColumn('user_email', function ($data) {
+                return $data->user->email ?? null;
+            })
+            ->addColumn('user_hp', function ($data) {
+                return $data->user->whatsapp ?? null;
+            })
+            ->addColumn('user_level', function ($data) {
+                return $data->user->level->level_name ?? null;
+            })
+
             ->addColumn('buyer', function ($data) {
-                if($data->pemesan !== null) {
-                    return $data->pemesan->name.'<br>'.$data->pemesan->email.'<br>'.$data->pemesan->whatsapp.'<br>'.$data->pemesan->level->level_name;
-                } else {
-                    return '';
-                }
+                return $data->pemesan->name ?? null;
+            })
+            ->addColumn('buyer_email', function ($data) {
+                return $data->pemesan->email ?? null;
+            })
+            ->addColumn('buyer_hp', function ($data) {
+                return $data->pemesan->whatsapp ?? null;
+            })
+            ->addColumn('buyer_level', function ($data) {
+                return $data->pemesan->level->level_name ?? null;
             })
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);

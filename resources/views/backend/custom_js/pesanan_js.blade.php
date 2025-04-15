@@ -124,6 +124,18 @@
                         name: 'userid',
                     },
                     {
+                        data: 'user_email',
+                        name: 'user_email',
+                    },
+                    {
+                        data: 'user_hp',
+                        name: 'user_hp',
+                    },
+                    {
+                        data: 'user_level',
+                        name: 'user_level',
+                    },
+                    {
                         data: 'total_amount',
                         name: 'total_amount',
                     },
@@ -147,6 +159,18 @@
                     {
                         data: 'buyer',
                         name: 'buyer',
+                    },
+                    {
+                        data: 'buyer_email',
+                        name: 'buyer_email',
+                    },
+                    {
+                        data: 'buyer_hp',
+                        name: 'buyer_hp',
+                    },
+                    {
+                        data: 'buyer_level',
+                        name: 'buyer_level',
                     },
 
 
@@ -213,6 +237,18 @@
                         name: 'userid',
                     },
                     {
+                        data: 'user_email',
+                        name: 'user_email',
+                    },
+                    {
+                        data: 'user_hp',
+                        name: 'user_hp',
+                    },
+                    {
+                        data: 'user_level',
+                        name: 'user_level',
+                    },
+                    {
                         data: 'total_amount',
                         name: 'total_amount',
                     },
@@ -236,6 +272,19 @@
                     {
                         data: 'buyer',
                         name: 'buyer',
+                    },
+                   
+                    {
+                        data: 'buyer_email',
+                        name: 'buyer_email',
+                    },
+                    {
+                        data: 'buyer_hp',
+                        name: 'buyer_hp',
+                    },
+                    {
+                        data: 'buyer_level',
+                        name: 'buyer_level',
                     },
 
 
@@ -304,6 +353,18 @@
                         name: 'userid',
                     },
                     {
+                        data: 'user_email',
+                        name: 'user_email',
+                    },
+                    {
+                        data: 'user_hp',
+                        name: 'user_hp',
+                    },
+                    {
+                        data: 'user_level',
+                        name: 'user_level',
+                    },
+                    {
                         data: 'total_amount',
                         name: 'total_amount',
                     },
@@ -327,6 +388,19 @@
                     {
                         data: 'buyer',
                         name: 'buyer',
+                    },
+                    
+                    {
+                        data: 'buyer_email',
+                        name: 'buyer_email',
+                    },
+                    {
+                        data: 'buyer_hp',
+                        name: 'buyer_hp',
+                    },
+                    {
+                        data: 'buyer_level',
+                        name: 'buyer_level',
                     },
 
 
