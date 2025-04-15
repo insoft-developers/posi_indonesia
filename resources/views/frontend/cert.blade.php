@@ -374,7 +374,7 @@
             @if ($product->document_type == 'piagam')
                 <div class="prestasi">{{ strtoupper($juara) }}</div>
             @else
-                <div class="prestasi">{{ strtoupper($session->total_score) }}</div>
+                <div class="prestasi">{{ strtoupper($session->nilai) }}</div>
             @endif
         </div>
     </div>
