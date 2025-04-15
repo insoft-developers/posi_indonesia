@@ -59,9 +59,9 @@ use phpseclib3\Crypt\Rijndael;
 |
 */
 
-Route::get('path', function(){
-    return public_path('/');
-});
+// Route::get('path', function(){
+//     return public_path('/');
+// });
 
 Route::prefix('posiadmin')->group(function () {
     Route::get('/login', [LoginController::class, 'login'])->name('admin.login');

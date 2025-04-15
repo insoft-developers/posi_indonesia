@@ -21,8 +21,8 @@
                 <div class="card-body p-20">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
-                            <p class="fw-medium text-primary-light mb-1">Total Users</p>
-                            <h6 class="mb-0">20,000</h6>
+                            <p class="fw-medium text-primary-light mb-1">Total Akun User</p>
+                            <h6 class="mb-0">{{ number_format($users) }}</h6>
                         </div>
                         <div
                             class="w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center">
@@ -31,9 +31,8 @@
                         </div>
                     </div>
                     <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
-                        <span class="d-inline-flex align-items-center gap-1 text-success-main"><iconify-icon
-                                icon="bxs:up-arrow" class="text-xs"></iconify-icon> +5000</span>
-                        Last 30 days users
+                        
+                        <a href="{{ url('posiadmin/user') }}">More Info...</a>
                     </p>
                 </div>
             </div><!-- card end -->
@@ -43,18 +42,16 @@
                 <div class="card-body p-20">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
-                            <p class="fw-medium text-primary-light mb-1">Total Subscription</p>
-                            <h6 class="mb-0">15,000</h6>
+                            <p class="fw-medium text-primary-light mb-1">Total Visitor</p>
+                            <h6 class="mb-0">{{ number_format($visitors) }}</h6>
                         </div>
                         <div
                             class="w-50-px h-50-px bg-purple rounded-circle d-flex justify-content-center align-items-center">
-                            <iconify-icon icon="fa-solid:award" class="text-white text-2xl mb-0"></iconify-icon>
+                            <iconify-icon icon="material-symbols:nest-doorbell-visitor" class="text-white text-2xl mb-0"></iconify-icon>
                         </div>
                     </div>
                     <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
-                        <span class="d-inline-flex align-items-center gap-1 text-danger-main"><iconify-icon
-                                icon="bxs:down-arrow" class="text-xs"></iconify-icon> -800</span>
-                        Last 30 days subscription
+                        <a href="{{ url('posiadmin/user') }}">More Info...</a>
                     </p>
                 </div>
             </div><!-- card end -->
@@ -64,8 +61,8 @@
                 <div class="card-body p-20">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
-                            <p class="fw-medium text-primary-light mb-1">Total Free Users</p>
-                            <h6 class="mb-0">5,000</h6>
+                            <p class="fw-medium text-primary-light mb-1">User Mendaftar</p>
+                            <h6 class="mb-0">{{ number_format($pendaftar) }}</h6>
                         </div>
                         <div
                             class="w-50-px h-50-px bg-info rounded-circle d-flex justify-content-center align-items-center">
@@ -74,9 +71,7 @@
                         </div>
                     </div>
                     <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
-                        <span class="d-inline-flex align-items-center gap-1 text-success-main"><iconify-icon
-                                icon="bxs:up-arrow" class="text-xs"></iconify-icon> +200</span>
-                        Last 30 days users
+                        <a href="{{ url('posiadmin/pesanan') }}">More Info...</a>
                     </p>
                 </div>
             </div><!-- card end -->
@@ -86,18 +81,16 @@
                 <div class="card-body p-20">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
-                            <p class="fw-medium text-primary-light mb-1">Total Income</p>
-                            <h6 class="mb-0">$42,000</h6>
+                            <p class="fw-medium text-primary-light mb-1">User Pesan Produk</p>
+                            <h6 class="mb-0">{{ number_format($pesan) }}</h6>
                         </div>
                         <div
                             class="w-50-px h-50-px bg-success-main rounded-circle d-flex justify-content-center align-items-center">
-                            <iconify-icon icon="solar:wallet-bold" class="text-white text-2xl mb-0"></iconify-icon>
+                            <iconify-icon icon="material-symbols:production-quantity-limits-sharp" class="text-white text-2xl mb-0"></iconify-icon>
                         </div>
                     </div>
                     <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
-                        <span class="d-inline-flex align-items-center gap-1 text-success-main"><iconify-icon
-                                icon="bxs:up-arrow" class="text-xs"></iconify-icon> +$20,000</span>
-                        Last 30 days income
+                        <a href="{{ url('posiadmin/order') }}">More Info...</a>
                     </p>
                 </div>
             </div><!-- card end -->
@@ -107,8 +100,8 @@
                 <div class="card-body p-20">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
-                            <p class="fw-medium text-primary-light mb-1">Total Expense</p>
-                            <h6 class="mb-0">$30,000</h6>
+                            <p class="fw-medium text-primary-light mb-1">Pendapatan Pendaftaran</p>
+                            <h6 class="mb-0">{{ number_format($register_incomes) }}</h6>
                         </div>
                         <div
                             class="w-50-px h-50-px bg-red rounded-circle d-flex justify-content-center align-items-center">
@@ -117,93 +110,68 @@
                         </div>
                     </div>
                     <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
-                        <span class="d-inline-flex align-items-center gap-1 text-success-main"><iconify-icon
-                                icon="bxs:up-arrow" class="text-xs"></iconify-icon> +$5,000</span>
-                        Last 30 days expense
+                        <a href="{{ url('posiadmin/pesanan') }}">More Info...</a>
+                    </p>
+                </div>
+            </div><!-- card end -->
+        </div>
+        <div class="col">
+            <div class="card shadow-none border bg-gradient-start-5 h-100">
+                <div class="card-body p-20">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div>
+                            <p class="fw-medium text-primary-light mb-1">Pendapatan Produk</p>
+                            <h6 class="mb-0">{{ number_format($product_incomes) }}</h6>
+                        </div>
+                        <div
+                            class="w-50-px h-50-px bg-red rounded-circle d-flex justify-content-center align-items-center">
+                            <iconify-icon icon="fa6-solid:file-invoice-dollar"
+                                class="text-white text-2xl mb-0"></iconify-icon>
+                        </div>
+                    </div>
+                    <p class="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2">
+                        <a href="{{ url('posiadmin/order') }}">More Info...</a>
                     </p>
                 </div>
             </div><!-- card end -->
         </div>
     </div>
 
+
+
     <div class="row gy-4 mt-1">
-        <div class="col-xxl-6 col-xl-12">
+        <div class="col-xxl-6">
             <div class="card h-100">
                 <div class="card-body">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between">
-                        <h6 class="text-lg mb-0">Sales Statistic</h6>
-                        <select class="form-select bg-base form-select-sm w-auto">
-                            <option>Yearly</option>
-                            <option>Monthly</option>
-                            <option>Weekly</option>
-                            <option>Today</option>
-                        </select>
-                    </div>
-                    <div class="d-flex flex-wrap align-items-center gap-2 mt-8">
-                        <h6 class="mb-0">$27,200</h6>
-                        <span
-                            class="text-sm fw-semibold rounded-pill bg-success-focus text-success-main border br-success px-8 py-4 line-height-1 d-flex align-items-center gap-1">
-                            10% <iconify-icon icon="bxs:up-arrow" class="text-xs"></iconify-icon>
-                        </span>
-                        <span class="text-xs fw-medium">+ $1500 Per Day</span>
-                    </div>
-                    <div id="chart" class="pt-28 apexcharts-tooltip-style-1"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xxl-3 col-xl-6">
-            <div class="card h-100 radius-8 border">
-                <div class="card-body p-24">
-                    <h6 class="mb-12 fw-semibold text-lg mb-16">Total Subscriber</h6>
-                    <div class="d-flex align-items-center gap-2 mb-20">
-                        <h6 class="fw-semibold mb-0">5,000</h6>
-                        <p class="text-sm mb-0">
-                            <span
-                                class="bg-danger-focus border br-danger px-8 py-2 rounded-pill fw-semibold text-danger-main text-sm d-inline-flex align-items-center gap-1">
-                                10%
-                                <iconify-icon icon="iconamoon:arrow-down-2-fill" class="icon"></iconify-icon>
-                            </span>
-                            - 20 Per Day
-                        </p>
-                    </div>
-
-                    <div id="barChart" class="barChart"></div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-xxl-3 col-xl-6">
-            <div class="card h-100 radius-8 border-0 overflow-hidden">
-                <div class="card-body p-24">
                     <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
-                        <h6 class="mb-2 fw-bold text-lg">Users Overview</h6>
-                        <div class="">
-                            <select class="form-select form-select-sm w-auto bg-base border text-secondary-light">
-                                <option>Today</option>
-                                <option>Weekly</option>
-                                <option>Monthly</option>
-                                <option>Yearly</option>
-                            </select>
-                        </div>
+                        <h6 class="mb-2 fw-bold text-lg mb-0">Grafik Pengunjung Tahun {{ date('Y') }}</h6>
+                        
                     </div>
 
-
-                    <div id="userOverviewDonutChart" class="apexcharts-tooltip-z-none"></div>
-
-                    <ul class="d-flex flex-wrap align-items-center justify-content-between mt-3 gap-3">
+                    <ul class="d-flex flex-wrap align-items-center mt-3 gap-3">
                         <li class="d-flex align-items-center gap-2">
-                            <span class="w-12-px h-12-px radius-2 bg-primary-600"></span>
-                            <span class="text-secondary-light text-sm fw-normal">New:
-                                <span class="text-primary-light fw-semibold">500</span>
+                            <span class="w-12-px h-12-px rounded-circle bg-primary-600"></span>
+                            <span class="text-secondary-light text-sm fw-semibold">Visitors:
+                                <span class="text-primary-light fw-bold"></span>
                             </span>
                         </li>
                         <li class="d-flex align-items-center gap-2">
-                            <span class="w-12-px h-12-px radius-2 bg-yellow"></span>
-                            <span class="text-secondary-light text-sm fw-normal">Subscribed:
-                                <span class="text-primary-light fw-semibold">300</span>
+                            <span class="w-12-px h-12-px rounded-circle bg-yellow"></span>
+                            <span class="text-secondary-light text-sm fw-semibold">Pendaftar:
+                                <span class="text-primary-light fw-bold"></span>
+                            </span>
+                        </li>
+                        <li class="d-flex align-items-center gap-2">
+                            <span class="w-12-px h-12-px rounded-circle bg-danger"></span>
+                            <span class="text-secondary-light text-sm fw-semibold">Pemesan:
+                                <span class="text-danger-light fw-bold"></span>
                             </span>
                         </li>
                     </ul>
+
+                    <div class="mt-40">
+                        <div id="paymentStatusChart" class="margin-16-minus"></div>
+                    </div>
 
                 </div>
             </div>
@@ -480,304 +448,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-xxl-3 col-xl-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
-                        <h6 class="mb-2 fw-bold text-lg mb-0">Top Performer</h6>
-                        <a href="javascript:void(0)"
-                            class="text-primary-600 hover-text-primary d-flex align-items-center gap-1">
-                            View All
-                            <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                        </a>
-                    </div>
-
-                    <div class="mt-32">
-
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-24">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user1.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Dianne Russell</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$20</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-24">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user2.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Wade Warren</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$20</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-24">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user3.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Albert Flores</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$30</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-24">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user4.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Bessie Cooper</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$40</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-24">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user5.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Arlene McCoy</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$10</span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between gap-3">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('template/backend') }}/assets/images/users/user1.png"
-                                    alt=""
-                                    class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                <div class="flex-grow-1">
-                                    <h6 class="text-md mb-0 fw-medium">Arlene McCoy</h6>
-                                    <span class="text-sm text-secondary-light fw-medium">Agent ID: 36254</span>
-                                </div>
-                            </div>
-                            <span class="text-primary-light text-md fw-medium">$10</span>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-xxl-6 col-xl-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20">
-                        <h6 class="mb-2 fw-bold text-lg mb-0">Top Countries</h6>
-                        <select class="form-select form-select-sm w-auto bg-base border text-secondary-light">
-                            <option>Today</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                            <option>Yearly</option>
-                        </select>
-                    </div>
-
-                    <div class="row gy-4">
-                        <div class="col-lg-6">
-                            <div id="world-map" class="h-100 border radius-8"></div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="h-100 border p-16 pe-0 radius-8">
-                                <div class="max-h-266-px overflow-y-auto scroll-sm pe-16">
-                                    <div class="d-flex align-items-center justify-content-between gap-3 mb-12 pb-2">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag1.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">USA</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary-600 rounded-pill"
-                                                        style="width: 80%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">80%</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between gap-3 mb-12 pb-2">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag2.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">Japan</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-orange rounded-pill"
-                                                        style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">60%</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between gap-3 mb-12 pb-2">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag3.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">France</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-yellow rounded-pill"
-                                                        style="width: 49%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">49%</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between gap-3 mb-12 pb-2">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag4.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">Germany</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-success-main rounded-pill"
-                                                        style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">100%</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between gap-3 mb-12 pb-2">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag5.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">South Korea</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-info-main rounded-pill"
-                                                        style="width: 30%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">30%</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between gap-3">
-                                        <div class="d-flex align-items-center w-100">
-                                            <img src="{{ asset('template/backend') }}/assets/images/flags/flag1.png"
-                                                alt=""
-                                                class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-sm mb-0">USA</h6>
-                                                <span class="text-xs text-secondary-light fw-medium">1,240 Users</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 w-100">
-                                            <div class="w-100 max-w-66 ms-auto">
-                                                <div class="progress progress-sm rounded-pill" role="progressbar"
-                                                    aria-label="Success example" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary-600 rounded-pill"
-                                                        style="width: 80%;"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-secondary-light font-xs fw-semibold">80%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xxl-6">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
-                        <h6 class="mb-2 fw-bold text-lg mb-0">Generated Content</h6>
-                        <select class="form-select form-select-sm w-auto bg-base border text-secondary-light">
-                            <option>Today</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                            <option>Yearly</option>
-                        </select>
-                    </div>
-
-                    <ul class="d-flex flex-wrap align-items-center mt-3 gap-3">
-                        <li class="d-flex align-items-center gap-2">
-                            <span class="w-12-px h-12-px rounded-circle bg-primary-600"></span>
-                            <span class="text-secondary-light text-sm fw-semibold">Word:
-                                <span class="text-primary-light fw-bold">500</span>
-                            </span>
-                        </li>
-                        <li class="d-flex align-items-center gap-2">
-                            <span class="w-12-px h-12-px rounded-circle bg-yellow"></span>
-                            <span class="text-secondary-light text-sm fw-semibold">Image:
-                                <span class="text-primary-light fw-bold">300</span>
-                            </span>
-                        </li>
-                    </ul>
-
-                    <div class="mt-40">
-                        <div id="paymentStatusChart" class="margin-16-minus"></div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        
+       
     </div>
 </div>
 @endsection
