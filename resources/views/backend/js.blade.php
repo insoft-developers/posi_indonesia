@@ -23,6 +23,7 @@
 @include('backend.custom_js.admins_js')
 @include('backend.custom_js.hasil2_js')
 @include('backend.custom_js.order_js')
+@include('backend.custom_js.dashboard_js')
 
 
 @if ($view == 'about')

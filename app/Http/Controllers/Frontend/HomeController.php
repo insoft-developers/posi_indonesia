@@ -19,13 +19,20 @@ use App\Models\Team;
 use App\Models\Testimony;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $ip = $request->ip();
+        $visitor = Visitor::firstOrCreate(['ip_address' => $ip, 'page'=> 'homepage']);
+        $visitor->increment('visits');
+        $visitor->save();
+       
         $view = 'home';
         $sekarang = date('Y-m-d');
         $kompetisi = Competition::where('is_active', 1)->where('date', '>=', $sekarang)->get();
@@ -34,7 +41,8 @@ class HomeController extends Controller
         $testimony = Testimony::orderBy('id','desc')->get();
         $homepage = Hompage::find(1);
         $partners = Partner::orderBy('id', 'asc')->get();
-
+        
+        
         return view('frontend.dashboard', compact('view', 'kompetisi','event','homepage','partners','testimony'));
     }
 
@@ -77,9 +85,15 @@ class HomeController extends Controller
         return view('frontend.berita', compact('view','data','terbaru','cat'));
     }
 
-    public function berita_detail($slug)
+    public function berita_detail(Request $request, $slug)
     {
        
+        $ip = $request->ip();
+        $visitor = Visitor::firstOrCreate(['ip_address'=> $ip,'page'=> 'news', 'slug' => $slug]);
+        $visitor->increment('visits');
+        $visitor->save();
+
+
         $view = 'berita-detail';
         $cat = NewsCategory::all();
         $terbaru = Berita::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
@@ -89,9 +103,14 @@ class HomeController extends Controller
     }
 
 
-    public function event_detail($slug)
+    public function event_detail(Request $request, $slug)
     {
-       
+        
+        $ip = $request->ip();
+        $visitor = Visitor::firstOrCreate(['ip_address'=> $ip,'page'=> 'event', 'slug' => $slug]);
+        $visitor->increment('visits');
+        $visitor->save();
+
         $view = 'event-detail';
         
         $terbaru = Event::where('is_status', 1)->orderBy('id','desc')->limit(5)->get();
