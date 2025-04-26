@@ -114,7 +114,7 @@ class PesananCOntroller extends Controller
 
         if (!empty($invoice->file1)) {
             $html .= '<tr>';
-            $html .= '<td>Follow Instagram @posi.idn</td>';
+            $html .= '<td>1. Follow Instagram @posi.idn</td>';
             $html .= '<td>:</td>';
             $html .= '<td><img class="img-responsive" src="' . asset('/storage/image_files/pendaftaran/' . $invoice->file1) . '"></td>';
             $html .= '</tr>';
@@ -122,7 +122,7 @@ class PesananCOntroller extends Controller
 
         if (!empty($invoice->file2)) {
             $html .= '<tr>';
-            $html .= '<td>follow akun IG @posikompetisi</td>';
+            $html .= '<td>2. follow akun IG @posikompetisi</td>';
             $html .= '<td>:</td>';
             $html .= '<td><img class="img-responsive" src="' . asset('/storage/image_files/pendaftaran/' . $invoice->file2) . '"></td>';
             $html .= '</tr>';
@@ -130,7 +130,7 @@ class PesananCOntroller extends Controller
 
         if (!empty($invoice->file3)) {
             $html .= '<tr>';
-            $html .= '<td>Komen pendapat posiitf kamu tentang POSI<br>kemudian tag 5 teman kamu di positingan ini.</td>';
+            $html .= '<td>3. Berikan komen pendapat positif kamu tentang POSI pada postingan ig posi.idn kemudian tag 5 teman kamu di postingan kompetisi yang ingin kamu daftarkan..</td>';
             $html .= '<td>:</td>';
             $html .= '<td><img class="img-responsive" src="' . asset('/storage/image_files/pendaftaran/' . $invoice->file3) . '"></td>';
             $html .= '</tr>';

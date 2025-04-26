@@ -37,7 +37,7 @@ class GoogleController extends Controller
                 return redirect()->intended('main');
             }
         }catch(\Throwable $th){
-            dd($th->getMessage());
+            return redirect(route('login'))->withErrors("Login menggunakan akun google gagal, Silahkan Login menggunakan email..!");
         }
     }
 }
