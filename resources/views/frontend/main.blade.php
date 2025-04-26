@@ -424,7 +424,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Follow Instagram @posi.idn</label>
+                            <label>1. Follow Instagram @posi.idn</label>
                             <div style="margin-top:10px;"></div>
                             <input type="file" id="file1" name="file1" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">
@@ -442,8 +442,7 @@
                         </div>
                         <hr />
                         <div class="form-group">
-                            <label>Komen pendapat posiitf kamu tentang POSI kemudian tag 5 teman kamu di positingan
-                                ini.</label>
+                            <label>Berikan komen pendapat positif kamu tentang POSI pada postingan ig posi.idn kemudian tag 5 teman kamu di postingan kompetisi yang ingin kamu daftarkan..</label>
                             <div style="margin-top:10px;"></div>
                             <input type="file" id="file3" name="file3" accept="*.jpg, *.jpeg, *.png" required
                                 style="display: none;">

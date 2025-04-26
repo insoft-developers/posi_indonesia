@@ -27,7 +27,7 @@ class CompetitionController extends Controller
         $level = Level::all();
         $province = Province::groupBy('province_code')->get();
         $pelajaran = Pelajaran::all();
-        $product = Product::where('is_active', 1)->get();
+        $product = Product::all();
         return view('backend.masterdata.competition', compact('view', 'level', 'province', 'pelajaran', 'product'));
     }
 
