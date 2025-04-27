@@ -31,6 +31,7 @@
                                 <th scope="col">Action</th>
                                 <th scope="col">Nama Produk </th>
                                 <th scope="col">Kompetisi </th>
+                                <th scope="col">Jenjang </th>
                                 <th scope="col">Jenis Document</th>
                                 <th scope="col">Harga</th>
                                 <th scope="col">Foto</th>
@@ -151,6 +152,16 @@
                                         @foreach($competition as $c)
                                         <option value="{{ $c->id }}">{{ $c->title }}</option>
                                         @endforeach
+                                </select>
+                            </div>
+                            <div style="margin-top:5px;"></div>
+                            <div class="col-12">
+                                <label class="form-label">Jenjang</label>
+                                <select id="level_id" name="level_id[]" multiple class="form-control">
+                                        @foreach($levels as $l)
+                                        <option value="{{ $l->id }}">{{ $l->level_name }}</option>
+                                        @endforeach
+                                       
                                 </select>
                             </div>
 

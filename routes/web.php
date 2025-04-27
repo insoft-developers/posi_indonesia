@@ -78,6 +78,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/update_study', [CompetitionController::class, 'update_study'])->middleware('notutor');
     Route::get('/edit_study/{id}', [CompetitionController::class, 'edit_study'])->middleware('notutor');
     Route::post('/delete_study', [CompetitionController::class, 'delete_study'])->middleware('notutor');
+    Route::post('/get_sekolah_from_db', [CompetitionController::class, 'get_sekolah_from_db'])->middleware('notutor');
 
     Route::get('/get_kabupaten_by_province_id/{id}', [AdministrativeController::class, 'get_kabupaten'])->middleware('notutor');
     Route::get('/get_kecamatan_by_kabupaten_id/{id}', [AdministrativeController::class, 'get_kecamatan'])->middleware('notutor');

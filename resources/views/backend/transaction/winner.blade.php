@@ -29,6 +29,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Action</th>
+                                <th scope="col">Kompetisi</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">HP</th>

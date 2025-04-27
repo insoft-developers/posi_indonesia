@@ -46,6 +46,10 @@
                     searchable: false
                 },
                 {
+                    data: 'competition_id',
+                    name: 'competition_id',
+                },
+                {
                     data: 'userid',
                     name: 'userid',
                 },

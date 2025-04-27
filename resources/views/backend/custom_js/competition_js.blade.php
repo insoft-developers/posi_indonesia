@@ -190,7 +190,7 @@
                     $("#price").val(data.data.price);
                     $("#level").val(data.level).trigger('change');
                     $("#province_code").val(data.data.province_code);
-                    $("#sekolah").val(data.data.sekolah);
+
                     $("#agama").val(data.data.agama);
                     $("#link_juknis").val(data.data.link_juknis);
                     $("#link_zoom").val(data.data.link_zoom);
@@ -199,12 +199,12 @@
                     $("#link_telegram").val(data.data.link_telegram);
                     $("#is_active").val(data.data.is_active);
                     $("#expired_order").val(data.data.expired_order);
-                    if(data.data.bonus !== null) {
+                    if (data.data.bonus !== null) {
                         var premium_bonus = explode(data.data.bonus.premium_register_product);
                         $("#premium_bonus_product").val(premium_bonus).trigger('change');
                         var free_bonus = explode(data.data.bonus.free_register_product);
                         $("#free_bonus_product").val(free_bonus).trigger('change');
-                        
+
                     } else {
                         $("#premium_bonus_product").val(null).trigger('change');
                         $("#free_bonus_product").val(null).trigger('change');
@@ -259,37 +259,18 @@
                                     );
                                     $("#container-sekolah-lain").hide();
 
+                                    var html3 = '';
+                                    html3 +=
+                                        '<option value="' + data.data.sekolah + '">' +
+                                        data.data.sekolah + '</option>';
+                                    html3 +=
+                                        '<option value="daftar-sekolah">Tampilkan sekolah lain..</option>';
+                                    $("#sekolah").html(html3);
+                                    $("#sekolah").val(data.data.sekolah);
 
-                                    $.ajax({
-                                        url: "{{ url('posiadmin/get_sekolah_by_kecamatan_id') }}",
-                                        type: "POST",
-                                        dataType: "JSON",
-                                        data: {
-                                            "kecamatan": data.data
-                                                .district_code,
-                                            "level": data.level,
-                                            "_token": csrf_token
-                                        },
-                                        success: function(response3) {
-                                            var html = '';
-                                            html +=
-                                                '<option value="">- Semua Sekolah -</option>';
-                                            for (var i = 0; i < response3
-                                                .length; i++) {
-                                                html += '<option value="' +
-                                                    response3[i].sekolah +
-                                                    '">' +
-                                                    response3[i].sekolah +
-                                                    '</option>';
-                                            }
-                                            html +=
-                                                '<option value="lainnya">LAINNYA</option>';
-                                            $("#sekolah").html(html);
-                                            $("#sekolah").val(data.data.sekolah);
-                                            $("#container-sekolah-lain")
-                                                .hide();
-                                        }
-                                    })
+
+                                    $("#container-sekolah-lain")
+                                        .hide();
                                 }
                             });
 
@@ -306,14 +287,16 @@
 
         $("#province_code").change(function() {
             var p = $(this).val();
-            if(p == '') {
-                p =0;
+            if (p == '') {
+                p = 0;
             }
+            $("#loading-progress").show();
             $.ajax({
                 url: "{{ url('posiadmin/get_kabupaten_by_province_id') }}" + "/" + p,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
+                    $("#loading-progress").hide();
                     var html = '';
                     html += '<option value="">- Semua Kota -</option>';
                     for (var i = 0; i < data.length; i++) {
@@ -334,14 +317,16 @@
 
         $("#city_code").change(function() {
             var p = $(this).val();
-            if(p == '') {
-                p =0;
+            if (p == '') {
+                p = 0;
             }
+            $("#loading-progress").show();
             $.ajax({
                 url: "{{ url('posiadmin/get_kecamatan_by_kabupaten_id') }}" + "/" + p,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
+                    $("#loading-progress").hide();
                     var html = '';
                     html += '<option value="">- Semua Kecamatan -</option>';
                     for (var i = 0; i < data.length; i++) {
@@ -361,6 +346,7 @@
             var p = $(this).val();
             var level = $("#level").val();
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $("#loading-progress").show();
 
             $.ajax({
                 url: "{{ url('posiadmin/get_sekolah_by_kecamatan_id') }}",
@@ -372,6 +358,7 @@
                     "_token": csrf_token
                 },
                 success: function(data) {
+                    $("#loading-progress").hide();
                     var html = '';
                     html += '<option value="">- Semua Sekolah -</option>';
                     for (var i = 0; i < data.length; i++) {
@@ -390,6 +377,41 @@
             var nilai = $(this).val();
             if (nilai == 'lainnya') {
                 $("#container-sekolah-lain").show();
+            } else if (nilai == 'daftar-sekolah') {
+                var level = $("#level").val();
+                var district_code = $("#district_code").val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $("#loading-progress").show();
+                $.ajax({
+                    url: "{{ url('posiadmin/get_sekolah_by_kecamatan_id') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "kecamatan": district_code,
+                        "level": level,
+                        "_token": csrf_token
+                    },
+                    success: function(response3) {
+                        $("#loading-progress").hide();
+                        var html = '';
+                        html +=
+                            '<option value="">- Semua Sekolah -</option>';
+                        for (var i = 0; i < response3
+                            .length; i++) {
+                            html += '<option value="' +
+                                response3[i].sekolah +
+                                '">' +
+                                response3[i].sekolah +
+                                '</option>';
+                        }
+                        html +=
+                            '<option value="lainnya">LAINNYA</option>';
+                        $("#sekolah").html(html);
+                        $("#sekolah").val(data.data.sekolah);
+                        $("#container-sekolah-lain")
+                            .hide();
+                    }
+                });
             } else {
                 $("#container-sekolah-lain").hide();
             }
@@ -437,8 +459,9 @@
 
                     var html = '';
                     html += '<option value=""> - Pilih jenjang - </option>';
-                    for(var i=0; i<data.level.length; i++) {
-                        html += '<option value="'+data.level[i].id+'">'+data.level[i].level_name+'</option>';
+                    for (var i = 0; i < data.level.length; i++) {
+                        html += '<option value="' + data.level[i].id + '">' + data.level[i].level_name +
+                            '</option>';
                     }
 
                     $("#s-jenjang").html(html);

@@ -108,6 +108,9 @@ class WinnerListController extends Controller
         $data = ExamSession::with('user.wilayah')->where('hitung_id', $id)->get();
 
         return DataTables::of($data)
+            ->addColumn('competition_id', function($data){
+                return $data->competition->title ?? null;
+            })
             ->addColumn('userid', function($data){
                 return $data->user->name ?? '';
             })

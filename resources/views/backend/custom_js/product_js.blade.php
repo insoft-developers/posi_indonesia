@@ -10,6 +10,11 @@
             placeholder: 'Pilih Kompetisi'
         });
 
+        $("#level_id").select2({
+            dropdownParent: $("#modal-tambah .modal-content"),
+            placeholder: 'Pilih Jenjang'
+        });
+
         $("#composition").select2({
             dropdownParent: $("#modal-tambah .modal-content"),
             placeholder: 'Pilih Komposisi Produk'
@@ -66,6 +71,10 @@
                 {
                     data: 'competition_id',
                     name: 'competition_id',
+                },
+                {
+                    data: 'level_id',
+                    name: 'level_id',
                 },
                 {
                     data: 'document_type',
@@ -164,6 +173,20 @@
                     $("#is_fisik").val(data.is_fisik);
                     var product_for = explode(data.product_for);
                     $("#product_for").val(product_for).trigger('change');
+
+                   
+
+                    if(data.level_id == null) {
+                        $("#level_id").val('').trigger('change');
+                        console.log('null');
+                    } else {
+                        var level = explode(data.level_id);
+                        $("#level_id").val(level).trigger('change');
+                        console.log('not null');
+                    }
+                    
+
+
                     $("#is_combo").val(data.is_combo);
                     if (data.is_combo == 1) {
                         $(".composition-container").slideDown(10);
