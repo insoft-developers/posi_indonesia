@@ -35,7 +35,7 @@ class JadwalController extends Controller
 
         $sekarang = date('Y-m-d');
         // $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
-        $umum = Pengumuman::where('is_status', 1)->groupBy('competition_id')->orderBy('id','desc')->get();
+        $umum = Pengumuman::where('is_status', 1)->groupBy('competition_id')->orderBy('id', 'desc')->get();
 
         return view('frontend.jadwal', compact('view', 'data', 'umum'));
     }
@@ -43,7 +43,7 @@ class JadwalController extends Controller
     public function show_pengumuman(Request $request)
     {
         $input = $request->all();
-        
+
         $pengumuman = Pengumuman::find($input['hasilid']);
 
         $com = Competition::find($pengumuman->competition_id);
@@ -107,48 +107,46 @@ class JadwalController extends Controller
         $rows = [];
         // $products = Product::where('competition_id', $session->competition_id)->where('study_id', $session->study_id)->get();
 
-         $products = Product::where('is_active', 1)
-         ->whereHas('product_competition', function($q)use($competition_id){
-            $q->where('competition_id', $competition_id);
-         })
-         ->get();
+        $products = Product::where('is_active', 1)
+            ->whereHas('product_competition', function ($q) use ($competition_id) {
+                $q->where('competition_id', $competition_id);
+            })
+            ->get();
 
         foreach ($products as $product) {
             $product_for = explode(',', $product->product_for);
 
             $for = array_search($juara, $product_for, true);
 
-
-
-            // $cek = Cart::where('userid', $session->userid)
-            //     ->where('competition_id', $session->competition_id)
-            //     ->where('study_id', $session->study_id)
-
-            //     ->where('product_id', $product->id);
-
-
-            // $cek2 = Transaction::where('userid', $session->userid)
-            //     ->where('competition_id', $session->competition_id)
-            //     ->where('study_id', $session->study_id)
-
-            //     ->where('product_id', $product->id);
-
-
-            
-
-                
-
             if ($for !== false) {
-                $row['id'] = $product->id;
-                $row['name'] = $product->product_name;
-                $row['price'] = $product->product_price;
-                $row['desc'] = $product->description;
-                $row['is_fisik'] = $product->is_fisik;
-                $row['image'] = $product->image;
-                $row['exist'] =0;
-                $row['is_combo'] = $product->is_combo;
+                if (empty($product->level_id)) {
+                    $row['id'] = $product->id;
+                    $row['name'] = $product->product_name;
+                    $row['price'] = $product->product_price;
+                    $row['desc'] = $product->description;
+                    $row['is_fisik'] = $product->is_fisik;
+                    $row['image'] = $product->image;
+                    $row['exist'] = 0;
+                    $row['is_combo'] = $product->is_combo;
 
-                array_push($rows, $row);
+                    array_push($rows, $row);
+                } else {
+                    $level_for = explode(',', $product->level_id);
+
+                    $lfor = array_search((String)$session->user->level_id, $level_for, true);
+                    if ($lfor !== false) {
+                        $row['id'] = $product->id;
+                        $row['name'] = $product->product_name;
+                        $row['price'] = $product->product_price;
+                        $row['desc'] = $product->description;
+                        $row['is_fisik'] = $product->is_fisik;
+                        $row['image'] = $product->image;
+                        $row['exist'] = 0;
+                        $row['is_combo'] = $product->is_combo;
+
+                        array_push($rows, $row);
+                    }
+                }
             }
         }
 
@@ -166,10 +164,10 @@ class JadwalController extends Controller
         $input = $request->all();
 
         $com = Competition::find($input['competition_id']);
-        if($com->expired_order < date('Y-m-d H:i:s')) {
+        if ($com->expired_order < date('Y-m-d H:i:s')) {
             return response()->json([
-                "success" => false,
-                "message" => "Maaf, masa pemesanan telah habis..!"
+                'success' => false,
+                'message' => 'Maaf, masa pemesanan telah habis..!',
             ]);
         }
 
@@ -192,18 +190,18 @@ class JadwalController extends Controller
                     'total_purchase' => $product->product_price,
                     'buyer' => Auth::user()->id,
                     'is_fisik' => $product->is_fisik,
-                    'berat' => $product->berat
+                    'berat' => $product->berat,
                 ]);
             }
 
             return response()->json([
-                "success" => true,
-                "message" => "success"
+                'success' => true,
+                'message' => 'success',
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         }
     }

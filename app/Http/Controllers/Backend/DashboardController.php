@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\Province;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Visitor;
@@ -80,6 +81,9 @@ class DashboardController extends Controller
         $pesan_11 = Transaction::whereNotNull('product_id')->whereMonth('created_at', '11')->whereYear('created_at', $tahun)->distinct()->count('userid');
         $pesan_12 = Transaction::whereNotNull('product_id')->whereMonth('created_at', '12')->whereYear('created_at', $tahun)->distinct()->count('userid');
 
+
+        $provinsi = Province::groupBy('province_code')->get();
+
         return view('backend.dashboard', compact(
             'view', 
             'users', 
@@ -123,7 +127,8 @@ class DashboardController extends Controller
             'pesan_09',
             'pesan_10',
             'pesan_11',
-            'pesan_12'
+            'pesan_12',
+            'provinsi'
 
         ));
     }

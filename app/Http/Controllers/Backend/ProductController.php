@@ -25,8 +25,9 @@ class ProductController extends Controller
     {
         $view = 'product';
         $competition = Competition::all();
-        $composition = Product::where('is_combo', '!=', 1)->get();
-        return view('backend.masterdata.product', compact('view', 'competition', 'composition'));
+        $composition = Product::where('is_combo', '!==', 1)->get();
+        $levels = Level::all();
+        return view('backend.masterdata.product', compact('view', 'competition', 'composition','levels'));
     }
 
     /**
@@ -43,6 +44,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        
         $rules = [
             'product_name' => 'required',
             'product_price' => 'required|numeric',
@@ -89,6 +91,8 @@ class ProductController extends Controller
         }
 
         $input['product_for'] = implode(',', $input['product_for']);
+        $input['level_id'] = $request->level_id == null ? null : implode(',', $input['level_id']);
+
 
         $product = Product::create($input);
 
@@ -135,6 +139,8 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $input = $request->all();
+
+        
         $rules = [
             'product_name' => 'required',
             'product_price' => 'required|numeric',
@@ -166,6 +172,7 @@ class ProductController extends Controller
                 'message' => $html,
             ]);
         }
+        $input['level_id'] = $request->level_id == null ? null : implode(',', $input['level_id']);
 
         $product = Product::findorFail($id);
 
@@ -370,6 +377,23 @@ class ProductController extends Controller
         $data = Product::all();
 
         return DataTables::of($data)
+            ->addColumn('level_id', function($data){
+               
+                if($data->level_id == null) {
+                    return '';
+                } else {
+                    $levels = explode(",", $data->level_id);
+                    $html = '';
+                    $html .= '<ul>';
+                    foreach($levels as $level_id) {
+                        $lv = Level::find($level_id);
+                        $html .= '<li> - '.$lv->level_name.'</li>';
+                    }
+                    $html .= '</ul>';
+                    return $html;
+                }
+               
+            })
             ->addColumn('competition_id', function($data){
                
                 if($data->product_competition == null) {
@@ -481,7 +505,7 @@ class ProductController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['action', 'product_name', 'image', 'product_for', 'is_combo','competition_id'])
+            ->rawColumns(['action', 'product_name', 'image', 'product_for', 'is_combo','competition_id','level_id'])
             ->addIndexColumn()
             ->make(true);
     }

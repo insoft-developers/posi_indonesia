@@ -518,4 +518,14 @@ class CompetitionController extends Controller
             'id' => $cid,
         ]);
     }
+
+
+    public function get_sekolah_from_db(Request $request) {
+        $input = $request->all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $input
+        ]);
+    }
 }

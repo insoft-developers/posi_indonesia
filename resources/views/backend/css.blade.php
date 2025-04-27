@@ -1,10 +1,23 @@
 <style>
+    .loading-image {
+        width: 50px;
+    }
 
-    
-    #table-list .item-study-pilih:hover{
+    #loading-progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: absolute;
+        left: 47%;
+        z-index: 9991
+    }
+
+    #table-list .item-study-pilih:hover {
         text-decoration: underline !important;
         color: blue;
     }
+
     .team-image {
         width: 60px;
         height: 60px;

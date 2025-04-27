@@ -203,8 +203,9 @@
 
         @yield('content')
 
-
+        <div style="display: none" id="loading-progress"><img class="loading-image" src="{{ asset('/template/backend/umum/loading.gif') }}" width="30" height="30"></div>
         <footer class="d-footer">
+
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
                     <p class="mb-0">© <?= date('Y') ?> POSI. All Rights Reserved.</p>
