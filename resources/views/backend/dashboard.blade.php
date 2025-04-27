@@ -182,7 +182,7 @@
                 <div class="card h-100">
                     <div class="card-body p-24">
                         <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
-                            <h6 class="mb-2 fw-bold text-lg mb-0">Daftar Pengguna</h6>
+                            <h6 class="mb-2 fw-bold text-lg mb-0">Daftar Pengguna Per Provinsi</h6>
 
                         </div>
                         <div style="margin-top:20px"></div>
@@ -219,6 +219,61 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                           
+                        </div>
+                        @endforeach
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xxl-9 col-xl-12">
+                <div class="card h-100">
+                    <div class="card-body p-24">
+                        <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                            <h6 class="mb-2 fw-bold text-lg mb-0">Daftar Pengguna Per Jenjang</h6>
+
+                        </div>
+                        <div style="margin-top:20px"></div>
+                        @foreach($jenjang as $index => $lv)
+                        @php
+                            $user_num = \App\Models\User::where('level_id', $lv->id)->count();
+                        @endphp
+                        <div class="accordion" id="accordionExample2">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading_tab_{{ $index }}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse2_{{ $index }}" aria-expanded="false" aria-controls="collapse2_{{ $index }}">
+                                        {{ $lv->level_name }} - ( {{ 1 }} )
+                                    </button>
+                                </h2>
+                                <div id="collapse2_{{ $index }}" class="accordion-collapse collapse"
+                                    aria-labelledby="heading_tab_{{ $index }}" data-bs-parent="#accordionExample2">
+                                    <div class="accordion-body">
+                                        @php     
+                                            $list_sekolah = \App\Models\User::where('level_id', $lv->id)
+                                                ->groupBy('nama_sekolah')
+                                                ->get();
+
+                                        
+                                        @endphp
+                                        <ul>
+                                        @foreach($list_sekolah as $sk)
+                                        @php
+                                            $user_sekolah = \App\Models\User::where('nama_sekolah', $sk->nama_sekolah)
+                                            ->count();
+                                        @endphp
+                                            <li>{{ $sk->nama_sekolah }} - ( {{ $user_sekolah }} )</li>
+                                        @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                
                             </div>
                            
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\Level;
 use App\Models\Province;
 use App\Models\Transaction;
 use App\Models\User;
@@ -83,6 +84,7 @@ class DashboardController extends Controller
 
 
         $provinsi = Province::groupBy('province_code')->get();
+        $jenjang = Level::all();
 
         return view('backend.dashboard', compact(
             'view', 
@@ -128,8 +130,8 @@ class DashboardController extends Controller
             'pesan_10',
             'pesan_11',
             'pesan_12',
-            'provinsi'
-
+            'provinsi',
+            'jenjang'
         ));
     }
 }
