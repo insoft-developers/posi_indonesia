@@ -241,14 +241,14 @@
                         <div style="margin-top:20px"></div>
                         @foreach($jenjang as $index => $lv)
                         @php
-                            $user_num = \App\Models\User::where('level_id', $lv->id)->count();
+                            $user_lnum = \App\Models\User::where('level_id', $lv->id)->count();
                         @endphp
                         <div class="accordion" id="accordionExample2">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading_tab_{{ $index }}">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse2_{{ $index }}" aria-expanded="false" aria-controls="collapse2_{{ $index }}">
-                                        {{ $lv->level_name }} - ( {{ 1 }} )
+                                        {{ $lv->level_name }} - ( {{ $user_lnum }} )
                                     </button>
                                 </h2>
                                 <div id="collapse2_{{ $index }}" class="accordion-collapse collapse"
