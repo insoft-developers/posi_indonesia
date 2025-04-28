@@ -64,9 +64,9 @@
                                         <td style="text-align:left;background-color:beige;">{{ $d->user->nama_sekolah }}</td>
                                         <td style="text-align:left;background-color:beige;">{{ $d->user->level->level_name ?? null }}</td>
                                         <td style="text-align:left;background-color:beige;">{{ $d->user->kelas->nama_kelas ?? null }}</td>
-                                        <td style="text-align:left;background-color:beige;">{{ $d->user->provinsi ?? null }}</td>
-                                        <td style="text-align:left;background-color:beige;">{{ $d->user->kabupaten ?? null }}</td>
-                                        <td style="text-align:left;background-color:beige;">{{ $d->user->kecamatan ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->district->province_name ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->district->regency_name ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->district->district_name ?? null }}</td>
                                         <td style="text-align:left;background-color:beige;">{{ $d->user->jenis_kelamin ?? null }}</td>
                                         <td style="text-align:left;background-color:beige;">{{ $d->user->agama ?? null }}</td>
                                         <td style="text-align:left;background-color:beige;">{{ $d->is_finish == 1 ? 'Selesai' : 'Progress' }}</td>
