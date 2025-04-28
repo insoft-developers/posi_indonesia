@@ -1,11 +1,55 @@
 @if ($view == 'hasil')
     <script>
-        
-
         function bulk_edit() {
+            $(".modal-title").text('Upload Edit Hasil Ujian');
             $("#modal-upload").modal("show");
         }
-        
+
+        $("#modal-upload form").submit(function(e) {
+            e.preventDefault();
+            $("#btn-submit-hasil").text("importing data....");
+            $("#btn-submit-hasil").attr("disabled", true);
+            $.ajax({
+                url: "{{ route('hasil.upload') }}",
+                type: "POST",
+                data: new FormData($('#modal-upload form')[0]),
+                contentType: false,
+                processData: false,
+                success: function(data) {
+
+                    console.log(data);
+
+                    if (data.success) {
+                        $("#modal-upload").modal("hide");
+                        $("#file").val(null);
+                        // reloadTable();
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.message,
+                            html: data.failed,
+                            showConfirmButton: false,
+                            scrollbarPadding: false,
+                        });
+                        $("#btn-submit-hasil").text("Upload Edit Hasil Ujian");
+                        $("#btn-submit-hasil").removeAttr("disabled");
+
+                    } else {
+                        $("#modal-upload").modal("hide");
+                        $("#file").val(null);
+                        // reloadTable();
+                        Swal.fire({
+                            icon: 'error',
+                            title: data.message,
+                            showConfirmButton: false,
+                            scrollbarPadding: false,
+                        });
+                        $("#btn-submit-hasil").text("Upload hasil");
+                        $("#btn-submit-pendaftaran").removeAttr("disabled");
+                    }
+                }
+            })
+        });
+
         var table = $('#table-list').DataTable({
             processing: true,
             serverSide: true,
@@ -21,7 +65,8 @@
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            ajax: "{{ url('posiadmin/session_exam_table') }}"+"/{{ $comid }}"+"/"+"{{ $id }}",
+            ajax: "{{ url('posiadmin/session_exam_table') }}" + "/{{ $comid }}" + "/" +
+                "{{ $id }}",
             order: [
                 [0, "desc"]
             ],
@@ -93,12 +138,12 @@
                     data: 'agama',
                     name: 'agama',
                 },
-              
+
                 {
                     data: 'is_finish',
                     name: 'is_finish',
                 },
-               
+
                 {
                     data: 'jumlah_benar',
                     name: 'jumlah_benar',
@@ -123,7 +168,7 @@
                     data: 'nilai',
                     name: 'nilai',
                 },
-                
+
 
             ]
         });
@@ -138,7 +183,10 @@
                     url: "{{ url('posiadmin/hasil') }}" + "/" + id,
                     type: "DELETE",
                     dataType: "JSON",
-                    data: {"id":id, '_token':csrf_token},
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
                     success: function(data) {
                         table.ajax.reload(null, false);
                     }
@@ -195,7 +243,7 @@
                             unloading2("#btn-bulk-delete");
                             $('#check-all').prop('checked', false);
                             $("#btn-bulk-delete").attr("disabled", true);
-                            if(data.success) {
+                            if (data.success) {
                                 alert(data.message);
                             } else {
                                 alert(data.message);
@@ -205,14 +253,12 @@
                 }
             }
         });
-
     </script>
 @endif
 
 
 @if ($view == 'hasil-detail')
     <script>
-        
         var table = $('#table-list').DataTable({
             processing: true,
             serverSide: true,
@@ -228,7 +274,7 @@
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            ajax: "{{ url('posiadmin/hasil_detail_table') }}"+"/"+"{{ $id }}",
+            ajax: "{{ url('posiadmin/hasil_detail_table') }}" + "/" + "{{ $id }}",
             order: [
                 [0, "desc"]
             ],
@@ -263,8 +309,8 @@
                     data: 'created_at',
                     name: 'created_at',
                 },
-               
-              
+
+
 
             ]
         });
@@ -279,14 +325,15 @@
                     url: "{{ url('posiadmin/hasil_detail_delete') }}",
                     type: "POST",
                     dataType: "JSON",
-                    data: {"id":id, '_token':csrf_token},
+                    data: {
+                        "id": id,
+                        '_token': csrf_token
+                    },
                     success: function(data) {
                         table.ajax.reload(null, false);
                     }
                 })
             }
         }
-
-
     </script>
 @endif

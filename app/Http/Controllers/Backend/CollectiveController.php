@@ -29,7 +29,7 @@ class CollectiveController extends Controller
 
     public function download_template_pendaftaran()
     {
-        return Excel::download(new PendaftaranExport(), 'template_pendaftaran_posi.xlsx');
+        return Excel::download(new PendaftaranExport(), 'has.xlsx');
     }
 
     public function pendaftaran_upload(Request $request)
