@@ -9,11 +9,20 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class HasilEditExport implements FromView, ShouldAutoSize
 {
-   
+    protected $data;
+
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
+
+
     public function view(): View
     {
-        
-        return view('backend.transaction.template_hasil_edit');   
+    
+        return view('backend.transaction.template_hasil_edit', [
+            'data' => $this->data
+        ]);   
     }
 
    

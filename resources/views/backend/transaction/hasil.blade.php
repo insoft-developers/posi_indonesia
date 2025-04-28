@@ -134,15 +134,13 @@
                             <div class="col-12">
 
                                 <ul style="list-style: auto;padding:20px;">
+                                    <li>Selalu Gunakan template baru untuk setiap kali ingin upload data hasil ujian. Jangan menggunakan template yang sudah pernah dipakai bisa jadi data tidak update.</li>
                                     <li>Download Template File Excel Untuk Edit Hasil Ujian <a
-                                            href="{{ url('posiadmin/download_template_hasil_ujian') }}"><span
+                                            href="{{ url('posiadmin/download_template_hasil_ujian/'.$comid) }}"><span
                                                 style="color: blue;text-decoration:underline;">Disini..</span></a></li>
-                                    <li>Silahkan isi kolom pada template yang telah disediakan.</li>
-                                    {{-- <li>Filter unik berdasarkan email, apabila email pada kolom belum ada pada database maka
-                                        akan dibuatkan berdasarkan akun email tersebut dengan password "posijuara", Namun
-                                        apabila sudah ada maka tetap menggunakan akun email yang sudah ada.</li>
-                                    <li>apabila terdapat dalama 1 baris bahwa kolom nama atau kolom email kosong maka akan
-                                        dilewatkan tidak tidak diproses.</li> --}}
+                                    <li>Silahkan isi kolom pada template yang berwarna putih saja dah diharapkan tidak mengubah ubah isi kolom yang tidak berwarna putih.</li>
+                                    <li>Jangan mengganti isi pada judul kolom</li>
+                                    <li>Periksa kembali data yang anda ubah sebelum melakukan upload.</li>
                                 </ul>
 
                             </div>
@@ -151,7 +149,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="btn-submit-pendaftaran" type="submit" class="btn btn-primary">Upload
+                        <button id="btn-submit-hasil" type="submit" class="btn btn-primary">Upload
                             Hasil Ujian</button>
                     </div>
                 </div>

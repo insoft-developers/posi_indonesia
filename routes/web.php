@@ -158,7 +158,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/session_exam_table/{comid}/{studyid?}', [HasilController::class, 'hasil_table'])->middleware('notutor');
 
     Route::post('/bulk_delete', [HasilController::class, 'bulk_delete'])->middleware('notutor');
-    Route::get('/download_template_hasil_ujian', [HasilController::class, 'download_template_hasil_ujian']);
+    Route::get('/download_template_hasil_ujian/{id}', [HasilController::class, 'download_template_hasil_ujian']);
+    Route::post('/hasil_upload', [HasilController::class, 'hasil_upload'])->name('hasil.upload')->middleware('notutor');
     
 
 

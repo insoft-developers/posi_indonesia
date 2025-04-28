@@ -26,19 +26,56 @@
                             style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="background-color:whitesmoke;font-weight:bold;">nama_lengkap</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">No</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">id</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">tanggal</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">kompetisi</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">bidang_studi</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">peserta</th>
                                     <th style="background-color:whitesmoke;font-weight:bold;">email</th>
-                                    <th style="background-color:whitesmoke;font-weight:bold;">nomor_hp</th>
-                                    <th style="background-color:whitesmoke;font-weight:bold;">nama_sekolah</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">hp</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">sekolah</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">jenjang</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">kelas</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">provinsi</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">kota</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">kecamatan</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">jenis_kelamin</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">agama</th>
+                                    <th style="background-color:whitesmoke;font-weight:bold;">status</th>
+                                    <th>benar</th>
+                                    <th>salah</th>
+                                    <th>lewat</th>
+                                    <th>score</th>
                                 </tr>
                             </thead>
                             <tbody>
+
+                                    @foreach($data as $index => $d)
                                     <tr>
-                                        <td style="text-align:left;background-color:beige;"></td>
-                                        <td style="text-align:left;background-color:beige;"></td>
-                                        <td style="text-align:left;background-color:beige;"></td>
-                                        <td style="text-align:left;background-color:beige;"></td>
+                                        <td style="text-align:left;background-color:beige;">{{ $index + 1 }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->id }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ date('d-m-Y', strtotime($d->created_at)) }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->competition->title ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->study->pelajaran->name }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->name }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->email }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->whatsapp }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->nama_sekolah }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->level->level_name ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->kelas->nama_kelas ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->provinsi ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->kabupaten ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->kecamatan ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->jenis_kelamin ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->user->agama ?? null }}</td>
+                                        <td style="text-align:left;background-color:beige;">{{ $d->is_finish == 1 ? 'Selesai' : 'Progress' }}</td>
+                                        <td>{{ $d->jumlah_benar }}</td>
+                                        <td>{{ $d->jumlah_salah }}</td>
+                                        <td>{{ $d->jumlah_lewat }}</td>
+                                        <td>{{ $d->total_score }}</td>
                                     </tr>
+                                    @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\HasilEditExport;
 use App\Http\Controllers\Controller;
+use App\Imports\HasilEditImport;
 use App\Models\Competition;
 use App\Models\ExamSession;
 use App\Models\Study;
@@ -214,8 +215,31 @@ class HasilController extends Controller
     }
 
 
-    public function download_template_hasil_ujian()
+    public function download_template_hasil_ujian($id)
     {
-        return Excel::download(new HasilEditExport(), 'template_edit_hasil_ujian.xlsx');
+        $com = Competition::find($id);
+        $data = ExamSession::with('competition', 'study', 'user')
+            ->where('competition_id', $id)->get();        
+        return Excel::download(new HasilEditExport($data), 'template_hasil_'.$com->title.'.xlsx');
+    }
+
+    public function hasil_upload(Request $request)
+    {
+        $input = $request->all();
+
+        try {
+            $excel = new HasilEditImport();
+            Excel::import($excel, $request->file);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'success import file',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }
