@@ -7,14 +7,15 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class PendaftaranExport implements FromView, ShouldAutoSize
+class HasilEditExport implements FromView, ShouldAutoSize
 {
    
     public function view(): View
     {
         
-        return view('backend.transaction.template_pendaftaran');   
+        return view('backend.transaction.template_hasil_edit');   
     }
 
    
 }
+

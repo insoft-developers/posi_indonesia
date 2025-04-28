@@ -1,6 +1,10 @@
 @if ($view == 'hasil')
     <script>
         
+
+        function bulk_edit() {
+            $("#modal-upload").modal("show");
+        }
         
         var table = $('#table-list').DataTable({
             processing: true,

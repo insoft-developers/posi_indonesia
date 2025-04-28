@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Exports\HasilEditExport;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\ExamSession;
@@ -9,6 +10,7 @@ use App\Models\Study;
 use App\Models\UserAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class HasilController extends Controller
@@ -209,5 +211,11 @@ class HasilController extends Controller
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+
+    public function download_template_hasil_ujian()
+    {
+        return Excel::download(new HasilEditExport(), 'template_edit_hasil_ujian.xlsx');
     }
 }
