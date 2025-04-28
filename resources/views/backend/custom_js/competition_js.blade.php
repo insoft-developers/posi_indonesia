@@ -263,6 +263,9 @@
                                     html3 +=
                                         '<option value="' + data.data.sekolah + '">' +
                                         data.data.sekolah + '</option>';
+                                        
+                                    html3 +='<option value="">- Semua Sekolah -</option>';
+                                    
                                     html3 +=
                                         '<option value="daftar-sekolah">Tampilkan sekolah lain..</option>';
                                     $("#sekolah").html(html3);

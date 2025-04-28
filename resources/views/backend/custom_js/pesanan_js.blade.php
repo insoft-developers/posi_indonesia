@@ -102,8 +102,7 @@
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        orderable: false,
-                        searchable: false
+                       
                     },
                     {
                         data: 'action',
@@ -215,8 +214,6 @@
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        orderable: false,
-                        searchable: false
                     },
                     {
                         data: 'action',
@@ -331,8 +328,7 @@
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        orderable: false,
-                        searchable: false
+                        
                     },
                     {
                         data: 'action',
@@ -417,8 +413,10 @@
 
             if (chkboxarray.length > 0) {
                 $("#btn-bulk-approve").removeAttr("disabled");
+                $("#btn-bulk-export").removeAttr("disabled");
             } else {
                 $("#btn-bulk-approve").attr("disabled", true);
+                $("#btn-bulk-export").attr("disabled", true);
             }
 
             console.log(chkboxarray);
@@ -433,8 +431,10 @@
 
             if (chkboxarray2.length > 0) {
                 $("#btn-bulk-approve").removeAttr("disabled");
+                $("#btn-bulk-export").removeAttr("disabled");
             } else {
                 $("#btn-bulk-approve").attr("disabled", true);
+                $("#btn-bulk-export").attr("disabled", true);
             }
 
             console.log(chkboxarray2);
@@ -450,8 +450,12 @@
 
             if (chkboxarray3.length > 0) {
                 $("#btn-bulk-approve").removeAttr("disabled");
+                $("#btn-bulk-export").removeAttr("disabled");
+
+                
             } else {
                 $("#btn-bulk-approve").attr("disabled", true);
+                $("#btn-bulk-export").attr("disabled", true);
             }
 
             console.log(chkboxarray3);
@@ -492,6 +496,30 @@
                             $("#btn-bulk-approve").attr("disabled", true);
                         }
                     })
+                }
+            }
+        });
+
+
+
+
+        $("#btn-bulk-export").click(function() {
+            var pop = confirm('Proses Export Data Pesanan ...?');
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+            if (pop === true) {
+                loading("#btn-bulk-export");
+                var id_array = [];
+                $("#id:checked").each(function() {
+                    id_array.push($(this).data("id"));
+                });
+
+                if (id_array.length > 0) {
+                    const encoded = encodeURIComponent(JSON.stringify(id_array));
+                    
+                    window.location.href = "{{ url('') }}"+'/posiadmin/download_pesanan?id=' + encoded;
+                    unloading2("#btn-bulk-export");
+                    
                 }
             }
         });

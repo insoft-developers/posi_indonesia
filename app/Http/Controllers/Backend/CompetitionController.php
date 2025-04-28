@@ -82,9 +82,13 @@ class CompetitionController extends Controller
             $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
         }
 
-        $sekolah = $input['sekolah'];
-
-        $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+        if($request->sekolah !== null) {
+            $sekolah = $input['sekolah'];
+            $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+        } else {
+            $input['sekolah'] = null;
+            $sekolah = $input['sekolah'];
+        }
 
         $level = [];
         foreach ($input['level'] as $il) {
@@ -282,9 +286,16 @@ class CompetitionController extends Controller
             $request->image->move(public_path('/template/frontend/assets/kompetisi'), $input['image']);
         }
 
-        $sekolah = $input['sekolah'];
+       
+        if($request->sekolah !== null) {
+            $sekolah = $input['sekolah'];
+            $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+        } else {
+            $input['sekolah'] = null;
+            $sekolah = $input['sekolah'];
+        }
 
-        $input['sekolah'] = $input['sekolah'] == 'lainnya' ? $input['sekolah_lain'] : $input['sekolah'];
+       
 
         $level = [];
         $jenjang = [];

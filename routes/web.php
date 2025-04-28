@@ -120,6 +120,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/transaction_approve', [PesananController::class, 'transaction_approve'])->middleware('notutor');
     Route::post('/transaction_reset', [PesananController::class, 'transaction_reset'])->middleware('notutor');
     Route::post('/bulk_approve', [PesananController::class, 'bulk_approve'])->middleware('notutor');
+    Route::get('/download_pesanan', [PesananController::class, 'download_pesanan'])->middleware('notutor');
 
 
     Route::resource('/soal', SoalController::class);
