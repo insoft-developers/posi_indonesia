@@ -164,6 +164,17 @@
         padding: 10px 9px !important;
     }
 
+
+    #btn-bulk-export {
+        position: relative;
+        top: 123px;
+        border-radius: 5px;
+        float: right;
+        right:10px;
+        /* z-index: 2; */
+        padding: 10px 9px !important;
+    }
+
     #filter {
         width: 14%;
         position: relative;

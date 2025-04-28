@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Exports\PesananExport;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Invoice;
@@ -13,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PesananCOntroller extends Controller
 {
@@ -678,5 +680,16 @@ class PesananCOntroller extends Controller
             ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function download_pesanan(Request $request) {
+
+        $ids = json_decode($request->input('id')); 
+        
+        $data = Invoice::with('transaction')->whereIn('id', $ids)->get();
+        $tanggal = date('YmdHis');
+        
+        return Excel::download(new PesananExport($data), 'pesanan_invoice_'.$tanggal.'.xlsx');
+
     }
 }

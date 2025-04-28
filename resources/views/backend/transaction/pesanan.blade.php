@@ -14,18 +14,18 @@
                 <li class="fw-medium">Daftar Transaksi</li>
             </ul>
         </div>
-
         <div class="card basic-data-table">
             <div class="card-header">
                 <h5 class="card-title mb-0">Daftar Transaksi</h5>
                 <input type="hidden" id="data-jenis" value="1">
-                {{-- <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
-                    Tambah</button> --}}
                 @if (session('level') == 1)
                     <button id="btn-bulk-approve" disabled="disabled" onclick="bulk_approve()" type="button"
                         class="btn btn-insoft btn-info-800 radius-8 px-20 py-11">
                         <i class="fa fa-check"></i> Bulk Approve</button>
                 @endif
+                <button id="btn-bulk-export" disabled="disabled" type="button"
+                        class="btn btn-insoft btn-success-800 radius-8 px-20 py-11">
+                        <i class="fa fa-excel-o"></i> Export Pesanan</button>
 
                 <div class="col-12">
 
@@ -89,7 +89,7 @@
                                         <th scope="col">Nama Peserta</th>
                                         <th scope="col">Email Peserta</th>
                                         <th scope="col">Hp Peserta</th>
-                                        <th scope="col">Jenjang Peserta</th>   
+                                        <th scope="col">Jenjang Peserta</th>
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
@@ -122,7 +122,7 @@
                                         <th scope="col">Nama Peserta</th>
                                         <th scope="col">Email Peserta</th>
                                         <th scope="col">Hp Peserta</th>
-                                        <th scope="col">Jenjang Peserta</th>   
+                                        <th scope="col">Jenjang Peserta</th>
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
@@ -155,7 +155,7 @@
                                         <th scope="col">Nama Peserta</th>
                                         <th scope="col">Email Peserta</th>
                                         <th scope="col">Hp Peserta</th>
-                                        <th scope="col">Jenjang Peserta</th>   
+                                        <th scope="col">Jenjang Peserta</th>
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Ongkos Kirim</th>
                                         <th scope="col">Total Invoice</th>
