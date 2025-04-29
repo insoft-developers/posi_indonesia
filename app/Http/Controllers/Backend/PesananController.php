@@ -686,7 +686,8 @@ class PesananCOntroller extends Controller
 
         $ids = json_decode($request->input('id')); 
         
-        $data = Invoice::with('transaction')->whereIn('id', $ids)->get();
+        $data = Invoice::with('transaction')->whereIn('id', $ids)
+        ->get();
         $tanggal = date('YmdHis');
         
         return Excel::download(new PesananExport($data), 'pesanan_invoice_'.$tanggal.'.xlsx');

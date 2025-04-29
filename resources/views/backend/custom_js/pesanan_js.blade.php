@@ -518,7 +518,7 @@
                     const encoded = encodeURIComponent(JSON.stringify(id_array));
                     
                     window.location.href = "{{ url('') }}"+'/posiadmin/download_pesanan?id=' + encoded;
-                    unloading2("#btn-bulk-export");
+                    unloading3("#btn-bulk-export", "Export Pesanan");
                     
                 }
             }

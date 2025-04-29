@@ -14,6 +14,11 @@
         $(iselector).removeAttr("disabled");
     }
 
+    function unloading3(iselector, text) {
+        $(iselector).text(text);
+        $(iselector).removeAttr("disabled");
+    }
+
     function explode(data) {
         var myarr = data.split(",");
         return myarr;
