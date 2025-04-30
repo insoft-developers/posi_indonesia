@@ -274,56 +274,57 @@ class PesananCOntroller extends Controller
             ]);
         }
 
-        return $data;
+        return response()->json([
+            'success' => true,
+        ]);
     }
 
     public function pesanan_table(Request $request)
     {
-        
         $thismonth = date('m');
         $thisyear = date('Y');
         $today = date('Y-m-d');
 
-        
-        $lastmonth = date('m', strtotime($today." -1 month"));
-        $lastyear = date('Y', strtotime($today." -1 year"));
-    
+        $lastmonth = date('m', strtotime($today . ' -1 month'));
+        $lastyear = date('Y', strtotime($today . ' -1 year'));
 
         $input = $request->all();
         $query = Invoice::with('user');
-        if(! empty($input['filter'])) {
+        if (!empty($input['filter'])) {
             $filter = $input['filter'];
-            if($filter == 'today') {
+            if ($filter == 'today') {
                 $query->whereDate('created_at', Carbon::today()->toDateString());
-            } else if($filter == 'thismonth') {
+            } elseif ($filter == 'thismonth') {
                 $query->whereMonth('created_at', $thismonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'yesterday') {
+            } elseif ($filter == 'yesterday') {
                 $query->whereDate('created_at', Carbon::yesterday()->toDateString());
-            } else if($filter == 'lastmonth') {
+            } elseif ($filter == 'lastmonth') {
                 $query->whereMonth('created_at', $lastmonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'thisyear') {
+            } elseif ($filter == 'thisyear') {
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'lastyear') {
+            } elseif ($filter == 'lastyear') {
                 $query->whereYear('created_at', $lastyear);
-            } 
-            
+            }
         }
 
-        if(! empty($input['filter2'])) {
+        if (!empty($input['filter2'])) {
             $filter2 = $input['filter2'];
-            if($filter2 == 'premium') {
+            if ($filter2 == 'premium') {
                 $query->where('grand_total', '>', 0);
-            } else if($filter2 == 'free') {
+            } elseif ($filter2 == 'free') {
                 $query->where('grand_total', 0);
-            } 
+            }
         }
-        
+
         $data = $query->get();
         // $data = Invoice::with('user')->get();
 
         return DataTables::of($data)
+            ->addColumn('ids', function ($data) {
+                return $data->id;
+            })
             ->addColumn('invoice', function ($data) {
                 if ($data->total_amount > 0) {
                     return $data->invoice . '<br>(Berbayar)';
@@ -363,7 +364,7 @@ class PesananCOntroller extends Controller
             ->addColumn('buyer_level', function ($data) {
                 return $data->pemesan->level->level_name ?? null;
             })
-            
+
             ->addColumn('total_amount', function ($data) {
                 return number_format($data->total_amount);
             })
@@ -390,77 +391,76 @@ class PesananCOntroller extends Controller
             })
             ->addColumn('action', function ($data) {
                 $btn = '';
-                
-                $btn .= '<a onclick="detailData(' .
+
+                $btn .=
+                    '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
                 </a>';
-                if(session('level') == 1) {
-                     $btn .= '<a onclick="deleteData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                if (session('level') == 1) {
+                    $btn .=
+                        '<a onclick="deleteData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                 </a>';
                 }
-               
 
                 return $btn;
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice', 'userid', 'buyer'])
             ->addIndexColumn()
             ->make(true);
     }
 
-    
     public function pesanan_table_approve(Request $request)
     {
         $thismonth = date('m');
         $thisyear = date('Y');
         $today = date('Y-m-d');
 
-        
-        $lastmonth = date('m', strtotime($today." -1 month"));
-        $lastyear = date('Y', strtotime($today." -1 year"));
-    
+        $lastmonth = date('m', strtotime($today . ' -1 month'));
+        $lastyear = date('Y', strtotime($today . ' -1 year'));
 
         $input = $request->all();
         $query = Invoice::with('user')->where('payment_status', 1);
-        if(! empty($input['filter'])) {
+        if (!empty($input['filter'])) {
             $filter = $input['filter'];
-            if($filter == 'today') {
+            if ($filter == 'today') {
                 $query->whereDate('created_at', Carbon::today()->toDateString());
-            } else if($filter == 'thismonth') {
+            } elseif ($filter == 'thismonth') {
                 $query->whereMonth('created_at', $thismonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'yesterday') {
+            } elseif ($filter == 'yesterday') {
                 $query->whereDate('created_at', Carbon::yesterday()->toDateString());
-            } else if($filter == 'lastmonth') {
+            } elseif ($filter == 'lastmonth') {
                 $query->whereMonth('created_at', $lastmonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'thisyear') {
+            } elseif ($filter == 'thisyear') {
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'lastyear') {
+            } elseif ($filter == 'lastyear') {
                 $query->whereYear('created_at', $lastyear);
-            } 
-            
+            }
         }
 
-        if(! empty($input['filter2'])) {
+        if (!empty($input['filter2'])) {
             $filter2 = $input['filter2'];
-            if($filter2 == 'premium') {
+            if ($filter2 == 'premium') {
                 $query->where('grand_total', '>', 0);
-            } else if($filter2 == 'free') {
+            } elseif ($filter2 == 'free') {
                 $query->where('grand_total', 0);
-            } 
+            }
         }
-        
+
         $data = $query->get();
-        
+
         // $data = Invoice::with('user')->where('payment_status', 1)->get();
 
         return DataTables::of($data)
-            
+            ->addColumn('ids', function ($data) {
+                return $data->id;
+            })
             ->addColumn('invoice', function ($data) {
                 if ($data->total_amount > 0) {
                     return $data->invoice . '<br>(Berbayar)';
@@ -526,75 +526,75 @@ class PesananCOntroller extends Controller
             })
             ->addColumn('action', function ($data) {
                 $btn = '';
-                
-                $btn .= '<a onclick="detailData(' .
+
+                $btn .=
+                    '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
                 </a>';
-                
-                if(session('level') == 1) {
-                    $btn .= '<a onclick="deleteData(' .
-                   $data->id .
-                   ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+
+                if (session('level') == 1) {
+                    $btn .=
+                        '<a onclick="deleteData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                </a>';
-               }
+                }
 
                 return $btn;
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice', 'userid', 'buyer'])
             ->addIndexColumn()
             ->make(true);
     }
-    
-    
+
     public function pesanan_table_not_approve(Request $request)
     {
-        
         $thismonth = date('m');
         $thisyear = date('Y');
         $today = date('Y-m-d');
 
-        
-        $lastmonth = date('m', strtotime($today." -1 month"));
-        $lastyear = date('Y', strtotime($today." -1 year"));
-    
+        $lastmonth = date('m', strtotime($today . ' -1 month'));
+        $lastyear = date('Y', strtotime($today . ' -1 year'));
 
         $input = $request->all();
         $query = Invoice::with('user')->where('payment_status', '!=', 1);
-        if(! empty($input['filter'])) {
+        if (!empty($input['filter'])) {
             $filter = $input['filter'];
-            if($filter == 'today') {
+            if ($filter == 'today') {
                 $query->whereDate('created_at', Carbon::today()->toDateString());
-            } else if($filter == 'thismonth') {
+            } elseif ($filter == 'thismonth') {
                 $query->whereMonth('created_at', $thismonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'yesterday') {
+            } elseif ($filter == 'yesterday') {
                 $query->whereDate('created_at', Carbon::yesterday()->toDateString());
-            } else if($filter == 'lastmonth') {
+            } elseif ($filter == 'lastmonth') {
                 $query->whereMonth('created_at', $lastmonth);
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'thisyear') {
+            } elseif ($filter == 'thisyear') {
                 $query->whereYear('created_at', $thisyear);
-            } else if($filter == 'lastyear') {
+            } elseif ($filter == 'lastyear') {
                 $query->whereYear('created_at', $lastyear);
-            } 
-            
+            }
         }
 
-        if(! empty($input['filter2'])) {
+        if (!empty($input['filter2'])) {
             $filter2 = $input['filter2'];
-            if($filter2 == 'premium') {
+            if ($filter2 == 'premium') {
                 $query->where('grand_total', '>', 0);
-            } else if($filter2 == 'free') {
+            } elseif ($filter2 == 'free') {
                 $query->where('grand_total', 0);
-            } 
+            }
         }
-        
+
         $data = $query->get();
 
         return DataTables::of($data)
+            ->addColumn('ids', function ($data) {
+                return $data->id;
+            })
             ->addColumn('invoice', function ($data) {
                 if ($data->total_amount > 0) {
                     return $data->invoice . '<br>(Berbayar)';
@@ -660,37 +660,37 @@ class PesananCOntroller extends Controller
             })
             ->addColumn('action', function ($data) {
                 $btn = '';
-                
-                $btn .= '<a onclick="detailData(' .
+
+                $btn .=
+                    '<a onclick="detailData(' .
                     $data->id .
                     ')" title="Bidang Studi" href="javascript:void(0)" class="w-32-px h-32-px bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:library-books-outline-rounded"></iconify-icon>
                 </a>';
-                
-                if(session('level') == 1) {
-                    $btn .= '<a onclick="deleteData(' .
-                   $data->id .
-                   ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+
+                if (session('level') == 1) {
+                    $btn .=
+                        '<a onclick="deleteData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                  <iconify-icon icon="mingcute:delete-2-line"></iconify-icon>
                </a>';
-               }
+                }
 
                 return $btn;
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice','userid','buyer'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'id', 'invoice', 'userid', 'buyer'])
             ->addIndexColumn()
             ->make(true);
     }
 
-    public function download_pesanan(Request $request) {
+    public function download_pesanan(Request $request)
+    {
+        $ids = json_decode($request->input('id'));
 
-        $ids = json_decode($request->input('id')); 
-        
-        $data = Invoice::with('transaction')->whereIn('id', $ids)
-        ->get();
+        $data = Invoice::with('transaction')->whereIn('id', $ids)->get();
         $tanggal = date('YmdHis');
-        
-        return Excel::download(new PesananExport($data), 'pesanan_invoice_'.$tanggal.'.xlsx');
 
+        return Excel::download(new PesananExport($data), 'pesanan_invoice_' . $tanggal . '.xlsx');
     }
 }

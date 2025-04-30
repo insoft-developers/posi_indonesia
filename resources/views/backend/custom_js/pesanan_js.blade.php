@@ -97,12 +97,17 @@
                     }
                 },
                 order: [
-                    [0, "desc"]
+                    [1, "desc"]
                 ],
                 columns: [{
                         data: 'id',
                         name: 'id',
+                        orderable: false,
                        
+                    },
+                    {
+                        data: 'ids',
+                        name: 'ids',
                     },
                     {
                         data: 'action',
@@ -209,11 +214,16 @@
                     }
                 },
                 order: [
-                    [0, "desc"]
+                    [1, "desc"]
                 ],
                 columns: [{
                         data: 'id',
                         name: 'id',
+                        orderable: false,
+                    },
+                    {
+                        data: 'ids',
+                        name: 'ids',
                     },
                     {
                         data: 'action',
@@ -323,12 +333,17 @@
                     }
                 },
                 order: [
-                    [0, "desc"]
+                    [1, "desc"]
                 ],
                 columns: [{
                         data: 'id',
                         name: 'id',
+                        orderable: false,
                         
+                    },
+                    {
+                        data: 'ids',
+                        name: 'ids',
                     },
                     {
                         data: 'action',

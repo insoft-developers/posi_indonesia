@@ -83,6 +83,7 @@
                                                     class="form-check-input" type="checkbox">
                                             </div>
                                         </th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
@@ -116,6 +117,7 @@
                                                     class="form-check-input" type="checkbox">
                                             </div>
                                         </th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
@@ -149,6 +151,7 @@
                                                     type="checkbox">
                                             </div>
                                         </th>
+                                        <th scope="col">ID</th>
                                         <th scope="col">Action</th>
                                         <th scope="col">Invoice</th>
                                         <th scope="col">Tanggal</th>
