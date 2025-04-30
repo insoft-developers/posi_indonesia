@@ -135,7 +135,7 @@ class CollectiveController extends Controller
 
     public function collective_table()
     {
-        $data = Competition::with('study', 'transaction')->get();
+        $data = Competition::all();
 
         return DataTables::of($data)
             ->addColumn('userid', function ($data) {
@@ -180,7 +180,7 @@ class CollectiveController extends Controller
 
     public function collective_study_table($id)
     {
-        $data = Study::with('level', 'pelajaran')->where('competition_id', $id)->get();
+        $data = Study::where('competition_id', $id)->get();
 
         return DataTables::of($data)
             ->addColumn('level_id', function ($data) {
