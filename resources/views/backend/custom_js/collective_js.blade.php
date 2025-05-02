@@ -1,5 +1,17 @@
 @if ($view == 'collective')
     <script>
+
+
+        function export_pendaftaran() {
+            var com = $("#selected_competition").val();
+            if(com == '') {
+                alert('Silahkan Pilih Kompetisi yang akan di export datanya...!');
+            } else {
+                window.location = "{{ url('posiadmin/user_by_competition') }}"+"/"+com;
+            }
+        }
+
+
         var table = $('#table-list').DataTable({
             processing: true,
             serverSide: true,
