@@ -43,7 +43,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php  $nomor = 0; @endphp
+                                @php  $nomor=0 @endphp
                                 @foreach ($data as $index => $d)
                                     @php
                                         $bidangs = [];
@@ -65,7 +65,7 @@
 
                                     @endphp
                                     @if(count($bidangs) > 0)
-                                    @php  $nomor = ++; @endphp
+                                    @php  $nomor++ @endphp
                                     <tr>
                                         <td>{{ $nomor }}</td>
                                         <td>{{ $d->name }}</td>
