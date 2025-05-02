@@ -48,6 +48,7 @@
                                         $bidangs = [];
                                         $transaksi = \App\Models\Transaction::with('invoices')
                                             ->where('userid', $d->id)
+                                            ->where('competition_id', $com->id)
                                             ->whereNull('product_id')
                                             ->whereHas('invoices', function ($q) {
                                                 $q->where('payment_status', 1);
