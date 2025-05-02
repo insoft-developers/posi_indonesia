@@ -62,6 +62,7 @@
                                         $bs = implode(",", $bidangs);
 
                                     @endphp
+                                    @if(count($bidangs) > 0)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $d->name }}</td>
@@ -85,6 +86,7 @@
                                         <td>{{ $d->agama }}</td>
 
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
