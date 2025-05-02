@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Exports\PendaftaranExport;
+use App\Exports\RegisterExport;
 use App\Http\Controllers\Controller;
 use App\Imports\PendaftaranImport;
 use App\Models\Competition;
 use App\Models\Study;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -20,7 +22,8 @@ class CollectiveController extends Controller
     public function index()
     {
         $view = 'collective';
-        return view('backend.transaction.collective', compact('view'));
+        $com = Competition::where('is_active', 1)->get();
+        return view('backend.transaction.collective', compact('view', 'com'));
     }
 
     /**
@@ -319,5 +322,16 @@ class CollectiveController extends Controller
             ->rawColumns(['action', 'competition_id'])
             ->addIndexColumn()
             ->make(true);
+    }
+
+
+    public function user_by_competition($com) {
+        $competition = Competition::find($com);
+        $data = User::where('email_status', 1)->get();
+
+        
+        $tanggal = date('YmdHis');
+        
+        return Excel::download(new RegisterExport($data, $competition), 'format_keluaran_data_pendaftaran_' . $tanggal . '.xlsx');
     }
 }

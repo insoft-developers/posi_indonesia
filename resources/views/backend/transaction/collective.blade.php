@@ -18,8 +18,22 @@
         <div class="card basic-data-table">
             <div class="card-header">
                 <h5 class="card-title mb-0">Pendaftaran Kolektif - Pilih Kompetisi</h5>
-                {{-- <button onclick="tambah()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11"> +
-                    Tambah</button> --}}
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2">
+                        <select id="selected_competition" class="form-control" style="width: 200px;">
+                            <option value=""> pilih kompetisi </option>
+                            @foreach($com as $c)
+                            <option value="{{ $c->id }}">{{ $c->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button style="margin-top: 3px;" onclick="export_pendaftaran()" type="button" class="btn btn-insoft btn-success-600 radius-8 px-20 py-11">Export Pendaftaran</button>
+                    </div>
+                    
+                </div>
+               
             </div>
             <div class="card-body">
                 <div class="table-responsive">

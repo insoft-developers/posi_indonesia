@@ -148,6 +148,8 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::post('/pendaftaran_upload', [CollectiveController::class, 'pendaftaran_upload'])->name('pendaftaran.upload')->middleware('notutor');
     Route::get('/collective_list/{comid}/{id}',  [CollectiveController::class, 'collective_list'])->middleware('notutor');
 
+    Route::get('/user_by_competition/{com}', [CollectiveController::class, 'user_by_competition']);
+
     Route::resource('/hasil', Hasil2Controller::class)->middleware('notutor');
     Route::get('/hasil_table', [Hasil2Controller::class, 'hasil_table'])->name('hasil.table')->middleware('notutor');
 
