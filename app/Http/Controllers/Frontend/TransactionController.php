@@ -57,7 +57,7 @@ class TransactionController extends Controller
         $invoice = 'INV-' . date('YmdHis') . $this->generate_number(6);
         try {
             $transaction = Cart::where('buyer', Auth::user()->id)->get();
-
+            
             $data_invoice = [
                 'invoice' => $invoice,
                 'userid' => Auth::user()->id,
@@ -108,9 +108,14 @@ class TransactionController extends Controller
                 $item->save();
             }
 
+            
+            $gto = $request->delivery_cost == null ? $total_value : $total_value + (int) $input['delivery_cost'];
+            $angka_unik = $gto > 0 ? $this->generate_number(3) : 0;
+            $grand_total = $gto + $angka_unik;
             Invoice::where('id', $id)->update([
                 'total_amount' => $total_value,
-                'grand_total' => $request->delivery_cost == null ? $total_value : $total_value + (int) $input['delivery_cost'],
+                'angka_unik' => $angka_unik,
+                'grand_total' => $grand_total,
             ]);
 
             Cart::where('buyer', Auth::user()->id)->delete();

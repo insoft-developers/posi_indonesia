@@ -35,7 +35,7 @@ class JadwalController extends Controller
 
         $sekarang = date('Y-m-d');
         // $umum = Competition::with('study.pelajaran', 'levels')->where('is_active', 1)->get();
-        $umum = Pengumuman::where('is_status', 1)->groupBy('competition_id')->orderBy('id', 'desc')->get();
+        $umum = Pengumuman::where('is_status', 2)->groupBy('competition_id')->orderBy('id', 'desc')->get();
 
         return view('frontend.jadwal', compact('view', 'data', 'umum'));
     }

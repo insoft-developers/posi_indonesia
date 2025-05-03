@@ -36,6 +36,14 @@
             margin: 0;
 
         }
+        .lunas-image {
+            width: 500px;
+    position: absolute;
+    left: 27%;
+    top: 35%;
+    right: auto;
+    opacity: 0.2;
+        } 
 
         .sheet-outer {
             margin: 0;
@@ -171,6 +179,7 @@
                     </p>
 
                 </div>
+                <img class="lunas-image" src="{{ asset('template/frontend/assets/umum/lunas.png') }}">
                 <div class="col-md-3 col-lg-3 col-sm-3">
                     <p><strong>Jatuh Tempo :</strong></p>
                     <div class="minus"></div>
@@ -241,7 +250,10 @@
                             </tr>
 
                             <tr>
-                                <th></th>
+                                <th><span style="font-weight: normal; font-size:12px;">
+                                    Penerima : <strong>{{ $data->receiver_name }}</strong><br>
+                                    HP Penerima : <strong>{{ $data->receiver_phone }}</strong><br>
+                                    Alamat : {{ $data->address }}</span></th>
 
                                 <th colspan="2">Discount</th>
                                 <th>Rp. 0</th>
@@ -256,6 +268,12 @@
                                     <th>Rp. {{ number_format($data->delivery_cost) }}</th>
                                 </tr>
                             @endif
+                            <tr>
+                                <th></th>
+
+                                <th colspan="2">Kode Unik</th>
+                                <th>Rp. {{ number_format($data->angka_unik) }}</th>
+                            </tr>
                             <tr>
                                 <th style="color: green;">Net Amount</th>
                                 <th></th>
