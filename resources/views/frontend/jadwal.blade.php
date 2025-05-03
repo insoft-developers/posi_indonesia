@@ -135,7 +135,7 @@
                                                     @php
                                                         $lavel = \App\Models\Level::find(Auth::user()->level_id);
                                                     @endphp
-                                                    <a class="name" href="#">{{ $lavel->level_name }},
+                                                    <a class="name" href="#">{{ $lavel->level_name ?? null }},
                                                     </a>
                                                 </div>
                                             </div>

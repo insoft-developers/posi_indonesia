@@ -82,7 +82,7 @@ class TransactionController extends Controller
                 $data_invoice['service'] = $input['layanan'];
                 $data_invoice['delivery_cost'] = $input['delivery_cost'];
                 $data_invoice['address'] = $input['alamat'];
-                $data_invoice['reeiver_name'] = $input['receiver_name'] ?? null;
+                $data_invoice['receiver_name'] = $input['receiver_name'] ?? null;
                 $data_invoice['receiver_phone'] = $input['receiver_phone'] ?? null;
             }
             $id = Invoice::insertGetId($data_invoice);
