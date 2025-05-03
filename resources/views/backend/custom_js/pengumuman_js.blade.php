@@ -1,5 +1,29 @@
 @if ($view == 'pengumuman')
     <script>
+
+        function published(id, is_status) {
+            var pesan = '';
+            if(is_status == 1) {
+                pesan = 'Hapus publish...?';
+            } else if(is_status == 2) {
+                pesan = 'Publish pengumuman....?';
+            }
+
+            var pop = confirm(pesan);
+            if(pop === true) {
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('publish') }}",
+                    type: "POST",
+                    datType: "JSON",
+                    data: {"id":id, "is_status":is_status, "_token":csrf_token},
+                    success: function(data){
+                        table.ajax.reload(null, false);
+                    }
+                })
+            }
+        }
+
         $("#study_id").select2({
             dropdownParent: $("#modal-tambah .modal-content"),
             placeholder: 'Pilih'

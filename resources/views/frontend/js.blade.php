@@ -546,14 +546,14 @@
         $("#kecamatan").change(function() {
             var html = '';
             html += '<option value=="">Pilih Kurir</option>';
-            html += '<option value="jne">JNE</option>';
-            html += '<option value="pos">POS</option>';
-            html += '<option value="tiki">TIKI</option>';
-            html += '<option value="sicepat">SICEPAT</option>';
+            // html += '<option value="jne">JNE</option>';
+            // html += '<option value="pos">POS</option>';
+            // html += '<option value="tiki">TIKI</option>';
+            // html += '<option value="sicepat">SICEPAT</option>';
             html += '<option value="jnt">JNT</option>';
-            html += '<option value="ninja">NINJA EXPRESS</option>';
-            html += '<option value="lion">LION PARCEL</option>';
-            html += '<option value="anteraja">ANTER AJA</option>';
+            // html += '<option value="ninja">NINJA EXPRESS</option>';
+            // html += '<option value="lion">LION PARCEL</option>';
+            // html += '<option value="anteraja">ANTER AJA</option>';
 
 
             $("#courier").html(html);

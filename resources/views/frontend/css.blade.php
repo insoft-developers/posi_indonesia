@@ -5,6 +5,8 @@
 @endif
 
 <style>
+    
+
     .toolbar-hide {
         height: 30px;
         width: 24%;

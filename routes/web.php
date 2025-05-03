@@ -172,6 +172,7 @@ Route::group(['prefix' => 'posiadmin', 'middleware' => 'adminauth'], function ()
     Route::get('/get_pengumuman_study/{id}', [PengumumanController::class, 'get_pengumuman_study'])->middleware('notutor');
     Route::get('/get_pengumuman_level/{pelajaran}/{competition}', [PengumumanController::class, 'get_pengumuman_level'])->middleware('notutor');
     Route::post('/hitung_hasil_ujian', [PengumumanController::class, 'hitung_hasil_ujian'])->middleware('notutor');
+    Route::post('/publish', [PengumumanController::class, 'publish'])->name('publish');
 
     Route::resource('winner', WinnerListController::class)->middleware('notutor');
     Route::get('/winner_table/{id}', [WinnerListController::class, 'winner_table'])->middleware('notutor');

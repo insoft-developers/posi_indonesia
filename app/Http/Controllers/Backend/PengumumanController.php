@@ -55,8 +55,6 @@ class PengumumanController extends Controller
 
     protected function set_juara($id)
     {
-        
-        
         try {
             DB::beginTransaction();
             $data = ExamSession::where('hitung_id', $id)->orderBy('total_score', 'desc')->orderBy('updated_at', 'asc')->get();
@@ -280,6 +278,15 @@ class PengumumanController extends Controller
         return $data;
     }
 
+    public function publish(Request $request) {
+        $data = Pengumuman::find($request->id);
+        $data->is_status = $request->is_status;
+        $res = $data->save();
+
+        return $res;
+    }
+
+
     public function pemberitahuan_table()
     {
         $data = Pengumuman::with('competition')->get();
@@ -287,6 +294,8 @@ class PengumumanController extends Controller
         return DataTables::of($data)
             ->addColumn('is_status', function ($data) {
                 if ($data->is_status == 1) {
+                    return 'READY';
+                } elseif ($data->is_status == 2) {
                     return 'PUBLISHED';
                 } else {
                     return '';
@@ -312,14 +321,14 @@ class PengumumanController extends Controller
 
             ->addColumn('action', function ($data) {
                 $btn = '';
-                if ($data->is_status !== 1) {
-                $btn .=
-                    '<a title="Hitung Hasil Pengumuman" onclick="hitungData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                if ($data->is_status !== 1 && $data->is_status !== 2) {
+                    $btn .=
+                        '<a title="Hitung Hasil Pengumuman" onclick="hitungData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
                   <iconify-icon icon="material-symbols:account-tree-outline"></iconify-icon>
                 </a>';
-                
+
                     $btn .=
                         '<a style="margin-left:5px;" onclick="editData(' .
                         $data->id .
@@ -329,6 +338,25 @@ class PengumumanController extends Controller
                 }
 
                 if ($data->is_status == 1) {
+                    $btn .=
+                        '<a onclick="published('.$data->id.', 2)" title="Published Pengumuman" style="margin-left:5px;" href="javascript:void(0);" class="w-32-px h-32-px bg-info-focus text-info-main rounded-circle d-inline-flex align-items-center justify-content-center">
+              <iconify-icon icon="material-symbols:mobile-speaker-outline"></iconify-icon>
+            </a>';
+                    
+                    $btn .=
+                        '<a  title="Daftar Pemenang" style="margin-left:5px;" href="' .
+                        url('posiadmin/winner/' . $data->id) .
+                        '" class="w-32-px h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
+              <iconify-icon icon="material-symbols:trophy-outline-sharp"></iconify-icon>
+            </a>';
+                }
+
+                if ($data->is_status == 2) {
+                    $btn .=
+                        '<a onclick="published('.$data->id.', 1)" title="Hapus Publish" style="margin-left:5px;" href="javascript:void(0);" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
+              <iconify-icon icon="material-symbols:do-not-disturb-off-rounded"></iconify-icon>
+            </a>';
+                    
                     $btn .=
                         '<a  title="Daftar Pemenang" style="margin-left:5px;" href="' .
                         url('posiadmin/winner/' . $data->id) .
