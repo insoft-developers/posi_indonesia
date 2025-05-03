@@ -43,11 +43,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php  $nomor=0 @endphp
                                 @foreach ($data as $index => $d)
                                     @php
                                         $bidangs = [];
                                         $transaksi = \App\Models\Transaction::with('invoices')
                                             ->where('userid', $d->id)
+                                            ->where('competition_id', $com->id)
                                             ->whereNull('product_id')
                                             ->whereHas('invoices', function ($q) {
                                                 $q->where('payment_status', 1);
@@ -62,9 +64,10 @@
                                         $bs = implode(",", $bidangs);
 
                                     @endphp
-                                    
+                                    @if(count($bidangs) > 0)
+                                    @php  $nomor++ @endphp
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $nomor }}</td>
                                         <td>{{ $d->name }}</td>
                                         <td>{{ $d->email }}</td>
                                         <td>{{ $d->whatsapp }}</td>
