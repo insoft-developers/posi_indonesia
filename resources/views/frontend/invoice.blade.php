@@ -36,14 +36,15 @@
             margin: 0;
 
         }
+
         .lunas-image {
             width: 500px;
-    position: absolute;
-    left: 27%;
-    top: 35%;
-    right: auto;
-    opacity: 0.2;
-        } 
+            position: absolute;
+            left: 27%;
+            top: 35%;
+            right: auto;
+            opacity: 0.2;
+        }
 
         .sheet-outer {
             margin: 0;
@@ -179,7 +180,9 @@
                     </p>
 
                 </div>
+                @if($data->payment_status == 1)
                 <img class="lunas-image" src="{{ asset('template/frontend/assets/umum/lunas.png') }}">
+                @endif
                 <div class="col-md-3 col-lg-3 col-sm-3">
                     <p><strong>Jatuh Tempo :</strong></p>
                     <div class="minus"></div>
@@ -203,7 +206,6 @@
                         <tbody>
 
                             @foreach ($data->transaction as $key)
-                             
                                 @php
 
                                 @endphp
@@ -251,9 +253,9 @@
 
                             <tr>
                                 <th><span style="font-weight: normal; font-size:12px;">
-                                    Penerima : <strong>{{ $data->receiver_name }}</strong><br>
-                                    HP Penerima : <strong>{{ $data->receiver_phone }}</strong><br>
-                                    Alamat : {{ $data->address }}</span></th>
+                                        Penerima : <strong>{{ $data->receiver_name }}</strong><br>
+                                        HP Penerima : <strong>{{ $data->receiver_phone }}</strong><br>
+                                        Alamat : {{ $data->address }}</span></th>
 
                                 <th colspan="2">Discount</th>
                                 <th>Rp. 0</th>
