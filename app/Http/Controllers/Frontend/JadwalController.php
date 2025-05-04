@@ -25,10 +25,15 @@ class JadwalController extends Controller
         $query = Competition::with([
             'transaction' => function ($q) use ($userid) {
                 $q->where('userid', $userid);
+                $q->orderBy('study_id', 'asc');
             },
             'transaction.invoices',
             'transaction.study.pelajaran',
         ]);
+       
+        $query->whereHas('transaction', function($q) use ($userid){
+            $q->where('userid', $userid);
+        });
         $query->where('is_active', 1);
 
         $data = $query->get();

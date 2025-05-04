@@ -377,7 +377,7 @@
                         <a href="#">Info </a>
                         <ul class="sub-menu">
                             <li><a href="{{ url('/berita') }}">Berita</a></li>
-                            <li><a href="#">Event</a></li>
+                            <li><a href="{{ url('/events') }}">Event</a></li>
 
                         </ul>
                     </li>
