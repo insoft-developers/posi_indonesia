@@ -82,6 +82,7 @@
                             $sekarang = date('Y-m-d');
                             $waktu = date('H:i:s');
                         @endphp
+                        
                         @foreach ($data as $d)
                             @php
 
@@ -101,16 +102,15 @@
                             //     })
                             //     ->get();
                                 
-                            $cek3 = \App\Models\ExamSession::where('competition_id', $d->id)
-                                ->where('is_finish', 1)
-                                ->where('userid', $userid)->get();
+                            // $cek3 = \App\Models\ExamSession::where('competition_id', $d->id)
+                            //     ->where('is_finish', 1)
+                            //     ->where('userid', $userid)->get();
 
                             
                             @endphp
 
-                            {{-- @if($cek->count() > 0 && $cek2->count() > 0) --}}
 
-                            @if($cek->count() > 0 && $cek3->count() <= 0 )
+                            @if($cek->count() > 0 )
 
                             
 
@@ -144,7 +144,9 @@
                                             <div class="blog-content">
                                                 @php    
                                                     $tanggal_sekarang = date('Y-m-d');
-                                                    $jam_selesai = date('H:i:s');     
+                                                    $jam_selesai = date('H:i:s');    
+                                                    
+                                                    
                                                 @endphp
 
                                                 @foreach ($d->transaction as $index => $t)
