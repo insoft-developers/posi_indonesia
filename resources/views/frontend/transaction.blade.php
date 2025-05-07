@@ -20,15 +20,16 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @if ($transaction->count() > 0)
-                            <table id="table-transaction" class="table table-bordered table-desktop" style="font-size: 14px;">
+                            <table id="table-transaction" class="table table-striped table-desktop" style="font-size: 14px;">
                                 <thead>
                                     <tr>
+                                        <th>Tanggal</th>
                                         <th>No Invoice</th>
                                         <th>Status</th>
                                         <th>Bukti Transfer</th>
                                         <th>Jumlah</th>
                                         <th>Bayar Dengan</th>
-                                        <th>Berlaku Hingga</th>
+                                        <th>Expired</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -42,6 +43,7 @@
                                     @endphp --}}
 
                                     <tr style="vertical-align: middle">
+                                        <td>{{ date('Y-m-d', strtotime($t->created_at)) }}</td>
                                         <td width="20%"><a href="{{ url('show-invoice/' . $t->invoice) }}"><span
                                                     style="color:blue;text-decoration:underline">{{ $t->invoice }}</span></a>
                                         </td>
@@ -50,6 +52,22 @@
                                                 @if ($t->payment_status == 1)
                                                     <span style="color: green"><strong><i class="fa fa-check"></i>
                                                             PAID</strong></span>
+                                                @elseif ($t->payment_status == 2)
+                                                    <span style="color: rgb(223, 54, 65)"><strong><i
+                                                                class="fa fa-exclamation"></i>
+                                                            PENDING</strong></span>
+                                                @elseif ($t->payment_status == 3)
+                                                    <span style="color: rgb(223, 54, 65)"><strong><i
+                                                                class="fa fa-exclamation"></i>
+                                                            DITOLAK</strong></span>
+                                                @elseif ($t->payment_status == 4)
+                                                    <span style="color: rgb(223, 54, 65)"><strong><i
+                                                                class="fa fa-exclamation"></i>
+                                                            EXPIRED</strong></span>
+                                                @elseif ($t->payment_status == 5)
+                                                    <span style="color: rgb(223, 54, 65)"><strong><i
+                                                                class="fa fa-exclamation"></i>
+                                                            BATAL</strong></span>
                                                 @else
                                                     <span style="color: orange">UNPAID</span>
                                                 @endif
@@ -85,23 +103,22 @@
                                         </td>
                                         <td width="15%">
                                             <strong>
-                                              
-                                                    Rp. {{ number_format($t->grand_total) }}
-                                              
+
+                                                Rp. {{ number_format($t->grand_total) }}
+
                                             </strong>
                                         </td>
                                         <td width="15%">{{ $t->payment_with == null ? 'no-payment' : $t->payment_with }}
                                         </td>
-                                        <td width="25%">{{ date('d F Y H:i', strtotime($t->expired_time)) }}</td>
+                                        <td width="25%">{{ date('Y-m-d', strtotime($t->expired_time)) }}</td>
                                         <td>
                                             @if ($t->total_amount > 0)
-                                                @if ($t->payment_status == 1)
-                                                @else
+                                                @if ($t->payment_status == 0)
                                                     <center><button onclick="payment({{ $t->id }})"
                                                             class="btn-insoft bg-success">Bayar</button></center>
+                                                @else
                                                 @endif
                                             @else
-                                                
                                             @endif
 
                                         </td>
@@ -118,12 +135,15 @@
                             </table>
 
 
-                           
-                                
 
-                                @foreach ($transaction as $t)
-                                <table id="table-transaction-mobile" class="table table-bordered table-mobile" style="font-size: 14px;">
-                                  
+
+
+                            @foreach ($transaction as $t)
+                                <table id="table-transaction-mobile" class="table table-bordered table-mobile"
+                                    style="font-size: 14px;">
+                                    <tr>
+                                        <td>{{ date('Y-m-d', strtotime($t->created_at)) }}</td>
+                                    </tr>
                                     <tr style="vertical-align: middle">
                                         <td width="20%"><a href="{{ url('show-invoice/' . $t->invoice) }}"><span
                                                     style="color:blue;text-decoration:underline">{{ $t->invoice }}</span></a>
@@ -135,6 +155,18 @@
                                                 @if ($t->payment_status == 1)
                                                     <span style="color: green"><strong><i class="fa fa-check"></i>
                                                             PAID</strong></span>
+                                                @elseif ($t->payment_status == 2)
+                                                    <span style="color: red"><strong><i class="fa fa-exclamation"></i>
+                                                            PENDING</strong></span>
+                                                @elseif ($t->payment_status == 2)
+                                                    <span style="color: red"><strong><i class="fa fa-exclamation"></i>
+                                                            DITOLAK</strong></span>
+                                                @elseif ($t->payment_status == 2)
+                                                    <span style="color: red"><strong><i class="fa fa-exclamation"></i>
+                                                            EXPIRED</strong></span>
+                                                @elseif ($t->payment_status == 2)
+                                                    <span style="color: red"><strong><i class="fa fa-exclamation"></i>
+                                                            BATAL</strong></span>
                                                 @else
                                                     <span style="color: orange">UNPAID</span>
                                                 @endif
@@ -174,9 +206,9 @@
                                     <tr>
                                         <td width="15%">
                                             <strong>
-                                              
-                                                    Rp. {{ number_format($t->grand_total) }}
-                                              
+
+                                                Rp. {{ number_format($t->grand_total) }}
+
                                             </strong>
                                         </td>
                                     </tr>
@@ -190,21 +222,19 @@
                                     <tr>
                                         <td>
                                             @if ($t->total_amount > 0)
-                                                @if ($t->payment_status == 1)
+                                                @if ($t->payment_status == 0)
+                                                <center><button onclick="payment({{ $t->id }})"
+                                                    class="btn-insoft bg-success">Bayar</button></center>
                                                 @else
-                                                    <center><button onclick="payment({{ $t->id }})"
-                                                            class="btn-insoft bg-success">Bayar</button></center>
+                                                  
                                                 @endif
                                             @else
-                                                
                                             @endif
 
                                         </td>
                                     </tr>
                                 </table>
-                                @endforeach
-                                
-                            
+                            @endforeach
                         @else
                             <center><img src="{{ asset('template/frontend/assets/umum/empty_transaction.png') }}"
                                     class="empty-image"></center>

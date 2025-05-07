@@ -23,7 +23,7 @@ class TransactionController extends Controller
     {
         $view = 'transaction';
         $transaction = Invoice::where('userid', Auth::user()->id)
-            ->orderBy('payment_status', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get();
         return view('frontend.transaction', compact('view', 'transaction'));
     }
@@ -308,7 +308,7 @@ class TransactionController extends Controller
                 echo 'Transaction order_id: ' . $order_id . ' successfully transfered using ' . $type;
             } elseif ($transaction == 'pending') {
                 Invoice::where('invoice', $order_id)->update([
-                    'payment_status' => 0,
+                    'payment_status' => 2,
                     'payment_amount' => 0,
                     'transaction_status' => 2,
                     'payment_with' => 'pending',
@@ -317,7 +317,7 @@ class TransactionController extends Controller
                 echo 'Waiting customer to finish transaction order_id: ' . $order_id . ' using ' . $type;
             } elseif ($transaction == 'deny') {
                 Invoice::where('invoice', $order_id)->update([
-                    'payment_status' => 0,
+                    'payment_status' => 3,
                     'payment_amount' => 0,
                     'transaction_status' => 3,
                     'payment_with' => 'deny',
@@ -326,7 +326,7 @@ class TransactionController extends Controller
                 echo 'Payment using ' . $type . ' for transaction order_id: ' . $order_id . ' is denied.';
             } elseif ($transaction == 'expire') {
                 Invoice::where('invoice', $order_id)->update([
-                    'payment_status' => 0,
+                    'payment_status' => 4,
                     'payment_amount' => 0,
                     'transaction_status' => 4,
                     'payment_with' => 'expired',
@@ -335,7 +335,7 @@ class TransactionController extends Controller
                 echo 'Payment using ' . $type . ' for transaction order_id: ' . $order_id . ' is expired.';
             } elseif ($transaction == 'cancel') {
                 Invoice::where('invoice', $order_id)->update([
-                    'payment_status' => 0,
+                    'payment_status' => 5,
                     'payment_amount' => 0,
                     'transaction_status' => 5,
                     'payment_with' => 'cancelled',
