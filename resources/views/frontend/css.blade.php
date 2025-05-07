@@ -5,7 +5,10 @@
 @endif
 
 <style>
-    
+    .jnt-image {
+        border-radius: 10px;
+        opacity: 0.4;
+    }
 
     .toolbar-hide {
         height: 30px;
