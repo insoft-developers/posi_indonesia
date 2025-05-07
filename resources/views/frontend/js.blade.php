@@ -1359,9 +1359,14 @@
                             html += '<div class="col-md-8"><span class="item-product-list">' + data.data[i]
                                 .name + '</span>';
                             html += '<br>';
-
-                            html += '<span class="item-product-desc">' + data.data[i].desc +
-                                '</span>';
+                            
+                            if(data.data[i].desc == null) {
+                                html += '<span class="item-product-desc">-</span>';
+                            } else {
+                                html += '<span class="item-product-desc">' + data.data[i].desc +
+                                    '</span>';
+                            }
+                           
 
 
                             html += '<br>';

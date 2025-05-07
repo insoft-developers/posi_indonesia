@@ -216,7 +216,9 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">gambar jnt</div>
+                                    <div class="col-md-6">
+                                        <img class="jnt-image" src="{{ asset('template/frontend/assets/umum/jnt.webp') }}">
+                                    </div>
                                 </div>
 
 
