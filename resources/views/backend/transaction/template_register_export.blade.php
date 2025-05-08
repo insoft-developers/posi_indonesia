@@ -89,7 +89,7 @@
                                         <td>{{ $d->agama }}</td>
 
                                     </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
